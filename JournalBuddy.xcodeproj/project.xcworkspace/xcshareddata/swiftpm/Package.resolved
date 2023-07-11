@@ -98,6 +98,15 @@
         "revision" : "f25867a208f459d3c5a06935dceb9083b11cd539",
         "version" : "1.22.0"
       }
+    },
+    {
+      "identity" : "swiftplus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/julianworden/SwiftPlus",
+      "state" : {
+        "revision" : "f7461b86b194e5daa1b749c1a50037f1cb666c74",
+        "version" : "1.1.2"
+      }
     }
   ],
   "version" : 2
