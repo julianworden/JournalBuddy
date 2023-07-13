@@ -23,9 +23,6 @@ class HomeViewCardBackground: UIView {
         gradient.colors = [UIColor.systemOrange.cgColor, UIColor.systemYellow.cgColor]
         gradient.frame = bounds
 
-        layer.cornerRadius = 15
-        clipsToBounds = true
-
         layer.addSublayer(gradient)
     }
 }

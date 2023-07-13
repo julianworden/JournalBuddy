@@ -8,14 +8,14 @@
 import UIKit
 
 class HomeHowAreYouFeelingCard: UIView {
-    lazy private var cardBackground = HomeViewCardBackground()
-    lazy private var headerLabel = UILabel()
-    lazy private var emojiStack = UIStackView(arrangedSubviews: [greatEmoji, goodEmoji, okayEmoji, badEmoji, terribleEmoji])
-    lazy private var greatEmoji = UIButton()
-    lazy private var goodEmoji = UIButton()
-    lazy private var okayEmoji = UIButton()
-    lazy private var badEmoji = UIButton()
-    lazy private var terribleEmoji = UIButton()
+    private lazy var cardBackground = HomeViewCardBackground()
+    private lazy var headerLabel = UILabel()
+    private lazy var emojiStack = UIStackView(arrangedSubviews: [greatEmoji, goodEmoji, okayEmoji, badEmoji, terribleEmoji])
+    private lazy var greatEmoji = UIButton()
+    private lazy var goodEmoji = UIButton()
+    private lazy var okayEmoji = UIButton()
+    private lazy var badEmoji = UIButton()
+    private lazy var terribleEmoji = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,6 +30,9 @@ class HomeHowAreYouFeelingCard: UIView {
     }
 
     func configure() {
+        layer.cornerRadius = 15
+        clipsToBounds = true
+
         headerLabel.text = "How are you feeling today?"
         headerLabel.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .boldTitle2)
         headerLabel.textColor = .white
@@ -61,7 +64,7 @@ class HomeHowAreYouFeelingCard: UIView {
 
     func makeAccessible() {
         headerLabel.adjustsFontForContentSizeCategory = true
-        greatEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
+        headerLabel.maximumContentSizeCategory = .extraExtraExtraLarge
 
         greatEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
         greatEmoji.maximumContentSizeCategory = .extraExtraExtraLarge

@@ -11,8 +11,9 @@ import UIKit
 
 class HomeViewController: UIViewController, MainViewController {
     private lazy var scrollView = UIScrollView()
-    private lazy var stackView = UIStackView(arrangedSubviews: [howAreYouFeelingCard])
+    private lazy var stackView = UIStackView(arrangedSubviews: [howAreYouFeelingCard, yourLatestEntriesCard])
     private lazy var howAreYouFeelingCard = HomeHowAreYouFeelingCard()
+    private lazy var yourLatestEntriesCard = YourLatestEntriesCard()
 
     var viewModel: HomeViewModel!
     var cancellables = Set<AnyCancellable>()
@@ -50,7 +51,11 @@ class HomeViewController: UIViewController, MainViewController {
 
             howAreYouFeelingCard.heightAnchor.constraint(equalToConstant: 90),
             howAreYouFeelingCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            howAreYouFeelingCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15)
+            howAreYouFeelingCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+
+            yourLatestEntriesCard.heightAnchor.constraint(equalToConstant: 187),
+            yourLatestEntriesCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            yourLatestEntriesCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
         ])
     }
 

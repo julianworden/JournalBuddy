@@ -19,4 +19,10 @@ extension UIFont {
     static var boldTitle2: UIFont {
         UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize)
     }
+
+    /// A convenient way to achieve a bold version of `UIFont.TextStyle.body`. Designed to be used in conjunction with
+    /// `UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.boldBody)` for easier Dynamic Type support.
+    static var boldBody: UIFont {
+        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+    }
 }
