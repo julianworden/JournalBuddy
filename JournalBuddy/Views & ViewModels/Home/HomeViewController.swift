@@ -15,9 +15,18 @@ class HomeViewController: UIViewController, MainViewController {
     private lazy var howAreYouFeelingCard = HomeHowAreYouFeelingCard()
     private lazy var yourLatestEntriesCard = YourLatestEntriesCard()
 
-    var viewModel: HomeViewModel!
+    let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
 
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -73,7 +82,7 @@ class HomeViewController: UIViewController, MainViewController {
 }
 
 #Preview {
-    let navigationController = UINavigationController(rootViewController: HomeViewController())
+    let navigationController = UINavigationController(rootViewController: HomeViewController(viewModel: HomeViewModel()))
     navigationController.navigationBar.prefersLargeTitles = true
     return navigationController
 }

@@ -11,7 +11,7 @@ protocol MainViewController {
     associatedtype ViewModel: MainViewModel
 
     var cancellables: Set<AnyCancellable> { get set }
-    var viewModel: ViewModel! { get set }
+    var viewModel: ViewModel { get }
     
     func configure()
     func constrain()

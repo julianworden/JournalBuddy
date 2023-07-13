@@ -5,7 +5,6 @@
 //  Created by Julian Worden on 7/9/23.
 //
 
-import FirebaseAnalytics
 import UIKit
 
 @main
