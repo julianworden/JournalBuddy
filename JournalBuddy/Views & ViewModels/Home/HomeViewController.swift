@@ -11,9 +11,18 @@ import UIKit
 
 class HomeViewController: UIViewController, MainViewController {
     private lazy var scrollView = UIScrollView()
-    private lazy var stackView = UIStackView(arrangedSubviews: [howAreYouFeelingCard, yourLatestEntriesCard])
+    private lazy var mainVerticalStackView = UIStackView(
+        arrangedSubviews: [
+            howAreYouFeelingCard,
+            yourLatestEntriesCard,
+            newVideoAndTextEntryStack
+        ]
+    )
     private lazy var howAreYouFeelingCard = HomeHowAreYouFeelingCard()
-    private lazy var yourLatestEntriesCard = YourLatestEntriesCard()
+    private lazy var yourLatestEntriesCard = HomeYourLatestEntriesCard()
+    private lazy var newVideoAndTextEntryStack = UIStackView(arrangedSubviews: [newTextEntryButton, newVideoEntryButton])
+    private lazy var newVideoEntryButton = HomeNewEntryButton(homeNewEntryButtonType: .video)
+    private lazy var newTextEntryButton = HomeNewEntryButton(homeNewEntryButtonType: .text)
 
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
@@ -39,12 +48,26 @@ class HomeViewController: UIViewController, MainViewController {
         navigationItem.largeTitleDisplayMode = .always
         title = "Journal Buddy"
 
-        stackView.axis = .vertical
-        stackView.spacing = 20
+        mainVerticalStackView.axis = .vertical
+        mainVerticalStackView.spacing = 20
+        mainVerticalStackView.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        mainVerticalStackView.isLayoutMarginsRelativeArrangement = true
+
+        newVideoAndTextEntryStack.axis = .horizontal
+        newVideoAndTextEntryStack.distribution = .fillEqually
+        newVideoAndTextEntryStack.spacing = 20
+
+        newTextEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        newVideoEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        newVideoEntryButton.isUserInteractionEnabled = true
+    }
+
+    @objc func buttonTapped() {
+        print("Button Tapped")
     }
 
     func constrain() {
-        scrollView.addConstrainedSubview(stackView)
+        scrollView.addConstrainedSubview(mainVerticalStackView)
         view.addConstrainedSubview(scrollView)
 
         NSLayoutConstraint.activate([
@@ -53,18 +76,15 @@ class HomeViewController: UIViewController, MainViewController {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            mainVerticalStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainVerticalStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainVerticalStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            mainVerticalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainVerticalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
 
             howAreYouFeelingCard.heightAnchor.constraint(equalToConstant: 90),
-            howAreYouFeelingCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            howAreYouFeelingCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-
             yourLatestEntriesCard.heightAnchor.constraint(equalToConstant: 187),
-            yourLatestEntriesCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            yourLatestEntriesCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            newVideoAndTextEntryStack.heightAnchor.constraint(equalToConstant: 158),
         ])
     }
 

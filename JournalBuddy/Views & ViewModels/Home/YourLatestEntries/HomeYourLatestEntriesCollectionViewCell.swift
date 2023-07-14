@@ -7,7 +7,7 @@
 
 import UIKit
 
-class YourLatestEntriesCollectionViewCell: UICollectionViewCell {
+class HomeYourLatestEntriesCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "YourLatestEntriesCollectionViewCell"
 
     private lazy var textStack = UIStackView(arrangedSubviews: [entryNameLabel, entryTextLabel])

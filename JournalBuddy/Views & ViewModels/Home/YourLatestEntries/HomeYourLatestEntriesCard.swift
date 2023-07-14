@@ -1,5 +1,5 @@
 //
-//  YourLatestEntriesCard.swift
+//  HomeYourLatestEntriesCard.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/11/23.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class YourLatestEntriesCard: UIView {
+class HomeYourLatestEntriesCard: UIView {
     private lazy var cardBackground = HomeViewCardBackground()
     private lazy var headerLabel = UILabel()
     private lazy var carouselCollectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
-    let collectionViewCellConfiguration = UICollectionView.CellRegistration<YourLatestEntriesCollectionViewCell, Entry> { cell, indexPath, entry in
+    let collectionViewCellConfiguration = UICollectionView.CellRegistration<HomeYourLatestEntriesCollectionViewCell, Entry> { cell, indexPath, entry in
         cell.configure(with: entry)
     }
     private lazy var pageControl = UIPageControl()
@@ -104,7 +104,7 @@ class YourLatestEntriesCard: UIView {
     }
 }
 
-extension YourLatestEntriesCard: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension HomeYourLatestEntriesCard: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return entries.count
     }

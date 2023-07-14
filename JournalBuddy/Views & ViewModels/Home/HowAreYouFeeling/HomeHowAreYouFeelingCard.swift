@@ -59,27 +59,15 @@ class HomeHowAreYouFeelingCard: UIView {
         terribleEmoji.setTitle("😭", for: .normal)
         terribleEmoji.titleLabel?.adjustsFontSizeToFitWidth = true
         terribleEmoji.titleLabel?.font = .preferredFont(forTextStyle: .largeTitle)
-
     }
 
     func makeAccessible() {
         headerLabel.adjustsFontForContentSizeCategory = true
-        headerLabel.maximumContentSizeCategory = .extraExtraExtraLarge
-
         greatEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
-        greatEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
-
         goodEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
-        goodEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
-
         okayEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
-        okayEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
-
         badEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
-        badEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
-
         terribleEmoji.titleLabel?.adjustsFontForContentSizeCategory = true
-        terribleEmoji.maximumContentSizeCategory = .extraExtraExtraLarge
     }
 
     func constrain() {
