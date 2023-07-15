@@ -27,6 +27,7 @@ class HomeYourLatestEntriesCollectionViewCell: UICollectionViewCell {
         textStack.axis = .vertical
         textStack.spacing = 4
         textStack.alignment = .center
+//        textStack.distribution = .fill
 
         entryNameLabel.text = entry.name
         entryNameLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .boldBody)

@@ -35,6 +35,7 @@ class HomeNewEntryCard: UIView {
 
         imageAndTextStack.axis = .vertical
         imageAndTextStack.spacing = 0
+        imageAndTextStack.distribution = .fillEqually
 
         let image = UIImage(systemName: type.iconName)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         imageView.image = image
@@ -44,11 +45,12 @@ class HomeNewEntryCard: UIView {
         newEntryLabel.textColor = .white
         newEntryLabel.textAlignment = .center
         newEntryLabel.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .boldTitle2)
-        newEntryLabel.numberOfLines = 2
+        newEntryLabel.numberOfLines = 0
     }
 
     func makeAccessible() {
         newEntryLabel.adjustsFontForContentSizeCategory = true
+        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
     }
 
     func constrain() {
@@ -60,10 +62,12 @@ class HomeNewEntryCard: UIView {
             cardBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             cardBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            imageAndTextStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageAndTextStack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageAndTextStack.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            imageAndTextStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            imageAndTextStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            imageAndTextStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
 
-            imageView.heightAnchor.constraint(equalToConstant: 55)
+            imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 55)
         ])
     }
 }

@@ -34,6 +34,8 @@ class HomeHowAreYouFeelingCard: UIView {
         clipsToBounds = true
 
         headerLabel.text = "How are you feeling today?"
+        headerLabel.numberOfLines = 0
+        headerLabel.textAlignment = .center
         headerLabel.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .boldTitle2)
         headerLabel.textColor = .white
 
@@ -79,15 +81,14 @@ class HomeHowAreYouFeelingCard: UIView {
             cardBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             cardBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            headerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            headerLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
 
+            emojiStack.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
             emojiStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             emojiStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            emojiStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-
-            greatEmoji.widthAnchor.constraint(equalToConstant: 44),
-            greatEmoji.heightAnchor.constraint(equalToConstant: 44)
+            emojiStack.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }

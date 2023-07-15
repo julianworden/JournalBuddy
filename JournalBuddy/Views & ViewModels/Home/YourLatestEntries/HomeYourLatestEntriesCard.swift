@@ -44,6 +44,9 @@ class HomeYourLatestEntriesCard: UIView {
         clipsToBounds = true
 
         headerLabel.text = "Your Latest Entries"
+        headerLabel.numberOfLines = 0
+        headerLabel.textAlignment = .center
+        headerLabel.lineBreakMode = .byWordWrapping
         headerLabel.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .boldTitle2)
         headerLabel.textColor = .white
 
@@ -79,16 +82,16 @@ class HomeYourLatestEntriesCard: UIView {
             cardBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             cardBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            headerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            headerLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
 
             carouselCollectionView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 4),
-            carouselCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -19),
             carouselCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
             carouselCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
 
             pageControl.topAnchor.constraint(equalTo: carouselCollectionView.bottomAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
@@ -116,7 +119,7 @@ extension HomeYourLatestEntriesCard: UICollectionViewDataSource, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

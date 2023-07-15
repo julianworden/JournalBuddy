@@ -82,9 +82,9 @@ class HomeViewController: UIViewController, MainViewController {
             mainVerticalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainVerticalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
 
-            howAreYouFeelingCard.heightAnchor.constraint(equalToConstant: 90),
-            yourLatestEntriesCard.heightAnchor.constraint(equalToConstant: 187),
-            newVideoAndTextEntryStack.heightAnchor.constraint(equalToConstant: 158),
+            howAreYouFeelingCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            yourLatestEntriesCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 187),
+            newVideoAndTextEntryStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158),
         ])
     }
 
