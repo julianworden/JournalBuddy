@@ -8,14 +8,14 @@
 import UIKit
 
 class HomeNewEntryCard: UIView {
-    let type: HomeNewEntryButtonType
+    let type: HomeSquareButtonType
 
     private lazy var cardBackground = HomeViewCardBackground()
     private lazy var imageAndTextStack = UIStackView(arrangedSubviews: [imageView, newEntryLabel])
     private lazy var imageView = UIImageView()
     private lazy var newEntryLabel = UILabel()
 
-    init(type: HomeNewEntryButtonType) {
+    init(type: HomeSquareButtonType) {
         self.type = type
 
         super.init(frame: .zero)

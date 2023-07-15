@@ -1,5 +1,5 @@
 //
-//  HomeNewEntryButton.swift
+//  HomeSquareButton.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/13/23.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class HomeNewEntryButton: UIButton {
-    private lazy var homeNewEntryButtonType = HomeNewEntryButtonType.text
-    private lazy var content = HomeNewEntryCard(type: homeNewEntryButtonType)
+class HomeSquareButton: UIButton {
+    private lazy var homeSquareButtonType = HomeSquareButtonType.text
+    private lazy var content = HomeNewEntryCard(type: homeSquareButtonType)
 
-    convenience init(homeNewEntryButtonType: HomeNewEntryButtonType) {
+    convenience init(homeSquareButtonType: HomeSquareButtonType) {
         self.init(type: .custom)
-        self.homeNewEntryButtonType = homeNewEntryButtonType
+        self.homeSquareButtonType = homeSquareButtonType
 
         configure()
         constrain()

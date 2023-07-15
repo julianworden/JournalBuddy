@@ -15,14 +15,18 @@ class HomeViewController: UIViewController, MainViewController {
         arrangedSubviews: [
             howAreYouFeelingCard,
             yourLatestEntriesCard,
-            newVideoAndTextEntryStack
+            newVideoAndTextEntryStack,
+            newVoiceEntryCalendarStack
         ]
     )
     private lazy var howAreYouFeelingCard = HomeHowAreYouFeelingCard()
     private lazy var yourLatestEntriesCard = HomeYourLatestEntriesCard()
     private lazy var newVideoAndTextEntryStack = UIStackView(arrangedSubviews: [newTextEntryButton, newVideoEntryButton])
-    private lazy var newVideoEntryButton = HomeNewEntryButton(homeNewEntryButtonType: .video)
-    private lazy var newTextEntryButton = HomeNewEntryButton(homeNewEntryButtonType: .text)
+    private lazy var newVideoEntryButton = HomeSquareButton(homeSquareButtonType: .video)
+    private lazy var newTextEntryButton = HomeSquareButton(homeSquareButtonType: .text)
+    private lazy var newVoiceEntryCalendarStack = UIStackView(arrangedSubviews: [newVoiceEntryButton, calendarButton])
+    private lazy var newVoiceEntryButton = HomeSquareButton(homeSquareButtonType: .voice)
+    private lazy var calendarButton = HomeSquareButton(homeSquareButtonType: .calendar)
 
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
@@ -57,8 +61,14 @@ class HomeViewController: UIViewController, MainViewController {
         newVideoAndTextEntryStack.distribution = .fillEqually
         newVideoAndTextEntryStack.spacing = 20
 
+        newVoiceEntryCalendarStack.axis = .horizontal
+        newVoiceEntryCalendarStack.distribution = .fillEqually
+        newVoiceEntryCalendarStack.spacing = 20
+
         newTextEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         newVideoEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        newVoiceEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        calendarButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         newVideoEntryButton.isUserInteractionEnabled = true
     }
 
@@ -85,6 +95,7 @@ class HomeViewController: UIViewController, MainViewController {
             howAreYouFeelingCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 90),
             yourLatestEntriesCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 187),
             newVideoAndTextEntryStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158),
+            newVoiceEntryCalendarStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158)
         ])
     }
 
