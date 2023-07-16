@@ -54,7 +54,7 @@ class HomeViewController: UIViewController, MainViewController {
 
         mainVerticalStackView.axis = .vertical
         mainVerticalStackView.spacing = 20
-        mainVerticalStackView.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        mainVerticalStackView.layoutMargins = UiConstants.mainVerticalStackLayoutMargins
         mainVerticalStackView.isLayoutMarginsRelativeArrangement = true
 
         newVideoAndTextEntryStack.axis = .horizontal
@@ -74,6 +74,18 @@ class HomeViewController: UIViewController, MainViewController {
 
     @objc func buttonTapped() {
         print("Button Tapped")
+    }
+
+    func makeAccessible() {
+
+    }
+
+    func subscribeToPublishers() {
+
+    }
+
+    func showError(_ error: Error) {
+
     }
 
     func constrain() {
@@ -97,18 +109,6 @@ class HomeViewController: UIViewController, MainViewController {
             newVideoAndTextEntryStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158),
             newVoiceEntryCalendarStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158)
         ])
-    }
-
-    func makeAccessible() {
-
-    }
-
-    func subscribeToPublishers() {
-
-    }
-
-    func showError(_ error: Error) {
-
     }
 }
 

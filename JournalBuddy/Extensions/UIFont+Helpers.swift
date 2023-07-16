@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: Convert this to a UIFontMetrics extension instead.
 extension UIFont {
     /// A convenient way to achieve a bold version of `UIFont.TextStyle.largeTitle`. Designed to be used in conjunction with
     /// `UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: UIFont.boldLargeTitle)` for easier Dynamic Type support.
@@ -18,6 +19,12 @@ extension UIFont {
     /// `UIFontMetrics(forTextStyle: .title2).scaledFont(for: UIFont.boldTitle2)` for easier Dynamic Type support.
     static var boldTitle2: UIFont {
         UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize)
+    }
+
+    /// A convenient way to achieve a bold version of `UIFont.TextStyle.title3`. Designed to be used in conjunction with
+    /// `UIFontMetrics(forTextStyle: .title3).scaledFont(for: UIFont.boldTitle3)` for easier Dynamic Type support.
+    static var boldTitle3: UIFont {
+        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title3).pointSize)
     }
 
     /// A convenient way to achieve a bold version of `UIFont.TextStyle.body`. Designed to be used in conjunction with
