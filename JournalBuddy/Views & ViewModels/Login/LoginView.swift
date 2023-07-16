@@ -5,6 +5,7 @@
 //  Created by Julian Worden on 7/16/23.
 //
 
+import Combine
 import UIKit
 
 class LoginView: UIView, MainView {
@@ -18,6 +19,7 @@ class LoginView: UIView, MainView {
     private lazy var signUpButton = PrimaryButton(title: "Sign Up")
 
     let viewModel: LoginViewModel
+    var cancellables = Set<AnyCancellable>()
 
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
@@ -26,6 +28,7 @@ class LoginView: UIView, MainView {
 
         configure()
         makeAccessible()
+        subscribeToPublishers()
         constrain()
     }
 
@@ -45,6 +48,7 @@ class LoginView: UIView, MainView {
         emailAddressTextField.font = .preferredFont(forTextStyle: .body)
         emailAddressTextField.placeholder = "Email Address"
         emailAddressTextField.borderStyle = .roundedRect
+        emailAddressTextField.addTarget(self, action: #selector(emailAddressTextFieldEdited), for: .editingChanged)
 
         passwordTextField.font = .preferredFont(forTextStyle: .body)
         passwordTextField.placeholder = "Password"
@@ -53,6 +57,7 @@ class LoginView: UIView, MainView {
         passwordTextField.clearButtonMode = .always
         passwordTextField.rightView = passwordTextFieldButtons
         passwordTextField.rightViewMode = .always
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldEdited), for: .editingChanged)
 
         passwordTextFieldButtons.spacing = 10
 
@@ -71,7 +76,19 @@ class LoginView: UIView, MainView {
     }
 
     func subscribeToPublishers() {
+        viewModel.$loginSuccessful
+            .sink { [weak self] loginSuccessful in
+                guard loginSuccessful else { return }
 
+                Task { @MainActor in
+                    let homeViewController = HomeViewController()
+                    let navigationController = UINavigationController(rootViewController: homeViewController)
+                    navigationController.navigationBar.prefersLargeTitles = true
+                    self?.window?.rootViewController = navigationController
+                    self?.window?.makeKeyAndVisible()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func constrain() {
@@ -90,11 +107,15 @@ class LoginView: UIView, MainView {
 
     }
 
+    @objc func emailAddressTextFieldEdited(_ textField: UITextField) {
+        viewModel.emailAddress = textField.text ?? ""
+    }
+
+    @objc func passwordTextFieldEdited(_ textField: UITextField) {
+        viewModel.password = textField.text ?? ""
+    }
+
     @objc func logInButtonTapped() {
-        let homeViewController = HomeViewController()
-        let navigationController = UINavigationController(rootViewController: homeViewController)
-        navigationController.navigationBar.prefersLargeTitles = true
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        viewModel.logIn()
     }
 }
