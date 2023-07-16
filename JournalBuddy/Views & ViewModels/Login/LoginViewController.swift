@@ -35,8 +35,8 @@ class LoginViewController: UIViewController {
     }
 }
 
-#Preview {
-    let navigationController = UINavigationController(rootViewController: LoginViewController())
-    navigationController.navigationBar.prefersLargeTitles = true
-    return navigationController
-}
+//#Preview {
+//    let navigationController = UINavigationController(rootViewController: LoginViewController())
+//    navigationController.navigationBar.prefersLargeTitles = true
+//    return navigationController
+//}

@@ -1,11 +1,9 @@
 //
-//  MainViewController.swift
+//  MainView.swift
 //  WatchaGot
 //
 //  Created by Julian Worden on 6/14/23.
 //
-
-import Combine
 
 protocol MainView {
     associatedtype ViewModel: MainViewModel

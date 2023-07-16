@@ -36,8 +36,8 @@ class HomeViewController: UIViewController {
     }
 }
 
-#Preview {
-    let navigationController = UINavigationController(rootViewController: HomeViewController())
-    navigationController.navigationBar.prefersLargeTitles = true
-    return navigationController
-}
+//#Preview {
+//    let navigationController = UINavigationController(rootViewController: HomeViewController())
+//    navigationController.navigationBar.prefersLargeTitles = true
+//    return navigationController
+//}
