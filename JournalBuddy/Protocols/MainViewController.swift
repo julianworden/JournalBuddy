@@ -7,10 +7,9 @@
 
 import Combine
 
-protocol MainViewController {
+protocol MainView {
     associatedtype ViewModel: MainViewModel
 
-    var cancellables: Set<AnyCancellable> { get set }
     var viewModel: ViewModel { get }
     
     func configure()
