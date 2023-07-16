@@ -83,8 +83,6 @@ class LoginView: UIView, MainView {
             logInStack.trailingAnchor.constraint(equalTo: trailingAnchor),
 
             emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
-
-            clearButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 100)
         ])
     }
 
