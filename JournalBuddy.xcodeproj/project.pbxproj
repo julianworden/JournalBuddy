@@ -164,6 +164,7 @@
 			children = (
 				AB7239C72A5BA07B00A0392D /* MainView.swift */,
 				AB7239C62A5BA07B00A0392D /* MainViewModel.swift */,
+				ABFEF2772A6584BC004C40A8 /* Coordinators */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -227,6 +228,13 @@
 				ABACE7E42A6039C000981098 /* NewEntry */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		ABFEF2772A6584BC004C40A8 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

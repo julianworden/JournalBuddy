@@ -80,17 +80,7 @@ class LoginView: UIView, MainView {
 
     #warning("Move this to LoginViewController")
     func subscribeToPublishers() {
-        viewModel.$loginSuccessful
-            .sink { [weak self] loginSuccessful in
-                guard loginSuccessful else { return }
-
-                let homeViewController = HomeViewController()
-                let navigationController = UINavigationController(rootViewController: homeViewController)
-                navigationController.navigationBar.prefersLargeTitles = true
-                self?.window?.rootViewController = navigationController
-                self?.window?.makeKeyAndVisible()
-            }
-            .store(in: &cancellables)
+        
     }
 
     func constrain() {
