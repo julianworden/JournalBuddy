@@ -9,12 +9,15 @@ import Combine
 import UIKit
 
 class LoginViewController: UIViewController {
+    weak var coordinator: OnboardingCoordinator?
     var viewModel = LoginViewModel()
 
     var cancellables = Set<AnyCancellable>()
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(coordinator: OnboardingCoordinator) {
+        self.coordinator = coordinator
+
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -43,11 +46,7 @@ class LoginViewController: UIViewController {
             .sink { [weak self] loginSuccessful in
                 guard loginSuccessful else { return }
 
-                let homeViewController = HomeViewController()
-                let navigationController = UINavigationController(rootViewController: homeViewController)
-                navigationController.navigationBar.prefersLargeTitles = true
-                self?.view.window?.rootViewController = navigationController
-                self?.view.window?.makeKeyAndVisible()
+                self?.coordinator?.userDidLogIn()
             }
             .store(in: &cancellables)
     }

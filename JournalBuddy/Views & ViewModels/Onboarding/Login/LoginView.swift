@@ -78,7 +78,6 @@ class LoginView: UIView, MainView {
 
     }
 
-    #warning("Move this to LoginViewController")
     func subscribeToPublishers() {
         
     }

@@ -10,10 +10,13 @@ import SwiftPlus
 import UIKit
 
 class HomeViewController: UIViewController {
+    weak var coordinator: HomeCoordinator?
     let viewModel = HomeViewModel()
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(coordinator: HomeCoordinator) {
+        self.coordinator = coordinator
+
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
