@@ -19,7 +19,10 @@ final class LoginViewModel: MainViewModel {
         Task {
             do {
                 try await Auth.auth().signIn(withEmail: emailAddress, password: password)
-                loginSuccessful = true
+
+                await MainActor.run {
+                    loginSuccessful = true
+                }
             } catch {
                 print(error)
             }

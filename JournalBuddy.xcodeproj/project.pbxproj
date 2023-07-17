@@ -25,13 +25,14 @@
 		AB5BE29C2A64662500803E16 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29B2A64662500803E16 /* FirebaseFirestore */; };
 		AB5BE29E2A64662500803E16 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29D2A64662500803E16 /* FirebaseFirestoreSwift */; };
 		AB5BE2A02A64662500803E16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29F2A64662500803E16 /* FirebaseStorage */; };
+		AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BE2A12A64762B00803E16 /* MainTextField.swift */; };
 		AB7239C42A5BA03E00A0392D /* SwiftPlus in Frameworks */ = {isa = PBXBuildFile; productRef = AB7239C32A5BA03E00A0392D /* SwiftPlus */; };
 		AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C62A5BA07B00A0392D /* MainViewModel.swift */; };
 		AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C72A5BA07B00A0392D /* MainView.swift */; };
 		AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */; };
 		AB7CC9132A643C9C0054B1A4 /* UiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9122A643C9C0054B1A4 /* UiConstants.swift */; };
 		AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */; };
-		AB7CC9182A64463E0054B1A4 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* MainTextField.swift */; };
+		AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */; };
 		AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9192A645DC70054B1A4 /* HomeView.swift */; };
 		AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC91B2A6460A50054B1A4 /* LoginView.swift */; };
 		ABACE7E92A603A1C00981098 /* HomeNewEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABACE7E82A603A1C00981098 /* HomeNewEntryCard.swift */; };
@@ -56,12 +57,13 @@
 		AB2988AC2A5D8B3F00303262 /* HomeViewCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCardBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
+		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AB7239C62A5BA07B00A0392D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		AB7239C72A5BA07B00A0392D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		AB7CC9122A643C9C0054B1A4 /* UiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiConstants.swift; sourceTree = "<group>"; };
 		AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
-		AB7CC9172A64463E0054B1A4 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
+		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		AB7CC9192A645DC70054B1A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AB7CC91B2A6460A50054B1A4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		ABACE7E82A603A1C00981098 /* HomeNewEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNewEntryCard.swift; sourceTree = "<group>"; };
@@ -178,7 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */,
-				AB7CC9172A64463E0054B1A4 /* MainTextField.swift */,
+				AB5BE2A12A64762B00803E16 /* MainTextField.swift */,
+				AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -328,7 +331,8 @@
 				ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */,
 				AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */,
 				AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */,
-				AB7CC9182A64463E0054B1A4 /* MainTextField.swift in Sources */,
+				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
+				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,

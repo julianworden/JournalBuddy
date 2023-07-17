@@ -8,9 +8,23 @@
 import UIKit
 
 class MainTextField: UITextField {
-    override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-        let x = bounds.maxX - 70
-        let y = bounds.size.height / 2 - 30 / 2
-        return CGRect(x: x, y: y, width: 60, height: 30)
+    convenience init(keyboardType: UIKeyboardType, isSecureTextEntry: Bool, placeholder: String) {
+        self.init(frame: .zero)
+
+        self.keyboardType = keyboardType
+        self.placeholder = placeholder
+        self.borderStyle = .roundedRect
+        self.clearButtonMode = .whileEditing
+        self.isSecureTextEntry = isSecureTextEntry
+        self.font = .preferredFont(forTextStyle: .body)
+        self.adjustsFontForContentSizeCategory = true
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
