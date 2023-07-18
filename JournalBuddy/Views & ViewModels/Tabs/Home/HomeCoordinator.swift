@@ -13,13 +13,14 @@ final class HomeCoordinator: Coordinator {
 
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator) {
+    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator?) {
         self.navigationController = navigationController
         self.parentCoordinator = parentCoordinator
     }
 
     func start() {
         let homeViewController = HomeViewController(coordinator: self)
+        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         navigationController.setViewControllers([homeViewController], animated: true)
     }
 }

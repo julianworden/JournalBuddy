@@ -8,32 +8,34 @@
 import UIKit
 
 final class MainCoordinator: Coordinator {
+    let appWindow: UIWindow?
     var childCoordinators = [Coordinator]()
 
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, appWindow: UIWindow?) {
         self.navigationController = navigationController
+        self.appWindow = appWindow
     }
 
     func start() {
         if AuthService.shared.userIsLoggedIn {
-            startHomeCoordinator()
+            startTabBarCoordinator()
         } else {
             startOnboardingCoordinator()
         }
     }
 
     func startOnboardingCoordinator() {
-        let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self)
+        let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(onboardingCoordinator)
         onboardingCoordinator.start()
     }
 
-    func startHomeCoordinator() {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController, parentCoordinator: self)
-        childCoordinators.append(homeCoordinator)
-        homeCoordinator.start()
+    func startTabBarCoordinator() {
+        let tabCoordinator = TabBarCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
+        childCoordinators.append(tabCoordinator)
+        tabCoordinator.start()
     }
 
     /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startHomeCoordinator` to end onboarding. Called
@@ -43,7 +45,7 @@ final class MainCoordinator: Coordinator {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === childCoordinator {
                 childCoordinators.remove(at: index)
-                startHomeCoordinator()
+                startTabBarCoordinator()
             }
         }
     }

@@ -13,15 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowScene)
 
         let navigationController = UINavigationController()
         navigationController.navigationBar.prefersLargeTitles = true
-        mainCoordinator = MainCoordinator(navigationController: navigationController)
+        mainCoordinator = MainCoordinator(navigationController: navigationController, appWindow: window)
         mainCoordinator?.start()
-
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

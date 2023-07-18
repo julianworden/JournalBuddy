@@ -8,19 +8,24 @@
 import UIKit
 
 final class OnboardingCoordinator: Coordinator {
+    var appWindow: UIWindow?
     weak var parentCoordinator: MainCoordinator?
     var childCoordinators = [Coordinator]()
 
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator) {
+    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator, appWindow: UIWindow?) {
         self.parentCoordinator = parentCoordinator
         self.navigationController = navigationController
+        self.appWindow = appWindow
     }
 
     func start() {
         let loginViewController = LoginViewController(coordinator: self)
         navigationController.pushViewController(loginViewController, animated: true)
+
+        appWindow?.rootViewController = navigationController
+        appWindow?.makeKeyAndVisible()
     }
 
     func userDidLogIn() {
