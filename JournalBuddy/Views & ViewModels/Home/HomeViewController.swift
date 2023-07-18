@@ -13,6 +13,9 @@ class HomeViewController: UIViewController {
     weak var coordinator: HomeCoordinator?
     let viewModel = HomeViewModel()
 
+    // Temporary button for development
+    private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(logOutButtonTapped))
+
     init(coordinator: HomeCoordinator) {
         self.coordinator = coordinator
 
@@ -35,7 +38,13 @@ class HomeViewController: UIViewController {
 
     func configure() {
         navigationItem.largeTitleDisplayMode = .always
+        logOutButton.tintColor = .systemOrange
+        navigationItem.rightBarButtonItem = logOutButton
         title = "Journal Buddy"
+    }
+
+    @objc func logOutButtonTapped() {
+        viewModel.logOut()
     }
 }
 

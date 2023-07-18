@@ -15,4 +15,8 @@ final class AuthService {
     var userIsLoggedIn: Bool {
         return Auth.auth().currentUser != nil
     }
+
+    func logOut() throws {
+        try Auth.auth().signOut()
+    }
 }

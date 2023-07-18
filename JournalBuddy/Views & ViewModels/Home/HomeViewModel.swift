@@ -9,5 +9,13 @@ import Foundation
 
 final class HomeViewModel: MainViewModel {
     var error: Error?
+
+    func logOut() {
+        do {
+            try AuthService.shared.logOut()
+        } catch {
+            self.error = error
+        }
+    }
 }
 
