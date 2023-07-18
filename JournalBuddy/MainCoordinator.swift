@@ -17,11 +17,23 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
-        // TODO: Check if user is signed in. If they are, use OnboardingCoordinator. Otherwise, use tab bar coordinator.
+        if AuthService.shared.userIsLoggedIn {
+            startHomeCoordinator()
+        } else {
+            startOnboardingCoordinator()
+        }
+    }
 
+    func startOnboardingCoordinator() {
         let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self)
         childCoordinators.append(onboardingCoordinator)
         onboardingCoordinator.start()
+    }
+
+    func startHomeCoordinator() {
+        let homeCoordinator = HomeCoordinator(navigationController: navigationController, parentCoordinator: self)
+        childCoordinators.append(homeCoordinator)
+        homeCoordinator.start()
     }
 
     /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startHomeCoordinator` to end onboarding. Called
@@ -36,9 +48,5 @@ final class MainCoordinator: Coordinator {
         }
     }
 
-    func startHomeCoordinator() {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController, parentCoordinator: self)
-        childCoordinators.append(homeCoordinator)
-        homeCoordinator.start()
-    }
+
 }
