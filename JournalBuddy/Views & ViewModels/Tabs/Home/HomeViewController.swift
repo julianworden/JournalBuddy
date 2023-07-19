@@ -9,7 +9,7 @@ import Combine
 import SwiftPlus
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, MainViewController {
     weak var coordinator: HomeCoordinator?
     let viewModel = HomeViewModel()
     var cancellables = Set<AnyCancellable>()
@@ -53,6 +53,10 @@ class HomeViewController: UIViewController {
                 self?.coordinator?.userLoggedOut()
             }
             .store(in: &cancellables)
+    }
+
+    func showError(_ error: Error) {
+
     }
 
     @objc func logOutButtonTapped() {

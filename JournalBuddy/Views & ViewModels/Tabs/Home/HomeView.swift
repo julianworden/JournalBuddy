@@ -9,6 +9,9 @@ import Combine
 import UIKit
 
 class HomeView: UIView, MainView {
+    let viewModel: HomeViewModel
+    var cancellables = Set<AnyCancellable>()
+
     private lazy var scrollView = UIScrollView()
     private lazy var mainVerticalStackView = UIStackView(
         arrangedSubviews: [
@@ -26,8 +29,6 @@ class HomeView: UIView, MainView {
     private lazy var newVoiceEntryCalendarStack = UIStackView(arrangedSubviews: [newVoiceEntryButton, calendarButton])
     private lazy var newVoiceEntryButton = HomeSquareButton(homeSquareButtonType: .voice)
     private lazy var calendarButton = HomeSquareButton(homeSquareButtonType: .calendar)
-
-    let viewModel: HomeViewModel
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -95,10 +96,6 @@ class HomeView: UIView, MainView {
             newVideoAndTextEntryStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158),
             newVoiceEntryCalendarStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158)
         ])
-    }
-
-    func showError(_ error: Error) {
-
     }
 
     @objc func buttonTapped() {

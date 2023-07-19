@@ -8,10 +8,9 @@
 import Combine
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, MainViewController {
     weak var coordinator: OnboardingCoordinator?
     var viewModel = LoginViewModel()
-
     var cancellables = Set<AnyCancellable>()
 
     init(coordinator: OnboardingCoordinator) {
@@ -49,6 +48,10 @@ class LoginViewController: UIViewController {
                 self?.coordinator?.userDidLogIn()
             }
             .store(in: &cancellables)
+    }
+
+    func showError(_ error: Error) {
+        
     }
 }
 

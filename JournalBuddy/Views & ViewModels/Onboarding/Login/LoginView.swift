@@ -101,10 +101,6 @@ class LoginView: UIView, MainView {
         ])
     }
 
-    func showError(_ error: Error) {
-
-    }
-
     @objc func emailAddressTextFieldEdited(_ textField: UITextField) {
         viewModel.emailAddress = textField.text ?? ""
     }
