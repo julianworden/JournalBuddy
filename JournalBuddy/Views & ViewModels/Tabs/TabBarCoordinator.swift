@@ -14,12 +14,9 @@ final class TabBarCoordinator: Coordinator {
     weak var appWindow: UIWindow?
     var childCoordinators = [Coordinator]()
 
-    var navigationController: UINavigationController
-
-    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator, appWindow: UIWindow?) {
+    init(parentCoordinator: MainCoordinator, appWindow: UIWindow?) {
         self.appWindow = appWindow
         self.parentCoordinator = parentCoordinator
-        self.navigationController = navigationController
     }
 
     func start() {

@@ -41,7 +41,7 @@ final class MainCoordinator: Coordinator {
     }
 
     func startTabBarCoordinator() {
-        let tabCoordinator = TabBarCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
+        let tabCoordinator = TabBarCoordinator(parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(tabCoordinator)
         tabCoordinator.start()
     }
