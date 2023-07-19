@@ -29,9 +29,22 @@ final class TabBarCoordinator: Coordinator {
         appWindow?.makeKeyAndVisible()
     }
 
+    func removeChildCoordinator(_ childCoordinator: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
+
     /// Called by each `UITabBarItem` to notify the parent that a new item's coordinator was created.
     /// - Parameter coordinator: The coordinator that was created and is to be appended to the `childCoordinators` array.
     func childWasCreated(_ coordinator: Coordinator) {
         childCoordinators.append(coordinator)
+    }
+
+    func childDidLogOut(_ childCoordinator: Coordinator) {
+        removeChildCoordinator(childCoordinator)
+        parentCoordinator?.childTabBarCoordinatorDidFinish(self)
     }
 }

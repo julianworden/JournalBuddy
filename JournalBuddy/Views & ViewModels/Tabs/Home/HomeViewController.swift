@@ -12,6 +12,7 @@ import UIKit
 class HomeViewController: UIViewController {
     weak var coordinator: HomeCoordinator?
     let viewModel = HomeViewModel()
+    var cancellables = Set<AnyCancellable>()
 
     // Temporary button for development
     private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(logOutButtonTapped))
@@ -34,6 +35,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         configure()
+        subscribeToPublishers()
     }
 
     func configure() {
@@ -41,6 +43,16 @@ class HomeViewController: UIViewController {
         logOutButton.tintColor = .systemOrange
         navigationItem.rightBarButtonItem = logOutButton
         navigationItem.title = "Home"
+    }
+
+    func subscribeToPublishers() {
+        viewModel.$userLoggedOut
+            .sink { [weak self] userLoggedOut in
+                guard userLoggedOut else { return }
+
+                self?.coordinator?.userLoggedOut()
+            }
+            .store(in: &cancellables)
     }
 
     @objc func logOutButtonTapped() {

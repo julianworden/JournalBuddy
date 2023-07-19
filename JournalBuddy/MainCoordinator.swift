@@ -26,6 +26,14 @@ final class MainCoordinator: Coordinator {
         }
     }
 
+    func removeChildCoordinator(_ childCoordinator: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
+
     func startOnboardingCoordinator() {
         let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(onboardingCoordinator)
@@ -42,13 +50,12 @@ final class MainCoordinator: Coordinator {
     /// when a user either logs in successfully or signs up for an account successfully.
     /// - Parameter childCoordinator: The coordinator that was in use when the user either signed in or signed up successfully.
     func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator) {
-        for (index, coordinator) in childCoordinators.enumerated() {
-            if coordinator === childCoordinator {
-                childCoordinators.remove(at: index)
-                startTabBarCoordinator()
-            }
-        }
+        removeChildCoordinator(childCoordinator)
+        startTabBarCoordinator()
     }
 
-
+    func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
+        removeChildCoordinator(childCoordinator)
+        startOnboardingCoordinator()
+    }
 }

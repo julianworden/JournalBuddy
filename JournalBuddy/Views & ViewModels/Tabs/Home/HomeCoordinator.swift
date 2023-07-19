@@ -25,4 +25,10 @@ final class HomeCoordinator: Coordinator {
         let homeViewController = HomeViewController(coordinator: self)
         navigationController.pushViewController(homeViewController, animated: true)
     }
+
+    func removeChildCoordinator(_ childCoordinator: Coordinator) { }
+
+    func userLoggedOut() {
+        parentCoordinator?.childDidLogOut(self)
+    }
 }

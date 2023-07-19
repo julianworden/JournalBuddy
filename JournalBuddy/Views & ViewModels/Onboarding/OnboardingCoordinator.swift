@@ -28,6 +28,14 @@ final class OnboardingCoordinator: Coordinator {
         appWindow?.makeKeyAndVisible()
     }
 
+    func removeChildCoordinator(_ childCoordinator: Coordinator) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
+
     func userDidLogIn() {
         parentCoordinator?.childOnboardingCoordinatorDidFinish(self)
     }
