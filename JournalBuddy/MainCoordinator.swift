@@ -51,9 +51,13 @@ final class MainCoordinator: Coordinator {
     /// - Parameter childCoordinator: The coordinator that was in use when the user either signed in or signed up successfully.
     func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator) {
         removeChildCoordinator(childCoordinator)
+        navigationController.setViewControllers([], animated: false)
         startTabBarCoordinator()
     }
 
+    /// Removes the `TabBarCoordinator` from the `childCoordinators` array and calls `startOnboardingCoordinator` to end onboarding. Called
+    /// when a user either logs in successfully or signs up for an account successfully.
+    /// - Parameter childCoordinator: The coordinator that was in use when the user signed out. It is to be removed from the `childCoordinators` array.
     func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
         removeChildCoordinator(childCoordinator)
         startOnboardingCoordinator()
