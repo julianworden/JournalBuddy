@@ -7,6 +7,8 @@
 
 import UIKit
 
+/// A Coordinator that manages hiding and showing the `UITabBarController` that appears either when the user opens the app while already
+/// being signed in, or when the user logs in.
 final class TabBarCoordinator: Coordinator {
     weak var parentCoordinator: MainCoordinator?
     weak var appWindow: UIWindow?
@@ -22,9 +24,14 @@ final class TabBarCoordinator: Coordinator {
 
     func start() {
         let tabBarController = MainTabBarController(coordinator: self)
-        tabBarController.homeCoordinator.start()
-        tabBarController.viewControllers = [tabBarController.homeCoordinator.navigationController]
+        
         appWindow?.rootViewController = tabBarController
         appWindow?.makeKeyAndVisible()
+    }
+
+    /// Called by each `UITabBarItem` to notify the parent that a new item's coordinator was created.
+    /// - Parameter coordinator: The coordinator that was created and is to be appended to the `childCoordinators` array.
+    func childWasCreated(_ coordinator: Coordinator) {
+        childCoordinators.append(coordinator)
     }
 }

@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         logOutButton.tintColor = .systemOrange
         navigationItem.rightBarButtonItem = logOutButton
-        title = "Journal Buddy"
+        navigationItem.title = "Home"
     }
 
     @objc func logOutButtonTapped() {

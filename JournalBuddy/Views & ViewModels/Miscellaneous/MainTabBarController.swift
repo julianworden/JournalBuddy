@@ -9,14 +9,15 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     weak var coordinator: TabBarCoordinator?
-    lazy var homeCoordinator = HomeCoordinator(navigationController: UINavigationController(), parentCoordinator: coordinator?.parentCoordinator)
+    lazy var homeCoordinator = HomeCoordinator(navigationController: UINavigationController(), parentCoordinator: coordinator)
     
     init(coordinator: TabBarCoordinator) {
         self.coordinator = coordinator
 
         super.init(nibName: nil, bundle: nil)
 
-
+        viewControllers = [homeCoordinator.navigationController]
+        homeCoordinator.start()
     }
     
     required init?(coder: NSCoder) {

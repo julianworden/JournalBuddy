@@ -38,7 +38,7 @@ final class MainCoordinator: Coordinator {
         tabCoordinator.start()
     }
 
-    /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startHomeCoordinator` to end onboarding. Called
+    /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startTabBarCoordinator` to end onboarding. Called
     /// when a user either logs in successfully or signs up for an account successfully.
     /// - Parameter childCoordinator: The coordinator that was in use when the user either signed in or signed up successfully.
     func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator) {
