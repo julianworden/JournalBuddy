@@ -8,7 +8,7 @@
 import UIKit
 
 final class OnboardingCoordinator: Coordinator {
-    var appWindow: UIWindow?
+    weak var appWindow: UIWindow?
     weak var parentCoordinator: MainCoordinator?
     var childCoordinators = [Coordinator]()
 
@@ -26,6 +26,10 @@ final class OnboardingCoordinator: Coordinator {
 
         appWindow?.rootViewController = navigationController
         appWindow?.makeKeyAndVisible()
+
+        if let appWindow {
+            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCurlDown, animations: nil)
+        }
     }
 
     func removeChildCoordinator(_ childCoordinator: Coordinator) {

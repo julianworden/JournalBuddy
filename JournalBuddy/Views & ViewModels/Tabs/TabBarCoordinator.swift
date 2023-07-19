@@ -27,6 +27,10 @@ final class TabBarCoordinator: Coordinator {
         
         appWindow?.rootViewController = tabBarController
         appWindow?.makeKeyAndVisible()
+
+        if let appWindow {
+            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCurlUp, animations: nil)
+        }
     }
 
     func removeChildCoordinator(_ childCoordinator: Coordinator) {
