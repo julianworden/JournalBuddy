@@ -64,7 +64,6 @@ class LoginView: UIView, MainView {
         passwordTextField.addTarget(self, action: #selector(passwordTextFieldEdited), for: .editingChanged)
 
         passwordEyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        passwordEyeButton.tintColor = .systemOrange
         passwordEyeButton.addTarget(self, action: #selector(passwordEyeButtonTapped), for: .touchUpInside)
 
         logInSignUpButtonStack.axis = .vertical

@@ -15,7 +15,7 @@ class HomeViewController: UIViewController, MainViewController {
     var cancellables = Set<AnyCancellable>()
 
     // Temporary button for development
-    private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(logOutButtonTapped))
+    private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped))
 
     init(coordinator: HomeCoordinator) {
         self.coordinator = coordinator
@@ -40,7 +40,6 @@ class HomeViewController: UIViewController, MainViewController {
 
     func configure() {
         navigationItem.largeTitleDisplayMode = .always
-        logOutButton.tintColor = .systemOrange
         navigationItem.rightBarButtonItem = logOutButton
         navigationItem.title = "Home"
     }

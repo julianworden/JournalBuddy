@@ -7,6 +7,7 @@
 
 import UIKit
 
+#warning("Rename to be more generic.")
 class HomeViewCardBackground: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)

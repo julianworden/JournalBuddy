@@ -45,6 +45,11 @@
 		ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E3A2A66C067001A76E0 /* AuthService.swift */; };
 		ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E432A66D87C001A76E0 /* TabBarCoordinator.swift */; };
 		ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E452A66D903001A76E0 /* MainTabBarController.swift */; };
+		ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348332A6AC2AC0050A9AC /* EntriesViewController.swift */; };
+		ABB348362A6AC2C20050A9AC /* EntriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348352A6AC2C20050A9AC /* EntriesView.swift */; };
+		ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */; };
+		ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */; };
+		ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
@@ -88,6 +93,11 @@
 		ABB24E3A2A66C067001A76E0 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		ABB24E432A66D87C001A76E0 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		ABB24E452A66D903001A76E0 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		ABB348332A6AC2AC0050A9AC /* EntriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewController.swift; sourceTree = "<group>"; };
+		ABB348352A6AC2C20050A9AC /* EntriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesView.swift; sourceTree = "<group>"; };
+		ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesCoordinator.swift; sourceTree = "<group>"; };
+		ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
+		ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewState.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
@@ -220,6 +230,11 @@
 		ABA4F9012A682AA00008D18E /* Entries */ = {
 			isa = PBXGroup;
 			children = (
+				ABB348332A6AC2AC0050A9AC /* EntriesViewController.swift */,
+				ABB348352A6AC2C20050A9AC /* EntriesView.swift */,
+				ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */,
+				ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */,
+				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
 			);
 			path = Entries;
 			sourceTree = "<group>";
@@ -381,6 +396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABB348362A6AC2C20050A9AC /* EntriesView.swift in Sources */,
 				AB1D33C02A5EE14E0068939C /* Entry.swift in Sources */,
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
@@ -392,6 +408,7 @@
 				AB2988AD2A5D8B3F00303262 /* HomeViewCardBackground.swift in Sources */,
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
+				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
@@ -400,6 +417,7 @@
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
+				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
 				ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */,
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
 				ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */,
@@ -409,6 +427,7 @@
 				ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */,
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
+				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
@@ -416,6 +435,7 @@
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
+				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
