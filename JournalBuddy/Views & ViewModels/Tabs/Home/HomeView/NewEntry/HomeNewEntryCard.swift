@@ -10,7 +10,7 @@ import UIKit
 class HomeNewEntryCard: UIView {
     let type: HomeSquareButtonType
 
-    private lazy var cardBackground = HomeViewCardBackground()
+    private lazy var cardBackground = OrangeYellowGradientBackground()
     private lazy var imageAndTextStack = UIStackView(arrangedSubviews: [imageView, newEntryLabel])
     private lazy var imageView = UIImageView()
     private lazy var newEntryLabel = UILabel()

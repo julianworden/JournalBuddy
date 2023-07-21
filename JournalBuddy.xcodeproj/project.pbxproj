@@ -20,7 +20,7 @@
 		AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */; };
 		AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02932A69E14B006F42F8 /* ViewState.swift */; };
 		AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */; };
-		AB2988AD2A5D8B3F00303262 /* HomeViewCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* HomeViewCardBackground.swift */; };
+		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
 		AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */; };
 		AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */; };
@@ -50,6 +50,10 @@
 		ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */; };
 		ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */; };
 		ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */; };
+		ABB348402A6ACE5C0050A9AC /* NewTextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */; };
+		ABB348422A6ACE660050A9AC /* NewTextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */; };
+		ABB348442A6ACE700050A9AC /* NewTextEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */; };
+		ABB348462A6ACE8E0050A9AC /* NewTextEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
@@ -75,7 +79,7 @@
 		AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewState.swift; sourceTree = "<group>"; };
 		AB1E02932A69E14B006F42F8 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewState.swift; sourceTree = "<group>"; };
-		AB2988AC2A5D8B3F00303262 /* HomeViewCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCardBackground.swift; sourceTree = "<group>"; };
+		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -98,6 +102,10 @@
 		ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesCoordinator.swift; sourceTree = "<group>"; };
 		ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
 		ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewState.swift; sourceTree = "<group>"; };
+		ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewController.swift; sourceTree = "<group>"; };
+		ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryView.swift; sourceTree = "<group>"; };
+		ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewModel.swift; sourceTree = "<group>"; };
+		ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewState.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
@@ -223,6 +231,7 @@
 				AB5BE2A12A64762B00803E16 /* MainTextField.swift */,
 				AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */,
 				ABB24E452A66D903001A76E0 /* MainTabBarController.swift */,
+				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -266,6 +275,32 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
+		ABB3483D2A6ACDF30050A9AC /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				AB181C4C2A5B1B7500560299 /* HomeViewController.swift */,
+				AB7CC9192A645DC70054B1A4 /* HomeView.swift */,
+				AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */,
+				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
+				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
+				AB1D33BA2A5EE0BB0068939C /* HowAreYouFeeling */,
+				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
+				ABACE7E42A6039C000981098 /* NewEntry */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		ABB3483E2A6ACE010050A9AC /* NewTextEntry */ = {
+			isa = PBXGroup;
+			children = (
+				ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */,
+				ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */,
+				ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */,
+				ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */,
+			);
+			path = NewTextEntry;
+			sourceTree = "<group>";
+		};
 		ABB4B9652A635E9D00E63018 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,15 +325,8 @@
 		ABC9354C2A5E01DA0094F4E0 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				AB181C4C2A5B1B7500560299 /* HomeViewController.swift */,
-				AB7CC9192A645DC70054B1A4 /* HomeView.swift */,
-				AB2988AC2A5D8B3F00303262 /* HomeViewCardBackground.swift */,
-				AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */,
-				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
-				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
-				AB1D33BA2A5EE0BB0068939C /* HowAreYouFeeling */,
-				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
-				ABACE7E42A6039C000981098 /* NewEntry */,
+				ABB3483D2A6ACDF30050A9AC /* HomeView */,
+				ABB3483E2A6ACE010050A9AC /* NewTextEntry */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -403,9 +431,10 @@
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeNewEntryCard.swift in Sources */,
+				ABB348422A6ACE660050A9AC /* NewTextEntryView.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
 				AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */,
-				AB2988AD2A5D8B3F00303262 /* HomeViewCardBackground.swift in Sources */,
+				AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */,
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
@@ -428,14 +457,17 @@
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
+				ABB348402A6ACE5C0050A9AC /* NewTextEntryViewController.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
+				ABB348462A6ACE8E0050A9AC /* NewTextEntryViewState.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
 				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
+				ABB348442A6ACE700050A9AC /* NewTextEntryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

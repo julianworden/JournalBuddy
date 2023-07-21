@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeYourLatestEntriesCard: UIView {
-    private lazy var cardBackground = HomeViewCardBackground()
+    private lazy var cardBackground = OrangeYellowGradientBackground()
     private lazy var headerLabel = UILabel()
     private lazy var carouselCollectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
     let collectionViewCellConfiguration = UICollectionView.CellRegistration<HomeYourLatestEntriesCollectionViewCell, Entry> { cell, indexPath, entry in

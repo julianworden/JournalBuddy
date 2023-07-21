@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeHowAreYouFeelingCard: UIView {
-    private lazy var cardBackground = HomeViewCardBackground()
+    private lazy var cardBackground = OrangeYellowGradientBackground()
     private lazy var headerLabel = UILabel()
     private lazy var emojiStack = UIStackView(arrangedSubviews: [greatEmoji, goodEmoji, okayEmoji, badEmoji, terribleEmoji])
     private lazy var greatEmoji = UIButton()

@@ -1,5 +1,5 @@
 //
-//  EntriesView.swift
+//  NewTextEntryView.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/21/23.
@@ -8,24 +8,23 @@
 import Combine
 import UIKit
 
-class EntriesView: UIView, MainView {
-    var viewModel: EntriesViewModel
-
+class NewTextEntryView: UIView, MainView {
+    let viewModel: NewTextEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: EntriesViewModel) {
+    init(viewModel: NewTextEntryViewModel) {
         self.viewModel = viewModel
 
         super.init(frame: .zero)
 
-        configureLoadedView()
+        configureDefaultUI()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureLoadedView() {
+    func configureDefaultUI() {
         backgroundColor = .systemBackground
     }
 

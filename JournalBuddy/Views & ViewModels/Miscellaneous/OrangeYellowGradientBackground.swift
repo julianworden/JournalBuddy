@@ -1,5 +1,5 @@
 //
-//  HomeViewCardBackground.swift
+//  OrangeYellowGradientBackground.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/11/23.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-#warning("Rename to be more generic.")
-class HomeViewCardBackground: UIView {
+class OrangeYellowGradientBackground: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
