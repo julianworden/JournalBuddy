@@ -10,6 +10,7 @@ import UIKit
 
 class HomeView: UIView, MainView {
     let viewModel: HomeViewModel
+    weak var delegate: HomeViewDelegate?
     var cancellables = Set<AnyCancellable>()
 
     private lazy var scrollView = UIScrollView()
@@ -30,8 +31,9 @@ class HomeView: UIView, MainView {
     private lazy var newVoiceEntryButton = HomeSquareButton(homeSquareButtonType: .voice)
     private lazy var calendarButton = HomeSquareButton(homeSquareButtonType: .calendar)
 
-    init(viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel, delegate: HomeViewDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
 
         super.init(frame: .zero)
 
@@ -60,11 +62,10 @@ class HomeView: UIView, MainView {
         newVoiceEntryCalendarStack.distribution = .fillEqually
         newVoiceEntryCalendarStack.spacing = 20
 
-        newTextEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        newTextEntryButton.addTarget(self, action: #selector(newTextEntryButtonTapped), for: .touchUpInside)
         newVideoEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         newVoiceEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         calendarButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        newVideoEntryButton.isUserInteractionEnabled = true
     }
 
     func makeAccessible() {
@@ -96,6 +97,10 @@ class HomeView: UIView, MainView {
             newVideoAndTextEntryStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158),
             newVoiceEntryCalendarStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 158)
         ])
+    }
+
+    @objc func newTextEntryButtonTapped() {
+        delegate?.homeViewDidSelectNewTextEntry()
     }
 
     @objc func buttonTapped() {

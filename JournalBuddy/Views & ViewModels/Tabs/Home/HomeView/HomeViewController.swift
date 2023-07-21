@@ -28,7 +28,7 @@ class HomeViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = HomeView(viewModel: viewModel)
+        view = HomeView(viewModel: viewModel, delegate: self)
     }
 
     override func viewDidLoad() {
@@ -60,6 +60,12 @@ class HomeViewController: UIViewController, MainViewController {
 
     @objc func logOutButtonTapped() {
         viewModel.logOut()
+    }
+}
+
+extension HomeViewController: HomeViewDelegate {
+    func homeViewDidSelectNewTextEntry() {
+        coordinator?.presentNewTextEntryViewController()
     }
 }
 

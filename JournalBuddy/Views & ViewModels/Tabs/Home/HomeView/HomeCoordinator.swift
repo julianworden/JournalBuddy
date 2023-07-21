@@ -26,6 +26,11 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(homeViewController, animated: true)
     }
 
+    func presentNewTextEntryViewController() {
+        let newTextEntryViewController = NewTextEntryViewController(coordinator: self)
+        navigationController.pushViewController(newTextEntryViewController, animated: true)
+    }
+
     func removeChildCoordinator(_ childCoordinator: Coordinator) { }
 
     func userLoggedOut() {
