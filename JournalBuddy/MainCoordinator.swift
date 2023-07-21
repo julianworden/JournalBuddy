@@ -11,7 +11,7 @@ final class MainCoordinator: Coordinator {
     let appWindow: UIWindow?
     var childCoordinators = [Coordinator]()
 
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController?
 
     init(navigationController: UINavigationController, appWindow: UIWindow?) {
         self.navigationController = navigationController
@@ -35,6 +35,8 @@ final class MainCoordinator: Coordinator {
     }
 
     func startOnboardingCoordinator() {
+        guard let navigationController else { return }
+
         let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(onboardingCoordinator)
         onboardingCoordinator.start()
@@ -51,7 +53,7 @@ final class MainCoordinator: Coordinator {
     /// - Parameter childCoordinator: The coordinator that was in use when the user either signed in or signed up successfully.
     func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator) {
         removeChildCoordinator(childCoordinator)
-        navigationController.setViewControllers([], animated: false)
+        navigationController = nil
         startTabBarCoordinator()
     }
 
@@ -60,6 +62,8 @@ final class MainCoordinator: Coordinator {
     /// - Parameter childCoordinator: The coordinator that was in use when the user signed out. It is to be removed from the `childCoordinators` array.
     func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
         removeChildCoordinator(childCoordinator)
+        self.navigationController = UINavigationController()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         startOnboardingCoordinator()
     }
 }
