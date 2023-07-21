@@ -62,8 +62,9 @@ final class MainCoordinator: Coordinator {
     /// - Parameter childCoordinator: The coordinator that was in use when the user signed out. It is to be removed from the `childCoordinators` array.
     func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
         removeChildCoordinator(childCoordinator)
-        self.navigationController = UINavigationController()
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        let navigationController = UINavigationController()
+        navigationController.navigationBar.prefersLargeTitles = true
+        self.navigationController = navigationController
         startOnboardingCoordinator()
     }
 }
