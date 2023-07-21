@@ -8,6 +8,23 @@
 import UIKit
 
 class PrimaryButton: UIButton {
+    enum ButtonState {
+        case normal, disabled
+    }
+
+    var disabledColor = UIConstants.disabledOrangeButtonBackgroundColor
+    var normalColor = UIConstants.normalOrangeButtonBackgroundColor
+
+    override var isEnabled: Bool {
+        didSet {
+            if isEnabled {
+                backgroundColor = normalColor
+            } else {
+                backgroundColor = disabledColor
+            }
+        }
+    }
+
     convenience init(title: String) {
         self.init(configuration: .borderedProminent())
         self.init(frame: .zero)
@@ -32,7 +49,7 @@ class PrimaryButton: UIButton {
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping
         layer.cornerRadius = 12
-        backgroundColor = .systemOrange
+        backgroundColor = normalColor
     }
 
     /// Constrains `titleLabel` to the top and bottom of the button to prevent it from overflowing the button's

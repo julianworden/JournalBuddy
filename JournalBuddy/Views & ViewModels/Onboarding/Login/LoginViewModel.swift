@@ -7,7 +7,9 @@
 
 import FirebaseAuth
 
+@MainActor
 final class LoginViewModel: MainViewModel {
+    @Published var viewState = LoginViewState.displayingView
     @Published var loginSuccessful = false
 
     var emailAddress = ""
@@ -18,14 +20,32 @@ final class LoginViewModel: MainViewModel {
     func logIn() {
         Task {
             do {
+                viewState = .loggingIn
+
                 try await Auth.auth().signIn(withEmail: emailAddress, password: password)
 
-                await MainActor.run {
-                    loginSuccessful = true
-                }
+                loginSuccessful = true
             } catch {
-                print(error)
+                let error = AuthErrorCode(_nsError: error as NSError)
+
+                handleLogInError(error)
             }
+        }
+    }
+
+    func handleLogInError(_ error: AuthErrorCode) {
+        switch error.code {
+        case .invalidEmail:
+            viewState = .error(FBAuthError.invalidEmailAddress)
+        case .networkError:
+            viewState = .error(FBAuthError.networkError)
+        case .wrongPassword:
+            viewState = .error(FBAuthError.wrongPasswordOnLogIn)
+        case .userNotFound:
+            // Password and email are valid, but no registered user has this info
+            viewState = .error(FBAuthError.userNotFoundOnLogIn)
+        default:
+            viewState = .error(error)
         }
     }
 }

@@ -35,9 +35,8 @@ class LoginView: UIView, MainView {
 
         super.init(frame: .zero)
 
-        configure()
-        makeAccessible()
         subscribeToPublishers()
+        makeAccessible()
         constrain()
     }
 
@@ -45,11 +44,11 @@ class LoginView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure() {
+    func configureDefaultUI() {
         logInStack.axis = .vertical
         logInStack.distribution = .fillEqually
         logInStack.spacing = 20
-        logInStack.layoutMargins = UiConstants.mainVerticalStackLayoutMargins
+        logInStack.layoutMargins = UIConstants.mainVerticalStackLayoutMargins
         logInStack.isLayoutMarginsRelativeArrangement = true
 
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
@@ -70,8 +69,24 @@ class LoginView: UIView, MainView {
 
         logInSignUpButtonStack.axis = .vertical
         logInSignUpButtonStack.spacing = 20
-        logInSignUpButtonStack.layoutMargins = UiConstants.mainVerticalStackLayoutMargins
+        logInSignUpButtonStack.layoutMargins = UIConstants.mainVerticalStackLayoutMargins
         logInSignUpButtonStack.isLayoutMarginsRelativeArrangement = true
+    }
+
+    func disableButtonsAndTextFields() {
+        emailAddressTextField.isEnabled = false
+        passwordTextField.isEnabled = false
+        passwordEyeButton.isEnabled = false
+        logInButton.isEnabled = false
+        signUpButton.isEnabled = false
+    }
+
+    func enableButtonsAndTextFields() {
+        emailAddressTextField.isEnabled = true
+        passwordTextField.isEnabled = true
+        passwordEyeButton.isEnabled = true
+        logInButton.isEnabled = true
+        signUpButton.isEnabled = true
     }
 
     func makeAccessible() {
@@ -79,7 +94,20 @@ class LoginView: UIView, MainView {
     }
 
     func subscribeToPublishers() {
-        
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .displayingView:
+                    self?.configureDefaultUI()
+                case .loggingIn:
+                    self?.disableButtonsAndTextFields()
+                case .error(_):
+                    self?.enableButtonsAndTextFields()
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func constrain() {
@@ -124,7 +152,7 @@ class LoginView: UIView, MainView {
     }
 
     @objc func signUpButtonTapped() {
-
+        print("I WANT TO SIGN UP")
     }
 }
 

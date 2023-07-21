@@ -49,7 +49,7 @@ class HomeView: UIView, MainView {
 
         mainVerticalStackView.axis = .vertical
         mainVerticalStackView.spacing = 20
-        mainVerticalStackView.layoutMargins = UiConstants.mainVerticalStackLayoutMargins
+        mainVerticalStackView.layoutMargins = UIConstants.mainVerticalStackLayoutMargins
         mainVerticalStackView.isLayoutMarginsRelativeArrangement = true
 
         newVideoAndTextEntryStack.axis = .horizontal
