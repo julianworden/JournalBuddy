@@ -48,7 +48,7 @@ class LoginView: UIView, MainView {
         logInStack.axis = .vertical
         logInStack.distribution = .fillEqually
         logInStack.spacing = 20
-        logInStack.layoutMargins = UIConstants.mainVerticalStackLayoutMargins
+        logInStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
         logInStack.isLayoutMarginsRelativeArrangement = true
 
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
@@ -68,7 +68,7 @@ class LoginView: UIView, MainView {
 
         logInSignUpButtonStack.axis = .vertical
         logInSignUpButtonStack.spacing = 20
-        logInSignUpButtonStack.layoutMargins = UIConstants.mainVerticalStackLayoutMargins
+        logInSignUpButtonStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
         logInSignUpButtonStack.isLayoutMarginsRelativeArrangement = true
     }
 

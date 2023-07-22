@@ -11,4 +11,6 @@ import Foundation
 final class NewTextEntryViewModel: MainViewModel {
     var viewState = NewTextEntryViewState.displayingView
     var error: Error?
+
+    var entryText = ""
 }
