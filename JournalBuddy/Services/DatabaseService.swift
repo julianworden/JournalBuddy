@@ -8,11 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-final class DatabaseService {
-    static let shared = DatabaseService()
-
-    private init() { }
-
+final class DatabaseService: DatabaseServiceProtocol {
     private let db = Firestore.firestore()
     private lazy var usersCollection = db.collection(FBConstants.users)
 
@@ -30,7 +26,7 @@ final class DatabaseService {
         }
     }
 
-    private func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
+    func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
         do {
             let newDocument = try usersCollection
                 .document(textEntry.creatorUID)

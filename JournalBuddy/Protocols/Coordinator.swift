@@ -8,8 +8,9 @@
 import UIKit
 
 protocol Coordinator: AnyObject {
-    var childCoordinators: [Coordinator] { get set }
+    @MainActor var childCoordinators: [Coordinator] { get set }
+    @MainActor var databaseService: DatabaseServiceProtocol { get }
 
-    func start()
-    func removeChildCoordinator(_ childCoordinator: Coordinator)
+    @MainActor func start()
+    @MainActor func removeChildCoordinator(_ childCoordinator: Coordinator)
 }

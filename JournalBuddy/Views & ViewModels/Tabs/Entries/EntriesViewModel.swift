@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 final class EntriesViewModel: MainViewModel {
     var viewState = EntriesViewState.displayingView
     var error: Error?

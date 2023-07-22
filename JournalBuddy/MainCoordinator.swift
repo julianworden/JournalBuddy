@@ -7,14 +7,16 @@
 
 import UIKit
 
+@MainActor
 final class MainCoordinator: Coordinator {
     let appWindow: UIWindow?
+    var databaseService: DatabaseServiceProtocol
     var childCoordinators = [Coordinator]()
-
     var navigationController: UINavigationController?
 
-    init(navigationController: UINavigationController, appWindow: UIWindow?) {
+    init(navigationController: UINavigationController, databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
         self.navigationController = navigationController
+        self.databaseService = databaseService
         self.appWindow = appWindow
     }
 
@@ -37,13 +39,13 @@ final class MainCoordinator: Coordinator {
     func startOnboardingCoordinator() {
         guard let navigationController else { return }
 
-        let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, parentCoordinator: self, appWindow: appWindow)
+        let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, databaseService: databaseService, parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(onboardingCoordinator)
         onboardingCoordinator.start()
     }
 
     func startTabBarCoordinator() {
-        let tabCoordinator = TabBarCoordinator(parentCoordinator: self, appWindow: appWindow)
+        let tabCoordinator = TabBarCoordinator(parentCoordinator: self, databaseService: databaseService, appWindow: appWindow)
         childCoordinators.append(tabCoordinator)
         tabCoordinator.start()
     }

@@ -7,16 +7,24 @@
 
 import UIKit
 
+@MainActor
 final class OnboardingCoordinator: Coordinator {
     weak var appWindow: UIWindow?
     weak var parentCoordinator: MainCoordinator?
+    var databaseService: DatabaseServiceProtocol
     var childCoordinators = [Coordinator]()
 
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator, appWindow: UIWindow?) {
+    init(
+        navigationController: UINavigationController,
+        databaseService: DatabaseServiceProtocol,
+        parentCoordinator: MainCoordinator,
+        appWindow: UIWindow?
+    ) {
         self.parentCoordinator = parentCoordinator
         self.navigationController = navigationController
+        self.databaseService = databaseService
         self.appWindow = appWindow
     }
 

@@ -10,13 +10,14 @@ import UIKit
 
 class NewTextEntryViewController: UIViewController, MainViewController {
     weak var coordinator: HomeCoordinator?
-    var viewModel = NewTextEntryViewModel()
+    var viewModel: NewTextEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
     private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
 
-    init(coordinator: HomeCoordinator?) {
+    init(coordinator: HomeCoordinator?, viewModel: NewTextEntryViewModel) {
         self.coordinator = coordinator
+        self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
     }

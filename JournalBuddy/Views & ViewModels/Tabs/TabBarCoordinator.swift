@@ -9,18 +9,21 @@ import UIKit
 
 /// A Coordinator that manages hiding and showing the `UITabBarController` that appears either when the user opens the app while already
 /// being signed in, or when the user logs in.
+@MainActor
 final class TabBarCoordinator: Coordinator {
     weak var parentCoordinator: MainCoordinator?
     weak var appWindow: UIWindow?
+    let databaseService: DatabaseServiceProtocol
     var childCoordinators = [Coordinator]()
 
-    init(parentCoordinator: MainCoordinator, appWindow: UIWindow?) {
+    init(parentCoordinator: MainCoordinator, databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
         self.appWindow = appWindow
         self.parentCoordinator = parentCoordinator
+        self.databaseService = databaseService
     }
 
     func start() {
-        let tabBarController = MainTabBarController(coordinator: self)
+        let tabBarController = MainTabBarController(coordinator: self, databaseService: databaseService)
         
         appWindow?.rootViewController = tabBarController
         appWindow?.makeKeyAndVisible()

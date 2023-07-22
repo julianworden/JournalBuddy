@@ -9,10 +9,14 @@ import Foundation
 
 @MainActor
 final class NewTextEntryViewModel: MainViewModel {
+    let databaseService: DatabaseServiceProtocol
     var viewState = NewTextEntryViewState.displayingView
     var error: Error?
-
     var entryText = ""
+
+    init(databaseService: DatabaseServiceProtocol) {
+        self.databaseService = databaseService
+    }
 
     func saveTextEntry() {
         Task {
@@ -24,8 +28,7 @@ final class NewTextEntryViewModel: MainViewModel {
                     text: entryText
                 )
 
-                let savedEntry = try await DatabaseService.shared.saveEntry(textEntry)
-                print(savedEntry)
+                try await databaseService.saveEntry(textEntry)
             } catch {
                 self.error = error
             }
