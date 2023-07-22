@@ -11,7 +11,7 @@ class HomeYourLatestEntriesCard: UIView {
     private lazy var cardBackground = OrangeYellowGradientBackground()
     private lazy var headerLabel = UILabel()
     private lazy var carouselCollectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
-    let collectionViewCellConfiguration = UICollectionView.CellRegistration<HomeYourLatestEntriesCollectionViewCell, Entry> { cell, indexPath, entry in
+    let collectionViewCellConfiguration = UICollectionView.CellRegistration<HomeYourLatestEntriesCollectionViewCell, TextEntry> { cell, indexPath, entry in
         cell.configure(with: entry)
     }
     private lazy var pageControl = UIPageControl()
@@ -23,8 +23,8 @@ class HomeYourLatestEntriesCard: UIView {
     }
 
     let entries = [
-        Entry(name: "07/12/23", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea"),
-        Entry(name: "07/11/23", text: "Commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+        TextEntry(id: "awoeifjaw;oefij", creatorUID: AuthService.shared.currentUserUID, unixDate: 398475351, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea"),
+        TextEntry(id: "awejfawpoeifj", creatorUID: AuthService.shared.currentUserUID, unixDate: 6482047, text: "Commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
     ]
 
     override init(frame: CGRect) {
@@ -61,6 +61,8 @@ class HomeYourLatestEntriesCard: UIView {
         pageControl.direction = .leftToRight
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = .lightGray.withAlphaComponent(0.4)
+        // Disables tapping a page, which is not supported at this time
+        pageControl.isUserInteractionEnabled = false
     }
 
     func getCollectionViewLayout() -> UICollectionViewFlowLayout {

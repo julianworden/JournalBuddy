@@ -13,6 +13,8 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     var viewModel = NewTextEntryViewModel()
     var cancellables = Set<AnyCancellable>()
 
+    private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+
     init(coordinator: HomeCoordinator?) {
         self.coordinator = coordinator
 
@@ -35,6 +37,7 @@ class NewTextEntryViewController: UIViewController, MainViewController {
 
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = saveButton
         title = "New Text Entry"
     }
 
@@ -44,5 +47,9 @@ class NewTextEntryViewController: UIViewController, MainViewController {
 
     func showError(_ error: Error) {
 
+    }
+
+    @objc func saveButtonTapped() {
+        viewModel.saveTextEntry()
     }
 }

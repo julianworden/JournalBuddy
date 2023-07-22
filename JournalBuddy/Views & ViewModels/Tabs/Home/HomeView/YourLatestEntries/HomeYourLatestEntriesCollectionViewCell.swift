@@ -5,6 +5,7 @@
 //  Created by Julian Worden on 7/12/23.
 //
 
+import SwiftPlus
 import UIKit
 
 class HomeYourLatestEntriesCollectionViewCell: UICollectionViewCell {
@@ -23,13 +24,13 @@ class HomeYourLatestEntriesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with entry: Entry) {
+    func configure(with entry: TextEntry) {
         textStack.axis = .vertical
         textStack.spacing = 4
         textStack.alignment = .center
 //        textStack.distribution = .fill
 
-        entryNameLabel.text = entry.name
+        entryNameLabel.text = entry.unixDate.unixDateAsDate.timeOmittedNumericDateString
         entryNameLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .boldBody)
         entryNameLabel.textColor = .white
         entryNameLabel.textAlignment = .center

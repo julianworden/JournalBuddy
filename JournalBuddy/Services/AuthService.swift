@@ -16,6 +16,16 @@ final class AuthService {
         return Auth.auth().currentUser != nil
     }
 
+    var currentUser: FirebaseAuth.User? {
+        return Auth.auth().currentUser
+    }
+
+    var currentUserUID: String {
+        guard let currentUser else { return "" }
+
+        return currentUser.uid
+    }
+
     func logOut() throws {
         try Auth.auth().signOut()
     }
