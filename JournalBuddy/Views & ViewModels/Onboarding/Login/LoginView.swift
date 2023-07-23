@@ -156,6 +156,18 @@ class LoginView: UIView, MainView {
 }
 
 extension LoginView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.2) {
+            textField.layer.borderColor = UIConstants.mainTextFieldWithFocusBorderColor
+        }
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.2) {
+            textField.layer.borderColor = UIConstants.mainTextFieldWithoutFocusBorderColor
+        }
+    }
+
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if textField === emailAddressTextField {
             viewModel.emailAddress.removeAll()

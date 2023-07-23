@@ -217,7 +217,6 @@
 				AB2988B02A5D9CA700303262 /* Extensions */,
 				AB7CC9112A643C8E0054B1A4 /* Utilities */,
 				AB7677342A6C64840050149E /* Errors */,
-				AB948B582A6D7D9800430E61 /* JournalBuddyUnitTests */,
 				AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */,
 				AB181C512A5B1B7800560299 /* Assets.xcassets */,
 				AB181C532A5B1B7800560299 /* LaunchScreen.storyboard */,
@@ -309,13 +308,6 @@
 				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 			);
 			path = Miscellaneous;
-			sourceTree = "<group>";
-		};
-		AB948B582A6D7D9800430E61 /* JournalBuddyUnitTests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = JournalBuddyUnitTests;
 			sourceTree = "<group>";
 		};
 		AB948B592A6D7D9800430E61 /* Utilities */ = {
