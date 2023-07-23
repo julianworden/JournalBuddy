@@ -40,7 +40,7 @@ class MainTabBarController: UITabBarController {
 
     func configure() {
         viewControllers = [homeCoordinator.navigationController, entriesCoordinator.navigationController]
-
+        
         homeCoordinator.start()
         entriesCoordinator.start()
     }

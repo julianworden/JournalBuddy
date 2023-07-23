@@ -34,6 +34,7 @@ class NewTextEntryViewController: UIViewController, MainViewController {
         super.viewDidLoad()
 
         configure()
+        subscribeToPublishers()
     }
 
     func configure() {
@@ -43,7 +44,13 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     }
 
     func subscribeToPublishers() {
+        viewModel.$savedEntry
+            .sink { [weak self] textEntry in
+                guard textEntry != nil else { return }
 
+                self?.coordinator?.newTextEntryViewControllerDidCreateEntry()
+            }
+            .store(in: &cancellables)
     }
 
     func showError(_ error: Error) {

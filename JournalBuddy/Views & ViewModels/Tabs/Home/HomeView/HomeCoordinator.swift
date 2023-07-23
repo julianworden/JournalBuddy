@@ -39,6 +39,10 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(newTextEntryViewController, animated: true)
     }
 
+    func newTextEntryViewControllerDidCreateEntry() {
+        navigationController.popViewController(animated: true)
+    }
+
     func removeChildCoordinator(_ childCoordinator: Coordinator) { }
 
     func userLoggedOut() {

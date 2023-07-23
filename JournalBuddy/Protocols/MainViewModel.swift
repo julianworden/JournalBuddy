@@ -11,6 +11,7 @@ import Combine
 protocol MainViewModel {
     associatedtype MainViewState: ViewState
 
-    @MainActor var viewState: MainViewState { get set }
-    @MainActor var error: Error? { get set }
+    // TODO: Add databaseService to this protocol
+   @MainActor var viewState: MainViewState { get set }
+   @MainActor var error: Error? { get set }
 }
