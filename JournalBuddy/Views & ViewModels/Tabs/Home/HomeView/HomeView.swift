@@ -88,9 +88,9 @@ class HomeView: UIView, MainView {
 
             mainVerticalStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             mainVerticalStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            mainVerticalStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             mainVerticalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainVerticalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            mainVerticalStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
             howAreYouFeelingCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 90),
             yourLatestEntriesCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 187),

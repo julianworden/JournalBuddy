@@ -9,7 +9,10 @@ import Combine
 import UIKit
 
 class LoginView: UIView, MainView {
-    private lazy var logInStack = UIStackView(arrangedSubviews: [emailAddressTextField, passwordTextFieldStack])
+    private lazy var mainScrollView = UIScrollView()
+    private lazy var mainScrollViewContentStack = UIStackView(arrangedSubviews: [logInStack, signUpStack])
+
+    private lazy var logInStack = UIStackView(arrangedSubviews: [emailAddressTextField, passwordTextFieldStack, logInButton])
     private lazy var emailAddressTextField = MainTextField(
         keyboardType: .emailAddress,
         isSecureTextEntry: false,
@@ -23,8 +26,10 @@ class LoginView: UIView, MainView {
         placeholder: "Password"
     )
     private lazy var passwordEyeButton = UIButton()
-    private lazy var logInSignUpButtonStack = UIStackView(arrangedSubviews: [logInButton, signUpButton])
     private lazy var logInButton = PrimaryButton(title: "Log In")
+
+    private lazy var signUpStack = UIStackView(arrangedSubviews: [dontHaveAnAccountLabel, signUpButton])
+    private lazy var dontHaveAnAccountLabel = UILabel()
     private lazy var signUpButton = PrimaryButton(title: "Sign Up")
 
     let viewModel: LoginViewModel
@@ -40,20 +45,34 @@ class LoginView: UIView, MainView {
         constrain()
     }
 
+    override func layoutSubviews() {
+        // Support very large Dynamic Type sizes
+
+        if mainScrollView.contentSize.height > bounds.size.height {
+            // User needs to scroll to see all content, don't add space between logInStack and signUpStack
+            signUpStack.topAnchor.constraint(equalTo: logInStack.bottomAnchor).isActive = true
+        } else {
+            // User does not need to scroll to see all content, add space between logInStack and signUpStack
+            signUpStack.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     func configureDefaultUI() {
+        mainScrollView.showsVerticalScrollIndicator = false
+
+        mainScrollViewContentStack.axis = .vertical
+        mainScrollViewContentStack.distribution = .equalCentering
+        mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
+        mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
+
         logInStack.axis = .vertical
-        logInStack.distribution = .fillEqually
         logInStack.spacing = 20
-        logInStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
-        logInStack.isLayoutMarginsRelativeArrangement = true
 
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
-
-        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
 
         emailAddressTextField.delegate = self
         emailAddressTextField.addTarget(self, action: #selector(emailAddressTextFieldEdited), for: .editingChanged)
@@ -66,10 +85,16 @@ class LoginView: UIView, MainView {
         passwordEyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
         passwordEyeButton.addTarget(self, action: #selector(passwordEyeButtonTapped), for: .touchUpInside)
 
-        logInSignUpButtonStack.axis = .vertical
-        logInSignUpButtonStack.spacing = 20
-        logInSignUpButtonStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
-        logInSignUpButtonStack.isLayoutMarginsRelativeArrangement = true
+        signUpStack.axis = .vertical
+        signUpStack.spacing = 7
+        logInStack.setContentHuggingPriority(.defaultHigh, for: .vertical)
+
+        dontHaveAnAccountLabel.text = "Don't have an account?"
+        dontHaveAnAccountLabel.font = .preferredFont(forTextStyle: .body)
+        dontHaveAnAccountLabel.numberOfLines = 0
+        dontHaveAnAccountLabel.textAlignment = .center
+
+        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
 
     func disableButtonsAndTextFields() {
@@ -89,7 +114,7 @@ class LoginView: UIView, MainView {
     }
 
     func makeAccessible() {
-
+        dontHaveAnAccountLabel.adjustsFontForContentSizeCategory = true
     }
 
     func subscribeToPublishers() {
@@ -110,20 +135,25 @@ class LoginView: UIView, MainView {
     }
 
     func constrain() {
-        addConstrainedSubviews(logInStack, logInSignUpButtonStack)
+        addConstrainedSubviews(mainScrollView)
+        mainScrollView.addConstrainedSubview(mainScrollViewContentStack)
 
         NSLayoutConstraint.activate([
-            logInStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 7),
-            logInStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            logInStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            mainScrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            mainScrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+
+            mainScrollViewContentStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            mainScrollViewContentStack.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+            mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
 
             emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
-
-            logInSignUpButtonStack.topAnchor.constraint(equalTo: logInStack.bottomAnchor, constant: 20),
-            logInSignUpButtonStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            logInSignUpButtonStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-
+            passwordTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
             logInButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
+
             signUpButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46)
         ])
     }

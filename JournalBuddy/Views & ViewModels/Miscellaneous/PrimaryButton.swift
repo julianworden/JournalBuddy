@@ -57,8 +57,8 @@ class PrimaryButton: UIButton {
     func constrain() {
         if let titleLabel {
             NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(equalTo: topAnchor),
-                titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+                titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+                titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
             ])
         }
     }

@@ -13,13 +13,13 @@ class MainTextField: UITextField {
 
         self.keyboardType = keyboardType
         self.placeholder = placeholder
-        self.layer.cornerRadius = 12
-        self.layer.borderColor = UIConstants.mainTextFieldWithoutFocusBorderColor
-        self.layer.borderWidth = 1.5
         self.clearButtonMode = .whileEditing
         self.isSecureTextEntry = isSecureTextEntry
         self.font = .preferredFont(forTextStyle: .body)
         self.adjustsFontForContentSizeCategory = true
+        self.layer.cornerRadius = 12
+        self.layer.borderColor = UIConstants.mainTextFieldWithoutFocusBorderColor
+        self.layer.borderWidth = 1.5
     }
 
     override init(frame: CGRect) {
@@ -39,6 +39,7 @@ class MainTextField: UITextField {
         return bounds.inset(by: UIConstants.mainTextFieldTextInsets)
     }
 
+    // Applies correct padding for text that is currently being edited
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: UIConstants.mainTextFieldTextInsets)
     }
