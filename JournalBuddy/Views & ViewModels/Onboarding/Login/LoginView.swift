@@ -18,7 +18,6 @@ class LoginView: UIView, MainView {
         isSecureTextEntry: false,
         placeholder: "Email Address"
     )
-
     private lazy var passwordTextFieldStack = PasswordTextFieldStack(delegate: self)
     private lazy var logInButton = PrimaryButton(title: "Log In")
 
@@ -73,8 +72,6 @@ class LoginView: UIView, MainView {
         emailAddressTextField.delegate = self
         emailAddressTextField.addTarget(self, action: #selector(emailAddressTextFieldEdited), for: .editingChanged)
 
-        passwordTextFieldStack.spacing = 5
-
         signUpStack.axis = .vertical
         signUpStack.spacing = 7
 
@@ -128,8 +125,8 @@ class LoginView: UIView, MainView {
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            mainScrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            mainScrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            mainScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
             mainScrollViewContentStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
             mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),

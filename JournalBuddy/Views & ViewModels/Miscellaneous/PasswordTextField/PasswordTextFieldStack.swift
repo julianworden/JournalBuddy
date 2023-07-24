@@ -22,7 +22,10 @@ class PasswordTextFieldStack: UIStackView {
 
         super.init(frame: .zero)
 
+        spacing = 5
+
         passwordTextField.delegate = self
+        passwordTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         passwordTextField.addTarget(self, action: #selector(passwordTextFieldEdited), for: .editingChanged)
 
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
@@ -30,8 +33,6 @@ class PasswordTextFieldStack: UIStackView {
 
         addArrangedSubview(passwordTextField)
         addArrangedSubview(eyeButton)
-
-        spacing = 5
 
         constrain()
     }

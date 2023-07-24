@@ -8,6 +8,12 @@
 import UIKit
 
 class MainTextField: UITextField {
+    var textInsets: UIEdgeInsets {
+        let clearButtonRect = clearButtonRect(forBounds: bounds)
+        let clearButtonWidth = clearButtonRect.width
+        return UIEdgeInsets(top: 0, left: 7, bottom: 0, right: clearButtonWidth + 7)
+    }
+
     convenience init(keyboardType: UIKeyboardType, isSecureTextEntry: Bool, placeholder: String) {
         self.init(frame: .zero)
 
@@ -31,16 +37,16 @@ class MainTextField: UITextField {
     }
 
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIConstants.mainTextFieldTextInsets)
+        return bounds.inset(by: textInsets)
     }
 
     // Applies correct padding for text that isn't currently being edited
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIConstants.mainTextFieldTextInsets)
+        return bounds.inset(by: textInsets)
     }
 
     // Applies correct padding for text that is currently being edited
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIConstants.mainTextFieldTextInsets)
+        return bounds.inset(by: textInsets)
     }
 }
