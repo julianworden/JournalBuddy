@@ -10,7 +10,6 @@ import UIKit
 
 class EntriesView: UIView, MainView {
     var viewModel: EntriesViewModel
-
     var cancellables = Set<AnyCancellable>()
 
     init(viewModel: EntriesViewModel) {

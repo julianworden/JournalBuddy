@@ -13,8 +13,8 @@ class HomeView: UIView, MainView {
     weak var delegate: HomeViewDelegate?
     var cancellables = Set<AnyCancellable>()
 
-    private lazy var scrollView = UIScrollView()
-    private lazy var mainVerticalStackView = UIStackView(
+    private lazy var mainScrollView = UIScrollView()
+    private lazy var mainScrollViewContentStack = UIStackView(
         arrangedSubviews: [
             howAreYouFeelingCard,
             yourLatestEntriesCard,
@@ -49,18 +49,18 @@ class HomeView: UIView, MainView {
     func configureDefaultViewState() {
         backgroundColor = .systemBackground
 
-        mainVerticalStackView.axis = .vertical
-        mainVerticalStackView.spacing = 20
-        mainVerticalStackView.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
-        mainVerticalStackView.isLayoutMarginsRelativeArrangement = true
+        mainScrollViewContentStack.axis = .vertical
+        mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
+        mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
+        mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
 
         newVideoAndTextEntryStack.axis = .horizontal
         newVideoAndTextEntryStack.distribution = .fillEqually
-        newVideoAndTextEntryStack.spacing = 20
+        newVideoAndTextEntryStack.spacing = UIConstants.mainStackViewSpacing
 
         newVoiceEntryCalendarStack.axis = .horizontal
         newVoiceEntryCalendarStack.distribution = .fillEqually
-        newVoiceEntryCalendarStack.spacing = 20
+        newVoiceEntryCalendarStack.spacing = UIConstants.mainStackViewSpacing
 
         newTextEntryButton.addTarget(self, action: #selector(newTextEntryButtonTapped), for: .touchUpInside)
         newVideoEntryButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -77,20 +77,20 @@ class HomeView: UIView, MainView {
     }
 
     func constrain() {
-        scrollView.addConstrainedSubview(mainVerticalStackView)
-        addConstrainedSubview(scrollView)
+        mainScrollView.addConstrainedSubview(mainScrollViewContentStack)
+        addConstrainedSubview(mainScrollView)
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            mainScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            mainVerticalStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            mainVerticalStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            mainVerticalStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            mainVerticalStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            mainVerticalStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            mainScrollViewContentStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            mainScrollViewContentStack.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+            mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
 
             howAreYouFeelingCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 90),
             yourLatestEntriesCard.heightAnchor.constraint(greaterThanOrEqualToConstant: 187),

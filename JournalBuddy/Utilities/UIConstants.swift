@@ -12,6 +12,9 @@ enum UIConstants {
 
     /// The `UIEdgeInsets` on the leading and trailing edge of a stack view that fills the entire width of a `MainView`.
     static let mainStackViewLeadingAndTrailingLayoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+    static let mainStackViewSpacing: CGFloat = 20
+    /// The minimum height of an element in a stack view that is being used as a form. For instance, this is the minimum height of a text field in `LoginView`.
+    static let mainStackViewMinimumFormElementHeight = 46
 
     // MARK: - UIView
 

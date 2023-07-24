@@ -24,7 +24,7 @@ class LoginViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = LoginView(viewModel: viewModel)
+        view = LoginView(viewModel: viewModel, delegate: self)
     }
 
     override func viewDidLoad() {
@@ -56,7 +56,7 @@ class LoginViewController: UIViewController, MainViewController {
             .sink { [weak self] loginSuccessful in
                 guard loginSuccessful else { return }
 
-                self?.coordinator?.userDidLogIn()
+                self?.coordinator?.loginViewDidLogIn()
             }
             .store(in: &cancellables)
     }
@@ -67,6 +67,12 @@ class LoginViewController: UIViewController, MainViewController {
         alertController.addAction(okAction)
 
         present(alertController, animated: true)
+    }
+}
+
+extension LoginViewController: LoginViewDelegate {
+    func loginViewDidTapSignUpButton() {
+        coordinator?.loginViewDidTapSignUpButton()
     }
 }
 

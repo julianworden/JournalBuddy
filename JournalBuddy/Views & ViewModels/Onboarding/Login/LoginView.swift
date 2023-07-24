@@ -32,11 +32,13 @@ class LoginView: UIView, MainView {
     private lazy var dontHaveAnAccountLabel = UILabel()
     private lazy var signUpButton = PrimaryButton(title: "Sign Up")
 
+    weak var delegate: LoginViewDelegate?
     let viewModel: LoginViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: LoginViewModel) {
+    init(viewModel: LoginViewModel, delegate: LoginViewDelegate?) {
         self.viewModel = viewModel
+        self.delegate = delegate
 
         super.init(frame: .zero)
 
@@ -70,7 +72,7 @@ class LoginView: UIView, MainView {
         mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
 
         logInStack.axis = .vertical
-        logInStack.spacing = 20
+        logInStack.spacing = UIConstants.mainStackViewSpacing
 
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
 
@@ -180,7 +182,7 @@ class LoginView: UIView, MainView {
     }
 
     @objc func signUpButtonTapped() {
-        print("I WANT TO SIGN UP")
+        delegate?.loginViewDidTapSignUpButton()
     }
 }
 
