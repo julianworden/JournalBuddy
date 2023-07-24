@@ -13,7 +13,8 @@ protocol MainView {
 
     var viewModel: ViewModel { get }
     var cancellables: Set<AnyCancellable> { get set }
-    
+
+    func configureDefaultViewState()
     func constrain()
     func makeAccessible()
     func subscribeToPublishers()

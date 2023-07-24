@@ -30,11 +30,11 @@ final class EntriesViewModelUnitTests: XCTestCase {
         sut.entryText = "What a great day!"
         sut.saveTextEntry()
 
-        sut.$savedEntry
+        sut.$viewState
             .dropFirst()
-            .sink { textEntry in
-                guard textEntry != nil else {
-                    XCTFail("Nil value received.")
+            .sink { viewState in
+                guard viewState == .textEntrySaved else {
+                    XCTFail("viewState not modified as expected.")
                     return
                 }
 

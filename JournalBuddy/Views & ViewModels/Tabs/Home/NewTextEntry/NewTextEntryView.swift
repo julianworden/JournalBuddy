@@ -19,7 +19,7 @@ class NewTextEntryView: UIView, MainView {
 
         super.init(frame: .zero)
 
-        configureDefaultUI()
+        configureDefaultViewState()
         constrain()
     }
 
@@ -27,7 +27,7 @@ class NewTextEntryView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureDefaultUI() {
+    func configureDefaultViewState() {
         backgroundColor = .systemBackground
 
         entryTextView.delegate = self

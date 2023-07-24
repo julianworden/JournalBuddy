@@ -44,11 +44,14 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     }
 
     func subscribeToPublishers() {
-        viewModel.$savedEntry
-            .sink { [weak self] textEntry in
-                guard textEntry != nil else { return }
-
-                self?.coordinator?.newTextEntryViewControllerDidCreateEntry()
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .textEntrySaved:
+                    self?.coordinator?.newTextEntryViewControllerDidCreateEntry()
+                default:
+                    break
+                }
             }
             .store(in: &cancellables)
     }

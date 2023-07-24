@@ -52,7 +52,7 @@ class LoginView: UIView, MainView {
             // User needs to scroll to see all content, don't add space between logInStack and signUpStack
             signUpStack.topAnchor.constraint(equalTo: logInStack.bottomAnchor).isActive = true
         } else {
-            // User does not need to scroll to see all content, add space between logInStack and signUpStack
+            // User does not need to scroll to see all content, add space between logInStack and signUpStack by pinning signUpStack to the bottom of the view
             signUpStack.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor).isActive = true
         }
     }
@@ -61,7 +61,7 @@ class LoginView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureDefaultUI() {
+    func configureDefaultViewState() {
         mainScrollView.showsVerticalScrollIndicator = false
 
         mainScrollViewContentStack.axis = .vertical
@@ -87,7 +87,6 @@ class LoginView: UIView, MainView {
 
         signUpStack.axis = .vertical
         signUpStack.spacing = 7
-        logInStack.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
         dontHaveAnAccountLabel.text = "Don't have an account?"
         dontHaveAnAccountLabel.font = .preferredFont(forTextStyle: .body)
@@ -122,7 +121,7 @@ class LoginView: UIView, MainView {
             .sink { [weak self] viewState in
                 switch viewState {
                 case .displayingView:
-                    self?.configureDefaultUI()
+                    self?.configureDefaultViewState()
                 case .loggingIn:
                     self?.disableButtonsAndTextFields()
                 case .error(_):

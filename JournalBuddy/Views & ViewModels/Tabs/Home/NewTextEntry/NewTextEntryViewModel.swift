@@ -9,10 +9,8 @@ import Foundation
 
 @MainActor
 final class NewTextEntryViewModel: MainViewModel {
-    @Published var savedEntry: TextEntry?
-
+    @Published var viewState = NewTextEntryViewState.displayingView
     let databaseService: DatabaseServiceProtocol
-    var viewState = NewTextEntryViewState.displayingView
     var error: Error?
     var entryText = ""
 
@@ -30,7 +28,8 @@ final class NewTextEntryViewModel: MainViewModel {
                     text: entryText
                 )
 
-                savedEntry = try await databaseService.saveEntry(textEntry)
+                try await databaseService.saveEntry(textEntry)
+                viewState = .textEntrySaved
             } catch {
                 self.error = error
             }

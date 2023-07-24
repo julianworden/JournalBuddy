@@ -56,6 +56,10 @@
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
 		AB948B822A6D7EE700430E61 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B602A6D7D9800430E61 /* TestError.swift */; };
 		AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5A2A6D7D9800430E61 /* TestData.swift */; };
+		AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E2F82A6EAA26001FDDD8 /* SignUpViewController.swift */; };
+		AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E2FA2A6EAA93001FDDD8 /* SignUpViewModel.swift */; };
+		AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E2FC2A6EAB21001FDDD8 /* SignUpView.swift */; };
+		AB95E2FF2A6EAB3F001FDDD8 /* SignUpViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E2FE2A6EAB3F001FDDD8 /* SignUpViewState.swift */; };
 		ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4F9022A682ADC0008D18E /* MainViewController.swift */; };
 		ABACE7E92A603A1C00981098 /* HomeNewEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABACE7E82A603A1C00981098 /* HomeNewEntryCard.swift */; };
 		ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E3A2A66C067001A76E0 /* AuthService.swift */; };
@@ -129,6 +133,10 @@
 		AB948B5E2A6D7D9800430E61 /* EntriesViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB948B602A6D7D9800430E61 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		AB948B692A6D7EAC00430E61 /* JournalBuddyUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalBuddyUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB95E2F82A6EAA26001FDDD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		AB95E2FA2A6EAA93001FDDD8 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		AB95E2FC2A6EAB21001FDDD8 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AB95E2FE2A6EAB3F001FDDD8 /* SignUpViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewState.swift; sourceTree = "<group>"; };
 		ABA4F9022A682ADC0008D18E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ABACE7E82A603A1C00981098 /* HomeNewEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNewEntryCard.swift; sourceTree = "<group>"; };
 		ABB24E3A2A66C067001A76E0 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -353,6 +361,17 @@
 			path = JournalBuddyUnitTests;
 			sourceTree = "<group>";
 		};
+		AB95E2F72A6EA9FD001FDDD8 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				AB95E2F82A6EAA26001FDDD8 /* SignUpViewController.swift */,
+				AB95E2FC2A6EAB21001FDDD8 /* SignUpView.swift */,
+				AB95E2FA2A6EAA93001FDDD8 /* SignUpViewModel.swift */,
+				AB95E2FE2A6EAB3F001FDDD8 /* SignUpViewState.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 		ABA4F9012A682AA00008D18E /* Entries */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */,
+				AB95E2F72A6EA9FD001FDDD8 /* SignUp */,
 				ABB4B9652A635E9D00E63018 /* Login */,
 			);
 			path = Onboarding;
@@ -582,6 +602,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB95E2FF2A6EAB3F001FDDD8 /* SignUpViewState.swift in Sources */,
 				ABB348362A6AC2C20050A9AC /* EntriesView.swift in Sources */,
 				AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */,
 				ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */,
@@ -600,6 +621,7 @@
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
+				AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */,
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
 				AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */,
@@ -615,12 +637,14 @@
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
+				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */,
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
 				ABB348402A6ACE5C0050A9AC /* NewTextEntryViewController.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
+				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,

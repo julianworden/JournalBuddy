@@ -1,24 +1,21 @@
 //
-//  EntriesView.swift
+//  SignUpView.swift
 //  JournalBuddy
 //
-//  Created by Julian Worden on 7/21/23.
+//  Created by Julian Worden on 7/24/23.
 //
 
 import Combine
 import UIKit
 
-class EntriesView: UIView, MainView {
-    var viewModel: EntriesViewModel
-
+class SignUpView: UIView, MainView {
+    let viewModel: SignUpViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: EntriesViewModel) {
+    init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
 
         super.init(frame: .zero)
-
-        configureDefaultViewState()
     }
 
     required init?(coder: NSCoder) {

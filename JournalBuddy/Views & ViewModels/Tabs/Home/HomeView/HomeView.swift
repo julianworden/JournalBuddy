@@ -31,13 +31,13 @@ class HomeView: UIView, MainView {
     private lazy var newVoiceEntryButton = HomeSquareButton(homeSquareButtonType: .voice)
     private lazy var calendarButton = HomeSquareButton(homeSquareButtonType: .calendar)
 
-    init(viewModel: HomeViewModel, delegate: HomeViewDelegate) {
+    init(viewModel: HomeViewModel, delegate: HomeViewDelegate?) {
         self.viewModel = viewModel
         self.delegate = delegate
 
         super.init(frame: .zero)
 
-        configure()
+        configureDefaultViewState()
         makeAccessible()
         constrain()
     }
@@ -46,7 +46,7 @@ class HomeView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    func configureDefaultViewState() {
         backgroundColor = .systemBackground
 
         mainVerticalStackView.axis = .vertical
