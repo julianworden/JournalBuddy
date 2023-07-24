@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 final class EntriesCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     var databaseService: DatabaseServiceProtocol
@@ -23,6 +24,7 @@ final class EntriesCoordinator: Coordinator {
         self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet"), tag: 1)
         self.parentCoordinator = parentCoordinator
+        self.parentCoordinator?.childWasCreated(self)
     }
 
     func start() {

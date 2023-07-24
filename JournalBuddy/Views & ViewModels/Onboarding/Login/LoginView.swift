@@ -19,13 +19,7 @@ class LoginView: UIView, MainView {
         placeholder: "Email Address"
     )
 
-    private lazy var passwordTextFieldStack = UIStackView(arrangedSubviews: [passwordTextField, passwordEyeButton])
-    private lazy var passwordTextField = MainTextField(
-        keyboardType: .default,
-        isSecureTextEntry: true,
-        placeholder: "Password"
-    )
-    private lazy var passwordEyeButton = UIButton()
+    private lazy var passwordTextFieldStack = PasswordTextFieldStack(delegate: self)
     private lazy var logInButton = PrimaryButton(title: "Log In")
 
     private lazy var signUpStack = UIStackView(arrangedSubviews: [dontHaveAnAccountLabel, signUpButton])
@@ -81,12 +75,6 @@ class LoginView: UIView, MainView {
 
         passwordTextFieldStack.spacing = 5
 
-        passwordTextField.delegate = self
-        passwordTextField.addTarget(self, action: #selector(passwordTextFieldEdited), for: .editingChanged)
-
-        passwordEyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        passwordEyeButton.addTarget(self, action: #selector(passwordEyeButtonTapped), for: .touchUpInside)
-
         signUpStack.axis = .vertical
         signUpStack.spacing = 7
 
@@ -100,16 +88,14 @@ class LoginView: UIView, MainView {
 
     func disableButtonsAndTextFields() {
         emailAddressTextField.isEnabled = false
-        passwordTextField.isEnabled = false
-        passwordEyeButton.isEnabled = false
+        passwordTextFieldStack.disableTextFieldAndButton()
         logInButton.isEnabled = false
         signUpButton.isEnabled = false
     }
 
     func enableButtonsAndTextFields() {
         emailAddressTextField.isEnabled = true
-        passwordTextField.isEnabled = true
-        passwordEyeButton.isEnabled = true
+        passwordTextFieldStack.enableTextFieldAndButton()
         logInButton.isEnabled = true
         signUpButton.isEnabled = true
     }
@@ -152,7 +138,6 @@ class LoginView: UIView, MainView {
             mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
 
             emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
-            passwordTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
             logInButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
 
             signUpButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46)
@@ -161,20 +146,6 @@ class LoginView: UIView, MainView {
 
     @objc func emailAddressTextFieldEdited(_ textField: UITextField) {
         viewModel.emailAddress = textField.text ?? ""
-    }
-
-    @objc func passwordEyeButtonTapped() {
-        if passwordTextField.isSecureTextEntry {
-            passwordTextField.isSecureTextEntry = false
-            passwordEyeButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        } else {
-            passwordTextField.isSecureTextEntry = true
-            passwordEyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-        }
-    }
-
-    @objc func passwordTextFieldEdited(_ textField: UITextField) {
-        viewModel.password = textField.text ?? ""
     }
 
     @objc func logInButtonTapped() {
@@ -202,12 +173,16 @@ extension LoginView: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         if textField === emailAddressTextField {
             viewModel.emailAddress.removeAll()
-        } else if textField === passwordTextField {
-            viewModel.password.removeAll()
         } else {
             print("Unknown UITextField should clear.")
         }
 
         return true
+    }
+}
+
+extension LoginView: PasswordTextFieldStackDelegate {
+    func passwordTextFieldWasEdited(textFieldText: String) {
+        viewModel.password = textFieldText
     }
 }

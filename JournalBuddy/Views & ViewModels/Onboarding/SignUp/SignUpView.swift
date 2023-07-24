@@ -65,7 +65,6 @@ class SignUpView: UIView, MainView {
         mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
         mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
         mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
-        
     }
 
     func constrain() {
