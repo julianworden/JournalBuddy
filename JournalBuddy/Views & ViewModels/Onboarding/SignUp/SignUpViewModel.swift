@@ -16,6 +16,12 @@ final class SignUpViewModel: MainViewModel {
     var password = ""
     var confirmedPassword = ""
 
+    let databaseService: DatabaseServiceProtocol
+
+    init(databaseService: DatabaseServiceProtocol) {
+        self.databaseService = databaseService
+    }
+
     var emailAddressesMatch: Bool {
         return emailAddress == confirmedEmailAddress
     }

@@ -53,7 +53,7 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func loginViewDidTapSignUpButton() {
-        let signUpViewModel = SignUpViewModel()
+        let signUpViewModel = SignUpViewModel(databaseService: databaseService)
         let signUpViewController = SignUpViewController(coordinator: self, viewModel: signUpViewModel)
         navigationController.pushViewController(signUpViewController, animated: true)
     }
