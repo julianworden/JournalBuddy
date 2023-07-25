@@ -11,19 +11,22 @@ import UIKit
 final class OnboardingCoordinator: Coordinator {
     weak var appWindow: UIWindow?
     weak var parentCoordinator: MainCoordinator?
-    var databaseService: DatabaseServiceProtocol
+    let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
     init(
         navigationController: UINavigationController,
         databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol,
         parentCoordinator: MainCoordinator,
         appWindow: UIWindow?
     ) {
         self.parentCoordinator = parentCoordinator
         self.navigationController = navigationController
         self.databaseService = databaseService
+        self.authService = authService
         self.appWindow = appWindow
     }
 
@@ -53,7 +56,7 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func loginViewDidTapSignUpButton() {
-        let signUpViewModel = SignUpViewModel(databaseService: databaseService)
+        let signUpViewModel = SignUpViewModel(databaseService: databaseService, authService: authService)
         let signUpViewController = SignUpViewController(coordinator: self, viewModel: signUpViewModel)
         navigationController.pushViewController(signUpViewController, animated: true)
     }

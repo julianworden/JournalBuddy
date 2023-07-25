@@ -11,11 +11,13 @@ import Foundation
 final class NewTextEntryViewModel: MainViewModel {
     @Published var viewState = NewTextEntryViewState.displayingView
     let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var error: Error?
     var entryText = ""
 
-    init(databaseService: DatabaseServiceProtocol) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
         self.databaseService = databaseService
+        self.authService = authService
     }
 
     func saveTextEntry() {
@@ -23,7 +25,7 @@ final class NewTextEntryViewModel: MainViewModel {
             do {
                 let textEntry = TextEntry(
                     id: "",
-                    creatorUID: AuthService.shared.currentUserUID,
+                    creatorUID: authService.currentUserUID,
                     unixDate: Date.now.timeIntervalSince1970,
                     text: entryText
                 )

@@ -23,8 +23,8 @@ class HomeYourLatestEntriesCard: UIView {
     }
 
     let entries = [
-        TextEntry(id: "awoeifjaw;oefij", creatorUID: AuthService.shared.currentUserUID, unixDate: 398475351, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea"),
-        TextEntry(id: "awejfawpoeifj", creatorUID: AuthService.shared.currentUserUID, unixDate: 6482047, text: "Commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+        TextEntry(id: "awoeifjaw;oefij", creatorUID: "asdfoiawj;ef", unixDate: 398475351, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea"),
+        TextEntry(id: "awejfawpoeifj", creatorUID: "owiejfwioef", unixDate: 6482047, text: "Commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
     ]
 
     override init(frame: CGRect) {

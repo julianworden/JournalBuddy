@@ -10,17 +10,19 @@ import UIKit
 @MainActor
 final class MainCoordinator: Coordinator {
     let appWindow: UIWindow?
-    var databaseService: DatabaseServiceProtocol
+    let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController?
 
-    init(databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, appWindow: UIWindow?) {
         self.databaseService = databaseService
+        self.authService = authService
         self.appWindow = appWindow
     }
 
     func start() {
-        if AuthService.shared.userIsLoggedIn {
+        if authService.userIsLoggedIn {
             startTabBarCoordinator()
         } else {
             navigationController = UINavigationController()
@@ -47,13 +49,26 @@ final class MainCoordinator: Coordinator {
             return
         }
 
-        let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, databaseService: databaseService, parentCoordinator: self, appWindow: appWindow)
+        let onboardingCoordinator = OnboardingCoordinator(
+            navigationController: navigationController,
+            databaseService: databaseService,
+            authService: authService,
+            parentCoordinator: self,
+            appWindow: appWindow
+        )
+
         childCoordinators.append(onboardingCoordinator)
         onboardingCoordinator.start()
     }
 
     func startTabBarCoordinator() {
-        let tabCoordinator = TabBarCoordinator(parentCoordinator: self, databaseService: databaseService, appWindow: appWindow)
+        let tabCoordinator = TabBarCoordinator(
+            parentCoordinator: self,
+            databaseService: databaseService,
+            authService: authService,
+            appWindow: appWindow
+        )
+
         childCoordinators.append(tabCoordinator)
         tabCoordinator.start()
     }

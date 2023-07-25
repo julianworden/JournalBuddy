@@ -17,9 +17,11 @@ final class SignUpViewModel: MainViewModel {
     var confirmedPassword = ""
 
     let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
 
-    init(databaseService: DatabaseServiceProtocol) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
         self.databaseService = databaseService
+        self.authService = authService
     }
 
     var emailAddressesMatch: Bool {
@@ -37,7 +39,7 @@ final class SignUpViewModel: MainViewModel {
 
         Task {
             do {
-                try await AuthService.shared.createAccount(withEmail: emailAddress, andPassword: password)
+                try await authService.createAccount(withEmail: emailAddress, andPassword: password)
                 viewState = .accountCreatedSuccessfully
             } catch {
                 viewState = .error(error)

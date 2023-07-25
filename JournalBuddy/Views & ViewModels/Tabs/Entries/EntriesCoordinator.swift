@@ -10,17 +10,20 @@ import UIKit
 @MainActor
 final class EntriesCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
-    var databaseService: DatabaseServiceProtocol
+    let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
     let navigationController: UINavigationController
 
     init(
         navigationController: UINavigationController,
         databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol,
         parentCoordinator: TabBarCoordinator?
     ) {
         self.navigationController = navigationController
         self.databaseService = databaseService
+        self.authService = authService
         self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet"), tag: 1)
         self.parentCoordinator = parentCoordinator

@@ -11,24 +11,32 @@ import UIKit
 final class HomeCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
     init(
         navigationController: UINavigationController,
         databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol,
         parentCoordinator: TabBarCoordinator?
     ) {
         self.navigationController = navigationController
         self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         self.databaseService = databaseService
+        self.authService = authService
         self.parentCoordinator = parentCoordinator
         self.parentCoordinator?.childWasCreated(self)
     }
 
     func start() {
-        let homeViewController = HomeViewController(coordinator: self)
+        let homeViewModel = HomeViewModel(
+            databaseService: databaseService,
+            authService: authService
+        )
+
+        let homeViewController = HomeViewController(coordinator: self, viewModel: homeViewModel)
         navigationController.pushViewController(homeViewController, animated: true)
     }
 
@@ -39,7 +47,11 @@ final class HomeCoordinator: Coordinator {
     }
 
     func presentNewTextEntryViewController() {
-        let newTextEntryViewModel = NewTextEntryViewModel(databaseService: databaseService)
+        let newTextEntryViewModel = NewTextEntryViewModel(
+            databaseService: databaseService,
+            authService: authService
+        )
+        
         let newTextEntryViewController = NewTextEntryViewController(coordinator: self, viewModel: newTextEntryViewModel)
         navigationController.pushViewController(newTextEntryViewController, animated: true)
     }

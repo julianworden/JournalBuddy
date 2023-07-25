@@ -14,16 +14,27 @@ final class TabBarCoordinator: Coordinator {
     weak var parentCoordinator: MainCoordinator?
     weak var appWindow: UIWindow?
     let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
 
-    init(parentCoordinator: MainCoordinator, databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
+    init(
+        parentCoordinator: MainCoordinator,
+        databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol,
+        appWindow: UIWindow?
+    ) {
         self.appWindow = appWindow
         self.parentCoordinator = parentCoordinator
         self.databaseService = databaseService
+        self.authService = authService
     }
 
     func start() {
-        let tabBarController = MainTabBarController(coordinator: self, databaseService: databaseService)
+        let tabBarController = MainTabBarController(
+            coordinator: self,
+            databaseService: databaseService,
+            authService: authService
+        )
         
         appWindow?.rootViewController = tabBarController
         appWindow?.makeKeyAndVisible()

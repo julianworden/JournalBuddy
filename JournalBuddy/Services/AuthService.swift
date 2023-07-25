@@ -7,11 +7,7 @@
 
 import FirebaseAuth
 
-final class AuthService {
-    static let shared = AuthService()
-
-    private init() { }
-
+final class AuthService: AuthServiceProtocol {
     var userIsLoggedIn: Bool {
         return Auth.auth().currentUser != nil
     }

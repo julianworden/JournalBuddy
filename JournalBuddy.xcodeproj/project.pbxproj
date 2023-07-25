@@ -17,6 +17,7 @@
 		AB181C5D2A5B25DB00560299 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */; };
 		AB1AC7A92A70778700FE7A7E /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7A82A70778600FE7A7E /* CustomError.swift */; };
 		AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */; };
+		AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */; };
 		AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */; };
 		AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BF2A5EE14E0068939C /* TextEntry.swift */; };
 		AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */; };
@@ -115,6 +116,7 @@
 		AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AB1AC7A82A70778600FE7A7E /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB1D33BF2A5EE14E0068939C /* TextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewState.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				AB1E02932A69E14B006F42F8 /* ViewState.swift */,
 				AB76772E2A6C1BF00050149E /* Entry.swift */,
 				AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */,
+				AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,
 				AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */,
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
+				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,

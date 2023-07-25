@@ -16,9 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         let databaseService = DatabaseService()
+        let authService = AuthService()
         
         mainCoordinator = MainCoordinator(
             databaseService: databaseService,
+            authService: authService,
             appWindow: window
         )
 
