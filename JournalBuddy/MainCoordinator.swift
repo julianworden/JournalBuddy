@@ -36,6 +36,10 @@ final class MainCoordinator: Coordinator {
         }
     }
 
+    func viewController(_ viewController: UIViewController, shouldPresentError error: Error) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, error: error)
+    }
+
     func startOnboardingCoordinator() {
         guard let navigationController else { return }
 

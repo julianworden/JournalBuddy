@@ -56,6 +56,6 @@ class SignUpViewController: UIViewController, MainViewController {
     }
 
     func showError(_ error: Error) {
-        // TODO: Fill This In
+        coordinator?.viewController(self, shouldPresentError: error)
     }
 }

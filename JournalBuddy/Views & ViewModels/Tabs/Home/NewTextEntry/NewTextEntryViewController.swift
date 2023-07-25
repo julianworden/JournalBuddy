@@ -57,7 +57,7 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     }
 
     func showError(_ error: Error) {
-
+        self.coordinator?.viewController(self, shouldPresentError: error)
     }
 
     @objc func saveButtonTapped() {

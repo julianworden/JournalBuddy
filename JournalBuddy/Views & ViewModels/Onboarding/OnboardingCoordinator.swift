@@ -13,7 +13,6 @@ final class OnboardingCoordinator: Coordinator {
     weak var parentCoordinator: MainCoordinator?
     var databaseService: DatabaseServiceProtocol
     var childCoordinators = [Coordinator]()
-
     var navigationController: UINavigationController
 
     init(
@@ -57,5 +56,9 @@ final class OnboardingCoordinator: Coordinator {
         let signUpViewModel = SignUpViewModel()
         let signUpViewController = SignUpViewController(coordinator: self, viewModel: signUpViewModel)
         navigationController.pushViewController(signUpViewController, animated: true)
+    }
+
+    func viewController(_ viewController: UIViewController, shouldPresentError error: Error) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, error: error)
     }
 }

@@ -19,8 +19,6 @@ final class SignUpViewModel: MainViewModel {
     func signUpButtonTapped() {
         Task {
             do {
-                print(emailAddress)
-                print(password)
                 try await AuthService.shared.createAccount(withEmail: emailAddress, andPassword: password)
                 viewState = .accountCreatedSuccessfully
             } catch {

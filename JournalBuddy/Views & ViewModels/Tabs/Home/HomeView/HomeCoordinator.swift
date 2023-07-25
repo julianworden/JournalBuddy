@@ -12,7 +12,6 @@ final class HomeCoordinator: Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
     var childCoordinators = [Coordinator]()
-
     var navigationController: UINavigationController
 
     init(
@@ -33,6 +32,12 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(homeViewController, animated: true)
     }
 
+    func removeChildCoordinator(_ childCoordinator: Coordinator) { }
+
+    func viewController(_ viewController: UIViewController, shouldPresentError error: Error) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, error: error)
+    }
+
     func presentNewTextEntryViewController() {
         let newTextEntryViewModel = NewTextEntryViewModel(databaseService: databaseService)
         let newTextEntryViewController = NewTextEntryViewController(coordinator: self, viewModel: newTextEntryViewModel)
@@ -42,8 +47,6 @@ final class HomeCoordinator: Coordinator {
     func newTextEntryViewControllerDidCreateEntry() {
         navigationController.popViewController(animated: true)
     }
-
-    func removeChildCoordinator(_ childCoordinator: Coordinator) { }
 
     func userLoggedOut() {
         parentCoordinator?.childDidLogOut(self)

@@ -41,6 +41,10 @@ final class TabBarCoordinator: Coordinator {
         }
     }
 
+    func viewController(_ viewController: UIViewController, shouldPresentError error: Error) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, error: error)
+    }
+
     /// Called by each `UITabBarItem` to notify the parent that a new item's coordinator was created.
     /// - Parameter coordinator: The coordinator that was created and is to be appended to the `childCoordinators` array.
     func childWasCreated(_ coordinator: Coordinator) {
