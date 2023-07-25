@@ -16,7 +16,19 @@ final class SignUpViewModel: MainViewModel {
     var password = ""
     var confirmedPassword = ""
 
+    var emailAddressesMatch: Bool {
+        return emailAddress == confirmedEmailAddress
+    }
+
+    var passwordsMatch: Bool {
+        return password == confirmedPassword
+    }
+
     func signUpButtonTapped() {
+        viewState = .creatingAccount
+
+        guard formIsValid() else { return }
+
         Task {
             do {
                 try await AuthService.shared.createAccount(withEmail: emailAddress, andPassword: password)
@@ -25,5 +37,19 @@ final class SignUpViewModel: MainViewModel {
                 viewState = .error(error)
             }
         }
+    }
+
+    func formIsValid() -> Bool {
+        guard emailAddressesMatch else {
+            viewState = .error(CustomError.emailAddressesDoNotMatchOnSignUp)
+            return false
+        }
+
+        guard passwordsMatch else {
+            viewState = .error(CustomError.passwordsDoNotMatchOnSignUp)
+            return false
+        }
+
+        return true
     }
 }

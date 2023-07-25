@@ -88,11 +88,31 @@ class SignUpView: UIView, MainView {
                 switch viewState {
                 case .displayingView:
                     self?.configureDefaultViewState()
+                case .creatingAccount:
+                    self?.disableTextFieldsAndButtons()
+                case .error(_):
+                    self?.enableTextFieldsAndButton()
                 default:
                     print(ErrorMessageConstants.unexpectedViewState(viewState: viewState))
                 }
             }
             .store(in: &cancellables)
+    }
+
+    func disableTextFieldsAndButtons() {
+        emailAddressTextField.isEnabled = false
+        confirmEmailAddressTextField.isEnabled = false
+        passwordTextFieldStack.disableTextFieldAndButton()
+        confirmPasswordTextFieldStack.disableTextFieldAndButton()
+        signUpButton.isEnabled = false
+    }
+
+    func enableTextFieldsAndButton() {
+        emailAddressTextField.isEnabled = true
+        confirmEmailAddressTextField.isEnabled = true
+        passwordTextFieldStack.enableTextFieldAndButton()
+        confirmPasswordTextFieldStack.enableTextFieldAndButton()
+        signUpButton.isEnabled = true
     }
 
     @objc func signUpButtonTapped() {

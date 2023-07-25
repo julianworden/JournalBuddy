@@ -21,7 +21,7 @@ enum FBAuthError: LocalizedError {
         case .invalidEmailAddress:
             return "Please enter a valid email address."
         case .emailAlreadyInUseOnSignUp:
-            return "This email is already registered to an existing account. Please reset your password or go back and sign in."
+            return "This email is already registered to an existing account. Please go back to reset your password or sign in."
         case .invalidPasswordOnSignUp:
             return "Please enter a valid password. It must contain at least 6 characters."
         case .networkError:
