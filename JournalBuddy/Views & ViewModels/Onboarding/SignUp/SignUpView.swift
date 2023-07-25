@@ -14,31 +14,15 @@ class SignUpView: UIView, MainView {
         arrangedSubviews: [
             emailAddressTextField,
             confirmEmailAddressTextField,
-            passwordTextField,
-            confirmPasswordTextField,
+            passwordTextFieldStack,
+            confirmPasswordTextFieldStack,
             signUpButton
         ]
     )
-    private lazy var emailAddressTextField = MainTextField(
-        keyboardType: .emailAddress,
-        isSecureTextEntry: false,
-        placeholder: "Email Address"
-    )
-    private lazy var confirmEmailAddressTextField = MainTextField(
-        keyboardType: .emailAddress,
-        isSecureTextEntry: false,
-        placeholder: "Confirm Email Address"
-    )
-    private lazy var passwordTextField = MainTextField(
-        keyboardType: .default,
-        isSecureTextEntry: true,
-        placeholder: "Password"
-    )
-    private lazy var confirmPasswordTextField = MainTextField(
-        keyboardType: .default,
-        isSecureTextEntry: true,
-        placeholder: "Confirm Password"
-    )
+    private lazy var emailAddressTextField = MainTextField(type: .emailAddress)
+    private lazy var confirmEmailAddressTextField = MainTextField(type: .confirmEmailAddress)
+    private lazy var passwordTextFieldStack = PasswordTextFieldStack(delegate: self, textFieldType: .password)
+    private lazy var confirmPasswordTextFieldStack = PasswordTextFieldStack(delegate: self, textFieldType: .confirmPassword)
     private lazy var signUpButton = PrimaryButton(title: "Sign Up")
 
     let viewModel: SignUpViewModel
@@ -61,10 +45,14 @@ class SignUpView: UIView, MainView {
         backgroundColor = .systemBackground
 
         mainScrollViewContentStack.axis = .vertical
-        mainScrollViewContentStack.distribution = .fillEqually
         mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
         mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
         mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
+
+        emailAddressTextField.delegate = self
+        confirmEmailAddressTextField.delegate = self
+
+        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
 
     func constrain() {
@@ -83,12 +71,14 @@ class SignUpView: UIView, MainView {
             mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
 
-            emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46)
+            emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight),
+            confirmEmailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight)
         ])
     }
 
     func makeAccessible() {
-
+        emailAddressTextField.adjustsFontForContentSizeCategory = true
+        confirmEmailAddressTextField.adjustsFontForContentSizeCategory = true
     }
 
     func subscribeToPublishers() {
@@ -97,8 +87,60 @@ class SignUpView: UIView, MainView {
                 switch viewState {
                 case .displayingView:
                     self?.configureDefaultViewState()
+                default:
+                    print(ErrorMessageConstants.unexpectedViewState(viewState: viewState))
                 }
             }
             .store(in: &cancellables)
+    }
+
+    @objc func signUpButtonTapped() {
+        viewModel.signUpButtonTapped()
+    }
+}
+
+extension SignUpView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithFocusBorderColor)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithoutFocusBorderColor)
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textFieldTextAfterUpdate = textField.getTextFieldTextAfterUpdate(newStringRange: range, newString: string)
+
+        switch textField.tag {
+        case MainTextFieldType.emailAddress.tag:
+            viewModel.emailAddress = textFieldTextAfterUpdate
+        case MainTextFieldType.confirmEmailAddress.tag:
+            viewModel.confirmedEmailAddress = textFieldTextAfterUpdate
+        case MainTextFieldType.password.tag:
+            viewModel.password = textFieldTextAfterUpdate
+        case MainTextFieldType.confirmPassword.tag:
+            viewModel.confirmedPassword = textFieldTextAfterUpdate
+        default:
+            print(ErrorMessageConstants.unexpectedTextFieldTagFound(tag: tag))
+        }
+
+        return true
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        switch textField.tag {
+        case MainTextFieldType.emailAddress.tag:
+            viewModel.emailAddress.removeAll()
+        case MainTextFieldType.confirmEmailAddress.tag:
+            viewModel.confirmedEmailAddress.removeAll()
+        case MainTextFieldType.password.tag:
+            viewModel.password.removeAll()
+        case MainTextFieldType.confirmPassword.tag:
+            viewModel.confirmedPassword.removeAll()
+        default:
+            print(ErrorMessageConstants.unexpectedTextFieldTagFound(tag: tag))
+        }
+
+        return true
     }
 }

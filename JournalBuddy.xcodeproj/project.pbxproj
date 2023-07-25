@@ -35,12 +35,13 @@
 		AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C62A5BA07B00A0392D /* MainViewModel.swift */; };
 		AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C72A5BA07B00A0392D /* MainView.swift */; };
 		AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */; };
+		AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */; };
+		AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */; };
 		AB76772F2A6C1BF00050149E /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76772E2A6C1BF00050149E /* Entry.swift */; };
 		AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677302A6C1F0C0050149E /* DatabaseService.swift */; };
 		AB7677332A6C20D50050149E /* EntryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677322A6C20D50050149E /* EntryType.swift */; };
 		AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677352A6C64AB0050149E /* FBConstants.swift */; };
 		AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */; };
-		AB76A2FE2A6F285800D808D3 /* PasswordTextFieldStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76A2FD2A6F285800D808D3 /* PasswordTextFieldStackDelegate.swift */; };
 		AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */; };
 		AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */; };
 		AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */; };
@@ -82,6 +83,7 @@
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
+		ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */; };
 		ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF2782A658546004C40A8 /* Coordinator.swift */; };
 		ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */; };
 		ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */; };
@@ -121,12 +123,13 @@
 		AB7239C62A5BA07B00A0392D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		AB7239C72A5BA07B00A0392D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextFieldType.swift; sourceTree = "<group>"; };
+		AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Helpers.swift"; sourceTree = "<group>"; };
 		AB76772E2A6C1BF00050149E /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		AB7677302A6C1F0C0050149E /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		AB7677322A6C20D50050149E /* EntryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryType.swift; sourceTree = "<group>"; };
 		AB7677352A6C64AB0050149E /* FBConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBConstants.swift; sourceTree = "<group>"; };
 		AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceProtocol.swift; sourceTree = "<group>"; };
-		AB76A2FD2A6F285800D808D3 /* PasswordTextFieldStackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextFieldStackDelegate.swift; sourceTree = "<group>"; };
 		AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
@@ -162,6 +165,7 @@
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
+		ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageConstants.swift; sourceTree = "<group>"; };
 		ABFEF2782A658546004C40A8 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -262,6 +266,7 @@
 				AB1D33BF2A5EE14E0068939C /* TextEntry.swift */,
 				ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
+				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */,
+				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,20 +309,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AB76A2FF2A6F2A1A00D808D3 /* PasswordTextField */ = {
-			isa = PBXGroup;
-			children = (
-				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
-				AB76A2FD2A6F285800D808D3 /* PasswordTextFieldStackDelegate.swift */,
-			);
-			path = PasswordTextField;
-			sourceTree = "<group>";
-		};
 		AB7CC9112A643C8E0054B1A4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */,
 				AB7677352A6C64AB0050149E /* FBConstants.swift */,
+				ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -329,7 +327,7 @@
 				AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */,
 				ABB24E452A66D903001A76E0 /* MainTabBarController.swift */,
 				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
-				AB76A2FF2A6F2A1A00D808D3 /* PasswordTextField */,
+				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
 			);
 			path = Miscellaneous;
 			sourceTree = "<group>";
@@ -625,12 +623,14 @@
 				ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */,
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
+				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
 				AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeNewEntryCard.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* NewTextEntryView.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
+				AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */,
 				AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */,
 				AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */,
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
@@ -640,9 +640,9 @@
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
 				AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */,
-				AB76A2FE2A6F285800D808D3 /* PasswordTextFieldStackDelegate.swift in Sources */,
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
+				ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */,
 				AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,

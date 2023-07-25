@@ -13,5 +13,4 @@ protocol MainViewModel {
 
     // TODO: Add databaseService to this protocol
    @MainActor var viewState: MainViewState { get set }
-   @MainActor var error: Error? { get set }
 }

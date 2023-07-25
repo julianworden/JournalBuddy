@@ -14,7 +14,7 @@ enum UIConstants {
     static let mainStackViewLeadingAndTrailingLayoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     static let mainStackViewSpacing: CGFloat = 20
     /// The minimum height of an element in a stack view that is being used as a form. For instance, this is the minimum height of a text field in `LoginView`.
-    static let mainStackViewMinimumFormElementHeight = 46
+    static let mainStackViewMinimumFormElementHeight: CGFloat = 46
 
     // MARK: - UIView
 

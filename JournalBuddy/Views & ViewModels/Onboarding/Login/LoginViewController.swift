@@ -56,7 +56,7 @@ class LoginViewController: UIViewController, MainViewController {
             .sink { [weak self] loginSuccessful in
                 guard loginSuccessful else { return }
 
-                self?.coordinator?.loginViewDidLogIn()
+                self?.coordinator?.onboardingDidEnd()
             }
             .store(in: &cancellables)
     }

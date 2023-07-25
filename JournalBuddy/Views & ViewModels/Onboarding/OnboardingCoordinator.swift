@@ -48,7 +48,8 @@ final class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func loginViewDidLogIn() {
+    /// Notifies `parentCoordinator` that the user either logged in or created an account successfully.
+    func onboardingDidEnd() {
         parentCoordinator?.childOnboardingCoordinatorDidFinish(self)
     }
 

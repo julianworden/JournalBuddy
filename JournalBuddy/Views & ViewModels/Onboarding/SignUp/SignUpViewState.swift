@@ -6,5 +6,5 @@
 //
 
 enum SignUpViewState: ViewState {
-    case displayingView
+    case displayingView, creatingAccount, accountCreatedSuccessfully, error(Error)
 }

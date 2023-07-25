@@ -13,12 +13,8 @@ class LoginView: UIView, MainView {
     private lazy var mainScrollViewContentStack = UIStackView(arrangedSubviews: [logInStack, signUpStack])
 
     private lazy var logInStack = UIStackView(arrangedSubviews: [emailAddressTextField, passwordTextFieldStack, logInButton])
-    private lazy var emailAddressTextField = MainTextField(
-        keyboardType: .emailAddress,
-        isSecureTextEntry: false,
-        placeholder: "Email Address"
-    )
-    private lazy var passwordTextFieldStack = PasswordTextFieldStack(delegate: self)
+    private lazy var emailAddressTextField = MainTextField(type: .emailAddress)
+    private lazy var passwordTextFieldStack = PasswordTextFieldStack(delegate: self, textFieldType: .password)
     private lazy var logInButton = PrimaryButton(title: "Log In")
 
     private lazy var signUpStack = UIStackView(arrangedSubviews: [dontHaveAnAccountLabel, signUpButton])
@@ -134,10 +130,10 @@ class LoginView: UIView, MainView {
             mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
 
-            emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
-            logInButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46),
+            emailAddressTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight),
+            logInButton.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight),
 
-            signUpButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 46)
+            signUpButton.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight)
         ])
     }
 
@@ -156,30 +152,38 @@ class LoginView: UIView, MainView {
 
 extension LoginView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.2) {
-            textField.layer.borderColor = UIConstants.mainTextFieldWithFocusBorderColor
-        }
+        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithFocusBorderColor)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.2) {
-            textField.layer.borderColor = UIConstants.mainTextFieldWithoutFocusBorderColor
-        }
+        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithoutFocusBorderColor)
     }
 
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        if textField === emailAddressTextField {
-            viewModel.emailAddress.removeAll()
-        } else {
-            print("Unknown UITextField should clear.")
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textFieldTextAfterUpdate = textField.getTextFieldTextAfterUpdate(newStringRange: range, newString: string)
+
+        switch textField.tag {
+        case MainTextFieldType.emailAddress.tag:
+            viewModel.emailAddress = textFieldTextAfterUpdate
+        case MainTextFieldType.password.tag:
+            viewModel.password = textFieldTextAfterUpdate
+        default:
+            print(ErrorMessageConstants.unexpectedTextFieldTagFound(tag: tag))
         }
 
         return true
     }
-}
 
-extension LoginView: PasswordTextFieldStackDelegate {
-    func passwordTextFieldWasEdited(textFieldText: String) {
-        viewModel.password = textFieldText
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        switch textField.tag {
+        case MainTextFieldType.emailAddress.tag:
+            viewModel.emailAddress.removeAll()
+        case MainTextFieldType.password.tag:
+            viewModel.password.removeAll()
+        default:
+            print(ErrorMessageConstants.unexpectedTextFieldTagFound(tag: tag))
+        }
+
+        return true
     }
 }

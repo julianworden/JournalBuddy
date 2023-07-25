@@ -41,10 +41,21 @@ class SignUpViewController: UIViewController, MainViewController {
     }
 
     func subscribeToPublishers() {
-
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .accountCreatedSuccessfully:
+                    self?.coordinator?.onboardingDidEnd()
+                case .error(let error):
+                    self?.showError(error)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func showError(_ error: Error) {
-
+        // TODO: Fill This In
     }
 }

@@ -29,4 +29,25 @@ final class AuthService {
     func logOut() throws {
         try Auth.auth().signOut()
     }
+
+    func createAccount(withEmail email: String, andPassword password: String) async throws {
+        do {
+            try await Auth.auth().createUser(withEmail: email, password: password)
+        } catch {
+            let error = AuthErrorCode(_nsError: error as NSError)
+
+            switch error.code {
+            case .invalidEmail, .missingEmail:
+                throw FBAuthError.invalidEmailAddress
+            case .emailAlreadyInUse:
+                throw FBAuthError.emailAlreadyInUseOnSignUp
+            case .networkError:
+                throw FBAuthError.networkError
+            case .weakPassword:
+                throw FBAuthError.invalidPasswordOnSignUp
+            default:
+                throw FBAuthError.unknown(error)
+            }
+        }
+    }
 }

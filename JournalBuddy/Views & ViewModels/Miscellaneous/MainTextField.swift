@@ -8,19 +8,21 @@
 import UIKit
 
 class MainTextField: UITextField {
+    /// Uses `clearButtonRect(forBounds:)` to determine the rect for all text in text field. Prevents text from going underneath clear button.
     var textInsets: UIEdgeInsets {
         let clearButtonRect = clearButtonRect(forBounds: bounds)
         let clearButtonWidth = clearButtonRect.width
         return UIEdgeInsets(top: 0, left: 7, bottom: 0, right: clearButtonWidth + 7)
     }
 
-    convenience init(keyboardType: UIKeyboardType, isSecureTextEntry: Bool, placeholder: String) {
+    convenience init(type: MainTextFieldType) {
         self.init(frame: .zero)
 
-        self.keyboardType = keyboardType
-        self.placeholder = placeholder
+        self.keyboardType = type.keyboardType
+        self.tag = type.tag
+        self.placeholder = type.placeholder
         self.clearButtonMode = .whileEditing
-        self.isSecureTextEntry = isSecureTextEntry
+        self.isSecureTextEntry = type.isSecureTextEntry
         self.font = .preferredFont(forTextStyle: .body)
         self.adjustsFontForContentSizeCategory = true
         self.layer.cornerRadius = 12

@@ -8,5 +8,5 @@
 import Foundation
 
 enum HomeViewState: ViewState {
-    case displayingView
+    case displayingView, error(Error)
 }
