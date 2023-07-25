@@ -14,8 +14,7 @@ final class MainCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController?
 
-    init(navigationController: UINavigationController, databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
-        self.navigationController = navigationController
+    init(databaseService: DatabaseServiceProtocol, appWindow: UIWindow?) {
         self.databaseService = databaseService
         self.appWindow = appWindow
     }
@@ -24,6 +23,8 @@ final class MainCoordinator: Coordinator {
         if AuthService.shared.userIsLoggedIn {
             startTabBarCoordinator()
         } else {
+            navigationController = UINavigationController()
+            navigationController?.navigationBar.prefersLargeTitles = true
             startOnboardingCoordinator()
         }
     }
@@ -41,7 +42,10 @@ final class MainCoordinator: Coordinator {
     }
 
     func startOnboardingCoordinator() {
-        guard let navigationController else { return }
+        guard let navigationController else {
+            print(ErrorMessageConstants.mainCoordinatorMissingNavigationController)
+            return
+        }
 
         let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController, databaseService: databaseService, parentCoordinator: self, appWindow: appWindow)
         childCoordinators.append(onboardingCoordinator)

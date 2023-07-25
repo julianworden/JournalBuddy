@@ -15,12 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        let navigationController = UINavigationController()
-        navigationController.navigationBar.prefersLargeTitles = true
         let databaseService = DatabaseService()
         
         mainCoordinator = MainCoordinator(
-            navigationController: navigationController,
             databaseService: databaseService,
             appWindow: window
         )
