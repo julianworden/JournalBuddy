@@ -33,7 +33,8 @@ final class NewTextEntryViewModel: MainViewModel {
                 try await databaseService.saveEntry(textEntry)
                 viewState = .textEntrySaved
             } catch {
-                self.error = error
+                print(error.emojiMessage)
+                self.error = CustomError.unknown(error.localizedDescription)
             }
         }
     }

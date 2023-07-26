@@ -55,8 +55,8 @@ class HomeViewController: UIViewController, MainViewController {
             .store(in: &cancellables)
     }
 
-    func showError(_ error: Error) {
-        coordinator?.viewController(self, shouldPresentError: error)
+    func showError(_ errorMessage: String) {
+        coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
     }
 
     @objc func logOutButtonTapped() {

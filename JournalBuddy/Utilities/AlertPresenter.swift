@@ -8,8 +8,8 @@
 import UIKit
 
 struct AlertPresenter {
-    static func presentBasicErrorAlert(on viewController: UIViewController, error: Error) {
-        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+    static func presentBasicErrorAlert(on viewController: UIViewController, errorMessage: String) {
+        let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alertController.addAction(okAction)
 

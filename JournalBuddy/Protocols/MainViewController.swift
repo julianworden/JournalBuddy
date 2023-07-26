@@ -18,5 +18,5 @@ protocol MainViewController {
 
     func configure()
     func subscribeToPublishers()
-    func showError(_ error: Error)
+    func showError(_ errorMessage: String)
 }

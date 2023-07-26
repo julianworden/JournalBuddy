@@ -13,7 +13,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
     var sut: SignUpViewModel!
 
     override func setUp() {
-        sut = SignUpViewModel(databaseService: MockDatabaseService())
+        sut = SignUpViewModel(databaseService: MockDatabaseService(), authService: MockAuthService())
     }
 
     override func tearDown() {
@@ -54,7 +54,10 @@ final class SignUpViewModelUnitTests: XCTestCase {
         sut.emailAddress = "julianworden@gmail.com"
         sut.confirmedEmailAddress = "julianworden@gmail.com"
 
-        XCTAssertFalse(sut.formIsValid())
+        let formIsValid = sut.formIsValid()
+
+        XCTAssertFalse(formIsValid)
+        XCTAssertEqual(sut.viewState, .error(CustomError.passwordsDoNotMatchOnSignUp.localizedDescription))
     }
 
     func test_FormIsValid_ReturnsFalseWhenEmailAddressesDoNotMatch() {
@@ -63,7 +66,10 @@ final class SignUpViewModelUnitTests: XCTestCase {
         sut.emailAddress = "julianworden@gmail.com"
         sut.confirmedEmailAddress = "julianworden@gmail.co"
 
-        XCTAssertFalse(sut.formIsValid())
+        let formIsValid = sut.formIsValid()
+
+        XCTAssertFalse(formIsValid)
+        XCTAssertEqual(sut.viewState, .error(CustomError.emailAddressesDoNotMatchOnSignUp.localizedDescription))
     }
 
     func test_FormIsValid_ReturnsTrueWhenExpected() {
@@ -73,5 +79,6 @@ final class SignUpViewModelUnitTests: XCTestCase {
         sut.confirmedEmailAddress = "julianworden@gmail.com"
 
         XCTAssertTrue(sut.formIsValid())
+        XCTAssertEqual(sut.viewState, .displayingView)
     }
 }

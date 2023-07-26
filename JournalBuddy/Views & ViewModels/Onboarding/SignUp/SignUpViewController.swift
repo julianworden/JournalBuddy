@@ -46,8 +46,8 @@ class SignUpViewController: UIViewController, MainViewController {
                 switch viewState {
                 case .accountCreatedSuccessfully:
                     self?.coordinator?.onboardingDidEnd()
-                case .error(let error):
-                    self?.showError(error)
+                case .error(let errorMessage):
+                    self?.showError(errorMessage)
                 default:
                     break
                 }
@@ -55,7 +55,7 @@ class SignUpViewController: UIViewController, MainViewController {
             .store(in: &cancellables)
     }
 
-    func showError(_ error: Error) {
-        coordinator?.viewController(self, shouldPresentError: error)
+    func showError(_ errorMessage: String) {
+        coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
     }
 }

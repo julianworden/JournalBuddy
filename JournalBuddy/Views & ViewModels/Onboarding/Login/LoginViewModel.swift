@@ -36,16 +36,17 @@ final class LoginViewModel: MainViewModel {
     func handleLogInError(_ error: AuthErrorCode) {
         switch error.code {
         case .invalidEmail:
-            viewState = .error(FBAuthError.invalidEmailAddress)
+            viewState = .error(FBAuthError.invalidEmailAddress.localizedDescription)
         case .networkError:
-            viewState = .error(FBAuthError.networkError)
+            viewState = .error(FBAuthError.networkError.localizedDescription)
         case .wrongPassword:
-            viewState = .error(FBAuthError.wrongPasswordOnLogIn)
+            viewState = .error(FBAuthError.wrongPasswordOnLogIn.localizedDescription)
         case .userNotFound:
             // Password and email are valid, but no registered user has this info
-            viewState = .error(FBAuthError.userNotFoundOnLogIn)
+            viewState = .error(FBAuthError.userNotFoundOnLogIn.localizedDescription)
         default:
-            viewState = .error(error)
+            print(error.emojiMessage)
+            viewState = .error(CustomError.unknown(error.localizedDescription).localizedDescription)
         }
     }
 }

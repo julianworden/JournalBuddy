@@ -56,8 +56,8 @@ class NewTextEntryViewController: UIViewController, MainViewController {
             .store(in: &cancellables)
     }
 
-    func showError(_ error: Error) {
-        self.coordinator?.viewController(self, shouldPresentError: error)
+    func showError(_ errorMessage: String) {
+        self.coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
     }
 
     @objc func saveButtonTapped() {

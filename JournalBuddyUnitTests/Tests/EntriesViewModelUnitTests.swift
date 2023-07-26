@@ -15,8 +15,7 @@ final class EntriesViewModelUnitTests: XCTestCase {
     var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
-        let mockDatabaseService = MockDatabaseService()
-        sut = NewTextEntryViewModel(databaseService: mockDatabaseService)
+        sut = NewTextEntryViewModel(databaseService: MockDatabaseService(), authService: MockAuthService())
     }
 
     override func tearDown() {

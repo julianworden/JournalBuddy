@@ -37,7 +37,7 @@ final class EntriesCoordinator: Coordinator {
 
     func removeChildCoordinator(_ childCoordinator: Coordinator) { }
 
-    func viewController(_ viewController: UIViewController, shouldPresentError error: Error) {
-        AlertPresenter.presentBasicErrorAlert(on: viewController, error: error)
+    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: message)
     }
 }

@@ -42,19 +42,20 @@ final class SignUpViewModel: MainViewModel {
                 try await authService.createAccount(withEmail: emailAddress, andPassword: password)
                 viewState = .accountCreatedSuccessfully
             } catch {
-                viewState = .error(error)
+                print(error.emojiMessage)
+                viewState = .error(error.localizedDescription)
             }
         }
     }
 
     func formIsValid() -> Bool {
         guard emailAddressesMatch else {
-            viewState = .error(CustomError.emailAddressesDoNotMatchOnSignUp)
+            viewState = .error(CustomError.emailAddressesDoNotMatchOnSignUp.localizedDescription)
             return false
         }
 
         guard passwordsMatch else {
-            viewState = .error(CustomError.passwordsDoNotMatchOnSignUp)
+            viewState = .error(CustomError.passwordsDoNotMatchOnSignUp.localizedDescription)
             return false
         }
 

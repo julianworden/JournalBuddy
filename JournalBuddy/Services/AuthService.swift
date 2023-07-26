@@ -42,7 +42,7 @@ final class AuthService: AuthServiceProtocol {
             case .weakPassword:
                 throw FBAuthError.invalidPasswordOnSignUp
             default:
-                throw FBAuthError.unknown(error)
+                throw error
             }
         }
     }

@@ -25,7 +25,8 @@ final class HomeViewModel: MainViewModel {
             try authService.logOut()
             userLoggedOut = true
         } catch {
-            viewState = .error(error)
+            print(error.emojiMessage)
+            viewState = .error(CustomError.unknown(error.localizedDescription).localizedDescription)
         }
     }
 }

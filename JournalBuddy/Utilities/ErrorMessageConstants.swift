@@ -9,7 +9,7 @@
 enum ErrorMessageConstants {
     case mainCoordinatorMissingNavigationController
     case unexpectedTextFieldTagFound(tag: Int)
-    case unexpectedViewState(viewState: ViewState)
+    case unexpectedViewState(viewState: any ViewState)
 
     var description: String {
         switch self {
