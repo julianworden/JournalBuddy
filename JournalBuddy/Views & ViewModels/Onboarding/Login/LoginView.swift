@@ -142,7 +142,9 @@ class LoginView: UIView, MainView {
     }
 
     @objc func logInButtonTapped() {
-        viewModel.logIn()
+        Task {
+            await viewModel.logIn()
+        }
     }
 
     @objc func signUpButtonTapped() {

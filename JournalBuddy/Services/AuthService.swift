@@ -22,8 +22,35 @@ final class AuthService: AuthServiceProtocol {
         return currentUser.uid
     }
 
+    func logIn(withEmail emailAddress: String, andPassword password: String) async throws {
+        do {
+            try await Auth.auth().signIn(withEmail: emailAddress, password: password)
+        } catch {
+            let error = AuthErrorCode(_nsError: error as NSError)
+
+            switch error.code {
+            case .invalidEmail:
+                throw FBAuthError.invalidEmailAddress
+            case .networkError:
+                throw FBAuthError.networkError
+            case .wrongPassword:
+                throw FBAuthError.wrongPasswordOnLogIn
+            case .userNotFound:
+                // Password and email are valid, but no registered user has this info
+                throw FBAuthError.userNotFoundOnLogIn
+            default:
+                print(error.emojiMessage)
+                throw CustomError.unknown(error.localizedDescription)
+            }
+        }
+    }
+
     func logOut() throws {
-        try Auth.auth().signOut()
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            throw CustomError.unknown(error.localizedDescription)
+        }
     }
 
     func createAccount(withEmail email: String, andPassword password: String) async throws {
@@ -42,7 +69,7 @@ final class AuthService: AuthServiceProtocol {
             case .weakPassword:
                 throw FBAuthError.invalidPasswordOnSignUp
             default:
-                throw error
+                throw CustomError.unknown(error.localizedDescription)
             }
         }
     }

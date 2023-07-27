@@ -10,11 +10,12 @@ import UIKit
 
 class LoginViewController: UIViewController, MainViewController {
     weak var coordinator: OnboardingCoordinator?
-    var viewModel = LoginViewModel()
+    let viewModel: LoginViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(coordinator: OnboardingCoordinator) {
+    init(coordinator: OnboardingCoordinator, viewModel: LoginViewModel) {
         self.coordinator = coordinator
+        self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -44,19 +45,13 @@ class LoginViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
+                case .loggedIn:
+                    self?.coordinator?.onboardingDidEnd()
                 case .error(let error):
                     self?.showError(error)
                 default:
                     break
                 }
-            }
-            .store(in: &cancellables)
-
-        viewModel.$loginSuccessful
-            .sink { [weak self] loginSuccessful in
-                guard loginSuccessful else { return }
-
-                self?.coordinator?.onboardingDidEnd()
             }
             .store(in: &cancellables)
     }

@@ -10,7 +10,7 @@ import Combine
 import XCTest
 
 @MainActor
-final class NewTextEntryViewModelUnitTests: XCTestCase {
+final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     var sut: NewTextEntryViewModel!
     var cancellables = Set<AnyCancellable>()
 

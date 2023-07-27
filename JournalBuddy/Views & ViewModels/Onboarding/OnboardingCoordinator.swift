@@ -31,7 +31,8 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func start() {
-        let loginViewController = LoginViewController(coordinator: self)
+        let loginViewModel = LoginViewModel(databaseService: databaseService, authService: authService)
+        let loginViewController = LoginViewController(coordinator: self, viewModel: loginViewModel)
         navigationController.pushViewController(loginViewController, animated: true)
 
         appWindow?.rootViewController = navigationController

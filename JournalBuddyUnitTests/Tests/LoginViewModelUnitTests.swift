@@ -1,5 +1,5 @@
 //
-//  HomeViewModelUnitTests.swift
+//  LoginViewModelUnitTests.swift
 //  JournalBuddyUnitTests
 //
 //  Created by Julian Worden on 7/27/23.
@@ -9,41 +9,43 @@
 import XCTest
 
 @MainActor
-final class HomeViewModelUnitTests: XCTestCase, MainTestCase {
-    var sut: HomeViewModel!
+final class LoginViewModelUnitTests: XCTestCase, MainTestCase {
+    var sut: LoginViewModel!
 
     override func tearDown() {
         sut = nil
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
-        sut = HomeViewModel(
+        sut = LoginViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
         XCTAssertEqual(sut.viewState, .displayingView)
+        XCTAssertTrue(sut.emailAddress.isEmpty)
+        XCTAssertTrue(sut.password.isEmpty)
     }
 
-    func test_OnSuccessfulLogOut_ViewStateIsUpdated() {
-        sut = HomeViewModel(
+    func test_OnSuccessfulLogIn_ViewStateIsUpdated() async {
+        sut = LoginViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
-        sut.logOut()
+        await sut.logIn()
 
-        XCTAssertEqual(sut.viewState, .userLoggedOut)
+        XCTAssertEqual(sut.viewState, .loggedIn)
     }
 
-    func test_OnUnsuccessfulLogOut_ViewStateIsUpdated() {
-        sut = HomeViewModel(
+    func test_OnUnsuccessfulLogIn_ViewStateIsUpdated() async {
+        sut = LoginViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: TestError.general)
         )
 
-        sut.logOut()
+        await sut.logIn()
 
-        XCTAssertEqual(sut.viewState, .error(CustomError.unknown(TestError.general.localizedDescription).localizedDescription))
+        XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
     }
 }

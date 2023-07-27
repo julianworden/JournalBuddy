@@ -10,43 +10,25 @@ import FirebaseAuth
 @MainActor
 final class LoginViewModel: MainViewModel {
     @Published var viewState = LoginViewState.displayingView
-    @Published var loginSuccessful = false
 
     var emailAddress = ""
     var password = ""
 
-    var error: Error?
+    let databaseService: DatabaseServiceProtocol
+    let authService: AuthServiceProtocol
 
-    func logIn() {
-        Task {
-            do {
-                viewState = .loggingIn
-
-                try await Auth.auth().signIn(withEmail: emailAddress, password: password)
-
-                loginSuccessful = true
-            } catch {
-                let error = AuthErrorCode(_nsError: error as NSError)
-
-                handleLogInError(error)
-            }
-        }
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
+        self.databaseService = databaseService
+        self.authService = authService
     }
 
-    func handleLogInError(_ error: AuthErrorCode) {
-        switch error.code {
-        case .invalidEmail:
-            viewState = .error(FBAuthError.invalidEmailAddress.localizedDescription)
-        case .networkError:
-            viewState = .error(FBAuthError.networkError.localizedDescription)
-        case .wrongPassword:
-            viewState = .error(FBAuthError.wrongPasswordOnLogIn.localizedDescription)
-        case .userNotFound:
-            // Password and email are valid, but no registered user has this info
-            viewState = .error(FBAuthError.userNotFoundOnLogIn.localizedDescription)
-        default:
-            print(error.emojiMessage)
-            viewState = .error(CustomError.unknown(error.localizedDescription).localizedDescription)
+    func logIn() async {
+        do {
+            viewState = .loggingIn
+            try await authService.logIn(withEmail: emailAddress, andPassword: password)
+            viewState = .loggedIn
+        } catch {
+            viewState = .error(error.localizedDescription)
         }
     }
 }

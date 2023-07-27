@@ -18,6 +18,12 @@ final class MockAuthService: AuthServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
+    func logIn(withEmail emailAddress: String, andPassword password: String) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
+
     func logOut() throws {
         if let errorToThrow {
             throw errorToThrow
@@ -26,20 +32,7 @@ final class MockAuthService: AuthServiceProtocol {
 
     func createAccount(withEmail email: String, andPassword password: String) async throws {
         if let errorToThrow {
-            let error = AuthErrorCode(_nsError: errorToThrow as NSError)
-
-            switch error.code {
-            case .invalidEmail, .missingEmail:
-                throw FBAuthError.invalidEmailAddress
-            case .emailAlreadyInUse:
-                throw FBAuthError.emailAlreadyInUseOnSignUp
-            case .networkError:
-                throw FBAuthError.networkError
-            case .weakPassword:
-                throw FBAuthError.invalidPasswordOnSignUp
-            default:
-                throw error
-            }
+            throw errorToThrow
         }
     }
 }
