@@ -15,6 +15,12 @@ final class MainCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController?
 
+    static let preview = MainCoordinator(
+        databaseService: DatabaseService(),
+        authService: AuthService(),
+        appWindow: nil
+    )
+
     init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, appWindow: UIWindow?) {
         self.databaseService = databaseService
         self.authService = authService

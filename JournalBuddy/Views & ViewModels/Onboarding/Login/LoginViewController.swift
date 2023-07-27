@@ -68,7 +68,12 @@ extension LoginViewController: LoginViewDelegate {
 }
 
 //#Preview {
-//    let navigationController = UINavigationController(rootViewController: LoginViewController())
+//    let mainCoordinator = MainCoordinator(databaseService: DatabaseService(), authService: AuthService(), appWindow: nil)
+//    let onboardingCoordinator = OnboardingCoordinator(navigationController: UINavigationController(), databaseService: DatabaseService(), authService: AuthService(), parentCoordinator: mainCoordinator, appWindow: nil)
+//
+//    let viewModel = LoginViewModel(databaseService: DatabaseService(), authService: AuthService())
+//    let loginViewController = LoginViewController(coordinator: onboardingCoordinator, viewModel: viewModel)
+//    let navigationController = UINavigationController(rootViewController: loginViewController)
 //    navigationController.navigationBar.prefersLargeTitles = true
 //    return navigationController
 //}
