@@ -19,7 +19,7 @@ class NewTextEntryView: UIView, MainView {
 
         super.init(frame: .zero)
 
-        configureDefaultViewState()
+        subscribeToPublishers()
         constrain()
     }
 
@@ -38,6 +38,14 @@ class NewTextEntryView: UIView, MainView {
         entryTextView.keyboardDismissMode = .interactive
     }
 
+    func disableTextView() {
+        entryTextView.isEditable = false
+    }
+
+    func enableTextView() {
+        entryTextView.isEditable = true
+    }
+
     func constrain() {
         addConstrainedSubview(entryTextView)
 
@@ -54,7 +62,20 @@ class NewTextEntryView: UIView, MainView {
     }
 
     func subscribeToPublishers() {
-
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .displayingView:
+                    self?.configureDefaultViewState()
+                case .savingTextEntry:
+                    self?.disableTextView()
+                case .error(_):
+                    self?.enableTextView()
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 

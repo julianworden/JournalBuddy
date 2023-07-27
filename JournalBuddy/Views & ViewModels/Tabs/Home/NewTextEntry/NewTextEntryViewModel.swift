@@ -26,6 +26,8 @@ final class NewTextEntryViewModel: MainViewModel {
 
     func saveTextEntry() async {
         do {
+            viewState = .savingTextEntry
+
             guard entryIsValid else {
                 viewState = .error(FormError.emptyTextEntry.localizedDescription)
                 return

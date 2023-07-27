@@ -43,12 +43,25 @@ class NewTextEntryViewController: UIViewController, MainViewController {
         title = "New Text Entry"
     }
 
+    func disableSaveButton() {
+        saveButton.isEnabled = false
+    }
+
+    func enableSaveButton() {
+        saveButton.isEnabled = true
+    }
+
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
+                case .savingTextEntry:
+                    self?.disableSaveButton()
                 case .textEntrySaved:
                     self?.coordinator?.newTextEntryViewControllerDidCreateEntry()
+                case .error(let errorMessage):
+                    self?.enableSaveButton()
+                    self?.showError(errorMessage)
                 default:
                     break
                 }
