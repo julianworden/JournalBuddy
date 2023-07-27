@@ -48,12 +48,12 @@ final class SignUpViewModel: MainViewModel {
 
     func formIsValid() -> Bool {
         guard emailAddressesMatch else {
-            viewState = .error(CustomError.emailAddressesDoNotMatchOnSignUp.localizedDescription)
+            viewState = .error(FormError.emailAddressesDoNotMatchOnSignUp.localizedDescription)
             return false
         }
 
         guard passwordsMatch else {
-            viewState = .error(CustomError.passwordsDoNotMatchOnSignUp.localizedDescription)
+            viewState = .error(FormError.passwordsDoNotMatchOnSignUp.localizedDescription)
             return false
         }
 

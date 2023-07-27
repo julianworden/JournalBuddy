@@ -61,6 +61,8 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     }
 
     @objc func saveButtonTapped() {
-        viewModel.saveTextEntry()
+        Task {
+            await viewModel.saveTextEntry()
+        }
     }
 }

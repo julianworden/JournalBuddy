@@ -51,6 +51,7 @@
 		AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */; };
 		AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9192A645DC70054B1A4 /* HomeView.swift */; };
 		AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC91B2A6460A50054B1A4 /* LoginView.swift */; };
+		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
 		AB948B732A6D7ECA00430E61 /* SwiftPlus in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B722A6D7ECA00430E61 /* SwiftPlus */; };
 		AB948B752A6D7ECA00430E61 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B742A6D7ECA00430E61 /* FirebaseAnalytics */; };
 		AB948B772A6D7ECA00430E61 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B762A6D7ECA00430E61 /* FirebaseAnalyticsSwift */; };
@@ -58,7 +59,7 @@
 		AB948B7B2A6D7ECA00430E61 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B7A2A6D7ECA00430E61 /* FirebaseFirestore */; };
 		AB948B7D2A6D7ECA00430E61 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B7C2A6D7ECA00430E61 /* FirebaseFirestoreSwift */; };
 		AB948B7F2A6D7ECA00430E61 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AB948B7E2A6D7ECA00430E61 /* FirebaseStorage */; };
-		AB948B802A6D7EE100430E61 /* EntriesViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* EntriesViewModelUnitTests.swift */; };
+		AB948B802A6D7EE100430E61 /* NewTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */; };
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
 		AB948B822A6D7EE700430E61 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B602A6D7D9800430E61 /* TestError.swift */; };
 		AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5A2A6D7D9800430E61 /* TestData.swift */; };
@@ -86,6 +87,7 @@
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
+		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
 		ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */; };
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
 		ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */; };
@@ -107,6 +109,7 @@
 
 /* Begin PBXFileReference section */
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
+		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButton.swift; sourceTree = "<group>"; };
 		AB181C452A5B1B7500560299 /* JournalBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JournalBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB181C482A5B1B7500560299 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -145,10 +148,10 @@
 		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		AB7CC9192A645DC70054B1A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AB7CC91B2A6460A50054B1A4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		AB90FF0B2A71EFDC00D23017 /* AllUnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllUnitTests.xctestplan; sourceTree = "<group>"; };
+		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
-		AB948B5E2A6D7D9800430E61 /* EntriesViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB948B602A6D7D9800430E61 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		AB948B692A6D7EAC00430E61 /* JournalBuddyUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalBuddyUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB95E2F82A6EAA26001FDDD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
+		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+emojiMessage.swift"; sourceTree = "<group>"; };
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
 		ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageConstants.swift; sourceTree = "<group>"; };
@@ -313,7 +317,9 @@
 			isa = PBXGroup;
 			children = (
 				AB1AC7A82A70778600FE7A7E /* CustomError.swift */,
+				AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */,
 				AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */,
+				ABDB553C2A72A82600DC8DF8 /* FormError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -352,7 +358,7 @@
 		AB90FF0C2A71F05E00D23017 /* Test Plans */ = {
 			isa = PBXGroup;
 			children = (
-				AB90FF0B2A71EFDC00D23017 /* AllUnitTests.xctestplan */,
+				AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */,
 			);
 			path = "Test Plans";
 			sourceTree = "<group>";
@@ -377,8 +383,8 @@
 		AB948B5D2A6D7D9800430E61 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				AB948B5E2A6D7D9800430E61 /* EntriesViewModelUnitTests.swift */,
 				AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */,
+				AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -673,6 +679,7 @@
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
 				ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */,
 				AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */,
+				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
@@ -699,6 +706,7 @@
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
+				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
@@ -718,7 +726,7 @@
 				AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */,
 				AB948B822A6D7EE700430E61 /* TestError.swift in Sources */,
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,
-				AB948B802A6D7EE100430E61 /* EntriesViewModelUnitTests.swift in Sources */,
+				AB948B802A6D7EE100430E61 /* NewTextEntryViewModelUnitTests.swift in Sources */,
 				AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */,
 				AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */,
 			);

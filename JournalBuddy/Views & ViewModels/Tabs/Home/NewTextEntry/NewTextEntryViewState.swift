@@ -8,5 +8,5 @@
 import Foundation
 
 enum NewTextEntryViewState: ViewState {
-    case displayingView, savingTextEntry, textEntrySaved
+    case displayingView, savingTextEntry, textEntrySaved, error(String)
 }

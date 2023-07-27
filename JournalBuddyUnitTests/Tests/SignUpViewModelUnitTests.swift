@@ -20,7 +20,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_EmailAddressesMatch_ReturnsFalseWhenExpected() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
         
@@ -32,7 +32,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_EmailAddressesMatch_ReturnsTrueWhenExpected() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -44,7 +44,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_PasswordsMatch_ReturnsFalseWhenExpected() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -56,7 +56,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_PasswordsMatch_ReturnsTrueWhenExpected() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -68,7 +68,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_FormIsValid_ReturnsFalseWhenPasswordsDoNotMatch() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -80,12 +80,12 @@ final class SignUpViewModelUnitTests: XCTestCase {
         let formIsValid = sut.formIsValid()
 
         XCTAssertFalse(formIsValid)
-        XCTAssertEqual(sut.viewState, .error(CustomError.passwordsDoNotMatchOnSignUp.localizedDescription))
+        XCTAssertEqual(sut.viewState, .error(FormError.passwordsDoNotMatchOnSignUp.localizedDescription))
     }
 
     func test_FormIsValid_ReturnsFalseWhenEmailAddressesDoNotMatch() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -97,12 +97,12 @@ final class SignUpViewModelUnitTests: XCTestCase {
         let formIsValid = sut.formIsValid()
 
         XCTAssertFalse(formIsValid)
-        XCTAssertEqual(sut.viewState, .error(CustomError.emailAddressesDoNotMatchOnSignUp.localizedDescription))
+        XCTAssertEqual(sut.viewState, .error(FormError.emailAddressesDoNotMatchOnSignUp.localizedDescription))
     }
 
     func test_FormIsValid_ReturnsTrueWhenExpected() {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
 
@@ -117,7 +117,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_OnSuccessfullyCreateAccount_ViewStateIsUpdated() async {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
+            databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
         fillInMatchingEmailAndPasswordFields()
@@ -129,14 +129,14 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_OnUnsuccessfullyCreatingAccount_ErrorIsThrown() async {
         sut = SignUpViewModel(
-            databaseService: MockDatabaseService(),
-            authService: MockAuthService(errorToThrow: FBAuthError.emailAlreadyInUseOnSignUp)
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: TestError.general)
         )
         fillInMatchingEmailAndPasswordFields()
 
         await sut.signUpButtonTapped()
 
-        XCTAssertEqual(sut.viewState, .error(FBAuthError.emailAlreadyInUseOnSignUp.localizedDescription))
+        XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
     }
 
     func fillInMatchingEmailAndPasswordFields() {

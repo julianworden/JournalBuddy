@@ -38,7 +38,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             textEntryWithID.id = newDocument.documentID
             return textEntryWithID
         } catch {
-            throw error
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
 }

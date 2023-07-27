@@ -8,5 +8,12 @@
 import Foundation
 
 enum TestError: LocalizedError {
-    case functionalityNotImplemented(message: String)
+    case general
+
+    var errorDescription: String? {
+        switch self {
+        case .general:
+            return "Error thrown."
+        }
+    }
 }

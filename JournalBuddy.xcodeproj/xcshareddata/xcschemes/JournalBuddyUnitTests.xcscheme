@@ -13,7 +13,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:JournalBuddyUnitTests/MainTestPlan.xctestplan"
+            reference = "container:JournalBuddyUnitTests/Test Plans/AllTests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

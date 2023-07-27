@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "4992ADF5-FBDD-4383-B69E-B91D19A1FA23",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:JournalBuddy.xcodeproj",
+          "identifier" : "AB181C442A5B1B7500560299",
+          "name" : "JournalBuddy"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:JournalBuddy.xcodeproj",
+        "identifier" : "AB948B682A6D7EAC00430E61",
+        "name" : "JournalBuddyUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
