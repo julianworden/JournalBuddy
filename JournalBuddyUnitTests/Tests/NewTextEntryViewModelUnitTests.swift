@@ -19,6 +19,16 @@ final class NewTextEntryViewModelUnitTests: XCTestCase {
         cancellables = []
     }
 
+    func test_OnInit_DefaultValuesAreCorrect() {
+        sut = NewTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
+        XCTAssertEqual(sut.viewState, .displayingView)
+        XCTAssertTrue(sut.entryText.isEmpty)
+    }
+
     func test_EntryIsValid_ReturnsFalseWhenExpected() {
         sut = NewTextEntryViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
@@ -44,23 +54,11 @@ final class NewTextEntryViewModelUnitTests: XCTestCase {
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
-        let expectation = XCTestExpectation(description: "savedEntry property updated with value.")
         sut.entryText = "What a great day!"
 
         await sut.saveTextEntry()
 
-        sut.$viewState
-            .sink { viewState in
-                guard viewState == .textEntrySaved else {
-                    XCTFail("Instead of the expected view state, \(viewState) was found.")
-                    return
-                }
-
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-
-        await fulfillment(of: [expectation], timeout: 3)
+        XCTAssertEqual(sut.viewState, .textEntrySaved)
     }
 
     func test_OnUnsuccessfullySaveTextEntry_ViewStateIsUpdated() async {
@@ -68,23 +66,11 @@ final class NewTextEntryViewModelUnitTests: XCTestCase {
             databaseService: MockDatabaseService(errorToThrow: TestError.general),
             authService: MockAuthService(errorToThrow: nil)
         )
-        let expectation = XCTestExpectation(description: "savedEntry property updated with value.")
         sut.entryText = "What a great day!"
 
         await sut.saveTextEntry()
 
-        sut.$viewState
-            .sink { viewState in
-                guard viewState == .error(CustomError.unknown(TestError.general.localizedDescription).localizedDescription) else {
-                    XCTFail("Instead of the expected view state, \(viewState) was found.")
-                    return
-                }
-
-                expectation.fulfill()
-            }
-            .store(in: &cancellables)
-
-        await fulfillment(of: [expectation], timeout: 3)
+        XCTAssertEqual(sut.viewState, .error(CustomError.unknown(TestError.general.localizedDescription).localizedDescription))
     }
 
     func test_OnSaveTextEntryWithInvalidEntry_ErrorIsThrown() async {

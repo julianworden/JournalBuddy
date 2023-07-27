@@ -18,7 +18,11 @@ final class MockAuthService: AuthServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
-    func logOut() throws { }
+    func logOut() throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
 
     func createAccount(withEmail email: String, andPassword password: String) async throws {
         if let errorToThrow {

@@ -46,11 +46,14 @@ class HomeViewController: UIViewController, MainViewController {
     }
 
     func subscribeToPublishers() {
-        viewModel.$userLoggedOut
-            .sink { [weak self] userLoggedOut in
-                guard userLoggedOut else { return }
-
-                self?.coordinator?.userLoggedOut()
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .userLoggedOut:
+                    self?.coordinator?.userLoggedOut()
+                default:
+                    break
+                }
             }
             .store(in: &cancellables)
     }

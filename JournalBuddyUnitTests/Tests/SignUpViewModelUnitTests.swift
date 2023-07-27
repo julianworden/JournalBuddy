@@ -18,6 +18,19 @@ final class SignUpViewModelUnitTests: XCTestCase {
         sut = nil
     }
 
+    func test_OnInit_DefaultValuesAreCorrect() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
+        XCTAssertEqual(sut.viewState, .displayingView)
+        XCTAssertTrue(sut.emailAddress.isEmpty)
+        XCTAssertTrue(sut.confirmedEmailAddress.isEmpty)
+        XCTAssertTrue(sut.password.isEmpty)
+        XCTAssertTrue(sut.confirmedPassword.isEmpty)
+    }
+
     func test_EmailAddressesMatch_ReturnsFalseWhenExpected() {
         sut = SignUpViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),

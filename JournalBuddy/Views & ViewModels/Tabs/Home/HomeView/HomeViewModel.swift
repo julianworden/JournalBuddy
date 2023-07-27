@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 final class HomeViewModel: MainViewModel {
-    @Published var userLoggedOut = false
     @Published var viewState = HomeViewState.displayingView
 
     let databaseService: DatabaseServiceProtocol
@@ -23,7 +22,7 @@ final class HomeViewModel: MainViewModel {
     func logOut() {
         do {
             try authService.logOut()
-            userLoggedOut = true
+            viewState = .userLoggedOut
         } catch {
             print(error.emojiMessage)
             viewState = .error(CustomError.unknown(error.localizedDescription).localizedDescription)
