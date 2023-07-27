@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "46CB6285-2DD4-41E0-91F1-94C942E12261",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:JournalBuddy.xcodeproj",
+        "identifier" : "AB948B682A6D7EAC00430E61",
+        "name" : "JournalBuddyUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

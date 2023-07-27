@@ -32,19 +32,17 @@ final class SignUpViewModel: MainViewModel {
         return password == confirmedPassword
     }
 
-    func signUpButtonTapped() {
+    func signUpButtonTapped() async {
         viewState = .creatingAccount
 
         guard formIsValid() else { return }
 
-        Task {
-            do {
-                try await authService.createAccount(withEmail: emailAddress, andPassword: password)
-                viewState = .accountCreatedSuccessfully
-            } catch {
-                print(error.emojiMessage)
-                viewState = .error(error.localizedDescription)
-            }
+        do {
+            try await authService.createAccount(withEmail: emailAddress, andPassword: password)
+            viewState = .accountCreatedSuccessfully
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(error.localizedDescription)
         }
     }
 

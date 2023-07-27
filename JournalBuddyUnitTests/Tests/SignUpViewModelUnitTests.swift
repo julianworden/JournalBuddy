@@ -12,15 +12,18 @@ import XCTest
 final class SignUpViewModelUnitTests: XCTestCase {
     var sut: SignUpViewModel!
 
-    override func setUp() {
-        sut = SignUpViewModel(databaseService: MockDatabaseService(), authService: MockAuthService())
-    }
+    override func setUp() { }
 
     override func tearDown() {
         sut = nil
     }
 
     func test_EmailAddressesMatch_ReturnsFalseWhenExpected() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+        
         sut.emailAddress = "julianworden@gmail.com"
         sut.confirmedEmailAddress = "julianworden@gmail.co"
 
@@ -28,6 +31,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_EmailAddressesMatch_ReturnsTrueWhenExpected() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.emailAddress = "julianworden@gmail.com"
         sut.confirmedEmailAddress = "julianworden@gmail.com"
 
@@ -35,6 +43,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_PasswordsMatch_ReturnsFalseWhenExpected() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.password = "abc123"
         sut.confirmedPassword = "abc12"
 
@@ -42,6 +55,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_PasswordsMatch_ReturnsTrueWhenExpected() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
 
@@ -49,6 +67,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_FormIsValid_ReturnsFalseWhenPasswordsDoNotMatch() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.password = "abc123"
         sut.confirmedPassword = "abc12"
         sut.emailAddress = "julianworden@gmail.com"
@@ -61,6 +84,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_FormIsValid_ReturnsFalseWhenEmailAddressesDoNotMatch() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
         sut.emailAddress = "julianworden@gmail.com"
@@ -73,6 +101,11 @@ final class SignUpViewModelUnitTests: XCTestCase {
     }
 
     func test_FormIsValid_ReturnsTrueWhenExpected() {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
         sut.emailAddress = "julianworden@gmail.com"
@@ -80,5 +113,36 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
         XCTAssertTrue(sut.formIsValid())
         XCTAssertEqual(sut.viewState, .displayingView)
+    }
+
+    func test_OnSuccessfullyCreateAccount_ViewStateIsUpdated() async {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+        fillInMatchingEmailAndPasswordFields()
+
+        await sut.signUpButtonTapped()
+
+        XCTAssertEqual(sut.viewState, .accountCreatedSuccessfully)
+    }
+
+    func test_OnUnsuccessfullyCreatingAccount_ErrorIsThrown() async {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(),
+            authService: MockAuthService(errorToThrow: FBAuthError.emailAlreadyInUseOnSignUp)
+        )
+        fillInMatchingEmailAndPasswordFields()
+
+        await sut.signUpButtonTapped()
+
+        XCTAssertEqual(sut.viewState, .error(FBAuthError.emailAlreadyInUseOnSignUp.localizedDescription))
+    }
+
+    func fillInMatchingEmailAndPasswordFields() {
+        sut.password = "abc123"
+        sut.confirmedPassword = "abc123"
+        sut.emailAddress = "julianworden@gmail.com"
+        sut.confirmedEmailAddress = "julianworden@gmail.com"
     }
 }

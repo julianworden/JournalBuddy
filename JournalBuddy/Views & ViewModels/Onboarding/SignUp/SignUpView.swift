@@ -116,7 +116,9 @@ class SignUpView: UIView, MainView {
     }
 
     @objc func signUpButtonTapped() {
-        viewModel.signUpButtonTapped()
+        Task {
+            await viewModel.signUpButtonTapped()
+        }
     }
 }
 

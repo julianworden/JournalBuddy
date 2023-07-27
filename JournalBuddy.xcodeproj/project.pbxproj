@@ -145,6 +145,7 @@
 		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		AB7CC9192A645DC70054B1A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AB7CC91B2A6460A50054B1A4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AB90FF0B2A71EFDC00D23017 /* AllUnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllUnitTests.xctestplan; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
 		AB948B5E2A6D7D9800430E61 /* EntriesViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModelUnitTests.swift; sourceTree = "<group>"; };
@@ -348,6 +349,14 @@
 			path = Miscellaneous;
 			sourceTree = "<group>";
 		};
+		AB90FF0C2A71F05E00D23017 /* Test Plans */ = {
+			isa = PBXGroup;
+			children = (
+				AB90FF0B2A71EFDC00D23017 /* AllUnitTests.xctestplan */,
+			);
+			path = "Test Plans";
+			sourceTree = "<group>";
+		};
 		AB948B592A6D7D9800430E61 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +394,7 @@
 		AB948B6A2A6D7EAC00430E61 /* JournalBuddyUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				AB90FF0C2A71F05E00D23017 /* Test Plans */,
 				AB948B5D2A6D7D9800430E61 /* Tests */,
 				AB948B5B2A6D7D9800430E61 /* Mocks */,
 				AB948B5F2A6D7D9800430E61 /* Errors */,

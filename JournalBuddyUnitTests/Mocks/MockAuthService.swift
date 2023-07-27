@@ -9,12 +9,33 @@ import FirebaseAuth
 @testable import JournalBuddy
 
 final class MockAuthService: AuthServiceProtocol {
-    #warning("Make an init for this class so it's easier to inject auth service under different conditions")
+    var errorToThrow: Error?
     var userIsLoggedIn = false
     var currentUser: User?
     var currentUserUID = "abc123"
 
+    init(errorToThrow: Error?) {
+        self.errorToThrow = errorToThrow
+    }
+
     func logOut() throws { }
 
-    func createAccount(withEmail email: String, andPassword password: String) async throws { }
+    func createAccount(withEmail email: String, andPassword password: String) async throws {
+        if let errorToThrow {
+            let error = AuthErrorCode(_nsError: errorToThrow as NSError)
+
+            switch error.code {
+            case .invalidEmail, .missingEmail:
+                throw FBAuthError.invalidEmailAddress
+            case .emailAlreadyInUse:
+                throw FBAuthError.emailAlreadyInUseOnSignUp
+            case .networkError:
+                throw FBAuthError.networkError
+            case .weakPassword:
+                throw FBAuthError.invalidPasswordOnSignUp
+            default:
+                throw error
+            }
+        }
+    }
 }
