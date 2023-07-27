@@ -128,7 +128,7 @@ final class SignUpViewModelUnitTests: XCTestCase, MainTestCase {
         XCTAssertEqual(sut.viewState, .displayingView)
     }
 
-    func test_OnSuccessfullyCreateAccount_ViewStateIsUpdated() async {
+    func test_OnSuccessfulSignUpButtonTapped_ViewStateIsUpdated() async {
         sut = SignUpViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
@@ -140,7 +140,7 @@ final class SignUpViewModelUnitTests: XCTestCase, MainTestCase {
         XCTAssertEqual(sut.viewState, .accountCreatedSuccessfully)
     }
 
-    func test_OnUnsuccessfullyCreatingAccount_ErrorIsThrown() async {
+    func test_OnUnsuccessfullSignUpButtonTapped_ErrorIsThrown() async {
         sut = SignUpViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: TestError.general)
@@ -150,6 +150,19 @@ final class SignUpViewModelUnitTests: XCTestCase, MainTestCase {
         await sut.signUpButtonTapped()
 
         XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
+    }
+
+    func test_OnSignUpButtonTappedWithInvalidForm_ErrorIsThrown() async {
+        sut = SignUpViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil)
+        )
+        sut.emailAddress = "julianworden@gmail.com"
+        sut.confirmedEmailAddress = "julianworden@gmail.co"
+
+        await sut.signUpButtonTapped()
+
+        XCTAssertEqual(sut.viewState, .error(FormError.emailAddressesDoNotMatchOnSignUp.localizedDescription))
     }
 
     func fillInMatchingEmailAndPasswordFields() {

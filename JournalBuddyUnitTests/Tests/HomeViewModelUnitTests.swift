@@ -44,6 +44,6 @@ final class HomeViewModelUnitTests: XCTestCase, MainTestCase {
 
         sut.logOut()
 
-        XCTAssertEqual(sut.viewState, .error(CustomError.unknown(TestError.general.localizedDescription).localizedDescription))
+        XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
     }
 }

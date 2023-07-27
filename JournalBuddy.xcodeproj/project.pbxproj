@@ -389,10 +389,10 @@
 		AB948B5D2A6D7D9800430E61 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */,
-				AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */,
-				ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */,
 				ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */,
+				AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */,
+				ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */,
+				AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
