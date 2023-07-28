@@ -15,6 +15,14 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
+    func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return TestData.textEntryArray as! [T]
+        }
+    }
+
     func saveEntry<T: Entry>(_ entry: T) async throws -> T {
         do {
             switch entry.type {
@@ -26,6 +34,10 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         } catch {
             throw error
         }
+    }
+
+    func fetchTextEntries() async throws -> [TextEntry] {
+        return []
     }
 
     func saveTextEntry(_ textEntry: JournalBuddy.TextEntry) async throws -> JournalBuddy.TextEntry {

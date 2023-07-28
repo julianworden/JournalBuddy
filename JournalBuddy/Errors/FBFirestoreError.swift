@@ -8,10 +8,13 @@
 import Foundation
 
 enum FBFirestoreError: LocalizedError {
+    case fetchDataFailed(systemError: String)
     case saveDataFailed(systemError: String)
 
     var errorDescription: String? {
         switch self {
+        case .fetchDataFailed(let systemError):
+            return "Failed to fetch data, please try again. System Error: \(systemError)"
         case .saveDataFailed(let systemError):
             return "Failed to save data, please try again. System Error: \(systemError)"
         }

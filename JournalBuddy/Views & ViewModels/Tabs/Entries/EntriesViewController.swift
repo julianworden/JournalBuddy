@@ -10,11 +10,12 @@ import UIKit
 
 class EntriesViewController: UIViewController, MainViewController {
     weak var coordinator: EntriesCoordinator?
-    let viewModel = EntriesViewModel()
+    let viewModel: EntriesViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(coordinator: EntriesCoordinator) {
+    init(coordinator: EntriesCoordinator, viewModel: EntriesViewModel) {
         self.coordinator = coordinator
+        self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
 
@@ -41,7 +42,16 @@ class EntriesViewController: UIViewController, MainViewController {
     }
 
     func subscribeToPublishers() {
-
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .error(let errorMessage):
+                    self?.showError(errorMessage)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func showError(_ errorMessage: String) {

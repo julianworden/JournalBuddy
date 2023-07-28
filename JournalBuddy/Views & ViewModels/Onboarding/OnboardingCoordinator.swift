@@ -18,7 +18,7 @@ final class OnboardingCoordinator: Coordinator {
 
     static let preview = OnboardingCoordinator(
         navigationController: UINavigationController(),
-        databaseService: DatabaseService(),
+        databaseService: DatabaseService(authService: AuthService()),
         authService: AuthService(),
         parentCoordinator: MainCoordinator.preview,
         appWindow: nil

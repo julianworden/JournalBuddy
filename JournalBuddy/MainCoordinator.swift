@@ -16,7 +16,7 @@ final class MainCoordinator: Coordinator {
     var navigationController: UINavigationController?
 
     static let preview = MainCoordinator(
-        databaseService: DatabaseService(),
+        databaseService: DatabaseService(authService: AuthService()),
         authService: AuthService(),
         appWindow: nil
     )

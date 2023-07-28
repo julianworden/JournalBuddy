@@ -31,7 +31,8 @@ final class EntriesCoordinator: Coordinator {
     }
 
     func start() {
-        let entriesViewController = EntriesViewController(coordinator: self)
+        let entriesViewModel = EntriesViewModel(databaseService: databaseService, authService: authService)
+        let entriesViewController = EntriesViewController(coordinator: self, viewModel: entriesViewModel)
         navigationController.pushViewController(entriesViewController, animated: true)
     }
 

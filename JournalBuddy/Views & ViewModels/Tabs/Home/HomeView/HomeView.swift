@@ -9,10 +9,6 @@ import Combine
 import UIKit
 
 class HomeView: UIView, MainView {
-    let viewModel: HomeViewModel
-    weak var delegate: HomeViewDelegate?
-    var cancellables = Set<AnyCancellable>()
-
     private lazy var mainScrollView = UIScrollView()
     private lazy var mainScrollViewContentStack = UIStackView(
         arrangedSubviews: [
@@ -30,6 +26,10 @@ class HomeView: UIView, MainView {
     private lazy var newVoiceEntryCalendarStack = UIStackView(arrangedSubviews: [newVoiceEntryButton, calendarButton])
     private lazy var newVoiceEntryButton = HomeSquareButton(homeSquareButtonType: .voice)
     private lazy var calendarButton = HomeSquareButton(homeSquareButtonType: .calendar)
+
+    let viewModel: HomeViewModel
+    weak var delegate: HomeViewDelegate?
+    var cancellables = Set<AnyCancellable>()
 
     init(viewModel: HomeViewModel, delegate: HomeViewDelegate?) {
         self.viewModel = viewModel
