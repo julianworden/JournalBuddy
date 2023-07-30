@@ -1,5 +1,5 @@
 //
-//  NewTextEntryView.swift
+//  AddEditTextEntryView.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/21/23.
@@ -8,13 +8,13 @@
 import Combine
 import UIKit
 
-class NewTextEntryView: UIView, MainView {
+class AddEditTextEntryView: UIView, MainView {
     private lazy var entryTextView = UITextView()
 
-    let viewModel: NewTextEntryViewModel
+    let viewModel: AddEditTextEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: NewTextEntryViewModel) {
+    init(viewModel: AddEditTextEntryViewModel) {
         self.viewModel = viewModel
 
         super.init(frame: .zero)
@@ -31,9 +31,9 @@ class NewTextEntryView: UIView, MainView {
         backgroundColor = .systemBackground
 
         entryTextView.delegate = self
-        entryTextView.text = "Tap anywhere to begin writing..."
+        entryTextView.text = viewModel.textEntryToEdit == nil ? "Tap anywhere to begin writing..." : viewModel.entryText
         entryTextView.font = .preferredFont(forTextStyle: .body)
-        entryTextView.textColor = .secondaryLabel
+        entryTextView.textColor = viewModel.textEntryToEdit == nil ? .secondaryLabel : .label
         entryTextView.showsVerticalScrollIndicator = false
         entryTextView.keyboardDismissMode = .interactive
     }
@@ -79,7 +79,7 @@ class NewTextEntryView: UIView, MainView {
     }
 }
 
-extension NewTextEntryView: UITextViewDelegate {
+extension AddEditTextEntryView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         viewModel.entryText = textView.text
     }

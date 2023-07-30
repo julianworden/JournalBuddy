@@ -28,6 +28,7 @@ final class EntriesViewTableViewDataSource: UITableViewDiffableDataSource<Entrie
             var contentConfiguration = cell.defaultContentConfiguration()
             contentConfiguration.text = textEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
             contentConfiguration.secondaryText = textEntry.text
+            cell.accessoryType = .disclosureIndicator
             cell.contentConfiguration = contentConfiguration
 
             return cell

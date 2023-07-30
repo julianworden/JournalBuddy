@@ -5,7 +5,7 @@
 //  Created by Julian Worden on 7/24/23.
 //
 
-import FirebaseAuth
+import Foundation
 
 @MainActor
 final class SignUpViewModel: MainViewModel {

@@ -17,10 +17,12 @@ class EntriesView: UIView, MainView {
     private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
 
     let viewModel: EntriesViewModel
+    weak var delegate: EntriesViewDelegate?
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: EntriesViewModel) {
+    init(viewModel: EntriesViewModel, delegate: EntriesViewDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
 
         super.init(frame: .zero)
 
@@ -97,5 +99,10 @@ class EntriesView: UIView, MainView {
 }
 
 extension EntriesView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
+        let tappedEntry = viewModel.textEntries[indexPath.row]
+        delegate?.entriesViewDidSelectTextEntry(tappedEntry)
+    }
 }

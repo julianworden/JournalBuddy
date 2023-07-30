@@ -11,7 +11,7 @@ import XCTest
 
 @MainActor
 final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
-    var sut: NewTextEntryViewModel!
+    var sut: AddEditTextEntryView!
     var cancellables = Set<AnyCancellable>()
 
     override func tearDown() {
@@ -20,7 +20,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
@@ -30,7 +30,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_EntryIsValid_ReturnsFalseWhenExpected() {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
@@ -40,7 +40,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_EntryIsValid_ReturnsTrueWhenExpected() {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
@@ -50,7 +50,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_OnSuccessfullySaveTextEntry_ViewStateIsUpdated() async {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )
@@ -62,7 +62,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_OnUnsuccessfullySaveTextEntry_ViewStateIsUpdated() async {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: TestError.general),
             authService: MockAuthService(errorToThrow: nil)
         )
@@ -74,7 +74,7 @@ final class NewTextEntryViewModelUnitTests: XCTestCase, MainTestCase {
     }
 
     func test_OnSaveTextEntryWithInvalidEntry_ErrorIsThrown() async {
-        sut = NewTextEntryViewModel(
+        sut = AddEditTextEntryView(
             databaseService: MockDatabaseService(errorToThrow: nil),
             authService: MockAuthService(errorToThrow: nil)
         )

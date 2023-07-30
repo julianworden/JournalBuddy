@@ -1,5 +1,5 @@
 //
-//  NewTextEntryViewState.swift
+//  AddEditTextEntryViewState.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/21/23.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum NewTextEntryViewState: ViewState {
+enum AddEditTextEntryViewState: ViewState {
     case displayingView, savingTextEntry, textEntrySaved, error(String)
 }

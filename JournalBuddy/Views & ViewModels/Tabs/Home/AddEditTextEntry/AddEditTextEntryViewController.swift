@@ -1,5 +1,5 @@
 //
-//  NewTextEntryViewController.swift
+//  AddEditTextEntryViewController.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/21/23.
@@ -8,14 +8,14 @@
 import Combine
 import UIKit
 
-class NewTextEntryViewController: UIViewController, MainViewController {
-    weak var coordinator: HomeCoordinator?
-    var viewModel: NewTextEntryViewModel
+class AddEditTextEntryViewController: UIViewController, MainViewController {
+    weak var coordinator: AddEditTextEntryCoordinator?
+    var viewModel: AddEditTextEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
     private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
 
-    init(coordinator: HomeCoordinator?, viewModel: NewTextEntryViewModel) {
+    init(coordinator: AddEditTextEntryCoordinator?, viewModel: AddEditTextEntryViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
 
@@ -27,7 +27,7 @@ class NewTextEntryViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = NewTextEntryView(viewModel: viewModel)
+        view = AddEditTextEntryView(viewModel: viewModel)
     }
     
     override func viewDidLoad() {
@@ -58,7 +58,7 @@ class NewTextEntryViewController: UIViewController, MainViewController {
                 case .savingTextEntry:
                     self?.disableSaveButton()
                 case .textEntrySaved:
-                    self?.coordinator?.newTextEntryViewControllerDidCreateEntry()
+                    self?.coordinator?.addEditTextEntryViewControllerDidSaveTextEntry()
                 case .error(let errorMessage):
                     self?.enableSaveButton()
                     self?.showError(errorMessage)

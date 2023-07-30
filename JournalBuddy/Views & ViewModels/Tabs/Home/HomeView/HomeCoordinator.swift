@@ -8,7 +8,7 @@
 import UIKit
 
 @MainActor
-final class HomeCoordinator: Coordinator {
+final class HomeCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
@@ -27,6 +27,10 @@ final class HomeCoordinator: Coordinator {
         self.databaseService = databaseService
         self.authService = authService
         self.parentCoordinator = parentCoordinator
+
+        super.init()
+
+        self.navigationController.delegate = self
         self.parentCoordinator?.childWasCreated(self)
     }
 
@@ -40,27 +44,44 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(homeViewController, animated: true)
     }
 
-    func removeChildCoordinator(_ childCoordinator: Coordinator) { }
-
-    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String) {
-        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: message)
-    }
-
     func presentNewTextEntryViewController() {
-        let newTextEntryViewModel = NewTextEntryViewModel(
+        let addEditTextEntryCoordinator = AddEditTextEntryCoordinator(
+            parentCoordinator: self,
             databaseService: databaseService,
-            authService: authService
+            authService: authService,
+            navigationController: navigationController,
+            textEntryToEdit: nil
         )
-        
-        let newTextEntryViewController = NewTextEntryViewController(coordinator: self, viewModel: newTextEntryViewModel)
-        navigationController.pushViewController(newTextEntryViewController, animated: true)
-    }
+        childCoordinators.append(addEditTextEntryCoordinator)
 
-    func newTextEntryViewControllerDidCreateEntry() {
-        navigationController.popViewController(animated: true)
+        addEditTextEntryCoordinator.start()
     }
 
     func userLoggedOut() {
         parentCoordinator?.childDidLogOut(self)
+    }
+
+    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
+
+    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: message)
+    }
+}
+
+extension HomeCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+
+        if navigationController.viewControllers.contains(fromViewController) { return }
+
+        if let addEditTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
+            removeChildCoordinator(addEditTextEntryViewController.coordinator)
+        }
     }
 }

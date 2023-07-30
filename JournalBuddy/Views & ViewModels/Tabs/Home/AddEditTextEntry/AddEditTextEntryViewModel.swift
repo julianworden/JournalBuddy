@@ -1,5 +1,5 @@
 //
-//  NewTextEntryViewModel.swift
+//  AddEditTextEntryViewModel.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/21/23.
@@ -8,20 +8,23 @@
 import Foundation
 
 @MainActor
-final class NewTextEntryViewModel: MainViewModel {
-    @Published var viewState = NewTextEntryViewState.displayingView
+final class AddEditTextEntryViewModel: MainViewModel {
+    @Published var viewState = AddEditTextEntryViewState.displayingView
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
 
+    var textEntryToEdit: TextEntry?
     var entryText = ""
 
     var entryIsValid: Bool {
         return !entryText.isReallyEmpty
     }
 
-    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, textEntryToEdit: TextEntry?) {
         self.databaseService = databaseService
         self.authService = authService
+        self.textEntryToEdit = textEntryToEdit
+        self.entryText = textEntryToEdit?.text ?? ""
     }
 
     func saveTextEntry() async {

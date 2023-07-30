@@ -51,7 +51,7 @@ final class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func removeChildCoordinator(_ childCoordinator: Coordinator) {
+    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === childCoordinator {
                 childCoordinators.remove(at: index)

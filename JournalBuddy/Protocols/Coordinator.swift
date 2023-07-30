@@ -13,6 +13,6 @@ protocol Coordinator: AnyObject {
     @MainActor var authService: AuthServiceProtocol { get }
 
     @MainActor func start()
-    @MainActor func removeChildCoordinator(_ childCoordinator: Coordinator)
+    @MainActor func removeChildCoordinator(_ childCoordinator: Coordinator?)
     @MainActor func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String)
 }

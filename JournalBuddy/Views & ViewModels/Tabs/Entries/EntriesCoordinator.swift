@@ -8,7 +8,7 @@
 import UIKit
 
 @MainActor
-final class EntriesCoordinator: Coordinator {
+final class EntriesCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
@@ -27,6 +27,10 @@ final class EntriesCoordinator: Coordinator {
         self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet"), tag: 1)
         self.parentCoordinator = parentCoordinator
+
+        super.init()
+
+        self.navigationController.delegate = self
         self.parentCoordinator?.childWasCreated(self)
     }
 
@@ -36,9 +40,41 @@ final class EntriesCoordinator: Coordinator {
         navigationController.pushViewController(entriesViewController, animated: true)
     }
 
-    func removeChildCoordinator(_ childCoordinator: Coordinator) { }
+    func entriesViewDidSelectTextEntry(_ textEntryToEdit: TextEntry) {
+        let addEditTextEntryCoordinator = AddEditTextEntryCoordinator(
+            parentCoordinator: self,
+            databaseService: databaseService,
+            authService: authService,
+            navigationController: navigationController,
+            textEntryToEdit: textEntryToEdit
+        )
+
+        childCoordinators.append(addEditTextEntryCoordinator)
+        addEditTextEntryCoordinator.start()
+    }
+
+
+    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
 
     func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String) {
         AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: message)
+    }
+}
+
+extension EntriesCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+
+        if navigationController.viewControllers.contains(fromViewController) { return }
+
+        if let addEdiTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
+            removeChildCoordinator(addEdiTextEntryViewController.coordinator)
+        }
     }
 }

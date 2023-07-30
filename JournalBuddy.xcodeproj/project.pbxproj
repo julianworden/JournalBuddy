@@ -52,6 +52,8 @@
 		AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9192A645DC70054B1A4 /* HomeView.swift */; };
 		AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC91B2A6460A50054B1A4 /* LoginView.swift */; };
 		AB8760BD2A740955009D3D39 /* EntriesViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */; };
+		AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */; };
+		AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
 		AB948B802A6D7EE100430E61 /* NewTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */; };
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
@@ -75,10 +77,10 @@
 		ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */; };
 		ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */; };
 		ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */; };
-		ABB348402A6ACE5C0050A9AC /* NewTextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */; };
-		ABB348422A6ACE660050A9AC /* NewTextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */; };
-		ABB348442A6ACE700050A9AC /* NewTextEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */; };
-		ABB348462A6ACE8E0050A9AC /* NewTextEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */; };
+		ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB3483F2A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift */; };
+		ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348412A6ACE660050A9AC /* AddEditTextEntryView.swift */; };
+		ABB348442A6ACE700050A9AC /* AddEditTextEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348432A6ACE700050A9AC /* AddEditTextEntryViewModel.swift */; };
+		ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348452A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift */; };
 		ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
@@ -148,6 +150,8 @@
 		AB7CC9192A645DC70054B1A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AB7CC91B2A6460A50054B1A4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewDelegate.swift; sourceTree = "<group>"; };
+		AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
@@ -172,10 +176,10 @@
 		ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesCoordinator.swift; sourceTree = "<group>"; };
 		ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
 		ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewState.swift; sourceTree = "<group>"; };
-		ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewController.swift; sourceTree = "<group>"; };
-		ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryView.swift; sourceTree = "<group>"; };
-		ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewModel.swift; sourceTree = "<group>"; };
-		ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewState.swift; sourceTree = "<group>"; };
+		ABB3483F2A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryViewController.swift; sourceTree = "<group>"; };
+		ABB348412A6ACE660050A9AC /* AddEditTextEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryView.swift; sourceTree = "<group>"; };
+		ABB348432A6ACE700050A9AC /* AddEditTextEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryViewModel.swift; sourceTree = "<group>"; };
+		ABB348452A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryViewState.swift; sourceTree = "<group>"; };
 		ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewDelegate.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -429,8 +433,9 @@
 				ABB348332A6AC2AC0050A9AC /* EntriesViewController.swift */,
 				ABB348352A6AC2C20050A9AC /* EntriesView.swift */,
 				ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */,
-				ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */,
 				ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */,
+				ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */,
+				AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */,
 				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
 			);
 			path = Entries;
@@ -480,15 +485,16 @@
 			path = HomeView;
 			sourceTree = "<group>";
 		};
-		ABB3483E2A6ACE010050A9AC /* NewTextEntry */ = {
+		ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */ = {
 			isa = PBXGroup;
 			children = (
-				ABB3483F2A6ACE5C0050A9AC /* NewTextEntryViewController.swift */,
-				ABB348412A6ACE660050A9AC /* NewTextEntryView.swift */,
-				ABB348432A6ACE700050A9AC /* NewTextEntryViewModel.swift */,
-				ABB348452A6ACE8E0050A9AC /* NewTextEntryViewState.swift */,
+				ABB3483F2A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift */,
+				ABB348412A6ACE660050A9AC /* AddEditTextEntryView.swift */,
+				ABB348432A6ACE700050A9AC /* AddEditTextEntryViewModel.swift */,
+				AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */,
+				ABB348452A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift */,
 			);
-			path = NewTextEntry;
+			path = AddEditTextEntry;
 			sourceTree = "<group>";
 		};
 		ABB4B9652A635E9D00E63018 /* Login */ = {
@@ -517,7 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				ABB3483D2A6ACDF30050A9AC /* HomeView */,
-				ABB3483E2A6ACE010050A9AC /* NewTextEntry */,
+				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -667,12 +673,13 @@
 				AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeNewEntryCard.swift in Sources */,
-				ABB348422A6ACE660050A9AC /* NewTextEntryView.swift in Sources */,
+				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
 				AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */,
 				AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */,
 				AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */,
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
+				AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */,
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
@@ -707,22 +714,23 @@
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
-				ABB348402A6ACE5C0050A9AC /* NewTextEntryViewController.swift in Sources */,
+				ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
+				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
 				ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */,
-				ABB348462A6ACE8E0050A9AC /* NewTextEntryViewState.swift in Sources */,
+				ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
 				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
-				ABB348442A6ACE700050A9AC /* NewTextEntryViewModel.swift in Sources */,
+				ABB348442A6ACE700050A9AC /* AddEditTextEntryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
