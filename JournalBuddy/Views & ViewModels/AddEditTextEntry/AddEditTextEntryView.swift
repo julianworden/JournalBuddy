@@ -31,9 +31,9 @@ class AddEditTextEntryView: UIView, MainView {
         backgroundColor = .systemBackground
 
         entryTextView.delegate = self
-        entryTextView.text = viewModel.textEntryToEdit == nil ? "Tap anywhere to begin writing..." : viewModel.entryText
+        entryTextView.text = viewModel.entryTextViewDefaultText
         entryTextView.font = .preferredFont(forTextStyle: .body)
-        entryTextView.textColor = viewModel.textEntryToEdit == nil ? .secondaryLabel : .label
+        entryTextView.textColor = viewModel.entryTextViewDefaultTextColor
         entryTextView.showsVerticalScrollIndicator = false
         entryTextView.keyboardDismissMode = .interactive
     }

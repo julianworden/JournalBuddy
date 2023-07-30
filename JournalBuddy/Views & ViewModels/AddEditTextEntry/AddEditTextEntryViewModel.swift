@@ -5,7 +5,7 @@
 //  Created by Julian Worden on 7/21/23.
 //
 
-import Foundation
+import UIKit
 
 @MainActor
 final class AddEditTextEntryViewModel: MainViewModel {
@@ -15,6 +15,22 @@ final class AddEditTextEntryViewModel: MainViewModel {
     @Published var viewState = AddEditTextEntryViewState.displayingView
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+
+    var entryTextViewDefaultText: String {
+        if let textEntryToEdit {
+            return textEntryToEdit.text
+        } else {
+            return "Tap anywhere to begin writing..."
+        }
+    }
+
+    var entryTextViewDefaultTextColor: UIColor {
+        if textEntryToEdit == nil {
+            return .secondaryLabel
+        } else {
+            return .label
+        }
+    }
 
     var entryIsEmpty: Bool {
         return entryText.isReallyEmpty

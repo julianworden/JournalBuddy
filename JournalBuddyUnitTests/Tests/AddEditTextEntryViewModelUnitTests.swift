@@ -43,6 +43,46 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.textEntryToEdit, TextEntry.example)
     }
 
+    func test_EntryTextViewDefaultText_ReturnsExpectedValueWithTextEntryToEdit() {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil),
+            textEntryToEdit: TextEntry.example
+        )
+
+        XCTAssertEqual(sut.entryTextViewDefaultText, sut.textEntryToEdit?.text)
+    }
+
+    func test_EntryTextViewDefaultText_ReturnsExpectedValueWithNoTextEntryToEdit() {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil),
+            textEntryToEdit: nil
+        )
+
+        XCTAssertEqual(sut.entryTextViewDefaultText, "Tap anywhere to begin writing...")
+    }
+
+    func test_EntryTextViewDefaultTextColor_ReturnsSecondaryLabelWhenExpected() {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil),
+            textEntryToEdit: nil
+        )
+
+        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .secondaryLabel)
+    }
+
+    func test_EntryTextViewDefaultTextColor_ReturnsLabelWhenExpected() {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: nil),
+            authService: MockAuthService(errorToThrow: nil),
+            textEntryToEdit: TextEntry.example
+        )
+
+        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .label)
+    }
+
     func test_EntryIsEmpty_ReturnsTrueWhenExpected() {
         sut = AddEditTextEntryViewModel(
             databaseService: MockDatabaseService(errorToThrow: nil),
