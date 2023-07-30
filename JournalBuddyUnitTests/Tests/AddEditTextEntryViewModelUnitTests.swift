@@ -20,11 +20,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnInitWithNilTextEntryToEdit_DefaultValuesAreCorrect() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.viewState, .displayingView)
         XCTAssertTrue(sut.entryText.isEmpty)
@@ -32,11 +28,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnInitWithTextEntryToEdit_DefaultValuesAreCorrect() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.viewState, .displayingView)
         XCTAssertEqual(sut.entryText, sut.textEntryToEdit?.text)
@@ -44,105 +36,65 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_EntryTextViewDefaultText_ReturnsExpectedValueWithTextEntryToEdit() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.entryTextViewDefaultText, sut.textEntryToEdit?.text)
     }
 
     func test_EntryTextViewDefaultText_ReturnsExpectedValueWithNoTextEntryToEdit() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.entryTextViewDefaultText, "Tap anywhere to begin writing...")
     }
 
     func test_EntryTextViewDefaultTextColor_ReturnsSecondaryLabelWhenExpected() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.entryTextViewDefaultTextColor, .secondaryLabel)
     }
 
     func test_EntryTextViewDefaultTextColor_ReturnsLabelWhenExpected() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.entryTextViewDefaultTextColor, .label)
     }
 
     func test_EntryIsEmpty_ReturnsTrueWhenExpected() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "    "
 
         XCTAssertTrue(sut.entryIsEmpty)
     }
 
     func test_EntryIsEmpty_ReturnsFalseWhenExpected() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "I feel great!"
 
         XCTAssertFalse(sut.entryIsEmpty)
     }
 
     func test_EntryHasBeenEdited_ReturnsTrueWhenExpected() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "I feel great!"
 
         XCTAssertTrue(sut.entryHasBeenEdited)
     }
 
     func test_EntryHasBeenEdited_ReturnsFalseWhenTextEntryToEditIsNil() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "I feel great!"
 
         XCTAssertFalse(sut.entryHasBeenEdited)
     }
 
     func test_EntryHasBeenEdited_ReturnsFalseWhenTextEntryHaNotBeenEdited() {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertFalse(sut.entryHasBeenEdited)
     }
 
     func test_OnSuccessfullySaveNewTextEntry_ViewStateIsUpdated() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "What a great day!"
 
         await sut.saveTextEntry()
@@ -151,11 +103,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUnsuccessfullySaveNewTextEntry_ViewStateIsUpdated() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: TestError.general),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: TestError.general, authServiceError: nil)
         sut.entryText = "What a great day!"
 
         await sut.saveTextEntry()
@@ -164,11 +112,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnSaveTextEntryWithInvalidEntry_ErrorIsThrown() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: nil
-        )
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         await sut.saveTextEntry()
 
@@ -176,11 +120,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnSuccessfullyUpdateTextEntry_ViewStateIsUpdated() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "What a terrible day!"
 
         await sut.saveTextEntry()
@@ -189,11 +129,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUnsuccessfullyUpdateTextEntry_ViewStateIsUpdated() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: TestError.general),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: TestError.general, authServiceError: nil)
         sut.entryText = "What a terrible day!"
 
         await sut.saveTextEntry()
@@ -202,11 +138,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUpdateUneditedTextEntry_ErrorIsThrown() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
         await sut.saveTextEntry()
 
@@ -214,15 +146,27 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUpdateTextEntryWithEmptyText_ErrorIsThrown() async {
-        sut = AddEditTextEntryViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil),
-            textEntryToEdit: TextEntry.example
-        )
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
         sut.entryText = "     "
 
         await sut.saveTextEntry()
 
         XCTAssertEqual(sut.viewState, .error(FormError.textEntryIsEmpty.localizedDescription))
+    }
+
+    func initializeSUTWithTextEntryToEdit(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError),
+            textEntryToEdit: TextEntry.example
+        )
+    }
+
+    func initializeSUTWithNoTextEntryToEdit(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = AddEditTextEntryViewModel(
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError),
+            textEntryToEdit: nil
+        )
     }
 }

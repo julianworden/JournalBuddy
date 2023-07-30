@@ -17,20 +17,14 @@ final class EntriesViewModelUnitTests: XCTestCase {
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
-        sut = EntriesViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertEqual(sut.viewState, .fetchingEntries)
     }
 
     func test_OnSuccessfullyFetchTextEntries_EntriesAreAssignedAndViewStateIsSet() async {
-        sut = EntriesViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         await sut.fetchTextEntries()
 
@@ -39,14 +33,18 @@ final class EntriesViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUnsuccessfullyFetchTextEntries_ErrorIsThrown() async {
-        sut = EntriesViewModel(
-            databaseService: MockDatabaseService(errorToThrow: TestError.general),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
 
         await sut.fetchTextEntries()
 
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
+    }
+
+    func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = EntriesViewModel(
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError)
+        )
     }
 }

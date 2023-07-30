@@ -17,10 +17,7 @@ final class LoginViewModelUnitTests: XCTestCase {
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
-        sut = LoginViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.viewState, .displayingView)
         XCTAssertTrue(sut.emailAddress.isEmpty)
@@ -28,10 +25,7 @@ final class LoginViewModelUnitTests: XCTestCase {
     }
 
     func test_OnSuccessfulLogIn_ViewStateIsUpdated() async {
-        sut = LoginViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         await sut.logIn()
 
@@ -39,13 +33,17 @@ final class LoginViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUnsuccessfulLogIn_ViewStateIsUpdated() async {
-        sut = LoginViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: TestError.general)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: TestError.general)
 
         await sut.logIn()
 
         XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
+    }
+
+    func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = LoginViewModel(
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError)
+        )
     }
 }

@@ -17,19 +17,13 @@ final class HomeViewModelUnitTests: XCTestCase {
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
-        sut = HomeViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertEqual(sut.viewState, .displayingView)
     }
 
     func test_OnSuccessfulLogOut_ViewStateIsUpdated() {
-        sut = HomeViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: nil)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         sut.logOut()
 
@@ -37,13 +31,17 @@ final class HomeViewModelUnitTests: XCTestCase {
     }
 
     func test_OnUnsuccessfulLogOut_ViewStateIsUpdated() {
-        sut = HomeViewModel(
-            databaseService: MockDatabaseService(errorToThrow: nil),
-            authService: MockAuthService(errorToThrow: TestError.general)
-        )
+        initializeSUT(databaseServiceError: nil, authServiceError: TestError.general)
 
         sut.logOut()
 
         XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
+    }
+
+    func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = HomeViewModel(
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError)
+        )
     }
 }
