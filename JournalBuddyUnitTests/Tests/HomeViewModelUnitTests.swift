@@ -9,7 +9,7 @@
 import XCTest
 
 @MainActor
-final class HomeViewModelUnitTests: XCTestCase, MainTestCase {
+final class HomeViewModelUnitTests: XCTestCase {
     var sut: HomeViewModel!
 
     override func tearDown() {

@@ -9,7 +9,7 @@
 import XCTest
 
 @MainActor
-final class SignUpViewModelUnitTests: XCTestCase, MainTestCase {
+final class SignUpViewModelUnitTests: XCTestCase {
     var sut: SignUpViewModel!
 
     override func setUp() { }

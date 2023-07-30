@@ -8,7 +8,11 @@
 import Foundation
 
 enum FBConstants {
-    static let id = "id"
+    // MARK: - Collections
     static let users = "users"
     static let entries = "entries"
+
+    // MARK: - Fields
+    static let id = "id"
+    static let text = "text"
 }

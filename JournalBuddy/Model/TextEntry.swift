@@ -10,7 +10,9 @@ struct TextEntry: Entry, Hashable {
     let creatorUID: String
     let unixDate: Double
     let type: EntryType
-    let text: String
+    var text: String
+
+    static let example = TextEntry(id: "asdf123", creatorUID: "qwer123", unixDate: 2871047, text: "What a great day!")
 
     init(id: String, creatorUID: String, unixDate: Double, type: EntryType = .text, text: String) {
         self.id = id

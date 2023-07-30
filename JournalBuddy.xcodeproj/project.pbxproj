@@ -55,7 +55,7 @@
 		AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */; };
 		AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
-		AB948B802A6D7EE100430E61 /* NewTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */; };
+		AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */; };
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
 		AB948B822A6D7EE700430E61 /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B602A6D7D9800430E61 /* TestError.swift */; };
 		AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5A2A6D7D9800430E61 /* TestData.swift */; };
@@ -92,7 +92,6 @@
 		ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */; };
 		ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */; };
 		ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */; };
-		ABF8FD642A72B5E50065B8D9 /* MainTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD632A72B5E50065B8D9 /* MainTestCase.swift */; };
 		ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF2782A658546004C40A8 /* Coordinator.swift */; };
 		ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */; };
 		ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */; };
@@ -155,7 +154,7 @@
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
-		AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTextEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB948B602A6D7D9800430E61 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		AB948B692A6D7EAC00430E61 /* JournalBuddyUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalBuddyUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB95E2F82A6EAA26001FDDD8 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -191,7 +190,6 @@
 		ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelUnitTests.swift; sourceTree = "<group>"; };
 		ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelUnitTests.swift; sourceTree = "<group>"; };
-		ABF8FD632A72B5E50065B8D9 /* MainTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTestCase.swift; sourceTree = "<group>"; };
 		ABFEF2782A658546004C40A8 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -345,7 +343,7 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		AB7CC9142A643D1B0054B1A4 /* Miscellaneous */ = {
+		AB7CC9142A643D1B0054B1A4 /* Custom UIViews */ = {
 			isa = PBXGroup;
 			children = (
 				AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */,
@@ -355,7 +353,7 @@
 				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
 			);
-			path = Miscellaneous;
+			path = "Custom UIViews";
 			sourceTree = "<group>";
 		};
 		AB90FF0C2A71F05E00D23017 /* Test Plans */ = {
@@ -389,8 +387,8 @@
 				ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */,
 				AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */,
 				ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */,
-				AB948B5E2A6D7D9800430E61 /* NewTextEntryViewModelUnitTests.swift */,
 				AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */,
+				AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -409,7 +407,6 @@
 				AB90FF0C2A71F05E00D23017 /* Test Plans */,
 				AB948B5D2A6D7D9800430E61 /* Tests */,
 				AB948B5B2A6D7D9800430E61 /* Mocks */,
-				ABF8FD622A72B5CA0065B8D9 /* Protocols */,
 				AB948B5F2A6D7D9800430E61 /* Errors */,
 				AB948B592A6D7D9800430E61 /* Utilities */,
 			);
@@ -514,7 +511,8 @@
 			children = (
 				ABFEF27B2A6585FD004C40A8 /* Onboarding */,
 				ABB24E3E2A66D127001A76E0 /* Tabs */,
-				AB7CC9142A643D1B0054B1A4 /* Miscellaneous */,
+				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
+				AB7CC9142A643D1B0054B1A4 /* Custom UIViews */,
 			);
 			path = "Views & ViewModels";
 			sourceTree = "<group>";
@@ -523,17 +521,8 @@
 			isa = PBXGroup;
 			children = (
 				ABB3483D2A6ACDF30050A9AC /* HomeView */,
-				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		ABF8FD622A72B5CA0065B8D9 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				ABF8FD632A72B5E50065B8D9 /* MainTestCase.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		ABFEF27B2A6585FD004C40A8 /* Onboarding */ = {
@@ -742,12 +731,11 @@
 				AB8760BD2A740955009D3D39 /* EntriesViewModelUnitTests.swift in Sources */,
 				AB948B822A6D7EE700430E61 /* TestError.swift in Sources */,
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,
-				AB948B802A6D7EE100430E61 /* NewTextEntryViewModelUnitTests.swift in Sources */,
+				AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */,
 				ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */,
 				AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */,
 				ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */,
 				AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */,
-				ABF8FD642A72B5E50065B8D9 /* MainTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

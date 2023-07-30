@@ -9,11 +9,11 @@ import Combine
 import UIKit
 
 class AddEditTextEntryViewController: UIViewController, MainViewController {
+    private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+
     weak var coordinator: AddEditTextEntryCoordinator?
     var viewModel: AddEditTextEntryViewModel
     var cancellables = Set<AnyCancellable>()
-
-    private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
 
     init(coordinator: AddEditTextEntryCoordinator?, viewModel: AddEditTextEntryViewModel) {
         self.coordinator = coordinator
@@ -55,15 +55,27 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .savingTextEntry:
+                case .savingTextEntry, .textEntryUpdating:
                     self?.disableSaveButton()
-                case .textEntrySaved:
+                case .textEntrySaved, .textEntryUpdated:
                     self?.coordinator?.addEditTextEntryViewControllerDidSaveTextEntry()
                 case .error(let errorMessage):
                     self?.enableSaveButton()
                     self?.showError(errorMessage)
                 default:
                     break
+                }
+            }
+            .store(in: &cancellables)
+
+        viewModel.$entryText
+            .sink { [weak self] entryText in
+                if let textEntryToEdit = self?.viewModel.textEntryToEdit {
+                    // Show save button if TextEntry text has been edited
+                    self?.saveButton.isHidden = self?.viewModel.textEntryToEdit?.text == entryText
+                } else {
+                    // Show save button if user has typed text
+                    self?.saveButton.isHidden = entryText.isReallyEmpty
                 }
             }
             .store(in: &cancellables)

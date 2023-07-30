@@ -10,7 +10,8 @@ import Foundation
 enum FormError: LocalizedError {
     case emailAddressesDoNotMatchOnSignUp
     case passwordsDoNotMatchOnSignUp
-    case emptyTextEntry
+    case textEntryIsEmpty
+    case textEntryHasNotBeenUpdated
 
     var errorDescription: String? {
         switch self {
@@ -18,8 +19,10 @@ enum FormError: LocalizedError {
             return "The email addresses you entered do not match, please try again."
         case .passwordsDoNotMatchOnSignUp:
             return "The passwords you entered do not match, please try again."
-        case .emptyTextEntry:
+        case .textEntryIsEmpty:
             return "You cannot save an empty text entry, please try again after entering text."
+        case .textEntryHasNotBeenUpdated:
+            return "You have not changed this text entry, so there is no need to update it."
         }
     }
 }

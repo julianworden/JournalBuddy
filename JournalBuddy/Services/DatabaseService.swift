@@ -45,6 +45,20 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
+    func updateEntry<T: Entry>(_ entry: T) async throws {
+        do {
+            switch entry.type {
+            case .text:
+                let textEntry = entry as! TextEntry
+                try await updateTextEntry(textEntry)
+            default:
+                fatalError("No other types of entries have been implemented yet")
+            }
+        } catch {
+            throw error
+        }
+    }
+
     func fetchTextEntries() async throws -> [TextEntry] {
         do {
             let query = try await usersCollection
@@ -69,6 +83,18 @@ final class DatabaseService: DatabaseServiceProtocol {
             return textEntryWithID
         } catch {
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+
+    func updateTextEntry(_ textEntry: TextEntry) async throws {
+        do {
+            try await usersCollection
+                .document(authService.currentUserUID)
+                .collection(FBConstants.entries)
+                .document(textEntry.id)
+                .updateData([FBConstants.text: textEntry.text])
+        } catch {
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
         }
     }
 }

@@ -36,6 +36,19 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
 
+    func updateEntry<T: Entry>(_ entry: T) async throws {
+        do {
+            switch entry.type {
+            case .text:
+                try await updateTextEntry(entry as! TextEntry)
+            default:
+                fatalError("Entry type not implemented.")
+            }
+        } catch {
+            throw error
+        }
+    }
+
     func fetchTextEntries() async throws -> [TextEntry] {
         return []
     }
@@ -47,6 +60,12 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             var textEntryWithID = textEntry
             textEntryWithID.id = UUID().uuidString
             return textEntryWithID
+        }
+    }
+
+    func updateTextEntry(_ textEntry: JournalBuddy.TextEntry) async throws {
+        if let errorToThrow {
+            throw errorToThrow
         }
     }
 }
