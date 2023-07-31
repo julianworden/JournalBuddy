@@ -35,6 +35,18 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.textEntryToEdit, TextEntry.example)
     }
 
+    func test_NavigationTitle_ReturnsExpectedValueWithTextEntryToEdit() {
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        XCTAssertEqual(sut.navigationTitle, "Edit Text Entry")
+    }
+
+    func test_NavigationTitle_ReturnsExpectedValueWithNoTextEntryToEdit() {
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        XCTAssertEqual(sut.navigationTitle, "New Text Entry")
+    }
+
     func test_EntryTextViewDefaultText_ReturnsExpectedValueWithTextEntryToEdit() {
         initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 

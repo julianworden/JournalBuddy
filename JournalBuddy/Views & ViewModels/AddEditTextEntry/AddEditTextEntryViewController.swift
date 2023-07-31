@@ -40,7 +40,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.rightBarButtonItem = saveButton
-        title = "New Text Entry"
+        title = viewModel.navigationTitle
     }
 
     func disableSaveButton() {

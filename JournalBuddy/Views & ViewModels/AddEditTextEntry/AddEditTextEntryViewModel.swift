@@ -17,6 +17,14 @@ final class AddEditTextEntryViewModel: MainViewModel {
     let authService: AuthServiceProtocol
     let currentUser: User
 
+    var navigationTitle: String {
+        if textEntryToEdit != nil {
+            return "Edit Text Entry"
+        } else {
+            return "New Text Entry"
+        }
+    }
+
     var entryTextViewDefaultText: String {
         if let textEntryToEdit {
             return textEntryToEdit.text
