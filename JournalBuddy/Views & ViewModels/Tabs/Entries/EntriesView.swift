@@ -14,7 +14,7 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         tableView: tableView
     )
-    private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var activityIndicator = UIActivityIndicatorView(style: .medium)
 
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
@@ -34,16 +34,12 @@ class EntriesView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func fetchTextEntries() {
-        Task {
-            await viewModel.fetchTextEntries()
-        }
-    }
-
     func configureLoadingUI() {
         backgroundColor = .systemBackground
 
         tableView.isHidden = true
+
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         activityIndicator.hidesWhenStopped = true
     }
@@ -87,7 +83,6 @@ class EntriesView: UIView, MainView {
                 case .fetchingEntries:
                     self?.configureTableView()
                     self?.configureLoadingUI()
-                    self?.fetchTextEntries()
                 case .fetchedEntries:
                     self?.configureLoadedUI()
                 default:

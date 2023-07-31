@@ -14,5 +14,5 @@ protocol Coordinator: AnyObject {
 
     @MainActor func start()
     @MainActor func removeChildCoordinator(_ childCoordinator: Coordinator?)
-    @MainActor func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String)
+    @MainActor func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String)
 }

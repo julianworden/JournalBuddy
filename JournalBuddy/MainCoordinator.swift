@@ -49,8 +49,8 @@ final class MainCoordinator: Coordinator {
         }
     }
 
-    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage message: String) {
-        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: message)
+    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
+        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: errorMessage)
     }
 
     func startOnboardingCoordinator() {

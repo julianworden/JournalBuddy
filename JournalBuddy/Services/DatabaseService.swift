@@ -108,7 +108,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.entries)
                 .addDocument(from: textEntry)
 
-            try await newDocument.updateData([FBConstants.uid: newDocument.documentID])
+            try await newDocument.updateData([FBConstants.id: newDocument.documentID])
             var textEntryWithID = textEntry
             textEntryWithID.id = newDocument.documentID
             return textEntryWithID

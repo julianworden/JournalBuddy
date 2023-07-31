@@ -36,6 +36,14 @@ class EntriesViewController: UIViewController, MainViewController {
         configure()
     }
 
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        Task {
+            await viewModel.fetchTextEntries()
+        }
+    }
+
     func configure() {
         navigationItem.title = "Entries"
         navigationItem.largeTitleDisplayMode = .always
