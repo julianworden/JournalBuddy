@@ -11,8 +11,8 @@ import FirebaseAuth
 final class MockAuthService: AuthServiceProtocol {
     var errorToThrow: Error?
     var userIsLoggedIn = false
-    var currentUser: User?
-    var currentUserUID = "abc123"
+    var currentUserUID: String?
+    var currentUserEmailAddress: String?
 
     init(errorToThrow: Error?) {
         self.errorToThrow = errorToThrow
@@ -34,5 +34,8 @@ final class MockAuthService: AuthServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         }
+
+        self.currentUserUID = "abc123"
+        self.currentUserEmailAddress = "test@test.com"
     }
 }

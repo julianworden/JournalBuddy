@@ -15,6 +15,12 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
+    func createUser(_ user: JournalBuddy.User) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
+
     func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow

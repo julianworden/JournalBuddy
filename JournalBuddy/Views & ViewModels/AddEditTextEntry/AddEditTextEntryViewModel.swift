@@ -66,9 +66,10 @@ final class AddEditTextEntryViewModel: MainViewModel {
                 return
             }
 
+            #warning("Nil Coaelescing shouldn't happen")
             let textEntry = TextEntry(
                 id: "",
-                creatorUID: authService.currentUserUID,
+                creatorUID: authService.currentUserUID ?? "",
                 unixDate: Date.now.timeIntervalSince1970,
                 text: entryText
             )

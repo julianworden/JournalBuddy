@@ -16,10 +16,12 @@ final class AuthService: AuthServiceProtocol {
         return Auth.auth().currentUser
     }
 
-    var currentUserUID: String {
-        guard let currentUser else { return "" }
+    var currentUserUID: String? {
+        return currentUser?.uid
+    }
 
-        return currentUser.uid
+    var currentUserEmailAddress: String? {
+        return currentUser?.email
     }
 
     func logIn(withEmail emailAddress: String, andPassword password: String) async throws {

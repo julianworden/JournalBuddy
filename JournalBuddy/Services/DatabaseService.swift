@@ -18,6 +18,25 @@ final class DatabaseService: DatabaseServiceProtocol {
         self.authService = authService
     }
 
+    // MARK: - User
+
+    func createUser(_ user: User) async throws {
+        do {
+            try await usersCollection
+                .document(user.id)
+                .setData(
+                    [
+                        FBConstants.id: user.id,
+                        FBConstants.emailAddress: user.emailAddress
+                    ]
+                )
+        } catch {
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+
+    // MARK: - Generic Entry CRUD
+
     func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T] {
         do {
             switch entryType {
@@ -59,10 +78,14 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
+    // MARK: - TextEntry
+
     func fetchTextEntries() async throws -> [TextEntry] {
         do {
+
+            #warning("Make DatabaseService look at injected user")
             let query = try await usersCollection
-                .document(authService.currentUserUID)
+                .document(authService.currentUserUID ?? "")
                 .collection(FBConstants.entries)
                 .getDocuments()
 
@@ -89,7 +112,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     func updateTextEntry(_ textEntry: TextEntry) async throws {
         do {
             try await usersCollection
-                .document(authService.currentUserUID)
+                .document(authService.currentUserUID ?? "")
                 .collection(FBConstants.entries)
                 .document(textEntry.id)
                 .updateData([FBConstants.text: textEntry.text])

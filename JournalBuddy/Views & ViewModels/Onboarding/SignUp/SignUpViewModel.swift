@@ -39,6 +39,14 @@ final class SignUpViewModel: MainViewModel {
 
         do {
             try await authService.createAccount(withEmail: emailAddress, andPassword: password)
+            guard let currentUserUID = authService.currentUserUID,
+                  let currentUserEmailAddress = authService.currentUserEmailAddress else {
+                viewState = .error(FBAuthError.userNotCreatedSuccessfully.localizedDescription)
+                return
+            }
+
+            let newUser = User(id: currentUserUID, emailAddress: currentUserEmailAddress)
+            try await databaseService.createUser(newUser)
             viewState = .accountCreatedSuccessfully
         } catch {
             print(error.emojiMessage)

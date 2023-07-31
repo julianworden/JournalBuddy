@@ -14,6 +14,7 @@ enum FBAuthError: LocalizedError {
     case networkError
     case wrongPasswordOnLogIn
     case userNotFoundOnLogIn
+    case userNotCreatedSuccessfully
 
     var errorDescription: String? {
         switch self {
@@ -29,6 +30,8 @@ enum FBAuthError: LocalizedError {
             return "Incorrect email or password. Please try again."
         case .userNotFoundOnLogIn:
             return "This email address is not registered with Journal Buddy. If you need to create a new account, use the Sign Up button."
+        case .userNotCreatedSuccessfully:
+            return "Something went wrong, your account was not created successfully. Please contact support."
         }
     }
 }
