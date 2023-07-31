@@ -5,6 +5,7 @@
 //  Created by Julian Worden on 7/17/23.
 //
 
+import FirebaseAuth
 import UIKit
 
 @MainActor
@@ -12,24 +13,27 @@ final class MainCoordinator: Coordinator {
     let appWindow: UIWindow?
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    var currentUser: User?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController?
 
     static let preview = MainCoordinator(
         databaseService: DatabaseService(authService: AuthService()),
         authService: AuthService(),
-        appWindow: nil
+        appWindow: nil,
+        currentUser: User.example
     )
 
-    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, appWindow: UIWindow?) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, appWindow: UIWindow?, currentUser: User?) {
         self.databaseService = databaseService
         self.authService = authService
         self.appWindow = appWindow
+        self.currentUser = currentUser
     }
 
     func start() {
-        if authService.userIsLoggedIn {
-            startTabBarCoordinator()
+        if let currentUser {
+            startTabBarCoordinator(withUser: currentUser)
         } else {
             navigationController = UINavigationController()
             navigationController?.navigationBar.prefersLargeTitles = true
@@ -67,30 +71,29 @@ final class MainCoordinator: Coordinator {
         onboardingCoordinator.start()
     }
 
-    func startTabBarCoordinator() {
+    func startTabBarCoordinator(withUser user: User) {
         let tabCoordinator = TabBarCoordinator(
+            appWindow: appWindow,
             parentCoordinator: self,
             databaseService: databaseService,
             authService: authService,
-            appWindow: appWindow
+            currentUser: user
         )
 
         childCoordinators.append(tabCoordinator)
         tabCoordinator.start()
     }
 
-    /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startTabBarCoordinator` to end onboarding. Called
-    /// when a user either logs in successfully or signs up for an account successfully.
+    /// Removes the `OnboardingCoordinator` from the `childCoordinators` array and calls `startTabBarCoordinator` to end onboarding. Called when a user either logs in successfully or signs up for an account successfully.
     /// - Parameter childCoordinator: The coordinator that was in use when the user either signed in or signed up successfully.
-    func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator) {
+    func childOnboardingCoordinatorDidFinish(_ childCoordinator: OnboardingCoordinator, withUser user: User) {
         removeChildCoordinator(childCoordinator)
         navigationController = nil
-        startTabBarCoordinator()
+        startTabBarCoordinator(withUser: user)
     }
 
-    /// Removes the `TabBarCoordinator` from the `childCoordinators` array and calls `startOnboardingCoordinator` to end onboarding. Called
-    /// when a user either logs in successfully or signs up for an account successfully.
-    /// - Parameter childCoordinator: The coordinator that was in use when the user signed out. It is to be removed from the `childCoordinators` array.
+    /// Removes the `TabBarCoordinator` from the `childCoordinators` array and calls `startOnboardingCoordinator` to end onboarding. Called when a user logs out.
+    /// - Parameter childCoordinator: The coordinator that was in use when the user logged out. It is to be removed from the `childCoordinators` array.
     func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
         removeChildCoordinator(childCoordinator)
         let navigationController = UINavigationController()

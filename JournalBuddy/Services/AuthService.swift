@@ -8,20 +8,26 @@
 import FirebaseAuth
 
 final class AuthService: AuthServiceProtocol {
-    var userIsLoggedIn: Bool {
-        return Auth.auth().currentUser != nil
-    }
-
-    var currentUser: FirebaseAuth.User? {
+    var currentFirebaseAuthUser: FirebaseAuth.User? {
         return Auth.auth().currentUser
     }
-
-    var currentUserUID: String? {
-        return currentUser?.uid
+    
+    /// The UID for the current `FirebaseAuth.User`. Used to make it easier to test methods that utilize an
+    /// object that conforms to `AuthServiceProtocol`, as it does not appear to be possible to initialize
+    /// a new `FirebaseAuth.User`.
+    var currentUserUID: String {
+        return currentFirebaseAuthUser?.uid ?? "Unknown"
     }
 
-    var currentUserEmailAddress: String? {
-        return currentUser?.email
+    /// The email address for the current `FirebaseAuth.User`. Used to make it easier to test methods that utilize an
+    /// object that conforms to `AuthServiceProtocol`, as it does not appear to be possible to initialize
+    /// a new `FirebaseAuth.User`.
+    var currentUserEmailAddress: String {
+        return currentFirebaseAuthUser?.email ?? "Unknown"
+    }
+
+    var userIsLoggedIn: Bool {
+        return Auth.auth().currentUser != nil
     }
 
     func logIn(withEmail emailAddress: String, andPassword password: String) async throws {

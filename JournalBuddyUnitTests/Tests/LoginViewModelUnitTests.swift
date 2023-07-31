@@ -29,7 +29,7 @@ final class LoginViewModelUnitTests: XCTestCase {
 
         await sut.logIn()
 
-        XCTAssertEqual(sut.viewState, .loggedIn)
+        XCTAssertEqual(sut.viewState, .loggedIn(User.example))
     }
 
     func test_OnUnsuccessfulLogIn_ViewStateIsUpdated() async {

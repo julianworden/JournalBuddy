@@ -14,17 +14,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        // Prevent screen from going black while the below Task is performed.
+        window?.rootViewController = StartupViewController()
+        window?.makeKeyAndVisible()
 
-        let authService = AuthService()
-        let databaseService = DatabaseService(authService: authService)
+        Task {
+            let authService = AuthService()
+            let databaseService = DatabaseService(authService: authService)
 
-        mainCoordinator = MainCoordinator(
-            databaseService: databaseService,
-            authService: authService,
-            appWindow: window
-        )
+            if let currentFirebaseAuthUser = authService.currentFirebaseAuthUser {
+                let currentUser = try await databaseService.getUser(withUID: currentFirebaseAuthUser.uid)
 
-        mainCoordinator?.start()
+                mainCoordinator = MainCoordinator(
+                    databaseService: databaseService,
+                    authService: authService,
+                    appWindow: window,
+                    currentUser: currentUser
+                )
+
+                mainCoordinator?.start()
+            } else {
+                mainCoordinator = MainCoordinator(
+                    databaseService: databaseService,
+                    authService: authService,
+                    appWindow: window,
+                    currentUser: nil
+                )
+
+                mainCoordinator?.start()
+            }
+        }
     }
 }
 

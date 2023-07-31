@@ -45,8 +45,8 @@ class LoginViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .loggedIn:
-                    self?.coordinator?.onboardingDidEnd()
+                case .loggedIn(let currentUser):
+                    self?.coordinator?.onboardingDidEnd(for: currentUser)
                 case .error(let error):
                     self?.showError(error)
                 default:

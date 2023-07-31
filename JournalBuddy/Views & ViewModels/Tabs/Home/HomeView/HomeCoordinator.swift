@@ -12,6 +12,7 @@ final class HomeCoordinator: NSObject, Coordinator {
     weak var parentCoordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    let currentUser: User
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
@@ -19,7 +20,8 @@ final class HomeCoordinator: NSObject, Coordinator {
         navigationController: UINavigationController,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
-        parentCoordinator: TabBarCoordinator?
+        parentCoordinator: TabBarCoordinator?,
+        currentUser: User
     ) {
         self.navigationController = navigationController
         self.navigationController.navigationBar.prefersLargeTitles = true
@@ -27,6 +29,7 @@ final class HomeCoordinator: NSObject, Coordinator {
         self.databaseService = databaseService
         self.authService = authService
         self.parentCoordinator = parentCoordinator
+        self.currentUser = currentUser
 
         super.init()
 
@@ -37,7 +40,8 @@ final class HomeCoordinator: NSObject, Coordinator {
     func start() {
         let homeViewModel = HomeViewModel(
             databaseService: databaseService,
-            authService: authService
+            authService: authService,
+            currentUser: currentUser
         )
 
         let homeViewController = HomeViewController(coordinator: self, viewModel: homeViewModel)
@@ -50,6 +54,7 @@ final class HomeCoordinator: NSObject, Coordinator {
             databaseService: databaseService,
             authService: authService,
             navigationController: navigationController,
+            currentUser: currentUser,
             textEntryToEdit: nil
         )
         childCoordinators.append(addEditTextEntryCoordinator)

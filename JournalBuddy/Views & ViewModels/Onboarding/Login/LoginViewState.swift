@@ -8,5 +8,5 @@
 import Foundation
 
 enum LoginViewState: ViewState {
-    case displayingView, loggingIn, loggedIn, error(String)
+    case displayingView, loggingIn, loggedIn(User), error(String)
 }

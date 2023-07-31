@@ -13,18 +13,21 @@ import UIKit
 final class TabBarCoordinator: Coordinator {
     weak var parentCoordinator: MainCoordinator?
     weak var appWindow: UIWindow?
+    let currentUser: User
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
 
     init(
+        appWindow: UIWindow?,
         parentCoordinator: MainCoordinator,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
-        appWindow: UIWindow?
+        currentUser: User
     ) {
-        self.appWindow = appWindow
         self.parentCoordinator = parentCoordinator
+        self.currentUser = currentUser
+        self.appWindow = appWindow
         self.databaseService = databaseService
         self.authService = authService
     }
@@ -33,14 +36,15 @@ final class TabBarCoordinator: Coordinator {
         let tabBarController = MainTabBarController(
             coordinator: self,
             databaseService: databaseService,
-            authService: authService
+            authService: authService,
+            currentUser: currentUser
         )
         
         appWindow?.rootViewController = tabBarController
         appWindow?.makeKeyAndVisible()
 
         if let appWindow {
-            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCurlUp, animations: nil)
+            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
         }
     }
 

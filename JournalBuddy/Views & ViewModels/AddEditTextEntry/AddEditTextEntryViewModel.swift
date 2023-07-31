@@ -15,6 +15,7 @@ final class AddEditTextEntryViewModel: MainViewModel {
     @Published var viewState = AddEditTextEntryViewState.displayingView
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    let currentUser: User
 
     var entryTextViewDefaultText: String {
         if let textEntryToEdit {
@@ -42,9 +43,10 @@ final class AddEditTextEntryViewModel: MainViewModel {
         return entryText != textEntryToEdit.text
     }
 
-    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, textEntryToEdit: TextEntry?) {
+    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, currentUser: User, textEntryToEdit: TextEntry?) {
         self.databaseService = databaseService
         self.authService = authService
+        self.currentUser = currentUser
         self.textEntryToEdit = textEntryToEdit
         self.entryText = textEntryToEdit?.text ?? ""
     }
@@ -66,10 +68,9 @@ final class AddEditTextEntryViewModel: MainViewModel {
                 return
             }
 
-            #warning("Nil Coaelescing shouldn't happen")
             let textEntry = TextEntry(
                 id: "",
-                creatorUID: authService.currentUserUID ?? "",
+                creatorUID: currentUser.uid,
                 unixDate: Date.now.timeIntervalSince1970,
                 text: entryText
             )

@@ -44,7 +44,8 @@ final class EntriesViewModelUnitTests: XCTestCase {
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
         sut = EntriesViewModel(
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
-            authService: MockAuthService(errorToThrow: authServiceError)
+            authService: MockAuthService(errorToThrow: authServiceError),
+            currentUser: User.example
         )
     }
 }

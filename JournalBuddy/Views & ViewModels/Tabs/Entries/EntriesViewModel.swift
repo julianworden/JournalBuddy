@@ -14,15 +14,21 @@ final class EntriesViewModel: MainViewModel {
 
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    let currentUser: User
 
-    init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
+    init(
+        databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol,
+        currentUser: User
+    ) {
         self.databaseService = databaseService
         self.authService = authService
+        self.currentUser = currentUser
     }
 
     func fetchTextEntries() async {
         do {
-            textEntries = try await databaseService.fetchEntries(.text)
+            textEntries = try await databaseService.fetchEntries(.text, forUID: currentUser.uid)
             viewState = .fetchedEntries
         } catch {
             print(error.emojiMessage)

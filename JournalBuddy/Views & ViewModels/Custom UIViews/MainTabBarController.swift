@@ -11,27 +11,32 @@ class MainTabBarController: UITabBarController {
     weak var coordinator: TabBarCoordinator?
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    let currentUser: User
     lazy var homeCoordinator = HomeCoordinator(
         navigationController: UINavigationController(),
         databaseService: databaseService,
         authService: authService,
-        parentCoordinator: coordinator
+        parentCoordinator: coordinator,
+        currentUser: currentUser
     )
     lazy var entriesCoordinator = EntriesCoordinator(
         navigationController: UINavigationController(),
         databaseService: databaseService,
         authService: authService,
-        parentCoordinator: coordinator
+        parentCoordinator: coordinator,
+        currentUser: currentUser
     )
 
     init(
         coordinator: TabBarCoordinator,
         databaseService: DatabaseServiceProtocol,
-        authService: AuthServiceProtocol
+        authService: AuthServiceProtocol,
+        currentUser: User
     ) {
         self.coordinator = coordinator
         self.databaseService = databaseService
         self.authService = authService
+        self.currentUser = currentUser
 
         super.init(nibName: nil, bundle: nil)
 

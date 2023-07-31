@@ -44,8 +44,8 @@ class SignUpViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .accountCreatedSuccessfully:
-                    self?.coordinator?.onboardingDidEnd()
+                case .accountCreatedSuccessfully(let newUser):
+                    self?.coordinator?.onboardingDidEnd(for: newUser)
                 case .error(let errorMessage):
                     self?.showError(errorMessage)
                 default:

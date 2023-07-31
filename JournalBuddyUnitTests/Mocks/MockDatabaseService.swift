@@ -15,13 +15,21 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
+    func getUser(withUID uid: String) async throws -> User {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return User.example
+        }
+    }
+
     func createUser(_ user: JournalBuddy.User) async throws {
         if let errorToThrow {
             throw errorToThrow
         }
     }
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T] {
+    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {
@@ -55,7 +63,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func fetchTextEntries() async throws -> [TextEntry] {
+    func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         return []
     }
 

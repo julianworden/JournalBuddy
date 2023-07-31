@@ -8,13 +8,14 @@
 import FirebaseAuth
 
 protocol DatabaseServiceProtocol {
+    func getUser(withUID uid: String) async throws -> User
     func createUser(_ user: User) async throws
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T]
+    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T]
     @discardableResult func saveEntry<T: Entry>(_ entry: T) async throws -> T
     func updateEntry<T: Entry>(_ entry: T) async throws
 
-    func fetchTextEntries() async throws -> [TextEntry]
+    func fetchTextEntries(forUID uid: String) async throws -> [TextEntry]
     func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry
     func updateTextEntry(_ textEntry: TextEntry) async throws
 }

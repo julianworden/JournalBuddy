@@ -9,8 +9,9 @@ import FirebaseAuth
 
 protocol AuthServiceProtocol {
     var userIsLoggedIn: Bool { get }
-    var currentUserUID: String? { get }
-    var currentUserEmailAddress: String? { get }
+    var currentFirebaseAuthUser: FirebaseAuth.User? { get }
+    var currentUserUID: String { get }
+    var currentUserEmailAddress: String { get }
 
     func logIn(withEmail emailAddress: String, andPassword password: String) async throws
     func logOut() throws

@@ -20,13 +20,23 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - User
 
+    func getUser(withUID uid: String) async throws -> User {
+        do {
+            return try await usersCollection
+                .document(uid)
+                .getDocument(as: User.self)
+        } catch {
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+
     func createUser(_ user: User) async throws {
         do {
             try await usersCollection
-                .document(user.id)
+                .document(user.uid)
                 .setData(
                     [
-                        FBConstants.id: user.id,
+                        FBConstants.uid: user.uid,
                         FBConstants.emailAddress: user.emailAddress
                     ]
                 )
@@ -37,11 +47,11 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType) async throws -> [T] {
+    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         do {
             switch entryType {
             case .text:
-                return try await fetchTextEntries() as! [T]
+                return try await fetchTextEntries(forUID: uid) as! [T]
             default:
                 fatalError("No other types of entries have been implemented yet.")
             }
@@ -80,12 +90,10 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - TextEntry
 
-    func fetchTextEntries() async throws -> [TextEntry] {
+    func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         do {
-
-            #warning("Make DatabaseService look at injected user")
             let query = try await usersCollection
-                .document(authService.currentUserUID ?? "")
+                .document(uid)
                 .collection(FBConstants.entries)
                 .getDocuments()
 
@@ -100,7 +108,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.entries)
                 .addDocument(from: textEntry)
 
-            try await newDocument.updateData([FBConstants.id: newDocument.documentID])
+            try await newDocument.updateData([FBConstants.uid: newDocument.documentID])
             var textEntryWithID = textEntry
             textEntryWithID.id = newDocument.documentID
             return textEntryWithID
@@ -112,7 +120,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     func updateTextEntry(_ textEntry: TextEntry) async throws {
         do {
             try await usersCollection
-                .document(authService.currentUserUID ?? "")
+                .document(textEntry.creatorUID)
                 .collection(FBConstants.entries)
                 .document(textEntry.id)
                 .updateData([FBConstants.text: textEntry.text])

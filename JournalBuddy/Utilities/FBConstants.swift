@@ -13,7 +13,7 @@ enum FBConstants {
     static let entries = "entries"
 
     // MARK: - Fields
-    static let id = "id"
+    static let uid = "uid"
     static let text = "text"
     static let emailAddress = "emailAddress"
 }

@@ -31,7 +31,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
     func test_EmailAddressesMatch_ReturnsFalseWhenExpected() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
-        sut.emailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
         sut.confirmedEmailAddress = "julianworden@gmail.co"
 
         XCTAssertFalse(sut.emailAddressesMatch)
@@ -40,8 +40,8 @@ final class SignUpViewModelUnitTests: XCTestCase {
     func test_EmailAddressesMatch_ReturnsTrueWhenExpected() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
-        sut.emailAddress = "julianworden@gmail.com"
-        sut.confirmedEmailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
+        sut.confirmedEmailAddress = "test@example.com"
 
         XCTAssertTrue(sut.emailAddressesMatch)
     }
@@ -69,8 +69,8 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
         sut.password = "abc123"
         sut.confirmedPassword = "abc12"
-        sut.emailAddress = "julianworden@gmail.com"
-        sut.confirmedEmailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
+        sut.confirmedEmailAddress = "test@example.com"
 
         let formIsValid = sut.formIsValid()
 
@@ -83,7 +83,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
-        sut.emailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
         sut.confirmedEmailAddress = "julianworden@gmail.co"
 
         let formIsValid = sut.formIsValid()
@@ -97,8 +97,8 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
-        sut.emailAddress = "julianworden@gmail.com"
-        sut.confirmedEmailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
+        sut.confirmedEmailAddress = "test@example.com"
 
         XCTAssertTrue(sut.formIsValid())
         XCTAssertEqual(sut.viewState, .displayingView)
@@ -110,7 +110,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
         await sut.signUpButtonTapped()
 
-        XCTAssertEqual(sut.viewState, .accountCreatedSuccessfully)
+        XCTAssertEqual(sut.viewState, .accountCreatedSuccessfully(for: User.example))
     }
 
     func test_OnUnsuccessfullSignUpButtonTapped_ErrorIsThrown() async {
@@ -124,7 +124,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
 
     func test_OnSignUpButtonTappedWithInvalidForm_ErrorIsThrown() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.emailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
         sut.confirmedEmailAddress = "julianworden@gmail.co"
 
         await sut.signUpButtonTapped()
@@ -142,7 +142,7 @@ final class SignUpViewModelUnitTests: XCTestCase {
     func fillInMatchingEmailAndPasswordFields() {
         sut.password = "abc123"
         sut.confirmedPassword = "abc123"
-        sut.emailAddress = "julianworden@gmail.com"
-        sut.confirmedEmailAddress = "julianworden@gmail.com"
+        sut.emailAddress = "test@example.com"
+        sut.confirmedEmailAddress = "test@example.com"
     }
 }

@@ -5,6 +5,8 @@
 //  Created by Julian Worden on 7/17/23.
 //
 
+import FirebaseAuth
+import FirebaseAuthInterop
 import UIKit
 
 @MainActor
@@ -47,7 +49,7 @@ final class OnboardingCoordinator: Coordinator {
         appWindow?.makeKeyAndVisible()
 
         if let appWindow {
-            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCurlDown, animations: nil)
+            UIView.transition(with: appWindow, duration: 0.5, options: .transitionCrossDissolve, animations: nil)
         }
     }
 
@@ -60,8 +62,8 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     /// Notifies `parentCoordinator` that the user either logged in or created an account successfully.
-    func onboardingDidEnd() {
-        parentCoordinator?.childOnboardingCoordinatorDidFinish(self)
+    func onboardingDidEnd(for user: User) {
+        parentCoordinator?.childOnboardingCoordinatorDidFinish(self, withUser: user)
     }
 
     func loginViewDidTapSignUpButton() {

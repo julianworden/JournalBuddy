@@ -72,7 +72,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
             .sink { [weak self] entryText in
                 if let textEntryToEdit = self?.viewModel.textEntryToEdit {
                     // Show save button if TextEntry text has been edited
-                    self?.saveButton.isHidden = self?.viewModel.textEntryToEdit?.text == entryText
+                    self?.saveButton.isHidden = textEntryToEdit.text == entryText
                 } else {
                     // Show save button if user has typed text
                     self?.saveButton.isHidden = entryText.isReallyEmpty

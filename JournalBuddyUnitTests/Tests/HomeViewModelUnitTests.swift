@@ -41,7 +41,8 @@ final class HomeViewModelUnitTests: XCTestCase {
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
         sut = HomeViewModel(
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
-            authService: MockAuthService(errorToThrow: authServiceError)
+            authService: MockAuthService(errorToThrow: authServiceError),
+            currentUser: User.example
         )
     }
 }

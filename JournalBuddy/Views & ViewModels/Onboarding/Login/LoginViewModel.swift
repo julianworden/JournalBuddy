@@ -26,7 +26,10 @@ final class LoginViewModel: MainViewModel {
         do {
             viewState = .loggingIn
             try await authService.logIn(withEmail: emailAddress, andPassword: password)
-            viewState = .loggedIn
+
+            // Doing this instead of using AuthDataResult because FirebaseAuth.User isn't testable
+            let currentUser = try await databaseService.getUser(withUID: authService.currentUserUID)
+            viewState = .loggedIn(currentUser)
         } catch {
             viewState = .error(error.localizedDescription)
         }

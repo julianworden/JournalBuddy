@@ -158,6 +158,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         sut = AddEditTextEntryViewModel(
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
             authService: MockAuthService(errorToThrow: authServiceError),
+            currentUser: User.example,
             textEntryToEdit: TextEntry.example
         )
     }
@@ -166,6 +167,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         sut = AddEditTextEntryViewModel(
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
             authService: MockAuthService(errorToThrow: authServiceError),
+            currentUser: User.example,
             textEntryToEdit: nil
         )
     }

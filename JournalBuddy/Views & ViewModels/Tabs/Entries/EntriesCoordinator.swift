@@ -14,12 +14,14 @@ final class EntriesCoordinator: NSObject, Coordinator {
     let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
     let navigationController: UINavigationController
+    let currentUser: User
 
     init(
         navigationController: UINavigationController,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
-        parentCoordinator: TabBarCoordinator?
+        parentCoordinator: TabBarCoordinator?,
+        currentUser: User
     ) {
         self.navigationController = navigationController
         self.databaseService = databaseService
@@ -27,6 +29,7 @@ final class EntriesCoordinator: NSObject, Coordinator {
         self.navigationController.navigationBar.prefersLargeTitles = true
         self.navigationController.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet"), tag: 1)
         self.parentCoordinator = parentCoordinator
+        self.currentUser = currentUser
 
         super.init()
 
@@ -35,7 +38,11 @@ final class EntriesCoordinator: NSObject, Coordinator {
     }
 
     func start() {
-        let entriesViewModel = EntriesViewModel(databaseService: databaseService, authService: authService)
+        let entriesViewModel = EntriesViewModel(
+            databaseService: databaseService,
+            authService: authService,
+            currentUser: currentUser
+        )
         let entriesViewController = EntriesViewController(coordinator: self, viewModel: entriesViewModel)
         navigationController.pushViewController(entriesViewController, animated: true)
     }
@@ -46,6 +53,7 @@ final class EntriesCoordinator: NSObject, Coordinator {
             databaseService: databaseService,
             authService: authService,
             navigationController: navigationController,
+            currentUser: currentUser,
             textEntryToEdit: textEntryToEdit
         )
 

@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct User: Codable {
-    let id: String
+struct User: Codable, Equatable {
+    let uid: String
     let emailAddress: String
+
+    static let example = User(uid: "abc123", emailAddress: "test@example.com")
 }

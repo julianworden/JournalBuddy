@@ -10,9 +10,12 @@ import FirebaseAuth
 
 final class MockAuthService: AuthServiceProtocol {
     var errorToThrow: Error?
+    /// The  logged in `FirebaseAuth.User`. Not to be used in tests, initializing a FirebaseAuth.User without loggin in does not appear
+    /// to be possible but removing this from the AuthServiceProtocol would make the AuthService code more complicated.
+    var currentFirebaseAuthUser: FirebaseAuth.User?
     var userIsLoggedIn = false
-    var currentUserUID: String?
-    var currentUserEmailAddress: String?
+    let currentUserUID = User.example.uid
+    let currentUserEmailAddress = User.example.emailAddress
 
     init(errorToThrow: Error?) {
         self.errorToThrow = errorToThrow
@@ -34,8 +37,5 @@ final class MockAuthService: AuthServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         }
-
-        self.currentUserUID = "abc123"
-        self.currentUserEmailAddress = "test@test.com"
     }
 }

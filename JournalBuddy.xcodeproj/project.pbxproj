@@ -86,6 +86,7 @@
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
+		ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */; };
 		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
 		ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */; };
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
@@ -185,6 +186,7 @@
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
+		ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+emojiMessage.swift"; sourceTree = "<group>"; };
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 		ABC9354B2A5E01CA0094F4E0 /* Views & ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */,
 				ABFEF27B2A6585FD004C40A8 /* Onboarding */,
 				ABB24E3E2A66D127001A76E0 /* Tabs */,
 				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
@@ -709,6 +712,7 @@
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
 				ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
+				ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
