@@ -15,7 +15,7 @@
 		AB181C522A5B1B7800560299 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB181C512A5B1B7800560299 /* Assets.xcassets */; };
 		AB181C552A5B1B7800560299 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB181C532A5B1B7800560299 /* LaunchScreen.storyboard */; };
 		AB181C5D2A5B25DB00560299 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */; };
-		AB1AC7A92A70778700FE7A7E /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7A82A70778600FE7A7E /* CustomError.swift */; };
+		AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7A82A70778600FE7A7E /* LogicError.swift */; };
 		AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */; };
 		AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */; };
 		AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AF2A70837900FE7A7E /* MockAuthService.swift */; };
@@ -121,7 +121,7 @@
 		AB181C542A5B1B7800560299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB181C562A5B1B7800560299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AB1AC7A82A70778600FE7A7E /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		AB1AC7A82A70778600FE7A7E /* LogicError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogicError.swift; sourceTree = "<group>"; };
 		AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		AB1AC7AF2A70837900FE7A7E /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
@@ -321,7 +321,7 @@
 		AB7677342A6C64840050149E /* Errors */ = {
 			isa = PBXGroup;
 			children = (
-				AB1AC7A82A70778600FE7A7E /* CustomError.swift */,
+				AB1AC7A82A70778600FE7A7E /* LogicError.swift */,
 				AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */,
 				AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */,
 				ABDB553C2A72A82600DC8DF8 /* FormError.swift */,
@@ -691,7 +691,7 @@
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
 				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
-				AB1AC7A92A70778700FE7A7E /* CustomError.swift in Sources */,
+				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,
 				ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */,
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
 				ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */,

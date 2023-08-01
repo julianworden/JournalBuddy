@@ -10,6 +10,16 @@ import UIKit
 
 class AddEditTextEntryViewController: UIViewController, MainViewController {
     private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
+    private lazy var moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), menu: elipsesMenu)
+    private lazy var elipsesMenu = UIMenu(children: [deleteTextEntryAction])
+    private lazy var deleteTextEntryAction = UIAction(
+        title: "Delete Text Entry",
+        image: UIImage(systemName: "trash"),
+        attributes: .destructive,
+        handler: { [weak self] _ in
+            self?.deleteTextEntryButtonTapped()
+        }
+    )
 
     weak var coordinator: AddEditTextEntryCoordinator?
     var viewModel: AddEditTextEntryViewModel
@@ -21,7 +31,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
 
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,28 +49,34 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
 
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.rightBarButtonItems = if viewModel.navigationBarShouldHideMoreButton {
+            [saveButton]
+        } else {
+            [saveButton, moreButton]
+        }
         title = viewModel.navigationTitle
     }
 
-    func disableSaveButton() {
+    func disableButtons() {
         saveButton.isEnabled = false
+        moreButton.isEnabled = false
     }
 
-    func enableSaveButton() {
+    func enableButtons() {
         saveButton.isEnabled = true
+        moreButton.isEnabled = false
     }
 
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .savingTextEntry, .textEntryUpdating:
-                    self?.disableSaveButton()
-                case .textEntrySaved, .textEntryUpdated:
-                    self?.coordinator?.addEditTextEntryViewControllerDidSaveTextEntry()
+                case .savingTextEntry, .updatingTextEntry, .deletingTextEntry:
+                    self?.disableButtons()
+                case .textEntrySaved, .updatedTextEntry, .deletedTextEntry:
+                    self?.coordinator?.addEditTextEntryViewControllerDidEditTextEntry()
                 case .error(let errorMessage):
-                    self?.enableSaveButton()
+                    self?.enableButtons()
                     self?.showError(errorMessage)
                 default:
                     break
@@ -93,5 +109,17 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
         Task {
             await viewModel.saveTextEntry()
         }
+    }
+
+    func deleteTextEntryButtonTapped() {
+        AlertPresenter.presentDestructiveConfirmationAlert(
+            on: self,
+            message: "You are about to permanently delete this entry. This is irreversible.",
+            confirmedWork: deleteEntryConfirmed
+        )
+    }
+
+    func deleteEntryConfirmed() async {
+        await viewModel.deleteTextEntry()
     }
 }

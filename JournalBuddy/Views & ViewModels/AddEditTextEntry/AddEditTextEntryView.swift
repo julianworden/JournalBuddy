@@ -67,7 +67,7 @@ class AddEditTextEntryView: UIView, MainView {
                 switch viewState {
                 case .displayingView:
                     self?.configureDefaultViewState()
-                case .savingTextEntry, .textEntryUpdating:
+                case .savingTextEntry, .updatingTextEntry:
                     self?.disableTextView()
                 case .error(_):
                     self?.enableTextView()

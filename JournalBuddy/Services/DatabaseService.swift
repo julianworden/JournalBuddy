@@ -88,6 +88,18 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
+    func deleteEntry<T: Entry>(_ entry: T) async throws {
+        do {
+            try await usersCollection
+                .document(entry.creatorUID)
+                .collection(FBConstants.entries)
+                .document(entry.id)
+                .delete()
+        } catch {
+            throw error
+        }
+    }
+
     // MARK: - TextEntry
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {

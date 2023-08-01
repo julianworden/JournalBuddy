@@ -47,6 +47,18 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.navigationTitle, "New Text Entry")
     }
 
+    func test_NavigationBarShouldHideMoreButton_ReturnsTrueWithTextEntryToEdit() {
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        XCTAssertFalse(sut.navigationBarShouldHideMoreButton)
+    }
+
+    func test_NavigationBarShouldHideMoreButton_ReturnsFalseWithNoTextEntryToEdit() {
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        XCTAssertTrue(sut.navigationBarShouldHideMoreButton)
+    }
+
     func test_EntryTextViewDefaultText_ReturnsExpectedValueWithTextEntryToEdit() {
         initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
@@ -137,7 +149,7 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
 
         await sut.saveTextEntry()
 
-        XCTAssertEqual(sut.viewState, .textEntryUpdated)
+        XCTAssertEqual(sut.viewState, .updatedTextEntry)
     }
 
     func test_OnUnsuccessfullyUpdateTextEntry_ViewStateIsUpdated() async {
@@ -164,6 +176,30 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         await sut.saveTextEntry()
 
         XCTAssertEqual(sut.viewState, .error(FormError.textEntryIsEmpty.localizedDescription))
+    }
+
+    func test_OnSuccessfullyDeleteTextEntry_ViewStateIsUpdated() async {
+        initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        await sut.deleteTextEntry()
+
+        XCTAssertEqual(sut.viewState, .deletedTextEntry)
+    }
+
+    func test_OnDeleteTextEntryWithNoTextEntryToEdit_CorrectErrorIsThrown() async {
+        initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+
+        await sut.deleteTextEntry()
+
+        XCTAssertEqual(sut.viewState, .error(LogicError.deletingNonExistentEntry.localizedDescription))
+    }
+
+    func test_OnUnSuccessfullyDeleteTextEntry_ErrorIsThrown() async {
+        initializeSUTWithTextEntryToEdit(databaseServiceError: TestError.general, authServiceError: nil)
+
+        await sut.deleteTextEntry()
+
+        XCTAssertEqual(sut.viewState, .error(TestError.general.localizedDescription))
     }
 
     func initializeSUTWithTextEntryToEdit(databaseServiceError: Error?, authServiceError: Error?) {

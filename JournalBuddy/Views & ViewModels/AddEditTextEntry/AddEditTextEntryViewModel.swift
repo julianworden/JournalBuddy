@@ -25,6 +25,10 @@ final class AddEditTextEntryViewModel: MainViewModel {
         }
     }
 
+    var navigationBarShouldHideMoreButton: Bool {
+        return textEntryToEdit == nil
+    }
+
     var entryTextViewDefaultText: String {
         if let textEntryToEdit {
             return textEntryToEdit.text
@@ -69,12 +73,13 @@ final class AddEditTextEntryViewModel: MainViewModel {
 
     func saveNewTextEntry() async {
         do {
-            viewState = .savingTextEntry
-
             guard !entryIsEmpty else {
                 viewState = .error(FormError.textEntryIsEmpty.localizedDescription)
                 return
             }
+
+            viewState = .savingTextEntry
+
 
             let textEntry = TextEntry(
                 id: "",
@@ -93,8 +98,6 @@ final class AddEditTextEntryViewModel: MainViewModel {
 
     func updateExistingTextEntry(_ existingTextEntry: TextEntry) async {
         do {
-            viewState = .textEntryUpdating
-
             guard entryHasBeenEdited else {
                 viewState = .error(FormError.textEntryHasNotBeenUpdated.localizedDescription)
                 return
@@ -105,11 +108,29 @@ final class AddEditTextEntryViewModel: MainViewModel {
                 return
             }
 
+            viewState = .updatingTextEntry
+
             var updatedTextEntry = existingTextEntry
             updatedTextEntry.text = entryText
 
             try await databaseService.updateEntry(updatedTextEntry)
-            viewState = .textEntryUpdated
+            viewState = .updatedTextEntry
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(error.localizedDescription)
+        }
+    }
+
+    func deleteTextEntry() async {
+        guard let textEntryToEdit else {
+            viewState = .error(LogicError.deletingNonExistentEntry.localizedDescription)
+            return
+        }
+
+        do {
+            viewState = .deletingTextEntry
+            try await databaseService.deleteEntry(textEntryToEdit)
+            viewState = .deletedTextEntry
         } catch {
             print(error.emojiMessage)
             viewState = .error(error.localizedDescription)

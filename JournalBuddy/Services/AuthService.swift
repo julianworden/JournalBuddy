@@ -48,7 +48,7 @@ final class AuthService: AuthServiceProtocol {
                 throw FBAuthError.userNotFoundOnLogIn
             default:
                 print(error.emojiMessage)
-                throw CustomError.unknown(error.localizedDescription)
+                throw LogicError.unknown(error.localizedDescription)
             }
         }
     }
@@ -57,7 +57,7 @@ final class AuthService: AuthServiceProtocol {
         do {
             try Auth.auth().signOut()
         } catch {
-            throw CustomError.unknown(error.localizedDescription)
+            throw LogicError.unknown(error.localizedDescription)
         }
     }
 
@@ -77,7 +77,7 @@ final class AuthService: AuthServiceProtocol {
             case .weakPassword:
                 throw FBAuthError.invalidPasswordOnSignUp
             default:
-                throw CustomError.unknown(error.localizedDescription)
+                throw LogicError.unknown(error.localizedDescription)
             }
         }
     }

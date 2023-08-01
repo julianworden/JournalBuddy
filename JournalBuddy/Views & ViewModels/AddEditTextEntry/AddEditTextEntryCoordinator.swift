@@ -47,8 +47,9 @@ final class AddEditTextEntryCoordinator: Coordinator {
 
         navigationController.pushViewController(addEditTextEntryViewController, animated: true)
     }
-
-    func addEditTextEntryViewControllerDidSaveTextEntry() {
+    
+    /// Dismisses `AddEditTextEntryViewController` when a `TextEntry` has been edited, created, or deleted.
+    func addEditTextEntryViewControllerDidEditTextEntry() {
         navigationController.popViewController(animated: true)
     }
 

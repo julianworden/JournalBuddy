@@ -15,6 +15,8 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         self.errorToThrow = errorToThrow
     }
 
+    // MARK: - User
+
     func getUser(withUID uid: String) async throws -> User {
         if let errorToThrow {
             throw errorToThrow
@@ -28,6 +30,8 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             throw errorToThrow
         }
     }
+
+    // MARK: - Generic Entry CRUD
 
     func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         if let errorToThrow {
@@ -62,6 +66,14 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             throw error
         }
     }
+
+    func deleteEntry<T: Entry>(_ entry: T) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
+
+    // MARK: - TextEntry
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         return []
