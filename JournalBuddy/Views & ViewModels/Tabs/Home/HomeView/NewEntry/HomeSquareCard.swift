@@ -1,5 +1,5 @@
 //
-//  HomeNewEntryCard.swift
+//  HomeSquareCard.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/13/23.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class HomeNewEntryCard: UIView {
-    let type: HomeSquareButtonType
-
+class HomeSquareCard: UIView {
     private lazy var cardBackground = OrangeYellowGradientBackground()
     private lazy var imageAndTextStack = UIStackView(arrangedSubviews: [imageView, newEntryLabel])
     private lazy var imageView = UIImageView()
     private lazy var newEntryLabel = UILabel()
+
+    let type: HomeSquareButtonType
 
     init(type: HomeSquareButtonType) {
         self.type = type
@@ -35,11 +35,11 @@ class HomeNewEntryCard: UIView {
 
         imageAndTextStack.axis = .vertical
         imageAndTextStack.spacing = 0
-        imageAndTextStack.distribution = .fillEqually
 
         let image = UIImage(systemName: type.iconName)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(UILayoutPriority(751), for: .vertical)
 
         newEntryLabel.text = type.titleLabel
         newEntryLabel.textColor = .white

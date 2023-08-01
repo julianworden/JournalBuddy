@@ -9,7 +9,7 @@ import UIKit
 
 class HomeSquareButton: UIButton {
     private lazy var homeSquareButtonType = HomeSquareButtonType.text
-    private lazy var content = HomeNewEntryCard(type: homeSquareButtonType)
+    private lazy var content = HomeSquareCard(type: homeSquareButtonType)
 
     convenience init(homeSquareButtonType: HomeSquareButtonType) {
         self.init(type: .custom)
