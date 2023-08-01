@@ -47,7 +47,7 @@ final class EntriesCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(entriesViewController, animated: true)
     }
 
-    func entriesViewDidSelectTextEntry(_ textEntryToEdit: TextEntry) {
+    func presentAddEditTextEntryViewController(withTextEntryToEdit textEntryToEdit: TextEntry?) {
         let addEditTextEntryCoordinator = AddEditTextEntryCoordinator(
             parentCoordinator: self,
             databaseService: databaseService,
@@ -60,7 +60,6 @@ final class EntriesCoordinator: NSObject, Coordinator {
         childCoordinators.append(addEditTextEntryCoordinator)
         addEditTextEntryCoordinator.start()
     }
-
 
     func removeChildCoordinator(_ childCoordinator: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
@@ -76,6 +75,7 @@ final class EntriesCoordinator: NSObject, Coordinator {
 }
 
 extension EntriesCoordinator: UINavigationControllerDelegate {
+    /// Removes the `AddEditTextEntryViewController` from the `childCoordinators` array when the user exits that view controller.
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
 

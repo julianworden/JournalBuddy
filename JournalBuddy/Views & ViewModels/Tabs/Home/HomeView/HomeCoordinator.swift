@@ -80,6 +80,7 @@ final class HomeCoordinator: NSObject, Coordinator {
 }
 
 extension HomeCoordinator: UINavigationControllerDelegate {
+    /// Removes the `AddEditTextEntryViewController` from the `childCoordinators` array when the user exits that view controller.
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
 
