@@ -10,12 +10,12 @@ import SwiftPlus
 import UIKit
 
 class HomeViewController: UIViewController, MainViewController {
+    // Temporary button for development
+    private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped))
+
     weak var coordinator: HomeCoordinator?
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
-
-    // Temporary button for development
-    private lazy var logOutButton = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logOutButtonTapped))
 
     init(coordinator: HomeCoordinator, viewModel: HomeViewModel) {
         self.coordinator = coordinator

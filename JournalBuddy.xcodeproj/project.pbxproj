@@ -260,6 +260,7 @@
 				ABB24E392A66C052001A76E0 /* Services */,
 				AB7239C52A5BA07500A0392D /* Protocols */,
 				AB2988B02A5D9CA700303262 /* Extensions */,
+				ABD426FE2A81A18A00783DE4 /* Old and Unused */,
 				AB7CC9112A643C8E0054B1A4 /* Utilities */,
 				AB7677342A6C64840050149E /* Errors */,
 				AB181C5C2A5B25DB00560299 /* GoogleService-Info.plist */,
@@ -270,12 +271,12 @@
 			path = JournalBuddy;
 			sourceTree = "<group>";
 		};
-		AB1D33BA2A5EE0BB0068939C /* HowAreYouFeeling */ = {
+		AB1D33BA2A5EE0BB0068939C /* OldHomeHowAreYouFeeling */ = {
 			isa = PBXGroup;
 			children = (
 				AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */,
 			);
-			path = HowAreYouFeeling;
+			path = OldHomeHowAreYouFeeling;
 			sourceTree = "<group>";
 		};
 		AB1D33BB2A5EE0C60068939C /* YourLatestEntries */ = {
@@ -292,7 +293,6 @@
 			children = (
 				AB8E77762A770E6900EAF49D /* User.swift */,
 				AB1D33BF2A5EE14E0068939C /* TextEntry.swift */,
-				ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 			);
@@ -452,13 +452,13 @@
 			path = Entries;
 			sourceTree = "<group>";
 		};
-		ABACE7E42A6039C000981098 /* NewEntry */ = {
+		ABACE7E42A6039C000981098 /* OldHomeNewEntry */ = {
 			isa = PBXGroup;
 			children = (
 				ABACE7E82A603A1C00981098 /* HomeSquareCard.swift */,
 				AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */,
 			);
-			path = NewEntry;
+			path = OldHomeNewEntry;
 			sourceTree = "<group>";
 		};
 		ABB24E392A66C052001A76E0 /* Services */ = {
@@ -489,9 +489,6 @@
 				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
 				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
 				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
-				AB1D33BA2A5EE0BB0068939C /* HowAreYouFeeling */,
-				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
-				ABACE7E42A6039C000981098 /* NewEntry */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -538,6 +535,17 @@
 				ABB3483D2A6ACDF30050A9AC /* HomeView */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		ABD426FE2A81A18A00783DE4 /* Old and Unused */ = {
+			isa = PBXGroup;
+			children = (
+				ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */,
+				ABACE7E42A6039C000981098 /* OldHomeNewEntry */,
+				AB1D33BA2A5EE0BB0068939C /* OldHomeHowAreYouFeeling */,
+				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
+			);
+			path = "Old and Unused";
 			sourceTree = "<group>";
 		};
 		ABFEF27B2A6585FD004C40A8 /* Onboarding */ = {

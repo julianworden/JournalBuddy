@@ -56,6 +56,7 @@ class MainTabBarController: UITabBarController {
 
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = .background
+        tabBarAppearance.shadowColor = nil
         tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.disabled]
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = .disabled
 
