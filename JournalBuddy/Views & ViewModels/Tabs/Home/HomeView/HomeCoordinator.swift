@@ -14,18 +14,17 @@ final class HomeCoordinator: NSObject, Coordinator {
     let authService: AuthServiceProtocol
     let currentUser: User
     var childCoordinators = [Coordinator]()
-    var navigationController: UINavigationController
+    var navigationController: MainNavigationController
 
     init(
-        navigationController: UINavigationController,
+        navigationController: MainNavigationController,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
         parentCoordinator: TabBarCoordinator?,
         currentUser: User
     ) {
         self.navigationController = navigationController
-        self.navigationController.navigationBar.prefersLargeTitles = true
-        self.navigationController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        self.navigationController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.circle.fill", withConfiguration: .largeScale), tag: 0)
         self.databaseService = databaseService
         self.authService = authService
         self.parentCoordinator = parentCoordinator

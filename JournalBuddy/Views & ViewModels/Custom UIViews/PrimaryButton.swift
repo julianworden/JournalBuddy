@@ -12,8 +12,8 @@ class PrimaryButton: UIButton {
         case normal, disabled
     }
 
-    var disabledColor = UIConstants.disabledOrangeButtonBackgroundColor
-    var normalColor = UIConstants.normalOrangeButtonBackgroundColor
+    var disabledColor = UIColor.disabled
+    var normalColor = UIColor.primaryElement
 
     override var isEnabled: Bool {
         didSet {
@@ -43,8 +43,8 @@ class PrimaryButton: UIButton {
 
     func configure(with title: String) {
         setTitle(title, for: .normal)
-        setTitleColor(.white, for: .normal)
-        titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .boldBody)
+        setTitleColor(.primaryButtonText, for: .normal)
+        titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextBoldBody)
         titleLabel?.numberOfLines = 0
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping

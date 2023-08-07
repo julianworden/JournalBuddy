@@ -38,7 +38,6 @@ class LoginViewController: UIViewController, MainViewController {
     func configure() {
         title = "Log In"
         navigationItem.largeTitleDisplayMode = .always
-        view.backgroundColor = .systemBackground
     }
 
     func subscribeToPublishers() {
@@ -73,7 +72,6 @@ extension LoginViewController: LoginViewDelegate {
 //
 //    let viewModel = LoginViewModel(databaseService: DatabaseService(), authService: AuthService())
 //    let loginViewController = LoginViewController(coordinator: onboardingCoordinator, viewModel: viewModel)
-//    let navigationController = UINavigationController(rootViewController: loginViewController)
-//    navigationController.navigationBar.prefersLargeTitles = true
+//    let navigationController = MainNavigationController(rootViewController: loginViewController)
 //    return navigationController
 //}

@@ -15,7 +15,7 @@ final class MainCoordinator: Coordinator {
     let authService: AuthServiceProtocol
     var currentUser: User?
     var childCoordinators = [Coordinator]()
-    var navigationController: UINavigationController?
+    var navigationController: MainNavigationController?
 
     static let preview = MainCoordinator(
         databaseService: DatabaseService(authService: AuthService()),
@@ -35,8 +35,7 @@ final class MainCoordinator: Coordinator {
         if let currentUser {
             startTabBarCoordinator(withUser: currentUser)
         } else {
-            navigationController = UINavigationController()
-            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController = MainNavigationController()
             startOnboardingCoordinator()
         }
     }
@@ -96,9 +95,7 @@ final class MainCoordinator: Coordinator {
     /// - Parameter childCoordinator: The coordinator that was in use when the user logged out. It is to be removed from the `childCoordinators` array.
     func childTabBarCoordinatorDidFinish(_ childCoordinator: TabBarCoordinator) {
         removeChildCoordinator(childCoordinator)
-        let navigationController = UINavigationController()
-        navigationController.navigationBar.prefersLargeTitles = true
-        self.navigationController = navigationController
+        self.navigationController = MainNavigationController()
         startOnboardingCoordinator()
     }
 }

@@ -74,7 +74,6 @@ extension HomeViewController: HomeViewDelegate {
 }
 
 //#Preview {
-//    let navigationController = UINavigationController(rootViewController: HomeViewController())
-//    navigationController.navigationBar.prefersLargeTitles = true
+//    let navigationController = MainNavigationController(rootViewController: HomeViewController())
 //    return navigationController
 //}

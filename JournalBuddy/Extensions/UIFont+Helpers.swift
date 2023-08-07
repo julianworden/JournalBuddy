@@ -32,4 +32,28 @@ extension UIFont {
     static var boldBody: UIFont {
         UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
     }
+
+    static var avenirNextBoldLargeTitle: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize) ?? .preferredFont(forTextStyle: .largeTitle)
+    }
+
+    static var avenirNextBoldTitle1: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIFont.preferredFont(forTextStyle: .title1).pointSize) ?? .preferredFont(forTextStyle: .title1)
+    }
+
+    static var avenirNextBoldTitle3: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIFont.preferredFont(forTextStyle: .title3).pointSize) ?? .preferredFont(forTextStyle: .title3)
+    }
+
+    static var avenirNextBoldBody: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIFont.preferredFont(forTextStyle: .body).pointSize) ?? .preferredFont(forTextStyle: .body)
+    }
+
+    static var avenirNextRegularBody: UIFont {
+        UIFont(name: FontConstants.avenirNextRegular, size: UIFont.preferredFont(forTextStyle: .body).pointSize) ?? .preferredFont(forTextStyle: .body)
+    }
+
+    static var avenirNextRegularCaption2: UIFont {
+        UIFont(name: FontConstants.avenirNextRegular, size: UIFont.preferredFont(forTextStyle: .caption2).pointSize) ?? .preferredFont(forTextStyle: .caption2)
+    }
 }

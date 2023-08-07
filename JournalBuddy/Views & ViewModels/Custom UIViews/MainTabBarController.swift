@@ -13,14 +13,14 @@ class MainTabBarController: UITabBarController {
     let authService: AuthServiceProtocol
     let currentUser: User
     lazy var homeCoordinator = HomeCoordinator(
-        navigationController: UINavigationController(),
+        navigationController: MainNavigationController(),
         databaseService: databaseService,
         authService: authService,
         parentCoordinator: coordinator,
         currentUser: currentUser
     )
     lazy var entriesCoordinator = EntriesCoordinator(
-        navigationController: UINavigationController(),
+        navigationController: MainNavigationController(),
         databaseService: databaseService,
         authService: authService,
         parentCoordinator: coordinator,
@@ -39,8 +39,6 @@ class MainTabBarController: UITabBarController {
         self.currentUser = currentUser
 
         super.init(nibName: nil, bundle: nil)
-
-        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -49,11 +47,22 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configure()
     }
 
     func configure() {
         viewControllers = [homeCoordinator.navigationController, entriesCoordinator.navigationController]
-        
+
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.backgroundColor = .background
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.disabled]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = .disabled
+
+        tabBar.barTintColor = .background
+        tabBar.standardAppearance = tabBarAppearance
+        tabBar.scrollEdgeAppearance = tabBarAppearance
+
         homeCoordinator.start()
         entriesCoordinator.start()
     }

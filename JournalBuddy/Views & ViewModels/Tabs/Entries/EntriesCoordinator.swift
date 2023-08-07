@@ -13,11 +13,11 @@ final class EntriesCoordinator: NSObject, Coordinator {
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
-    let navigationController: UINavigationController
+    let navigationController: MainNavigationController
     let currentUser: User
 
     init(
-        navigationController: UINavigationController,
+        navigationController: MainNavigationController,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
         parentCoordinator: TabBarCoordinator?,
@@ -26,8 +26,8 @@ final class EntriesCoordinator: NSObject, Coordinator {
         self.navigationController = navigationController
         self.databaseService = databaseService
         self.authService = authService
-        self.navigationController.navigationBar.prefersLargeTitles = true
-        self.navigationController.tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "list.bullet"), tag: 1)
+        let tabBarItem = UITabBarItem(title: "Entries", image: UIImage(systemName: "book.circle.fill", withConfiguration: .largeScale), tag: 1)
+        self.navigationController.tabBarItem = tabBarItem
         self.parentCoordinator = parentCoordinator
         self.currentUser = currentUser
 

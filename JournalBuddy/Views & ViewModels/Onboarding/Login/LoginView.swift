@@ -53,6 +53,8 @@ class LoginView: UIView, MainView {
     }
 
     func configureDefaultViewState() {
+        backgroundColor = UIColor.background
+
         mainScrollView.showsVerticalScrollIndicator = false
 
         mainScrollViewContentStack.axis = .vertical
@@ -72,7 +74,8 @@ class LoginView: UIView, MainView {
         signUpStack.spacing = 7
 
         dontHaveAnAccountLabel.text = "Don't have an account?"
-        dontHaveAnAccountLabel.font = .preferredFont(forTextStyle: .body)
+        dontHaveAnAccountLabel.textColor = UIColor.primaryElement
+        dontHaveAnAccountLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
         dontHaveAnAccountLabel.numberOfLines = 0
         dontHaveAnAccountLabel.textAlignment = .center
 
@@ -154,11 +157,11 @@ class LoginView: UIView, MainView {
 
 extension LoginView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithFocusBorderColor)
+        textField.animateBorderColorChange(newColor: UIColor.primaryElement.cgColor)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithoutFocusBorderColor)
+        textField.animateBorderColorChange(newColor: UIColor.disabled.cgColor)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

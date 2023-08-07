@@ -55,6 +55,8 @@
 		AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */; };
 		AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */; };
 		AB8E77772A770E6900EAF49D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77762A770E6900EAF49D /* User.swift */; };
+		AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA182A803CCA003F94D7 /* FontConstants.swift */; };
+		AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
 		AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */; };
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
@@ -87,6 +89,7 @@
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
 		ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */; };
+		ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDA15852A802E5400D94D7E /* MainNavigationController.swift */; };
 		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
 		ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */; };
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
@@ -154,6 +157,8 @@
 		AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewDelegate.swift; sourceTree = "<group>"; };
 		AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB8E77762A770E6900EAF49D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AB90AA182A803CCA003F94D7 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
+		AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage.Configuration+largeScale.swift"; sourceTree = "<group>"; };
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
@@ -187,6 +192,7 @@
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
 		ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
+		ABDA15852A802E5400D94D7E /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
 		ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+emojiMessage.swift"; sourceTree = "<group>"; };
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
@@ -297,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */,
+				AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */,
 				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
 			);
@@ -344,6 +351,7 @@
 				ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */,
 				ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */,
 				ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */,
+				AB90AA182A803CCA003F94D7 /* FontConstants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -357,6 +365,7 @@
 				ABB24E452A66D903001A76E0 /* MainTabBarController.swift */,
 				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
+				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -675,6 +684,7 @@
 				AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */,
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
 				AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */,
+				ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */,
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
@@ -722,7 +732,9 @@
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
+				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */,
 				ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */,
+				AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */,
 				ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,

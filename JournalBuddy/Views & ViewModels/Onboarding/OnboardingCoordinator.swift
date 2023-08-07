@@ -16,10 +16,10 @@ final class OnboardingCoordinator: Coordinator {
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     var childCoordinators = [Coordinator]()
-    var navigationController: UINavigationController
+    var navigationController: MainNavigationController
 
     static let preview = OnboardingCoordinator(
-        navigationController: UINavigationController(),
+        navigationController: MainNavigationController(),
         databaseService: DatabaseService(authService: AuthService()),
         authService: AuthService(),
         parentCoordinator: MainCoordinator.preview,
@@ -27,7 +27,7 @@ final class OnboardingCoordinator: Coordinator {
     )
 
     init(
-        navigationController: UINavigationController,
+        navigationController: MainNavigationController,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
         parentCoordinator: MainCoordinator,

@@ -18,16 +18,7 @@ class MainTextField: UITextField {
     convenience init(type: MainTextFieldType) {
         self.init(frame: .zero)
 
-        self.keyboardType = type.keyboardType
-        self.tag = type.tag
-        self.placeholder = type.placeholder
-        self.clearButtonMode = .whileEditing
-        self.isSecureTextEntry = type.isSecureTextEntry
-        self.font = .preferredFont(forTextStyle: .body)
-        self.adjustsFontForContentSizeCategory = true
-        self.layer.cornerRadius = 12
-        self.layer.borderColor = UIConstants.mainTextFieldWithoutFocusBorderColor
-        self.layer.borderWidth = 1.5
+        configure(textFieldType: type)
     }
 
     override init(frame: CGRect) {
@@ -36,6 +27,20 @@ class MainTextField: UITextField {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(textFieldType: MainTextFieldType) {
+        self.keyboardType = textFieldType.keyboardType
+        self.tag = textFieldType.tag
+        self.attributedPlaceholder = NSAttributedString(string: textFieldType.placeholder, attributes: [.foregroundColor: UIColor.textFieldPlaceholder])
+        self.clearButtonMode = .whileEditing
+        self.isSecureTextEntry = textFieldType.isSecureTextEntry
+        self.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
+        self.textColor = .primaryElement
+        self.adjustsFontForContentSizeCategory = true
+        self.layer.cornerRadius = 12
+        self.layer.borderColor = UIColor.disabled.cgColor
+        self.layer.borderWidth = 1.5
     }
 
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {

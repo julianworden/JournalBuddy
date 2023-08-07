@@ -13,7 +13,7 @@ final class AddEditTextEntryCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
-    let navigationController: UINavigationController
+    let navigationController: MainNavigationController
     let currentUser: User
     var textEntryToEdit: TextEntry?
 
@@ -21,7 +21,7 @@ final class AddEditTextEntryCoordinator: Coordinator {
         parentCoordinator: Coordinator,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
-        navigationController: UINavigationController,
+        navigationController: MainNavigationController,
         currentUser: User,
         textEntryToEdit: TextEntry?
     ) {
