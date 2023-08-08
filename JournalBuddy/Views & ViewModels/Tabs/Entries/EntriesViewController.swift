@@ -13,6 +13,7 @@ class EntriesViewController: UIViewController, MainViewController {
     private lazy var createEntryMenu = UIMenu(
         children: [createNewTextEntryButton, createNewVideoEntryButton, createNewVoiceEntryButton]
     )
+    #warning("Make handler references weak")
     private lazy var createNewTextEntryButton = UIAction(
         title: "New Text Entry",
         image: UIImage(systemName: "square.and.pencil"),

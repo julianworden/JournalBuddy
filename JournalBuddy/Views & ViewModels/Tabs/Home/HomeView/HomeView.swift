@@ -12,9 +12,10 @@ class HomeView: UIView, MainView {
     private lazy var mainScrollView = UIScrollView()
     private lazy var mainScrollViewContentStack = UIStackView(
         arrangedSubviews: [
-            
+            activityStreakSection
         ]
     )
+    private lazy var activityStreakSection = HomeActivityStreakSection()
 
     let viewModel: HomeViewModel
     weak var delegate: HomeViewDelegate?
@@ -67,6 +68,8 @@ class HomeView: UIView, MainView {
             mainScrollViewContentStack.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
             mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
+
+            activityStreakSection.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
         ])
     }
 

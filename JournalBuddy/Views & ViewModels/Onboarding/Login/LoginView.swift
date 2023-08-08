@@ -75,7 +75,7 @@ class LoginView: UIView, MainView {
 
         dontHaveAnAccountLabel.text = "Don't have an account?"
         dontHaveAnAccountLabel.textColor = UIColor.primaryElement
-        dontHaveAnAccountLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
+        dontHaveAnAccountLabel.font = UIFontMetrics.avenirNextRegularBody
         dontHaveAnAccountLabel.numberOfLines = 0
         dontHaveAnAccountLabel.textAlignment = .center
 

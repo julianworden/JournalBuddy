@@ -11,4 +11,8 @@ extension UIImage.Configuration {
     static var largeScale: UIImage.SymbolConfiguration {
         return UIImage.SymbolConfiguration(scale: .large)
     }
+
+    static var primaryElementColor: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(paletteColors: [.primaryElement])
+    }
 }

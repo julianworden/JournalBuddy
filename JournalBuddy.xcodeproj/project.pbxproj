@@ -88,6 +88,8 @@
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
+		ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */; };
+		ABD427032A81A6D600783DE4 /* HomeActivityStreakSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */; };
 		ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */; };
 		ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDA15852A802E5400D94D7E /* MainNavigationController.swift */; };
 		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
@@ -191,6 +193,8 @@
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
+		ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFontMetrics+Helpers.swift"; sourceTree = "<group>"; };
+		ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityStreakSection.swift; sourceTree = "<group>"; };
 		ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		ABDA15852A802E5400D94D7E /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */,
+				ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */,
 				AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */,
 				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
@@ -363,7 +368,6 @@
 				AB5BE2A12A64762B00803E16 /* MainTextField.swift */,
 				AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */,
 				ABB24E452A66D903001A76E0 /* MainTabBarController.swift */,
-				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
 				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
 			);
@@ -489,6 +493,7 @@
 				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
 				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
 				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
+				ABD427012A81A6B800783DE4 /* ActivityStreak */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -540,12 +545,21 @@
 		ABD426FE2A81A18A00783DE4 /* Old and Unused */ = {
 			isa = PBXGroup;
 			children = (
+				AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */,
 				ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */,
 				ABACE7E42A6039C000981098 /* OldHomeNewEntry */,
 				AB1D33BA2A5EE0BB0068939C /* OldHomeHowAreYouFeeling */,
 				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
 			);
 			path = "Old and Unused";
+			sourceTree = "<group>";
+		};
+		ABD427012A81A6B800783DE4 /* ActivityStreak */ = {
+			isa = PBXGroup;
+			children = (
+				ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */,
+			);
+			path = ActivityStreak;
 			sourceTree = "<group>";
 		};
 		ABFEF27B2A6585FD004C40A8 /* Onboarding */ = {
@@ -693,6 +707,7 @@
 				AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */,
 				AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */,
 				ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */,
+				ABD427032A81A6D600783DE4 /* HomeActivityStreakSection.swift in Sources */,
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
@@ -707,6 +722,7 @@
 				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
+				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
 				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
 				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,

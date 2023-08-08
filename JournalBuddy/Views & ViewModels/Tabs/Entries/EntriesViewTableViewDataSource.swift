@@ -27,10 +27,10 @@ final class EntriesViewTableViewDataSource: UITableViewDiffableDataSource<Entrie
 
             var contentConfiguration = cell.defaultContentConfiguration()
             contentConfiguration.text = textEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
-            contentConfiguration.textProperties.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .boldBody)
+            contentConfiguration.textProperties.font = UIFontMetrics.avenirNextBoldBody
             contentConfiguration.textProperties.numberOfLines = 0
             contentConfiguration.secondaryText = textEntry.text
-            contentConfiguration.secondaryTextProperties.font = .preferredFont(forTextStyle: .body)
+            contentConfiguration.secondaryTextProperties.font = UIFontMetrics.avenirNextRegularBody
             contentConfiguration.secondaryTextProperties.numberOfLines = 3
             contentConfiguration.textProperties.adjustsFontForContentSizeCategory = true
             contentConfiguration.secondaryTextProperties.adjustsFontForContentSizeCategory = true

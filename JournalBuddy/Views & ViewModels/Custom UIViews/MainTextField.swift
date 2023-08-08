@@ -35,7 +35,7 @@ class MainTextField: UITextField {
         self.attributedPlaceholder = NSAttributedString(string: textFieldType.placeholder, attributes: [.foregroundColor: UIColor.textFieldPlaceholder])
         self.clearButtonMode = .whileEditing
         self.isSecureTextEntry = textFieldType.isSecureTextEntry
-        self.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
+        self.font = UIFontMetrics.avenirNextRegularBody
         self.textColor = .primaryElement
         self.adjustsFontForContentSizeCategory = true
         self.layer.cornerRadius = 12

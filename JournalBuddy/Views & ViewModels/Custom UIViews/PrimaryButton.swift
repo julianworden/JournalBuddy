@@ -44,10 +44,11 @@ class PrimaryButton: UIButton {
     func configure(with title: String) {
         setTitle(title, for: .normal)
         setTitleColor(.primaryButtonText, for: .normal)
-        titleLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextBoldBody)
+        titleLabel?.font = UIFontMetrics.avenirNextBoldBody
         titleLabel?.numberOfLines = 0
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping
+        titleLabel?.adjustsFontForContentSizeCategory = true
         layer.cornerRadius = 12
         backgroundColor = normalColor
     }
