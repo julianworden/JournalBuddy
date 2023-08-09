@@ -13,21 +13,26 @@ class EntriesViewController: UIViewController, MainViewController {
     private lazy var createEntryMenu = UIMenu(
         children: [createNewTextEntryButton, createNewVideoEntryButton, createNewVoiceEntryButton]
     )
-    #warning("Make handler references weak")
     private lazy var createNewTextEntryButton = UIAction(
         title: "New Text Entry",
         image: UIImage(systemName: "square.and.pencil"),
-        handler: newTextEntryMenuButtonTapped
+        handler: { [weak self] action in
+            self?.newTextEntryMenuButtonTapped(action)
+        }
     )
     private lazy var createNewVideoEntryButton = UIAction(
         title: "New Video Entry",
         image: UIImage(systemName: "video"),
-        handler: newVideoEntryMenuButtonTapped
+        handler: { [weak self] action in
+            self?.newVideoEntryMenuButtonTapped(action)
+        }
     )
     private lazy var createNewVoiceEntryButton = UIAction(
         title: "New Voice Entry",
         image: UIImage(systemName: "mic"),
-        handler: newVoiceEntryMenuButtonTapped
+        handler: { [weak self] action in
+            self?.newVoiceEntryMenuButtonTapped(action)
+        }
     )
 
     weak var coordinator: EntriesCoordinator?

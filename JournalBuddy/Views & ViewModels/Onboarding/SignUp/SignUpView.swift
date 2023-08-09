@@ -42,7 +42,7 @@ class SignUpView: UIView, MainView {
     }
 
     func configureDefaultViewState() {
-        backgroundColor = .systemBackground
+        backgroundColor = .background
 
         mainScrollViewContentStack.axis = .vertical
         mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
@@ -124,11 +124,11 @@ class SignUpView: UIView, MainView {
 
 extension SignUpView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithFocusBorderColor)
+        textField.animateBorderColorChange(newColor: UIColor.primaryElement.cgColor)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.animateBorderColorChange(newColor: UIConstants.mainTextFieldWithoutFocusBorderColor)
+        textField.animateBorderColorChange(newColor: UIColor.disabled.cgColor)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
