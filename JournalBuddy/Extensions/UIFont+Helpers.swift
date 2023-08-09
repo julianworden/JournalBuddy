@@ -7,37 +7,36 @@
 
 import UIKit
 
-// TODO: Convert this to a UIFontMetrics extension instead.
 extension UIFont {
     static var boldLargeTitle: UIFont {
-        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
+        boldSystemFont(ofSize: UIConstants.largeTitleSize)
     }
 
     static var boldTitle2: UIFont {
-        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize)
-    }
-
-    static var boldTitle3: UIFont {
-        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title3).pointSize)
+        boldSystemFont(ofSize: UIConstants.title2Size)
     }
 
     static var boldBody: UIFont {
-        UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        boldSystemFont(ofSize: UIFont.labelFontSize)
+    }
+
+    static var regularBody: UIFont {
+        systemFont(ofSize: UIFont.labelFontSize)
     }
 
     static var avenirNextBoldLargeTitle: UIFont {
-        UIFont(name: FontConstants.avenirNextBold, size: 34) ?? .boldLargeTitle
+        UIFont(name: FontConstants.avenirNextBold, size: UIConstants.largeTitleSize) ?? boldLargeTitle
     }
 
     static var avenirNextBoldTitle2: UIFont {
-        UIFont(name: FontConstants.avenirNextBold, size: 22) ?? .boldTitle2
+        UIFont(name: FontConstants.avenirNextBold, size: UIConstants.title2Size) ?? boldTitle2
     }
 
     static var avenirNextBoldBody: UIFont {
-        UIFont(name: FontConstants.avenirNextBold, size: UIFont.labelFontSize) ?? .boldBody
+        UIFont(name: FontConstants.avenirNextBold, size: UIFont.labelFontSize) ?? boldBody
     }
 
     static var avenirNextRegularBody: UIFont {
-        UIFont(name: FontConstants.avenirNextRegular, size: UIFont.labelFontSize) ?? .preferredFont(forTextStyle: .body)
+        UIFont(name: FontConstants.avenirNextRegular, size: UIFont.labelFontSize) ?? regularBody
     }
 }

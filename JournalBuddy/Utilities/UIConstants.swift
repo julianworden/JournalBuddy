@@ -8,6 +8,10 @@
 import UIKit
 
 enum UIConstants {
+    // MARK: - Font Sizes
+    static let largeTitleSize: CGFloat = 34
+    static let title2Size: CGFloat = 34
+
     // MARK: - UIStackView
 
     /// The `UIEdgeInsets` on the leading and trailing edge of a stack view that fills the entire width of a `MainView`.
