@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 class LoginView: UIView, MainView {
+    // Not being used anymore, but keeping it here just in case more content is added to this view that requires scrolling
     private lazy var mainScrollView = UIScrollView()
     private lazy var mainScrollViewContentStack = UIStackView(arrangedSubviews: [logInStack, signUpStack])
 
@@ -80,6 +81,9 @@ class LoginView: UIView, MainView {
         dontHaveAnAccountLabel.textAlignment = .center
 
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        addGestureRecognizer(tapGestureRecognizer)
     }
 
     func disableButtonsAndTextFields() {
@@ -152,6 +156,11 @@ class LoginView: UIView, MainView {
 
     @objc func signUpButtonTapped() {
         delegate?.loginViewDidTapSignUpButton()
+    }
+
+    @objc func dismissKeyboard() {
+        emailAddressTextField.resignFirstResponder()
+        passwordTextFieldStack.resignTextFieldFirstResponder()
     }
 }
 

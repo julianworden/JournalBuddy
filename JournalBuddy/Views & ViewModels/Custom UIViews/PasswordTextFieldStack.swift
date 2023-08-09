@@ -63,6 +63,10 @@ class PasswordTextFieldStack: UIStackView {
         passwordTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight).isActive = true
     }
 
+    func resignTextFieldFirstResponder() {
+        passwordTextField.resignFirstResponder()
+    }
+
 
     @objc func passwordEyeButtonTapped() {
         if passwordTextField.isSecureTextEntry {

@@ -53,6 +53,9 @@ class SignUpView: UIView, MainView {
         confirmEmailAddressTextField.delegate = self
 
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        addGestureRecognizer(tapGestureRecognizer)
     }
 
     func constrain() {
@@ -119,6 +122,13 @@ class SignUpView: UIView, MainView {
         Task {
             await viewModel.signUpButtonTapped()
         }
+    }
+
+    @objc func dismissKeyboard() {
+        emailAddressTextField.resignFirstResponder()
+        confirmEmailAddressTextField.resignFirstResponder()
+        passwordTextFieldStack.resignTextFieldFirstResponder()
+        confirmPasswordTextFieldStack.resignTextFieldFirstResponder()
     }
 }
 
