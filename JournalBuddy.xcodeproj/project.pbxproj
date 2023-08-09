@@ -35,6 +35,7 @@
 		AB5BE29E2A64662500803E16 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29D2A64662500803E16 /* FirebaseFirestoreSwift */; };
 		AB5BE2A02A64662500803E16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29F2A64662500803E16 /* FirebaseStorage */; };
 		AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BE2A12A64762B00803E16 /* MainTextField.swift */; };
+		AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */; };
 		AB7239C42A5BA03E00A0392D /* SwiftPlus in Frameworks */ = {isa = PBXBuildFile; productRef = AB7239C32A5BA03E00A0392D /* SwiftPlus */; };
 		AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C62A5BA07B00A0392D /* MainViewModel.swift */; };
 		AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C72A5BA07B00A0392D /* MainView.swift */; };
@@ -140,6 +141,7 @@
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
+		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
 		AB7239C62A5BA07B00A0392D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		AB7239C72A5BA07B00A0392D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -313,6 +315,14 @@
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AB5CB57D2A843C43005F6016 /* Reusable UIViews */ = {
+			isa = PBXGroup;
+			children = (
+				AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */,
+			);
+			path = "Reusable UIViews";
 			sourceTree = "<group>";
 		};
 		AB7239C52A5BA07500A0392D /* Protocols */ = {
@@ -494,6 +504,7 @@
 				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
 				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
 				ABD427012A81A6B800783DE4 /* ActivityStreak */,
+				AB5CB57D2A843C43005F6016 /* Reusable UIViews */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -723,6 +734,7 @@
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
+				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
 				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
 				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,
