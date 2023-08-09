@@ -11,7 +11,7 @@ enum UIConstants {
     // MARK: - Font Sizes
     
     static let largeTitleSize: CGFloat = 34
-    static let title2Size: CGFloat = 34
+    static let title2Size: CGFloat = 22
 
     // MARK: - UIStackView
 
