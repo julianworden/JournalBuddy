@@ -15,17 +15,20 @@ class HomeActivityStreakSection: UIView {
     private lazy var streakLabel = UILabel()
     private lazy var secondaryBox = HomeSectionSecondaryBox(iconName: "calendar", text: "5 Day Streak")
 
+    let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+
+        super.init(frame: .zero)
 
         configure()
         makeAccessible()
         subscribeToPublishers()
         constrain()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

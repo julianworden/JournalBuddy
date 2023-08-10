@@ -325,6 +325,14 @@
 			path = "Reusable UIViews";
 			sourceTree = "<group>";
 		};
+		AB5CB5802A844202005F6016 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
 		AB7239C52A5BA07500A0392D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,7 +511,7 @@
 				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
 				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
 				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
-				ABD427012A81A6B800783DE4 /* ActivityStreak */,
+				AB5CB5802A844202005F6016 /* Sections */,
 				AB5CB57D2A843C43005F6016 /* Reusable UIViews */,
 			);
 			path = HomeView;
@@ -563,14 +571,6 @@
 				AB1D33BB2A5EE0C60068939C /* YourLatestEntries */,
 			);
 			path = "Old and Unused";
-			sourceTree = "<group>";
-		};
-		ABD427012A81A6B800783DE4 /* ActivityStreak */ = {
-			isa = PBXGroup;
-			children = (
-				ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */,
-			);
-			path = ActivityStreak;
 			sourceTree = "<group>";
 		};
 		ABFEF27B2A6585FD004C40A8 /* Onboarding */ = {

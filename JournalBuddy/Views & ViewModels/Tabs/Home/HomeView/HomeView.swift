@@ -15,7 +15,7 @@ class HomeView: UIView, MainView {
             activityStreakSection
         ]
     )
-    private lazy var activityStreakSection = HomeActivityStreakSection()
+    private lazy var activityStreakSection = HomeActivityStreakSection(viewModel: viewModel)
 
     let viewModel: HomeViewModel
     weak var delegate: HomeViewDelegate?

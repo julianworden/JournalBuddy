@@ -30,16 +30,11 @@ class HomeSectionSecondaryBox: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
+    func configure() {
+        backgroundColor = .secondaryGroupedBackground
         layer.cornerRadius = 15
         layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: 0, height: 2)
-    }
-
-    func configure() {
-        backgroundColor = .background
 
         contentStack.axis = .vertical
 
