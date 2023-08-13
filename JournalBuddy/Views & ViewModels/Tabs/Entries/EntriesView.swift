@@ -9,7 +9,7 @@ import Combine
 import UIKit
 
 class EntriesView: UIView, MainView {
-    private lazy var tableView = UITableView()
+    private lazy var tableView = MainTableView()
     private lazy var tableViewDataSource = EntriesViewTableViewDataSource(
         viewModel: viewModel,
         tableView: tableView
@@ -44,11 +44,9 @@ class EntriesView: UIView, MainView {
     }
 
     func configureTableView() {
-        tableView.backgroundColor = .background
-        tableView.separatorColor = .divider
         tableView.register(
-            UITableViewCell.self,
-            forCellReuseIdentifier: ReuseIDConstants.entriesViewTextEntryCellID
+            EntriesViewTableViewCell.self,
+            forCellReuseIdentifier: EntriesViewTableViewCell.reuseID
         )
         tableView.delegate = self
         tableView.dataSource = tableViewDataSource
