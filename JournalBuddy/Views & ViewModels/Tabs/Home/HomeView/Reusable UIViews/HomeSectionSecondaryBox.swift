@@ -9,7 +9,8 @@ import UIKit
 
 class HomeSectionSecondaryBox: UIView {
     private lazy var contentStack = UIStackView(arrangedSubviews: [iconImageView, textLabel])
-    private lazy var iconImageView = UIImageView(image: UIImage(systemName: iconName, withConfiguration: .primaryElementColor))
+    private lazy var iconImage = UIImage(systemName: iconName, withConfiguration: .largeScale)?.withTintColor(.primaryElement)
+    private lazy var iconImageView = UIImageView(image: iconImage)
     private lazy var textLabel = UILabel()
 
     let iconName: String
@@ -37,6 +38,7 @@ class HomeSectionSecondaryBox: UIView {
         layer.shadowOffset = CGSize(width: 0, height: 2)
 
         contentStack.axis = .vertical
+        contentStack.spacing = 3
 
         textLabel.text = text
         textLabel.font = UIFontMetrics.avenirNextRegularBody
@@ -55,11 +57,11 @@ class HomeSectionSecondaryBox: UIView {
         addConstrainedSubviews(contentStack)
 
         NSLayoutConstraint.activate([
-            contentStack.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            contentStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            contentStack.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            contentStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
 
             iconImageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
             iconImageView.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)

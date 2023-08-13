@@ -10,6 +10,11 @@ import Foundation
 @MainActor
 final class HomeViewModel: MainViewModel {
     @Published var viewState = HomeViewState.displayingView
+    @Published var userGoals = [
+        Goal(id: "asdf123", name: "Get a job that pays really really really well."),
+        Goal(id: "qwer123", name: "Pay off all the student loans because oh boy are they a lot of money."),
+        Goal(id: "zxcv123", name: "Start business and make a lot lot lot lot of money.")
+    ]
 
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */; };
+		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
+		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
 		AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */; };
 		AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB181C482A5B1B7500560299 /* AppDelegate.swift */; };
 		AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB181C4A2A5B1B7500560299 /* SceneDelegate.swift */; };
@@ -24,6 +26,7 @@
 		AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */; };
 		AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02932A69E14B006F42F8 /* ViewState.swift */; };
 		AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */; };
+		AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */; };
 		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
 		AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */; };
@@ -91,6 +94,8 @@
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
 		ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */; };
 		ABD427032A81A6D600783DE4 /* HomeActivityStreakSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */; };
+		ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD819E72A85C9BC0078604A /* CustomDivider.swift */; };
+		ABD819EA2A866C510078604A /* HomeSectionPrimaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD819E92A866C510078604A /* HomeSectionPrimaryBox.swift */; };
 		ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */; };
 		ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDA15852A802E5400D94D7E /* MainNavigationController.swift */; };
 		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
@@ -118,6 +123,8 @@
 /* Begin PBXFileReference section */
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
+		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsStackViewRow.swift; sourceTree = "<group>"; };
 		AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButton.swift; sourceTree = "<group>"; };
 		AB181C452A5B1B7500560299 /* JournalBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JournalBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB181C482A5B1B7500560299 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +143,7 @@
 		AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewState.swift; sourceTree = "<group>"; };
 		AB1E02932A69E14B006F42F8 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewState.swift; sourceTree = "<group>"; };
+		AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsSection.swift; sourceTree = "<group>"; };
 		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
@@ -197,6 +205,8 @@
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
 		ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFontMetrics+Helpers.swift"; sourceTree = "<group>"; };
 		ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityStreakSection.swift; sourceTree = "<group>"; };
+		ABD819E72A85C9BC0078604A /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
+		ABD819E92A866C510078604A /* HomeSectionPrimaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionPrimaryBox.swift; sourceTree = "<group>"; };
 		ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		ABDA15852A802E5400D94D7E /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
@@ -236,6 +246,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB0E971C2A858E7E005F77A5 /* Accomplishments */ = {
+			isa = PBXGroup;
+			children = (
+				AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */,
+				AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */,
+			);
+			path = Accomplishments;
+			sourceTree = "<group>";
+		};
 		AB181C3C2A5B1B7500560299 = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +318,7 @@
 			children = (
 				AB8E77762A770E6900EAF49D /* User.swift */,
 				AB1D33BF2A5EE14E0068939C /* TextEntry.swift */,
+				AB0E971F2A858F55005F77A5 /* Goal.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 			);
@@ -321,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */,
+				ABD819E92A866C510078604A /* HomeSectionPrimaryBox.swift */,
 			);
 			path = "Reusable UIViews";
 			sourceTree = "<group>";
@@ -329,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */,
+				AB0E971C2A858E7E005F77A5 /* Accomplishments */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -388,6 +410,7 @@
 				ABB24E452A66D903001A76E0 /* MainTabBarController.swift */,
 				AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */,
 				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
+				ABD819E72A85C9BC0078604A /* CustomDivider.swift */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -706,7 +729,9 @@
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
+				ABD819EA2A866C510078604A /* HomeSectionPrimaryBox.swift in Sources */,
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
+				AB0E97202A858F55005F77A5 /* Goal.swift in Sources */,
 				AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
@@ -748,6 +773,8 @@
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
+				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
+				ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
@@ -757,6 +784,7 @@
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
 				ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */,
+				AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,

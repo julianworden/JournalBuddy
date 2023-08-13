@@ -12,10 +12,12 @@ class HomeView: UIView, MainView {
     private lazy var mainScrollView = UIScrollView()
     private lazy var mainScrollViewContentStack = UIStackView(
         arrangedSubviews: [
-            activityStreakSection
+            activityStreakSection,
+            accomplishmentsSection
         ]
     )
     private lazy var activityStreakSection = HomeActivityStreakSection(viewModel: viewModel)
+    private lazy var accomplishmentsSection = HomeAccomplishmentsSection(viewModel: viewModel)
 
     let viewModel: HomeViewModel
     weak var delegate: HomeViewDelegate?
@@ -38,6 +40,8 @@ class HomeView: UIView, MainView {
     
     func configureDefaultViewState() {
         backgroundColor = .background
+
+        mainScrollView.showsVerticalScrollIndicator = false
 
         mainScrollViewContentStack.axis = .vertical
         mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
@@ -64,7 +68,8 @@ class HomeView: UIView, MainView {
             mainScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
             mainScrollViewContentStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
-            mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            // Keep bottom of drop shadow of last item in scroll view from getting cut off by tab bar
+            mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -10),
             mainScrollViewContentStack.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
             mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainScrollViewContentStack.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor),
