@@ -11,6 +11,5 @@ import Combine
 protocol MainViewModel {
     associatedtype MainViewState: ViewState
 
-    // TODO: Add databaseService to this protocol
    @MainActor var viewState: MainViewState { get set }
 }

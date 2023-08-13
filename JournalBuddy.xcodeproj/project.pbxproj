@@ -59,6 +59,12 @@
 		AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */; };
 		AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */; };
 		AB8E77772A770E6900EAF49D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77762A770E6900EAF49D /* User.swift */; };
+		AB8E9B7E2A89126300A99C3A /* GoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B7D2A89126300A99C3A /* GoalsViewController.swift */; };
+		AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */; };
+		AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */; };
+		AB8E9B842A8912B700A99C3A /* GoalsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */; };
+		AB8E9B862A89172400A99C3A /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B852A89172400A99C3A /* GoalsView.swift */; };
+		AB8E9B882A89279E00A99C3A /* GoalsViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */; };
 		AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA182A803CCA003F94D7 /* FontConstants.swift */; };
 		AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
@@ -169,6 +175,12 @@
 		AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewDelegate.swift; sourceTree = "<group>"; };
 		AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB8E77762A770E6900EAF49D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AB8E9B7D2A89126300A99C3A /* GoalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewController.swift; sourceTree = "<group>"; };
+		AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
+		AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewState.swift; sourceTree = "<group>"; };
+		AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsCoordinator.swift; sourceTree = "<group>"; };
+		AB8E9B852A89172400A99C3A /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
+		AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB90AA182A803CCA003F94D7 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
 		AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage.Configuration+largeScale.swift"; sourceTree = "<group>"; };
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
@@ -415,6 +427,18 @@
 			path = "Custom UIViews";
 			sourceTree = "<group>";
 		};
+		AB8E9B7C2A89124500A99C3A /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				AB8E9B7D2A89126300A99C3A /* GoalsViewController.swift */,
+				AB8E9B852A89172400A99C3A /* GoalsView.swift */,
+				AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */,
+				AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */,
+				AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
 		AB90FF0C2A71F05E00D23017 /* Test Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,6 +471,7 @@
 				AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */,
 				ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */,
 				AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */,
+				AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */,
 				AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
@@ -521,23 +546,9 @@
 				ABB24E432A66D87C001A76E0 /* TabBarCoordinator.swift */,
 				ABC9354C2A5E01DA0094F4E0 /* Home */,
 				ABA4F9012A682AA00008D18E /* Entries */,
+				AB8E9B7C2A89124500A99C3A /* Goals */,
 			);
 			path = Tabs;
-			sourceTree = "<group>";
-		};
-		ABB3483D2A6ACDF30050A9AC /* HomeView */ = {
-			isa = PBXGroup;
-			children = (
-				AB181C4C2A5B1B7500560299 /* HomeViewController.swift */,
-				AB7CC9192A645DC70054B1A4 /* HomeView.swift */,
-				AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */,
-				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
-				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
-				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
-				AB5CB5802A844202005F6016 /* Sections */,
-				AB5CB57D2A843C43005F6016 /* Reusable UIViews */,
-			);
-			path = HomeView;
 			sourceTree = "<group>";
 		};
 		ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */ = {
@@ -579,7 +590,14 @@
 		ABC9354C2A5E01DA0094F4E0 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				ABB3483D2A6ACDF30050A9AC /* HomeView */,
+				AB181C4C2A5B1B7500560299 /* HomeViewController.swift */,
+				AB7CC9192A645DC70054B1A4 /* HomeView.swift */,
+				AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */,
+				AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */,
+				AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */,
+				ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */,
+				AB5CB5802A844202005F6016 /* Sections */,
+				AB5CB57D2A843C43005F6016 /* Reusable UIViews */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -736,6 +754,7 @@
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
+				AB8E9B7E2A89126300A99C3A /* GoalsViewController.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
 				AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */,
 				AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */,
@@ -758,6 +777,7 @@
 				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
+				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
@@ -769,11 +789,13 @@
 				AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */,
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,
 				AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */,
+				AB8E9B842A8912B700A99C3A /* GoalsCoordinator.swift in Sources */,
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
 				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
+				AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */,
 				ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
@@ -796,6 +818,7 @@
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
+				AB8E9B862A89172400A99C3A /* GoalsView.swift in Sources */,
 				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */,
 				ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */,
 				AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */,
@@ -812,6 +835,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */,
+				AB8E9B882A89279E00A99C3A /* GoalsViewModelUnitTests.swift in Sources */,
 				AB8760BD2A740955009D3D39 /* EntriesViewModelUnitTests.swift in Sources */,
 				AB948B822A6D7EE700430E61 /* TestError.swift in Sources */,
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,

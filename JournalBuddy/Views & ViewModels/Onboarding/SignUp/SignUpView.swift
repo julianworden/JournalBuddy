@@ -96,7 +96,7 @@ class SignUpView: UIView, MainView {
                 case .error(_):
                     self?.enableTextFieldsAndButton()
                 default:
-                    print(ErrorMessageConstants.unexpectedViewState(viewState: viewState))
+                    break
                 }
             }
             .store(in: &cancellables)

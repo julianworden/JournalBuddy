@@ -14,7 +14,7 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         tableView: tableView
     )
-    private lazy var activityIndicator = UIActivityIndicatorView(style: .medium)
+    private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .medium)
 
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
@@ -34,17 +34,18 @@ class EntriesView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureLoadingUI() {
-        backgroundColor = .systemBackground
+    func configureFetchingEntriesUI() {
+        backgroundColor = .background
 
         tableView.isHidden = true
 
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        activityIndicator.hidesWhenStopped = true
+        fetchingEntriesActivityIndicator.hidesWhenStopped = true
+        fetchingEntriesActivityIndicator.startAnimating()
     }
 
     func configureTableView() {
+        tableView.backgroundColor = .background
+        tableView.separatorColor = .divider
         tableView.register(
             UITableViewCell.self,
             forCellReuseIdentifier: ReuseIDConstants.entriesViewTextEntryCellID
@@ -53,13 +54,13 @@ class EntriesView: UIView, MainView {
         tableView.dataSource = tableViewDataSource
     }
 
-    func configureLoadedUI() {
-        activityIndicator.stopAnimating()
+    func configureFetchedEntriesUI() {
+        fetchingEntriesActivityIndicator.stopAnimating()
         tableView.isHidden = false
     }
 
     func constrain() {
-        addConstrainedSubviews(tableView, activityIndicator)
+        addConstrainedSubviews(tableView, fetchingEntriesActivityIndicator)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -67,8 +68,8 @@ class EntriesView: UIView, MainView {
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
 
@@ -81,10 +82,10 @@ class EntriesView: UIView, MainView {
             .sink { [weak self] viewState in
                 switch viewState {
                 case .fetchingEntries:
-                    self?.configureTableView()
-                    self?.configureLoadingUI()
+                    self?.configureFetchingEntriesUI()
                 case .fetchedEntries:
-                    self?.configureLoadedUI()
+                    self?.configureTableView()
+                    self?.configureFetchedEntriesUI()
                 default:
                     break
                 }

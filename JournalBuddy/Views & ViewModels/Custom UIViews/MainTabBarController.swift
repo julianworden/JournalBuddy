@@ -26,6 +26,13 @@ class MainTabBarController: UITabBarController {
         parentCoordinator: coordinator,
         currentUser: currentUser
     )
+    lazy var goalsCoordinator = GoalsCoordinator(
+        navigationController: MainNavigationController(),
+        databaseService: databaseService,
+        authService: authService,
+        parentCoordinator: coordinator,
+        currentUser: currentUser
+    )
 
     init(
         coordinator: TabBarCoordinator,
@@ -52,7 +59,11 @@ class MainTabBarController: UITabBarController {
     }
 
     func configure() {
-        viewControllers = [homeCoordinator.navigationController, entriesCoordinator.navigationController]
+        viewControllers = [
+            homeCoordinator.navigationController,
+            entriesCoordinator.navigationController,
+            goalsCoordinator.navigationController
+        ]
 
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.backgroundColor = .background
@@ -66,5 +77,6 @@ class MainTabBarController: UITabBarController {
 
         homeCoordinator.start()
         entriesCoordinator.start()
+        goalsCoordinator.start()
     }
 }

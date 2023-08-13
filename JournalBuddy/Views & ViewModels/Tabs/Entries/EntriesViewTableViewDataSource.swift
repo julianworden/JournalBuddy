@@ -28,14 +28,21 @@ final class EntriesViewTableViewDataSource: UITableViewDiffableDataSource<Entrie
             var contentConfiguration = cell.defaultContentConfiguration()
             contentConfiguration.text = textEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
             contentConfiguration.textProperties.font = UIFontMetrics.avenirNextBoldBody
+            contentConfiguration.textProperties.color = .primaryElement
             contentConfiguration.textProperties.numberOfLines = 0
             contentConfiguration.secondaryText = textEntry.text
             contentConfiguration.secondaryTextProperties.font = UIFontMetrics.avenirNextRegularBody
+            contentConfiguration.secondaryTextProperties.color = .primaryElement
             contentConfiguration.secondaryTextProperties.numberOfLines = 3
             contentConfiguration.textProperties.adjustsFontForContentSizeCategory = true
             contentConfiguration.secondaryTextProperties.adjustsFontForContentSizeCategory = true
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryView = UIImageView(image: .disclosureIndicator)
             cell.contentConfiguration = contentConfiguration
+
+            let selectedCellBackgroundView = UIView()
+            selectedCellBackgroundView.backgroundColor = .groupedBackground
+            cell.selectedBackgroundView = selectedCellBackgroundView
+            cell.backgroundColor = .background
 
             return cell
         }
