@@ -10,11 +10,31 @@ import SwiftUI
 import UIKit
 
 class EntriesViewController: UIViewController, MainViewController {
-    private lazy var customMenu = CustomMenu(rows: [
-        CustomMenuRow(title: "New Text Entry", iconName: "square.and.pencil", displayDivider: true, target: self, action: #selector(newTextEntryMenuButtonTapped)),
-        CustomMenuRow(title: "New Video Entry", iconName: "video", displayDivider: true, target: self, action: #selector(newVideoEntryMenuButtonTapped)),
-        CustomMenuRow(title: "New Voice Entry", iconName: "mic", displayDivider: false, target: self, action: #selector(newVoiceEntryMenuButtonTapped))
-    ])
+    private lazy var createNewEntryMenu = CustomMenu(
+        rows: [
+            CustomMenuRow(
+                title: "New Text Entry",
+                iconName: "square.and.pencil",
+                displayDivider: true,
+                target: self,
+                action: #selector(newTextEntryMenuButtonTapped)
+            ),
+            CustomMenuRow(
+                title: "New Video Entry",
+                iconName: "video",
+                displayDivider: true,
+                target: self,
+                action: #selector(newVideoEntryMenuButtonTapped)
+            ),
+            CustomMenuRow(
+                title: "New Voice Entry",
+                iconName: "mic",
+                displayDivider: false,
+                target: self,
+                action: #selector(newVoiceEntryMenuButtonTapped)
+            )
+        ]
+    )
     private lazy var dismissCustomMenuGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissCustomMenu))
     private lazy var createEntryButton = UIBarButtonItem(
         title: "Create Entry",
@@ -69,12 +89,12 @@ class EntriesViewController: UIViewController, MainViewController {
         guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
               let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
 
-        tabBarControllerView.addConstrainedSubview(customMenu)
+        tabBarControllerView.addConstrainedSubview(createNewEntryMenu)
 
         NSLayoutConstraint.activate([
-            customMenu.topAnchor.constraint(equalTo: tabBarControllerView.topAnchor, constant: 100),
-            customMenu.leadingAnchor.constraint(greaterThanOrEqualTo: tabBarControllerView.leadingAnchor, constant: 15),
-            customMenu.trailingAnchor.constraint(equalTo: tabBarControllerView.trailingAnchor, constant: -15)
+            createNewEntryMenu.topAnchor.constraint(equalTo: tabBarControllerView.topAnchor, constant: 100),
+            createNewEntryMenu.leadingAnchor.constraint(greaterThanOrEqualTo: tabBarControllerView.leadingAnchor, constant: 15),
+            createNewEntryMenu.trailingAnchor.constraint(equalTo: tabBarControllerView.trailingAnchor, constant: -15)
         ])
     }
 
@@ -97,10 +117,10 @@ class EntriesViewController: UIViewController, MainViewController {
 
     @objc func createEntryButtonTapped() {
         // Prevent visual bug that occurs if the user taps the menu button twice very quickly
-        guard !customMenu.isAnimating else { return }
+        guard !createNewEntryMenu.isAnimating else { return }
 
         if !viewModel.customMenuIsShowing {
-            customMenu.show { [weak self] in
+            createNewEntryMenu.present { [weak self] in
                 self?.addCustomMenuDismissGestureRecognizer()
                 self?.viewModel.customMenuIsShowing = true
             }
@@ -123,11 +143,13 @@ class EntriesViewController: UIViewController, MainViewController {
     }
 
     @objc func dismissCustomMenu() {
-        customMenu.dismiss { [weak self] in
+        createNewEntryMenu.dismiss { [weak self] in
             self?.viewModel.customMenuIsShowing = false
         }
     }
-
+    
+    /// Adds a `dismissCustomMenuGestureRecognizer` to all elements in the view so that `createNewEntryMenu` is dismissable by tapping anywhere
+    /// on the screen. Called when
     func addCustomMenuDismissGestureRecognizer() {
         view.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
         coordinator?.navigationController.navigationBar.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
@@ -138,6 +160,9 @@ class EntriesViewController: UIViewController, MainViewController {
         tabBarControllerView.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
     }
 
+    /// Removes `dismissCustomMenuGestureRecognizer` from all elements in the view so that it doesn't block the user
+    /// from being able to interact with UI elements. Called when `createNewEntryMenu` is dismissed.
+    /// on the screen when it's visible.
     func removeCustomMenuDismissGestureRecognizer() {
         view.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
         coordinator?.navigationController.navigationBar.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)

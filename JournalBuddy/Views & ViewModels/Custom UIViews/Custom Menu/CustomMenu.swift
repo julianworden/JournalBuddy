@@ -8,7 +8,8 @@
 import UIKit
 
 class CustomMenu: UIView {
-    private lazy var buttonStack = UIStackView()
+    /// The `CustomMenuRow`s that will show each row in the `CustomMenu`.
+    private lazy var rowStack = UIStackView()
 
     var isAnimating = false
 
@@ -16,7 +17,7 @@ class CustomMenu: UIView {
         super.init(frame: .zero)
 
         for row in rows {
-            buttonStack.addArrangedSubview(row)
+            rowStack.addArrangedSubview(row)
         }
 
         configure()
@@ -36,12 +37,26 @@ class CustomMenu: UIView {
         layer.shadowRadius = 5
         layer.shadowOffset = CGSize(width: 0, height: 1)
 
-        buttonStack.axis = .vertical
-        buttonStack.spacing = 0
-        buttonStack.distribution = .fillEqually
+        rowStack.axis = .vertical
+        rowStack.spacing = 0
+        rowStack.distribution = .fillEqually
     }
 
-    func show(completion: @escaping () -> Void) {
+
+    func constrain() {
+        addConstrainedSubview(rowStack)
+
+        NSLayoutConstraint.activate([
+            rowStack.topAnchor.constraint(equalTo: topAnchor),
+            rowStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            rowStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rowStack.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+
+    /// Presents `CustomMenu` with a spring animation.
+    /// - Parameter completion: Code to run after the menu has finished presenting itself. Called when the spring animation finishes.
+    func present(completion: @escaping () -> Void) {
         isAnimating = true
 
         UIView.animate(
@@ -60,6 +75,8 @@ class CustomMenu: UIView {
         )
     }
 
+    /// Dismisses `CustomMenu` with a spring animation.
+    /// - Parameter completion: Code to run after the menu has finished dimissing itself. Called when the dismissal animation completes.
     func dismiss(completion: @escaping () -> Void) {
         isAnimating = true
 
@@ -77,16 +94,5 @@ class CustomMenu: UIView {
                 completion()
             }
         )
-    }
-
-    func constrain() {
-        addConstrainedSubview(buttonStack)
-
-        NSLayoutConstraint.activate([
-            buttonStack.topAnchor.constraint(equalTo: topAnchor),
-            buttonStack.bottomAnchor.constraint(equalTo: bottomAnchor),
-            buttonStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
     }
 }
