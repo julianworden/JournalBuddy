@@ -28,14 +28,15 @@ class AddEditTextEntryView: UIView, MainView {
     }
 
     func configureDefaultViewState() {
-        backgroundColor = .systemBackground
+        backgroundColor = .background
 
         entryTextView.delegate = self
         entryTextView.text = viewModel.entryTextViewDefaultText
-        entryTextView.font = .preferredFont(forTextStyle: .body)
+        entryTextView.font = UIFontMetrics.avenirNextRegularBody
         entryTextView.textColor = viewModel.entryTextViewDefaultTextColor
         entryTextView.showsVerticalScrollIndicator = false
         entryTextView.keyboardDismissMode = .interactive
+        entryTextView.backgroundColor = .background
     }
 
     func disableTextView() {

@@ -6,33 +6,21 @@
 //
 
 import Combine
+import SwiftUI
 import UIKit
 
 class EntriesViewController: UIViewController, MainViewController {
-    private lazy var createEntryButton = UIBarButtonItem(image: UIImage(systemName: "plus"), menu: createEntryMenu)
-    private lazy var createEntryMenu = UIMenu(
-        children: [createNewTextEntryButton, createNewVideoEntryButton, createNewVoiceEntryButton]
-    )
-    private lazy var createNewTextEntryButton = UIAction(
-        title: "New Text Entry",
-        image: UIImage(systemName: "square.and.pencil"),
-        handler: { [weak self] action in
-            self?.newTextEntryMenuButtonTapped(action)
-        }
-    )
-    private lazy var createNewVideoEntryButton = UIAction(
-        title: "New Video Entry",
-        image: UIImage(systemName: "video"),
-        handler: { [weak self] action in
-            self?.newVideoEntryMenuButtonTapped(action)
-        }
-    )
-    private lazy var createNewVoiceEntryButton = UIAction(
-        title: "New Voice Entry",
-        image: UIImage(systemName: "mic"),
-        handler: { [weak self] action in
-            self?.newVoiceEntryMenuButtonTapped(action)
-        }
+    private lazy var customMenu = CustomMenu(rows: [
+        CustomMenuRow(title: "New Text Entry", iconName: "square.and.pencil", displayDivider: true, target: self, action: #selector(newTextEntryMenuButtonTapped)),
+        CustomMenuRow(title: "New Video Entry", iconName: "video", displayDivider: true, target: self, action: #selector(newVideoEntryMenuButtonTapped)),
+        CustomMenuRow(title: "New Voice Entry", iconName: "mic", displayDivider: false, target: self, action: #selector(newVoiceEntryMenuButtonTapped))
+    ])
+    private lazy var dismissCustomMenuGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissCustomMenu))
+    private lazy var createEntryButton = UIBarButtonItem(
+        title: "Create Entry",
+        image: UIImage(systemName: "plus.circle.fill"),
+        target: self,
+        action: #selector(createEntryButtonTapped)
     )
 
     weak var coordinator: EntriesCoordinator?
@@ -44,8 +32,6 @@ class EntriesViewController: UIViewController, MainViewController {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
-
-        configure()
     }
 
     required init?(coder: NSCoder) {
@@ -60,6 +46,8 @@ class EntriesViewController: UIViewController, MainViewController {
         super.viewDidLoad()
 
         configure()
+        subscribeToPublishers()
+        constrain()
     }
 
     override func viewIsAppearing(_ animated: Bool) {
@@ -74,6 +62,20 @@ class EntriesViewController: UIViewController, MainViewController {
         navigationItem.title = "Entries"
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.rightBarButtonItem = createEntryButton
+    }
+
+    // Constraining here instead of in the view because the menu is triggered by a button created in this view controller
+    func constrain() {
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
+
+        tabBarControllerView.addConstrainedSubview(customMenu)
+
+        NSLayoutConstraint.activate([
+            customMenu.topAnchor.constraint(equalTo: tabBarControllerView.topAnchor, constant: 100),
+            customMenu.leadingAnchor.constraint(greaterThanOrEqualTo: tabBarControllerView.leadingAnchor, constant: 15),
+            customMenu.trailingAnchor.constraint(equalTo: tabBarControllerView.trailingAnchor, constant: -15)
+        ])
     }
 
     func subscribeToPublishers() {
@@ -93,16 +95,57 @@ class EntriesViewController: UIViewController, MainViewController {
         self.coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
     }
 
-    func newTextEntryMenuButtonTapped(_ action: UIAction) {
-        self.coordinator?.presentAddEditTextEntryViewController(withTextEntryToEdit: nil)
+    @objc func createEntryButtonTapped() {
+        // Prevent visual bug that occurs if the user taps the menu button twice very quickly
+        guard !customMenu.isAnimating else { return }
+
+        if !viewModel.customMenuIsShowing {
+            customMenu.show { [weak self] in
+                self?.addCustomMenuDismissGestureRecognizer()
+                self?.viewModel.customMenuIsShowing = true
+            }
+        } else {
+            dismissCustomMenu()
+        }
     }
 
-    func newVideoEntryMenuButtonTapped(_ action: UIAction) {
+    @objc func newTextEntryMenuButtonTapped() {
+        dismissCustomMenu()
+        coordinator?.presentAddEditTextEntryViewController(withTextEntryToEdit: nil)
+    }
+
+    @objc func newVideoEntryMenuButtonTapped() {
 
     }
 
-    func newVoiceEntryMenuButtonTapped(_ action: UIAction) {
+    @objc func newVoiceEntryMenuButtonTapped() {
 
+    }
+
+    @objc func dismissCustomMenu() {
+        customMenu.dismiss { [weak self] in
+            self?.viewModel.customMenuIsShowing = false
+        }
+    }
+
+    func addCustomMenuDismissGestureRecognizer() {
+        view.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+        coordinator?.navigationController.navigationBar.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
+
+        tabBarControllerView.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+    }
+
+    func removeCustomMenuDismissGestureRecognizer() {
+        view.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
+        coordinator?.navigationController.navigationBar.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
+
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
+
+        tabBarControllerView.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
     }
 }
 

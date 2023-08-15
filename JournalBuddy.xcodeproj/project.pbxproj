@@ -67,6 +67,9 @@
 		AB8E9B882A89279E00A99C3A /* GoalsViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */; };
 		AB8E9B8A2A8935F700A99C3A /* EntriesViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B892A8935F700A99C3A /* EntriesViewTableViewCell.swift */; };
 		AB8E9B8C2A89371D00A99C3A /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */; };
+		AB8E9B8E2A894C9900A99C3A /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B8D2A894C9900A99C3A /* CustomMenu.swift */; };
+		AB8E9B912A894E5500A99C3A /* CustomMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B902A894E5500A99C3A /* CustomMenuRow.swift */; };
+		AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */; };
 		AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA182A803CCA003F94D7 /* FontConstants.swift */; };
 		AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
@@ -185,6 +188,9 @@
 		AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB8E9B892A8935F700A99C3A /* EntriesViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewTableViewCell.swift; sourceTree = "<group>"; };
 		AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
+		AB8E9B8D2A894C9900A99C3A /* CustomMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
+		AB8E9B902A894E5500A99C3A /* CustomMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuRow.swift; sourceTree = "<group>"; };
+		AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+currentUIWindow.swift"; sourceTree = "<group>"; };
 		AB90AA182A803CCA003F94D7 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
 		AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage.Configuration+largeScale.swift"; sourceTree = "<group>"; };
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
@@ -349,6 +355,7 @@
 				AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */,
 				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
+				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -428,6 +435,7 @@
 				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
 				ABD819E72A85C9BC0078604A /* CustomDivider.swift */,
 				AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */,
+				AB8E9B8F2A894E3800A99C3A /* Custom Menu */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -442,6 +450,15 @@
 				AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */,
 			);
 			path = Goals;
+			sourceTree = "<group>";
+		};
+		AB8E9B8F2A894E3800A99C3A /* Custom Menu */ = {
+			isa = PBXGroup;
+			children = (
+				AB8E9B8D2A894C9900A99C3A /* CustomMenu.swift */,
+				AB8E9B902A894E5500A99C3A /* CustomMenuRow.swift */,
+			);
+			path = "Custom Menu";
 			sourceTree = "<group>";
 		};
 		AB90FF0C2A71F05E00D23017 /* Test Plans */ = {
@@ -758,6 +775,7 @@
 				AB0E97202A858F55005F77A5 /* Goal.swift in Sources */,
 				AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
+				AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
 				AB8E9B8A2A8935F700A99C3A /* EntriesViewTableViewCell.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
@@ -773,6 +791,7 @@
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
+				AB8E9B912A894E5500A99C3A /* CustomMenuRow.swift in Sources */,
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
 				AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */,
@@ -809,6 +828,7 @@
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				AB8E77772A770E6900EAF49D /* User.swift in Sources */,
+				AB8E9B8E2A894C9900A99C3A /* CustomMenu.swift in Sources */,
 				ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */,
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,

@@ -20,6 +20,7 @@ final class EntriesViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
 
         XCTAssertTrue(sut.textEntries.isEmpty)
+        XCTAssertFalse(sut.customMenuIsShowing)
         XCTAssertEqual(sut.viewState, .fetchingEntries)
     }
 

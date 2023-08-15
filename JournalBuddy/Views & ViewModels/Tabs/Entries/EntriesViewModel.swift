@@ -2,13 +2,14 @@
 //  EntriesViewModel.swift
 //  JournalBuddy
 //
-//  Created by Julian Worden on 7/21/23.
+//  Created by Julian Worden on  7/21/23.
 //
 
 import Foundation
 
 @MainActor
 final class EntriesViewModel: MainViewModel {
+    @Published var customMenuIsShowing = false
     @Published var textEntries = [TextEntry]()
     @Published var viewState = EntriesViewState.fetchingEntries
 
