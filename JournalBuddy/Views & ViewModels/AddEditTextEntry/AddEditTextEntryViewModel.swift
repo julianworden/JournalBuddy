@@ -39,9 +39,9 @@ final class AddEditTextEntryViewModel: MainViewModel {
 
     var entryTextViewDefaultTextColor: UIColor {
         if textEntryToEdit == nil {
-            return .secondaryLabel
+            return .textFieldPlaceholder
         } else {
-            return .label
+            return .primaryElement
         }
     }
 

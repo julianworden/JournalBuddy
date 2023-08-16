@@ -102,6 +102,8 @@
 		ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
+		ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */; };
+		ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
 		ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */; };
 		ABD427032A81A6D600783DE4 /* HomeActivityStreakSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */; };
@@ -224,6 +226,8 @@
 		ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewDelegate.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewDataSourceAndDelegate.swift; sourceTree = "<group>"; };
+		ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
 		ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFontMetrics+Helpers.swift"; sourceTree = "<group>"; };
 		ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityStreakSection.swift; sourceTree = "<group>"; };
@@ -358,6 +362,24 @@
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */,
+				ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */,
+			);
+			path = EntryTypeCollectionView;
+			sourceTree = "<group>";
+		};
+		AB41680B2A8D096F001B9AA1 /* EntriesTableView */ = {
+			isa = PBXGroup;
+			children = (
+				ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */,
+				AB8E9B892A8935F700A99C3A /* EntriesViewTableViewCell.swift */,
+			);
+			path = EntriesTableView;
 			sourceTree = "<group>";
 		};
 		AB5CB57D2A843C43005F6016 /* Reusable UIViews */ = {
@@ -536,11 +558,11 @@
 				ABB348332A6AC2AC0050A9AC /* EntriesViewController.swift */,
 				ABB348352A6AC2C20050A9AC /* EntriesView.swift */,
 				ABB348392A6AC3130050A9AC /* EntriesViewModel.swift */,
-				ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */,
-				AB8E9B892A8935F700A99C3A /* EntriesViewTableViewCell.swift */,
 				ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */,
 				AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */,
 				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
+				AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */,
+				AB41680B2A8D096F001B9AA1 /* EntriesTableView */,
 			);
 			path = Entries;
 			sourceTree = "<group>";
@@ -767,6 +789,7 @@
 				ABB348362A6AC2C20050A9AC /* EntriesView.swift in Sources */,
 				AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */,
 				ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */,
+				ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */,
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
@@ -842,6 +865,7 @@
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
+				ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,

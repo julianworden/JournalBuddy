@@ -7,6 +7,19 @@
 
 import Foundation
 
-enum EntryType: Codable {
-    case text, voice, video
+enum EntryType: String, CaseIterable, Codable {
+    case text = "Text Entry"
+    case video = "Video Entry"
+    case voice = "Voice Entry"
+
+    var pluralRawValue: String {
+        switch self {
+        case .text:
+            return "Text Entries"
+        case .voice:
+            return "Voice Entries"
+        case .video:
+            return "Video Entries"
+        }
+    }
 }

@@ -143,6 +143,8 @@ class EntriesViewController: UIViewController, MainViewController {
     }
 
     @objc func dismissCustomMenu() {
+        removeCustomMenuDismissGestureRecognizer()
+
         createNewEntryMenu.dismiss { [weak self] in
             self?.viewModel.customMenuIsShowing = false
         }
