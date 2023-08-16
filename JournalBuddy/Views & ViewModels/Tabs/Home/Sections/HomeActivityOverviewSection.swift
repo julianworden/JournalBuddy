@@ -1,19 +1,24 @@
 //
-//  HomeActivityStreakSection.swift
+//  HomeActivityOverviewSection.swift
 //  JournalBuddy
 //
-//  Created by Julian Worden on 8/7/23.
+//  Created by Julian Worden on 8/16/23.
 //
 
 import Combine
 import UIKit
 
-class HomeActivityStreakSection: UIView {
+class HomeActivityOverviewSection: UIView {
     private lazy var primaryBackgroundBox = HomeSectionPrimaryBox()
     private lazy var titleLabel = UILabel()
-    private lazy var primaryBoxContentStack = UIStackView(arrangedSubviews: [streakLabel, secondaryBox])
-    private lazy var streakLabel = UILabel()
-    private lazy var secondaryBox = HomeSectionSecondaryBox(iconName: "calendar", text: "5 Day Streak")
+    private lazy var primaryBoxContentStack = UIStackView(
+        arrangedSubviews:
+            [
+                HomeSectionSecondaryBox(iconName: "square.and.pencil", text: "24 Text Entries"),
+                HomeSectionSecondaryBox(iconName: "video", text: "17 Video Entries"),
+                HomeSectionSecondaryBox(iconName: "mic", text: "10 Voice Entries"),
+            ]
+    )
 
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
@@ -40,18 +45,13 @@ class HomeActivityStreakSection: UIView {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
-        primaryBoxContentStack.spacing = 10
+        primaryBoxContentStack.spacing = 15
         primaryBoxContentStack.alignment = .center
-
-        streakLabel.text = "You're on a streak! Create a new text, video, or voice entry every day to keep it going."
-        streakLabel.font = UIFontMetrics.avenirNextRegularBody
-        streakLabel.textColor = .primaryElement
-        streakLabel.numberOfLines = 0
+        primaryBoxContentStack.distribution = .fillEqually
     }
 
     func makeAccessible() {
         titleLabel.adjustsFontForContentSizeCategory = true
-        streakLabel.adjustsFontForContentSizeCategory = true
 
         adjustLayoutIfNeeded()
     }
@@ -90,12 +90,6 @@ class HomeActivityStreakSection: UIView {
             .vertical
         } else {
             .horizontal
-        }
-
-        streakLabel.textAlignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .center
-        } else {
-            .left
         }
     }
 }

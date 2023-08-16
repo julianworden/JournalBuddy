@@ -13,11 +13,13 @@ class HomeView: UIView, MainView {
     private lazy var mainScrollViewContentStack = UIStackView(
         arrangedSubviews: [
             activityStreakSection,
-            accomplishmentsSection
+            accomplishmentsSection,
+            activityOverviewSection
         ]
     )
     private lazy var activityStreakSection = HomeActivityStreakSection(viewModel: viewModel)
     private lazy var accomplishmentsSection = HomeAccomplishmentsSection(viewModel: viewModel)
+    private lazy var activityOverviewSection = HomeActivityOverviewSection(viewModel: viewModel)
 
     let viewModel: HomeViewModel
     weak var delegate: HomeViewDelegate?

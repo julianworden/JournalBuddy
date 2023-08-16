@@ -30,6 +30,7 @@
 		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
 		AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */; };
+		AB42A13D2A8D78DC0040430E /* HomeActivityOverviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */; };
 		AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */; };
 		AB5BE2962A64662500803E16 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE2952A64662500803E16 /* FirebaseAnalytics */; };
 		AB5BE2982A64662500803E16 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE2972A64662500803E16 /* FirebaseAnalyticsSwift */; };
@@ -160,6 +161,7 @@
 		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
+		AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityOverviewSection.swift; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */,
+				AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */,
 				AB0E971C2A858E7E005F77A5 /* Accomplishments */,
 			);
 			path = Sections;
@@ -854,6 +857,7 @@
 				AB8E9B8E2A894C9900A99C3A /* CustomMenu.swift in Sources */,
 				ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */,
 				AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */,
+				AB42A13D2A8D78DC0040430E /* HomeActivityOverviewSection.swift in Sources */,
 				AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */,
 				ABB3483A2A6AC3130050A9AC /* EntriesViewModel.swift in Sources */,
 				ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */,
