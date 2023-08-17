@@ -24,6 +24,7 @@ class HomeActivityStreakSection: UIView {
         super.init(frame: .zero)
 
         configure()
+        adjustLayoutForDynamicType()
         makeAccessible()
         subscribeToPublishers()
         constrain()
@@ -40,8 +41,7 @@ class HomeActivityStreakSection: UIView {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
-        primaryBoxContentStack.spacing = 10
-        primaryBoxContentStack.alignment = .center
+        primaryBoxContentStack.spacing = 5
 
         streakLabel.text = "You're on a streak! Create a new text, video, or voice entry every day to keep it going."
         streakLabel.font = UIFontMetrics.avenirNextRegularBody
@@ -52,14 +52,12 @@ class HomeActivityStreakSection: UIView {
     func makeAccessible() {
         titleLabel.adjustsFontForContentSizeCategory = true
         streakLabel.adjustsFontForContentSizeCategory = true
-
-        adjustLayoutIfNeeded()
     }
 
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
             .sink { [weak self] _ in
-                self?.adjustLayoutIfNeeded()
+                self?.adjustLayoutForDynamicType()
             }
             .store(in: &cancellables)
     }
@@ -81,15 +79,23 @@ class HomeActivityStreakSection: UIView {
             primaryBoxContentStack.topAnchor.constraint(equalTo: primaryBackgroundBox.topAnchor, constant: 10),
             primaryBoxContentStack.bottomAnchor.constraint(equalTo: primaryBackgroundBox.bottomAnchor, constant: -10),
             primaryBoxContentStack.leadingAnchor.constraint(equalTo: primaryBackgroundBox.leadingAnchor, constant: 10),
-            primaryBoxContentStack.trailingAnchor.constraint(equalTo: primaryBackgroundBox.trailingAnchor, constant: -10)
+            primaryBoxContentStack.trailingAnchor.constraint(equalTo: primaryBackgroundBox.trailingAnchor, constant: -10),
+
+            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 100)
         ])
     }
 
-    func adjustLayoutIfNeeded() {
+    func adjustLayoutForDynamicType() {
         primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
             .vertical
         } else {
             .horizontal
+        }
+
+        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            .fill
+        } else {
+            .center
         }
 
         streakLabel.textAlignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {

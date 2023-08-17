@@ -10,16 +10,7 @@ import UIKit
 
 class AddEditTextEntryViewController: UIViewController, MainViewController {
     private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-    private lazy var moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), menu: elipsesMenu)
-    private lazy var elipsesMenu = UIMenu(children: [deleteTextEntryAction])
-    private lazy var deleteTextEntryAction = UIAction(
-        title: "Delete Text Entry",
-        image: UIImage(systemName: "trash"),
-        attributes: .destructive,
-        handler: { [weak self] _ in
-            self?.deleteTextEntryButtonTapped()
-        }
-    )
+    private lazy var moreButton = UIBarButtonItem(title: "Delete Text Entry", image: SFSymbolConstants.trash, target: self, action: #selector(deleteTextEntryButtonTapped))
 
     weak var coordinator: AddEditTextEntryCoordinator?
     var viewModel: AddEditTextEntryViewModel
@@ -57,16 +48,6 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
         title = viewModel.navigationTitle
     }
 
-    func disableButtons() {
-        saveButton.isEnabled = false
-        moreButton.isEnabled = false
-    }
-
-    func enableButtons() {
-        saveButton.isEnabled = true
-        moreButton.isEnabled = false
-    }
-
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
@@ -89,7 +70,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
                 if entryText.isReallyEmpty {
                     self?.saveButton.isHidden = true
                     return
-                } 
+                }
 
                 if let textEntryToEdit = self?.viewModel.textEntryToEdit {
                     // Show save button if TextEntry text has been edited and the new text is not empty
@@ -105,21 +86,31 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
         self.coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
     }
 
+    func disableButtons() {
+        saveButton.isEnabled = false
+        moreButton.isEnabled = false
+    }
+
+    func enableButtons() {
+        saveButton.isEnabled = true
+        moreButton.isEnabled = false
+    }
+
+    func deleteEntryConfirmed() async {
+        await viewModel.deleteTextEntry()
+    }
+
     @objc func saveButtonTapped() {
         Task {
             await viewModel.saveTextEntry()
         }
     }
 
-    func deleteTextEntryButtonTapped() {
+    @objc func deleteTextEntryButtonTapped() {
         AlertPresenter.presentDestructiveConfirmationAlert(
             on: self,
             message: "You are about to permanently delete this entry. This is irreversible.",
             confirmedWork: deleteEntryConfirmed
         )
-    }
-
-    func deleteEntryConfirmed() async {
-        await viewModel.deleteTextEntry()
     }
 }

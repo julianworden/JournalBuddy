@@ -40,6 +40,7 @@
 		AB5BE2A02A64662500803E16 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE29F2A64662500803E16 /* FirebaseStorage */; };
 		AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BE2A12A64762B00803E16 /* MainTextField.swift */; };
 		AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */; };
+		AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */; };
 		AB7239C42A5BA03E00A0392D /* SwiftPlus in Frameworks */ = {isa = PBXBuildFile; productRef = AB7239C32A5BA03E00A0392D /* SwiftPlus */; };
 		AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C62A5BA07B00A0392D /* MainViewModel.swift */; };
 		AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C72A5BA07B00A0392D /* MainView.swift */; };
@@ -72,7 +73,7 @@
 		AB8E9B912A894E5500A99C3A /* CustomMenuRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B902A894E5500A99C3A /* CustomMenuRow.swift */; };
 		AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */; };
 		AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA182A803CCA003F94D7 /* FontConstants.swift */; };
-		AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */; };
+		AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift */; };
 		AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */; };
 		AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */; };
 		AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */; };
@@ -165,6 +166,7 @@
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
+		AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolConstants.swift; sourceTree = "<group>"; };
 		AB7239C62A5BA07B00A0392D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		AB7239C72A5BA07B00A0392D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -196,7 +198,7 @@
 		AB8E9B902A894E5500A99C3A /* CustomMenuRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuRow.swift; sourceTree = "<group>"; };
 		AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+currentUIWindow.swift"; sourceTree = "<group>"; };
 		AB90AA182A803CCA003F94D7 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
-		AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage.Configuration+largeScale.swift"; sourceTree = "<group>"; };
+		AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage.Configuration+Helpers.swift"; sourceTree = "<group>"; };
 		AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBFirestoreError.swift; sourceTree = "<group>"; };
 		AB948B5A2A6D7D9800430E61 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		AB948B5C2A6D7D9800430E61 /* MockDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDatabaseService.swift; sourceTree = "<group>"; };
@@ -358,7 +360,7 @@
 			children = (
 				AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */,
 				ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */,
-				AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift */,
+				AB90AA1C2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift */,
 				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
@@ -445,6 +447,7 @@
 				ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */,
 				ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */,
 				AB90AA182A803CCA003F94D7 /* FontConstants.swift */,
+				AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -850,6 +853,7 @@
 				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
 				AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */,
 				ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */,
+				AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
@@ -875,7 +879,7 @@
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
 				AB8E9B862A89172400A99C3A /* GoalsView.swift in Sources */,
-				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+largeScale.swift in Sources */,
+				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift in Sources */,
 				ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */,
 				AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */,
 				ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */,

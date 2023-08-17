@@ -86,7 +86,7 @@ extension AddEditTextEntryView: UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.textColor = .label
+        textView.textColor = .primaryElement
 
         if viewModel.entryText.isEmpty {
             textView.text = ""

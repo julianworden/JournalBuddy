@@ -24,6 +24,7 @@ class HomeAccomplishmentsSection: UIView {
         super.init(frame: .zero)
 
         configure()
+        adjustLayoutForDynamicType()
         makeAccessible()
         subscribeToPublishers()
         constrain()
@@ -43,7 +44,6 @@ class HomeAccomplishmentsSection: UIView {
         primaryBackgroundBox.backgroundColor = .groupedBackground
 
         primaryBoxContentStack.spacing = 20
-        primaryBoxContentStack.alignment = .center
 
         accomplishmentsStack.axis = .vertical
         accomplishmentsStack.spacing = 0
@@ -51,22 +51,6 @@ class HomeAccomplishmentsSection: UIView {
 
     func makeAccessible() {
         titleLabel.adjustsFontForContentSizeCategory = true
-
-        adjustLayoutIfNeeded()
-    }
-
-    func adjustLayoutIfNeeded() {
-        primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .vertical
-        } else {
-            .horizontal
-        }
-
-        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .fill
-        } else {
-            .center
-        }
     }
 
     func subscribeToPublishers() {
@@ -78,9 +62,23 @@ class HomeAccomplishmentsSection: UIView {
 
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
             .sink { [weak self] _ in
-                self?.adjustLayoutIfNeeded()
+                self?.adjustLayoutForDynamicType()
             }
             .store(in: &cancellables)
+    }
+
+    func adjustLayoutForDynamicType() {
+        primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            .vertical
+        } else {
+            .horizontal
+        }
+
+        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            .fill
+        } else {
+            .center
+        }
     }
 
     func addGoalsToStackView(_ goals: [Goal]) {
@@ -111,7 +109,8 @@ class HomeAccomplishmentsSection: UIView {
             primaryBoxContentStack.leadingAnchor.constraint(equalTo: primaryBackgroundBox.leadingAnchor, constant: 10),
             primaryBoxContentStack.trailingAnchor.constraint(equalTo: primaryBackgroundBox.trailingAnchor, constant: -10),
 
-            accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 200),
+            accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 125)
         ])
     }
 }

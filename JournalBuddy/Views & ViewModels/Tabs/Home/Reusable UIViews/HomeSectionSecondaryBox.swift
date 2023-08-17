@@ -44,7 +44,7 @@ class HomeSectionSecondaryBox: UIView {
         textLabel.font = UIFontMetrics.avenirNextRegularBody
         textLabel.textColor = .primaryElement
         textLabel.textAlignment = .center
-        textLabel.numberOfLines = 0
+        textLabel.numberOfLines = 2
 
         iconImageView.contentMode = .scaleAspectFit
     }
@@ -61,7 +61,6 @@ class HomeSectionSecondaryBox: UIView {
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
             contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            contentStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
 
             iconImageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
             iconImageView.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)
