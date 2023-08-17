@@ -61,10 +61,6 @@ final class HomeCoordinator: NSObject, Coordinator {
         addEditTextEntryCoordinator.start()
     }
 
-    func userLoggedOut() {
-        parentCoordinator?.childDidLogOut(self)
-    }
-
     func removeChildCoordinator(_ childCoordinator: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === childCoordinator {
@@ -75,6 +71,10 @@ final class HomeCoordinator: NSObject, Coordinator {
 
     func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: errorMessage)
+    }
+
+    func userLoggedOut() {
+        parentCoordinator?.childDidLogOut()
     }
 }
 

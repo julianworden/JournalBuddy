@@ -10,7 +10,7 @@ import UIKit
 @MainActor
 final class GoalsCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
-    var parentCoordinator: TabBarCoordinator?
+    weak var parentCoordinator: TabBarCoordinator?
     let currentUser: User
     let navigationController: MainNavigationController
     let databaseService: DatabaseServiceProtocol
@@ -29,6 +29,8 @@ final class GoalsCoordinator: Coordinator {
         self.navigationController.tabBarItem = UITabBarItem(title: "Goals", image: UIImage(systemName: "trophy.circle.fill", withConfiguration: .largeScale), tag: 2)
         self.databaseService = databaseService
         self.authService = authService
+
+        self.parentCoordinator?.childWasCreated(self)
     }
 
     func start() {

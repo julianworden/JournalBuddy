@@ -9,7 +9,7 @@ import Combine
 import UIKit
 
 class GoalsViewController: UIViewController, MainViewController {
-    var coordinator: GoalsCoordinator?
+    weak var coordinator: GoalsCoordinator?
     let viewModel: GoalsViewModel
     var cancellables = Set<AnyCancellable>()
 

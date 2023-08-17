@@ -66,8 +66,7 @@ final class TabBarCoordinator: Coordinator {
         childCoordinators.append(coordinator)
     }
 
-    func childDidLogOut(_ childCoordinator: Coordinator) {
-        removeChildCoordinator(childCoordinator)
+    func childDidLogOut() {
         parentCoordinator?.childTabBarCoordinatorDidFinish(self)
     }
 }
