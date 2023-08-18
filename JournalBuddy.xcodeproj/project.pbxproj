@@ -41,6 +41,8 @@
 		AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BE2A12A64762B00803E16 /* MainTextField.swift */; };
 		AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */; };
 		AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */; };
+		AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076852A8E606300E7E4DB /* CustomAlert.swift */; };
+		AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */; };
 		AB7239C42A5BA03E00A0392D /* SwiftPlus in Frameworks */ = {isa = PBXBuildFile; productRef = AB7239C32A5BA03E00A0392D /* SwiftPlus */; };
 		AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C62A5BA07B00A0392D /* MainViewModel.swift */; };
 		AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7239C72A5BA07B00A0392D /* MainView.swift */; };
@@ -88,6 +90,7 @@
 		ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4F9022A682ADC0008D18E /* MainViewController.swift */; };
 		ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */; };
 		ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */; };
+		ABAB18A22A8EBB4000E22FB3 /* CustomAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */; };
 		ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABACE7E82A603A1C00981098 /* HomeSquareCard.swift */; };
 		ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E3A2A66C067001A76E0 /* AuthService.swift */; };
 		ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB24E432A66D87C001A76E0 /* TabBarCoordinator.swift */; };
@@ -167,6 +170,8 @@
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
 		AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolConstants.swift; sourceTree = "<group>"; };
+		AB7076852A8E606300E7E4DB /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
 		AB7239C62A5BA07B00A0392D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		AB7239C72A5BA07B00A0392D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AB7239CA2A5BA0A400A0392D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -214,6 +219,7 @@
 		ABA4F9022A682ADC0008D18E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewTableViewDataSource.swift; sourceTree = "<group>"; };
 		ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIDConstants.swift; sourceTree = "<group>"; };
+		ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertType.swift; sourceTree = "<group>"; };
 		ABACE7E82A603A1C00981098 /* HomeSquareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareCard.swift; sourceTree = "<group>"; };
 		ABB24E3A2A66C067001A76E0 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		ABB24E432A66D87C001A76E0 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
@@ -351,6 +357,7 @@
 				AB0E971F2A858F55005F77A5 /* Goal.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
+				ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -463,6 +470,7 @@
 				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
 				ABD819E72A85C9BC0078604A /* CustomDivider.swift */,
 				AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */,
+				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
 				AB8E9B8F2A894E3800A99C3A /* Custom Menu */,
 			);
 			path = "Custom UIViews";
@@ -571,6 +579,15 @@
 				AB41680B2A8D096F001B9AA1 /* EntriesTableView */,
 			);
 			path = Entries;
+			sourceTree = "<group>";
+		};
+		ABAB18A02A8EB35300E22FB3 /* Custom Alert */ = {
+			isa = PBXGroup;
+			children = (
+				AB7076852A8E606300E7E4DB /* CustomAlert.swift */,
+				AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */,
+			);
+			path = "Custom Alert";
 			sourceTree = "<group>";
 		};
 		ABACE7E42A6039C000981098 /* OldHomeNewEntry */ = {
@@ -798,6 +815,7 @@
 				ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */,
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
+				AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
 				ABD819EA2A866C510078604A /* HomeSectionPrimaryBox.swift in Sources */,
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
@@ -824,6 +842,7 @@
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
 				AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */,
+				ABAB18A22A8EBB4000E22FB3 /* CustomAlertType.swift in Sources */,
 				ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */,
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
@@ -874,6 +893,7 @@
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
 				ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */,
+				AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,

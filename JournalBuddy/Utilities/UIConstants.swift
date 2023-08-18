@@ -12,6 +12,7 @@ enum UIConstants {
     
     static let largeTitleSize: CGFloat = 34
     static let title2Size: CGFloat = 22
+    static let footnoteSize: CGFloat = 13
 
     // MARK: - UIStackView
 

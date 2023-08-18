@@ -9,13 +9,14 @@ import UIKit
 
 struct AlertPresenter {
     static func presentBasicErrorAlert(on viewController: UIViewController, errorMessage: String) {
-        let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(okAction)
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let currentRootView = currentUIWindow.rootViewController?.view else { return }
 
-        viewController.present(alertController, animated: true)
+        let alertToDisplay = CustomAlert(title: "Error", message: errorMessage, type: .error)
+
+        present(alertToDisplay, on: currentRootView)
     }
-    
+
     /// Presents a `UIAlertController` that confirms whether or not the user wants to perform a certain destruction action.
     /// - Parameters:
     ///   - viewController: The view controller that should present the alert.
@@ -38,5 +39,21 @@ struct AlertPresenter {
         alertController.addAction(yesAction)
 
         viewController.present(alertController, animated: true)
+    }
+
+    private static func present(_ alertToDisplay: CustomAlert, on currentRootView: UIView) {
+        currentRootView.addConstrainedSubview(alertToDisplay)
+
+        NSLayoutConstraint.activate([
+            alertToDisplay.topAnchor.constraint(equalTo: currentRootView.topAnchor),
+            alertToDisplay.bottomAnchor.constraint(equalTo: currentRootView.bottomAnchor),
+            alertToDisplay.leadingAnchor.constraint(equalTo: currentRootView.leadingAnchor),
+            alertToDisplay.trailingAnchor.constraint(equalTo: currentRootView.trailingAnchor)
+        ])
+
+        UIView.animate(withDuration: 0.25) {
+            alertToDisplay.alpha = 1
+            alertToDisplay.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }
     }
 }

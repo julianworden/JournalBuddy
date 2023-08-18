@@ -109,8 +109,8 @@ class HomeAccomplishmentsSection: UIView {
             primaryBoxContentStack.leadingAnchor.constraint(equalTo: primaryBackgroundBox.leadingAnchor, constant: 10),
             primaryBoxContentStack.trailingAnchor.constraint(equalTo: primaryBackgroundBox.trailingAnchor, constant: -10),
 
-            accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
-            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 125)
+            accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 170),
+            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 110)
         ])
     }
 }

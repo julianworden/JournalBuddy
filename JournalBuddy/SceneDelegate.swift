@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+
         window = UIWindow(windowScene: windowScene)
         // Prevent screen from going black while the below Task is performed.
         window?.rootViewController = StartupViewController()

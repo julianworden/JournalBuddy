@@ -20,7 +20,15 @@ extension UIFontMetrics {
         UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextBoldBody)
     }
 
+    static var avneirNextDemiBoldBody: UIFont {
+        UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextDemiBoldBody)
+    }
+
     static var avenirNextRegularBody: UIFont {
         UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
+    }
+
+    static var avenirNextRegularFootnote: UIFont {
+        UIFontMetrics(forTextStyle: .footnote).scaledFont(for: .avenirNextRegularFootnote)
     }
 }
