@@ -31,6 +31,7 @@ class CustomAlertButton: UIButton {
 
         addTarget(self, action: #selector(touchDown), for: .touchDown)
         addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
+        addTarget(self, action: #selector(touchUpOutside), for: .touchUpOutside)
     }
 
     func makeAccessible() {
@@ -55,6 +56,10 @@ class CustomAlertButton: UIButton {
 
     /// Changes the background color of the button as soon as it's released after being touched.
     @objc func touchUpInside(_ sender: UIButton) {
+        backgroundColor = .groupedBackground
+    }
+
+    @objc func touchUpOutside(_ sender: UIButton) {
         backgroundColor = .groupedBackground
     }
 }

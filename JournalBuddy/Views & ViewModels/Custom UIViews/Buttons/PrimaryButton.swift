@@ -51,6 +51,10 @@ class PrimaryButton: UIButton {
         titleLabel?.adjustsFontForContentSizeCategory = true
         layer.cornerRadius = 12
         backgroundColor = normalColor
+
+        addTarget(self, action: #selector(touchDown), for: .touchDown)
+        addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
+        addTarget(self, action: #selector(touchUpOutside), for: .touchUpOutside)
     }
 
     /// Constrains `titleLabel` to the top and bottom of the button to prevent it from overflowing the button's
@@ -62,5 +66,21 @@ class PrimaryButton: UIButton {
                 titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
             ])
         }
+    }
+
+    /// Changes the background color of the button as soon as it's touched.
+    @objc func touchDown(_ sender: UIButton) {
+        backgroundColor = disabledColor
+    }
+
+    /// Changes the background color of the button as soon as it's released after being touched.
+    @objc func touchUpInside(_ sender: UIButton) {
+        backgroundColor = normalColor
+    }
+
+    /// Changes the background color of the button as soon as it's released from outside of the bounds
+    /// of the button after being touched.
+    @objc func touchUpOutside(_ sender: UIButton) {
+        backgroundColor = normalColor
     }
 }

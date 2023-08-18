@@ -57,6 +57,8 @@ class LoginView: UIView, MainView {
         backgroundColor = UIColor.background
 
         mainScrollView.showsVerticalScrollIndicator = false
+        // Allow buttons to respond to .touchDown events immediatelys
+        mainScrollView.delaysContentTouches = false
 
         mainScrollViewContentStack.axis = .vertical
         mainScrollViewContentStack.distribution = .equalCentering

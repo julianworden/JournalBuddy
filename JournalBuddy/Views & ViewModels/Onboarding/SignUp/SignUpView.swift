@@ -44,6 +44,8 @@ class SignUpView: UIView, MainView {
     func configureDefaultViewState() {
         backgroundColor = .background
 
+        mainScrollView.delaysContentTouches = false
+
         mainScrollViewContentStack.axis = .vertical
         mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
         mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins

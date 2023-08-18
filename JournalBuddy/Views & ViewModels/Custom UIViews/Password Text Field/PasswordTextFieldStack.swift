@@ -9,12 +9,12 @@ import UIKit
 
 class PasswordTextFieldStack: UIStackView {
     private lazy var passwordTextField = MainTextField(type: textFieldType)
-    private lazy var eyeButton = UIButton()
+    private lazy var eyeButton = SFSymbolButton(symbol: eyeButtonImage!)
     let eyeButtonImage = UIImage(systemName: "eye.circle.fill", withConfiguration: .largeScale)
     let crossedOutEyeButtonImage = UIImage(systemName: "eye.slash.circle.fill", withConfiguration: .largeScale)
 
-    let textFieldType: MainTextFieldType
     weak var delegate: UITextFieldDelegate?
+    let textFieldType: MainTextFieldType
 
     /// Uses a delegate and a tag to create a horizontal `UIStackView` that shows both a `MainTextField` and an eye button whenever a user is asked to provide their password.
     /// - Parameters:
@@ -29,11 +29,10 @@ class PasswordTextFieldStack: UIStackView {
 
         passwordTextField.delegate = delegate
 
-        eyeButton.setImage(eyeButtonImage, for: .normal)
         // Prevent text field from expanding and pushing button off screen with long passwords
-        eyeButton.setContentCompressionResistancePriority(UILayoutPriority(751), for: .horizontal)
+        eyeButton.setContentCompressionResistancePriority(UILayoutPriority(999), for: .horizontal)
         // Prevent eye button from expanding to fill space, instead of having the text field expand to fill space.
-        eyeButton.setContentHuggingPriority(UILayoutPriority(751), for: .horizontal)
+        eyeButton.setContentHuggingPriority(UILayoutPriority(999), for: .horizontal)
         eyeButton.addTarget(self, action: #selector(passwordEyeButtonTapped), for: .touchUpInside)
 
         spacing = 5
