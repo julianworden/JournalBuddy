@@ -23,6 +23,22 @@ class HomeActivityOverviewSection: UIView {
     private lazy var totalVideoEntriesBox = HomeSectionSecondaryBox(iconName: "video", text: "17 Entries")
     private lazy var totalVoiceEntriesBox = HomeSectionSecondaryBox(iconName: "mic", text: "10 Entries")
 
+    var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .vertical
+        } else {
+            return .horizontal
+        }
+    }
+
+    var primaryBoxContentStackAlignment: UIStackView.Alignment {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .fill
+        } else {
+            return .center
+        }
+    }
+
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
 
@@ -32,7 +48,6 @@ class HomeActivityOverviewSection: UIView {
         super.init(frame: .zero)
 
         configure()
-        adjustLayoutForDynamicType()
         makeAccessible()
         subscribeToPublishers()
         constrain()
@@ -51,6 +66,8 @@ class HomeActivityOverviewSection: UIView {
 
         primaryBoxContentStack.spacing = 15
         primaryBoxContentStack.distribution = .fillEqually
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
     }
 
     func makeAccessible() {
@@ -60,7 +77,7 @@ class HomeActivityOverviewSection: UIView {
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
             .sink { [weak self] _ in
-                self?.adjustLayoutForDynamicType()
+                self?.adjustLayoutForNewPreferredContentSizeCategory()
             }
             .store(in: &cancellables)
     }
@@ -88,17 +105,8 @@ class HomeActivityOverviewSection: UIView {
         ])
     }
 
-    func adjustLayoutForDynamicType() {
-        primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .vertical
-        } else {
-            .horizontal
-        }
-
-        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .fill
-        } else {
-            .center
-        }
+    func adjustLayoutForNewPreferredContentSizeCategory() {
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
     }
 }

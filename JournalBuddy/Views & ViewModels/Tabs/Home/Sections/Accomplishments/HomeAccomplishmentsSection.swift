@@ -15,6 +15,22 @@ class HomeAccomplishmentsSection: UIView {
     private lazy var accomplishmentsStack = UIStackView()
     private lazy var secondaryBox = HomeSectionSecondaryBox(iconName: "trophy", text: "12 Goals\nAchieved")
 
+    var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .vertical
+        } else {
+            return .horizontal
+        }
+    }
+
+    var primaryBoxContentStackAlignment: UIStackView.Alignment {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .fill
+        } else {
+            return .center
+        }
+    }
+
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
 
@@ -24,7 +40,6 @@ class HomeAccomplishmentsSection: UIView {
         super.init(frame: .zero)
 
         configure()
-        adjustLayoutForDynamicType()
         makeAccessible()
         subscribeToPublishers()
         constrain()
@@ -44,6 +59,8 @@ class HomeAccomplishmentsSection: UIView {
         primaryBackgroundBox.backgroundColor = .groupedBackground
 
         primaryBoxContentStack.spacing = 20
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
 
         accomplishmentsStack.axis = .vertical
         accomplishmentsStack.spacing = 0
@@ -62,32 +79,9 @@ class HomeAccomplishmentsSection: UIView {
 
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
             .sink { [weak self] _ in
-                self?.adjustLayoutForDynamicType()
+                self?.adjustLayoutForNewPreferredContentSizeCategory()
             }
             .store(in: &cancellables)
-    }
-
-    func adjustLayoutForDynamicType() {
-        primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .vertical
-        } else {
-            .horizontal
-        }
-
-        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .fill
-        } else {
-            .center
-        }
-    }
-
-    func addGoalsToStackView(_ goals: [Goal]) {
-        for (index, goal) in goals.enumerated() {
-            // Don't show divider at the bottom of last row
-            let displayDividerInRow = index != goals.count - 1
-            let row = HomeAccomplishmentsStackViewRow(accomplishmentName: goal.name, displayDivider: displayDividerInRow)
-            accomplishmentsStack.addArrangedSubview(row)
-        }
     }
 
     func constrain() {
@@ -112,5 +106,19 @@ class HomeAccomplishmentsSection: UIView {
             accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 170),
             secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 110)
         ])
+    }
+
+    func adjustLayoutForNewPreferredContentSizeCategory() {
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
+    }
+
+    func addGoalsToStackView(_ goals: [Goal]) {
+        for (index, goal) in goals.enumerated() {
+            // Don't show divider at the bottom of last row
+            let displayDividerInRow = index != goals.count - 1
+            let row = HomeAccomplishmentsStackViewRow(accomplishmentName: goal.name, displayDivider: displayDividerInRow)
+            accomplishmentsStack.addArrangedSubview(row)
+        }
     }
 }

@@ -20,7 +20,7 @@ class CustomAlert: UIView {
     /// The divider that separates buttons within `buttonStack` from each other
     private lazy var buttonStackDivider = CustomDivider()
     /// The constraints for `buttonStackDivider`, `dismissButton`, and `confirmButton`. Changed when
-    /// the user's Dynamic Type font drops above or below
+    /// the user's Dynamic Type font drops above or below `accessibilityMedium`.
     var buttonStackConstraints = [NSLayoutConstraint]()
 
     let title: String

@@ -15,6 +15,30 @@ class HomeActivityStreakSection: UIView {
     private lazy var streakLabel = UILabel()
     private lazy var secondaryBox = HomeSectionSecondaryBox(iconName: "calendar", text: "5 Day Streak")
 
+    var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .vertical
+        } else {
+            return .horizontal
+        }
+    }
+
+    var primaryBoxContentStackAlignment: UIStackView.Alignment {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .fill
+        } else {
+            return .center
+        }
+    }
+
+    var streakLabelTextAlignment: NSTextAlignment {
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
+            return .center
+        } else {
+            return .left
+        }
+    }
+
     let viewModel: HomeViewModel
     var cancellables = Set<AnyCancellable>()
 
@@ -24,7 +48,6 @@ class HomeActivityStreakSection: UIView {
         super.init(frame: .zero)
 
         configure()
-        adjustLayoutForDynamicType()
         makeAccessible()
         subscribeToPublishers()
         constrain()
@@ -41,12 +64,15 @@ class HomeActivityStreakSection: UIView {
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
         primaryBoxContentStack.spacing = 5
 
         streakLabel.text = "You're on a streak! Create a new text, video, or voice entry every day to keep it going."
         streakLabel.font = UIFontMetrics.avenirNextRegularBody
         streakLabel.textColor = .primaryElement
         streakLabel.numberOfLines = 0
+        streakLabel.textAlignment = streakLabelTextAlignment
     }
 
     func makeAccessible() {
@@ -57,7 +83,7 @@ class HomeActivityStreakSection: UIView {
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
             .sink { [weak self] _ in
-                self?.adjustLayoutForDynamicType()
+                self?.adjustLayoutForNewPreferredContentSizeCategory()
             }
             .store(in: &cancellables)
     }
@@ -85,23 +111,9 @@ class HomeActivityStreakSection: UIView {
         ])
     }
 
-    func adjustLayoutForDynamicType() {
-        primaryBoxContentStack.axis = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .vertical
-        } else {
-            .horizontal
-        }
-
-        primaryBoxContentStack.alignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .fill
-        } else {
-            .center
-        }
-
-        streakLabel.textAlignment = if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            .center
-        } else {
-            .left
-        }
+    func adjustLayoutForNewPreferredContentSizeCategory() {
+        primaryBoxContentStack.axis = primaryBoxContentStackAxis
+        primaryBoxContentStack.alignment = primaryBoxContentStackAlignment
+        streakLabel.textAlignment = streakLabelTextAlignment
     }
 }
