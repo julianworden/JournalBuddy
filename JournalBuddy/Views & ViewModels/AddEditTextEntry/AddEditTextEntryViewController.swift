@@ -108,7 +108,6 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
 
     @objc func deleteTextEntryButtonTapped() {
         AlertPresenter.presentDestructiveConfirmationAlert(
-            on: self,
             message: "You are about to permanently delete this entry. This is irreversible.",
             confirmedWork: deleteEntryConfirmed
         )

@@ -8,7 +8,7 @@
 import UIKit
 
 struct AlertPresenter {
-    static func presentBasicErrorAlert(on viewController: UIViewController, errorMessage: String) {
+    static func presentBasicErrorAlert(errorMessage: String) {
         guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
               let currentRootView = currentUIWindow.rootViewController?.view else { return }
 
@@ -23,22 +23,15 @@ struct AlertPresenter {
     ///   - message: The message that is to be shown in the alert.
     ///   - confirmedWork: The work to perform if the user confirms that they want to perform the destruction action in question.
     static func presentDestructiveConfirmationAlert(
-        on viewController: UIViewController,
         message: String,
         confirmedWork: @escaping () async -> Void
     ) {
-        let alertController = UIAlertController(title: "Are You Sure?", message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        let yesAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
-            Task {
-                await confirmedWork()
-            }
-        }
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let currentRootView = currentUIWindow.rootViewController?.view else { return }
 
-        alertController.addAction(cancelAction)
-        alertController.addAction(yesAction)
+        let alertToDisplay = CustomAlert(title: "Are You Sure?", message: message, type: .confirmation(confirmedWork: confirmedWork))
 
-        viewController.present(alertController, animated: true)
+        present(alertToDisplay, on: currentRootView)
     }
 
     private static func present(_ alertToDisplay: CustomAlert, on currentRootView: UIView) {

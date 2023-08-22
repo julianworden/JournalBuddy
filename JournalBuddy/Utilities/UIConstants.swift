@@ -42,4 +42,8 @@ enum UIConstants {
     static let mainTextFieldWithoutFocusBorderColor = UIColor.systemGray5.cgColor
     /// The `borderColor` of a `MainTextField` that is currently being edited.
     static let mainTextFieldWithFocusBorderColor = UIColor.systemOrange.cgColor
+
+    // MARK: - CustomAlert
+
+    static let customAlertMinimumWidth: CGFloat = 270
 }

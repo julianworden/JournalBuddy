@@ -70,7 +70,7 @@ final class HomeCoordinator: NSObject, Coordinator {
     }
 
     func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
-        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: errorMessage)
+        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 
     func userLoggedOut() {

@@ -17,7 +17,6 @@ class CustomAlertButton: UIButton {
 
         configure()
         makeAccessible()
-        constrain()
     }
 
     required init?(coder: NSCoder) {
@@ -36,17 +35,6 @@ class CustomAlertButton: UIButton {
 
     func makeAccessible() {
         titleLabel?.adjustsFontForContentSizeCategory = true
-    }
-
-    /// Constrains `titleLabel` to the top and bottom of the button to prevent it from overflowing the button's
-    /// bounds at higher Dynamic Type settings.
-    func constrain() {
-        if let titleLabel {
-            NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-                titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
-            ])
-        }
     }
     
     /// Changes the background color of the button as soon as it's touched.

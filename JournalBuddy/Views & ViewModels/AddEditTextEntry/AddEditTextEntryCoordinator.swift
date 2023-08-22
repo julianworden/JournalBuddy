@@ -56,6 +56,6 @@ final class AddEditTextEntryCoordinator: Coordinator {
     func removeChildCoordinator(_ childCoordinator: Coordinator?) { }
 
     func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
-        AlertPresenter.presentBasicErrorAlert(on: viewController, errorMessage: errorMessage)
+        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 }

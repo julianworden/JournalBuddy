@@ -10,15 +10,18 @@ enum ErrorMessageConstants {
     case mainCoordinatorMissingNavigationController
     case unexpectedTextFieldTagFound(tag: Int)
     case unexpectedViewState(viewState: any ViewState)
+    case unexpectedNilValue(property: String)
 
     var description: String {
         switch self {
         case .mainCoordinatorMissingNavigationController:
             return "❌ MainCoordinator called a method that requires a navigation controller, but the method could not find one."
         case .unexpectedTextFieldTagFound(let tag):
-            return "❌ Unexpected text field tag received: \(tag)"
+            return "❌ Unexpected text field tag received: \(tag)."
         case .unexpectedViewState(viewState: let viewState):
-            return "❌ Unexpected view state: \(viewState)"
+            return "❌ Unexpected view state: \(viewState)."
+        case .unexpectedNilValue(let property):
+            return "❌ Unexpected nil value: \(property)."
         }
     }
 }
