@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You cannot upload video entries from your device&apos;s photo library or save video entries to your device&apos;s photo library unless we have access to your photo library.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>You cannot create entries with audio unless we have permission to access your device&apos;s microphone.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>You cannot create a video entry unless we have permission to access your device&apos;s camera.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -26,6 +26,7 @@
 		AB1BB0D02A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */; };
 		AB1BB0D22A94E1620051EB66 /* AddEditVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */; };
 		AB1BB0D42A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */; };
+		AB1BB0D62A94F21C0051EB66 /* VideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0D52A94F21C0051EB66 /* VideoPreviewView.swift */; };
 		AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */; };
 		AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BF2A5EE14E0068939C /* TextEntry.swift */; };
 		AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */; };
@@ -167,6 +168,7 @@
 		AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewState.swift; sourceTree = "<group>"; };
 		AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewModel.swift; sourceTree = "<group>"; };
+		AB1BB0D52A94F21C0051EB66 /* VideoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewView.swift; sourceTree = "<group>"; };
 		AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB1D33BF2A5EE14E0068939C /* TextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewState.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */,
 				AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */,
 				AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */,
+				AB1BB0D52A94F21C0051EB66 /* VideoPreviewView.swift */,
 			);
 			path = AddEditVideoEntry;
 			sourceTree = "<group>";
@@ -869,6 +872,7 @@
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
 				AB8E9B8A2A8935F700A99C3A /* EntriesViewTableViewCell.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
+				AB1BB0D62A94F21C0051EB66 /* VideoPreviewView.swift in Sources */,
 				AB8E9B7E2A89126300A99C3A /* GoalsViewController.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
 				AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */,

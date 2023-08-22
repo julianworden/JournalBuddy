@@ -18,6 +18,8 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
+
+        hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -30,10 +32,15 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configure()
     }
 
     func configure() {
-
+        viewRespectsSystemMinimumLayoutMargins = false
+        navigationController?.isNavigationBarHidden = true
+//        navigationItem.title = "Record Video Entry"
+//        navigationItem.largeTitleDisplayMode = .never
     }
 
     func subscribeToPublishers() {
