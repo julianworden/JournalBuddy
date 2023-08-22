@@ -135,7 +135,8 @@ class EntriesViewController: UIViewController, MainViewController {
     }
 
     @objc func newVideoEntryMenuButtonTapped() {
-
+        dismissCustomMenu()
+        coordinator?.presentAddEditVideoEntryViewController()
     }
 
     @objc func newVoiceEntryMenuButtonTapped() {

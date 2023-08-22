@@ -47,6 +47,18 @@ final class EntriesCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(entriesViewController, animated: true)
     }
 
+    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === childCoordinator {
+                childCoordinators.remove(at: index)
+            }
+        }
+    }
+
+    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
+        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
+    }
+
     func presentAddEditTextEntryViewController(withTextEntryToEdit textEntryToEdit: TextEntry?) {
         let addEditTextEntryCoordinator = AddEditTextEntryCoordinator(
             parentCoordinator: self,
@@ -61,28 +73,30 @@ final class EntriesCoordinator: NSObject, Coordinator {
         addEditTextEntryCoordinator.start()
     }
 
-    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
-        for (index, coordinator) in childCoordinators.enumerated() {
-            if coordinator === childCoordinator {
-                childCoordinators.remove(at: index)
-            }
-        }
-    }
+    func presentAddEditVideoEntryViewController() {
+        let addEditVideoEntryCoordinator = AddEditVideoEntryCoordinator(
+            parentCoordinator: self,
+            databaseService: databaseService,
+            authService: authService,
+            navigationController: navigationController,
+            currentUser: currentUser
+        )
 
-    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
-        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
+        childCoordinators.append(addEditVideoEntryCoordinator)
+        addEditVideoEntryCoordinator.start()
     }
 }
 
 extension EntriesCoordinator: UINavigationControllerDelegate {
-    /// Removes the `AddEditTextEntryViewController` from the `childCoordinators` array when the user exits that view controller.
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
 
         if navigationController.viewControllers.contains(fromViewController) { return }
 
-        if let addEdiTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
-            removeChildCoordinator(addEdiTextEntryViewController.coordinator)
+        if let addEditTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
+            removeChildCoordinator(addEditTextEntryViewController.coordinator)
+        } else if let addEditVideoEntryViewController = fromViewController as? AddEditVideoEntryViewController {
+            removeChildCoordinator(addEditVideoEntryViewController.coordinator)
         }
     }
 }

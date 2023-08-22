@@ -21,6 +21,11 @@
 		AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */; };
 		AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */; };
 		AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1AC7AF2A70837900FE7A7E /* MockAuthService.swift */; };
+		AB1BB0CC2A94E0240051EB66 /* AddEditVideoEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0CB2A94E0240051EB66 /* AddEditVideoEntryViewController.swift */; };
+		AB1BB0CE2A94E02F0051EB66 /* AddEditVideoEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0CD2A94E02F0051EB66 /* AddEditVideoEntryView.swift */; };
+		AB1BB0D02A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */; };
+		AB1BB0D22A94E1620051EB66 /* AddEditVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */; };
+		AB1BB0D42A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */; };
 		AB1D33BD2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */; };
 		AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D33BF2A5EE14E0068939C /* TextEntry.swift */; };
 		AB1E02922A69E0C6006F42F8 /* LoginViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */; };
@@ -157,6 +162,11 @@
 		AB1AC7AA2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB1AC7AD2A707FC100FE7A7E /* AuthServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceProtocol.swift; sourceTree = "<group>"; };
 		AB1AC7AF2A70837900FE7A7E /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
+		AB1BB0CB2A94E0240051EB66 /* AddEditVideoEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewController.swift; sourceTree = "<group>"; };
+		AB1BB0CD2A94E02F0051EB66 /* AddEditVideoEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryView.swift; sourceTree = "<group>"; };
+		AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryCoordinator.swift; sourceTree = "<group>"; };
+		AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewState.swift; sourceTree = "<group>"; };
+		AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewModel.swift; sourceTree = "<group>"; };
 		AB1D33BC2A5EE10E0068939C /* HomeYourLatestEntriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		AB1D33BF2A5EE14E0068939C /* TextEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntry.swift; sourceTree = "<group>"; };
 		AB1E02912A69E0C6006F42F8 /* LoginViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewState.swift; sourceTree = "<group>"; };
@@ -332,6 +342,18 @@
 				AB181C562A5B1B7800560299 /* Info.plist */,
 			);
 			path = JournalBuddy;
+			sourceTree = "<group>";
+		};
+		AB1BB0CA2A94E00F0051EB66 /* AddEditVideoEntry */ = {
+			isa = PBXGroup;
+			children = (
+				AB1BB0CB2A94E0240051EB66 /* AddEditVideoEntryViewController.swift */,
+				AB1BB0CD2A94E02F0051EB66 /* AddEditVideoEntryView.swift */,
+				AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */,
+				AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */,
+				AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */,
+			);
+			path = AddEditVideoEntry;
 			sourceTree = "<group>";
 		};
 		AB1D33BA2A5EE0BB0068939C /* OldHomeHowAreYouFeeling */ = {
@@ -669,6 +691,7 @@
 				ABFEF27B2A6585FD004C40A8 /* Onboarding */,
 				ABB24E3E2A66D127001A76E0 /* Tabs */,
 				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
+				AB1BB0CA2A94E00F0051EB66 /* AddEditVideoEntry */,
 				AB7CC9142A643D1B0054B1A4 /* Custom UIViews */,
 			);
 			path = "Views & ViewModels";
@@ -867,11 +890,13 @@
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
 				ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */,
+				AB1BB0CC2A94E0240051EB66 /* AddEditVideoEntryViewController.swift in Sources */,
 				AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */,
 				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
+				AB1BB0D22A94E1620051EB66 /* AddEditVideoEntryViewState.swift in Sources */,
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
 				AB8E9B8C2A89371D00A99C3A /* MainTableView.swift in Sources */,
@@ -880,6 +905,7 @@
 				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,
 				ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */,
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
+				AB1BB0D02A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift in Sources */,
 				ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */,
 				AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */,
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,
@@ -925,7 +951,9 @@
 				ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
+				AB1BB0CE2A94E02F0051EB66 /* AddEditVideoEntryView.swift in Sources */,
 				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
+				AB1BB0D42A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift in Sources */,
 				ABB348442A6ACE700050A9AC /* AddEditTextEntryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,5 +14,6 @@ protocol Coordinator: AnyObject {
 
     @MainActor func start()
     @MainActor func removeChildCoordinator(_ childCoordinator: Coordinator?)
+    #warning("It's no longer necessary to reference the VC that the alert is being presented on.")
     @MainActor func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String)
 }
