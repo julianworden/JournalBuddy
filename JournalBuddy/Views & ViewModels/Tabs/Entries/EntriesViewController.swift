@@ -73,6 +73,8 @@ class EntriesViewController: UIViewController, MainViewController {
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
 
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
         Task {
             await viewModel.fetchTextEntries()
         }
@@ -82,6 +84,7 @@ class EntriesViewController: UIViewController, MainViewController {
         navigationItem.title = "Entries"
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.rightBarButtonItem = createEntryButton
+        hidesBottomBarWhenPushed = false
     }
 
     // Constraining here instead of in the view because the menu is triggered by a button created in this view controller

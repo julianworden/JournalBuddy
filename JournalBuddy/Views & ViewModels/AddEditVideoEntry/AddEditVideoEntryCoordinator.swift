@@ -46,3 +46,9 @@ final class AddEditVideoEntryCoordinator: Coordinator {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 }
+
+extension AddEditVideoEntryCoordinator: AddEditVideoEntryViewDelegate {
+    func addEditVideoEntryViewShouldDismiss() {
+        navigationController.popViewController(animated: true)
+    }
+}

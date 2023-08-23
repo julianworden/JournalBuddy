@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 class AddEditVideoEntryView: UIView, MainView {
+    private lazy var backButton = SFSymbolButton(symbol: UIImage(systemName: "chevron.left.circle.fill", withConfiguration: .largeScale)!.withTintColor(.primaryElement))
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
@@ -16,11 +17,13 @@ class AddEditVideoEntryView: UIView, MainView {
     private lazy var startRecordingTapGesture = UITapGestureRecognizer(target: self, action: #selector(startRecording))
     private lazy var stopRecordingTapGesture = UITapGestureRecognizer(target: self, action: #selector(stopRecording))
 
+    weak var delegate: AddEditVideoEntryViewDelegate?
     var viewModel: AddEditVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: ViewModel) {
+    init(viewModel: ViewModel, delegate: AddEditVideoEntryViewDelegate?) {
         self.viewModel = viewModel
+        self.delegate = delegate
 
         super.init(frame: .zero)
 
@@ -47,6 +50,13 @@ class AddEditVideoEntryView: UIView, MainView {
     func configure() {
         backgroundColor = .background
 
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        // Fill the bounds of the button with the image
+        backButton.contentHorizontalAlignment = .fill
+        backButton.contentVerticalAlignment = .fill
+
+        clipsToBounds = true
+
         startRecordingButton.backgroundColor = .clear
         startRecordingButton.layer.borderWidth = 3
         startRecordingButton.layer.borderColor = UIColor.background.cgColor
@@ -58,10 +68,15 @@ class AddEditVideoEntryView: UIView, MainView {
     }
 
     func constrain() {
-        addConstrainedSubviews(videoPreview, startRecordingButton)
+        addConstrainedSubviews(videoPreview, startRecordingButton, backButton)
         startRecordingButton.addConstrainedSubviews(startRecordingButtonInnerRedView)
 
         NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            backButton.heightAnchor.constraint(equalToConstant: 44),
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            backButton.widthAnchor.constraint(equalToConstant: 44),
+
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),
             videoPreview.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -50),
@@ -123,5 +138,9 @@ class AddEditVideoEntryView: UIView, MainView {
         }
 
         viewModel.stopRecording()
+    }
+
+    @objc func backButtonTapped() {
+        delegate?.addEditVideoEntryViewShouldDismiss()
     }
 }

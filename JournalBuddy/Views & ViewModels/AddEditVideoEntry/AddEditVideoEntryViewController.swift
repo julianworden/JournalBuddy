@@ -27,7 +27,7 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = AddEditVideoEntryView(viewModel: viewModel)
+        view = AddEditVideoEntryView(viewModel: viewModel, delegate: coordinator)
     }
 
     override func viewDidLoad() {
@@ -35,7 +35,7 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
 
         configure()
     }
-
+    
     func configure() {
         viewRespectsSystemMinimumLayoutMargins = false
         navigationController?.isNavigationBarHidden = true

@@ -130,6 +130,7 @@
 		ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */; };
 		ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */; };
 		ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */; };
+		ABFA28DB2A964A63004700C8 /* AddEditVideoEntryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFA28DA2A964A63004700C8 /* AddEditVideoEntryViewDelegate.swift */; };
 		ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF2782A658546004C40A8 /* Coordinator.swift */; };
 		ABFEF27D2A658612004C40A8 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */; };
 		ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */; };
@@ -266,6 +267,7 @@
 		ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelUnitTests.swift; sourceTree = "<group>"; };
 		ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelUnitTests.swift; sourceTree = "<group>"; };
+		ABFA28DA2A964A63004700C8 /* AddEditVideoEntryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditVideoEntryViewDelegate.swift; sourceTree = "<group>"; };
 		ABFEF2782A658546004C40A8 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		ABFEF27C2A658612004C40A8 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		ABFEF27E2A658DA4004C40A8 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				AB1BB0D32A94E19F0051EB66 /* AddEditVideoEntryViewModel.swift */,
 				AB1BB0CF2A94E1530051EB66 /* AddEditVideoEntryCoordinator.swift */,
 				AB1BB0D12A94E1620051EB66 /* AddEditVideoEntryViewState.swift */,
+				ABFA28DA2A964A63004700C8 /* AddEditVideoEntryViewDelegate.swift */,
 				AB1BB0D52A94F21C0051EB66 /* VideoPreviewView.swift */,
 			);
 			path = AddEditVideoEntry;
@@ -925,6 +928,7 @@
 				AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
+				ABFA28DB2A964A63004700C8 /* AddEditVideoEntryViewDelegate.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				AB8E77772A770E6900EAF49D /* User.swift in Sources */,
 				AB8E9B8E2A894C9900A99C3A /* CustomMenu.swift in Sources */,
