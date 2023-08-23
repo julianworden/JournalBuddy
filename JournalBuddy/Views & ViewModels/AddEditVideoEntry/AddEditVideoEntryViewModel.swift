@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import Photos
 
 #warning("If user has denied permission, we need to prompt them to go to settings to allow permissions.")
 
@@ -73,6 +74,10 @@ final class AddEditVideoEntryViewModel: NSObject, MainViewModel {
         let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((Date.now.timeIntervalSince1970.formatted() as NSString).appendingPathExtension("mov")!)
         videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
     }
+
+    func stopRecording() {
+        videoOutput.stopRecording()
+    }
 }
 
 extension AddEditVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
@@ -80,7 +85,22 @@ extension AddEditVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
         #warning("Update View State")
     }
 
+    #warning("Update View State in case of error")
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        #warning("Update View State")
+        Task {
+            let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+            if photoLibraryAuthorizationStatus == .authorized {
+                do {
+                    try await PHPhotoLibrary.shared().performChanges {
+                        let options = PHAssetResourceCreationOptions()
+                        options.shouldMoveFile = true
+                        let creationRequest = PHAssetCreationRequest.forAsset()
+                        creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
+                    }
+                } catch {
+                    print(error.emojiMessage)
+                }
+            }
+        }
     }
 }

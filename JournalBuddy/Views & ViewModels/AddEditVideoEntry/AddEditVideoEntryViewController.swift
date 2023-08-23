@@ -39,8 +39,6 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
     func configure() {
         viewRespectsSystemMinimumLayoutMargins = false
         navigationController?.isNavigationBarHidden = true
-//        navigationItem.title = "Record Video Entry"
-//        navigationItem.largeTitleDisplayMode = .never
     }
 
     func subscribeToPublishers() {
