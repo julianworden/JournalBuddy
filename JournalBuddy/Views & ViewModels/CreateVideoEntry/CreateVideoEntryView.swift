@@ -30,8 +30,7 @@ class CreateVideoEntryView: UIView, MainView {
         configure()
 
         Task {
-            #warning("Call view model method directly from here instead")
-            await setUpVideoCaptureSession()
+            await setUpVideoPreview()
             constrain()
         }
     }
@@ -102,10 +101,8 @@ class CreateVideoEntryView: UIView, MainView {
 
     }
 
-    func setUpVideoCaptureSession() async {
+    func setUpVideoPreview() async {
         await viewModel.setUpVideoCaptureSession()
-
-        #warning("Do this in a published property callback so that it's always called immedately after the session is configured.")
         videoPreview.videoPreviewLayer.session = viewModel.captureSession
 
         Task.detached { [weak self] in

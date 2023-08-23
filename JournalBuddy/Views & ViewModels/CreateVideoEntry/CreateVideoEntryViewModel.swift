@@ -13,10 +13,10 @@ import Photos
 
 @MainActor
 final class CreateVideoEntryViewModel: NSObject, MainViewModel {
+    @Published var viewState = CreateVideoEntryViewState.displayingView
+
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureMovieFileOutput()
-
-    var viewState = CreateVideoEntryViewState.displayingView
 
     var videoCaptureIsAuthorized: Bool {
         get async {
@@ -71,8 +71,18 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     }
 
     func startRecording() {
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((Date.now.timeIntervalSince1970.formatted() as NSString).appendingPathExtension("mov")!)
-        videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
+        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(("recordedvideo" as NSString).appendingPathExtension("mov")!)
+
+        do {
+            if FileManager.default.fileExists(atPath: outputFilePath) {
+                try FileManager.default.removeItem(atPath: outputFilePath)
+
+                videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
+            }
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
     }
 
     func stopRecording() {
@@ -82,25 +92,33 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
 
 extension CreateVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
-        #warning("Update View State")
+        viewState = .recordingVideo
     }
 
-    #warning("Update View State in case of error")
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        Task {
-            let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
-            if photoLibraryAuthorizationStatus == .authorized {
-                do {
-                    try await PHPhotoLibrary.shared().performChanges {
-                        let options = PHAssetResourceCreationOptions()
-                        options.shouldMoveFile = true
-                        let creationRequest = PHAssetCreationRequest.forAsset()
-                        creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
-                    }
-                } catch {
-                    print(error.emojiMessage)
-                }
-            }
+        guard error == nil else {
+            viewState = .error(message: error!.localizedDescription)
+            print(error!.emojiMessage)
+            return
         }
+
+        viewState = .videoRecordingCompleted(at: outputFileURL)
+
+        #warning("Move this code to view for uploading")
+//        Task {
+//            let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+//            if photoLibraryAuthorizationStatus == .authorized {
+//                do {
+//                    try await PHPhotoLibrary.shared().performChanges {
+//                        let options = PHAssetResourceCreationOptions()
+//                        options.shouldMoveFile = true
+//                        let creationRequest = PHAssetCreationRequest.forAsset()
+//                        creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
+//                    }
+//                } catch {
+//                    print(error.emojiMessage)
+//                }
+//            }
+//        }
     }
 }

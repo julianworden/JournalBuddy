@@ -36,6 +36,10 @@
 		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
 		AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */; };
+		AB413EAC2A96B76200916054 /* UploadVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EAB2A96B76200916054 /* UploadVideoViewController.swift */; };
+		AB413EAE2A96B76A00916054 /* UploadVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EAD2A96B76A00916054 /* UploadVideoView.swift */; };
+		AB413EB02A96B77300916054 /* UploadVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EAF2A96B77300916054 /* UploadVideoViewModel.swift */; };
+		AB413EB22A96B7C000916054 /* UploadVideoViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EB12A96B7C000916054 /* UploadVideoViewState.swift */; };
 		AB42A13D2A8D78DC0040430E /* HomeActivityOverviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */; };
 		AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */; };
 		AB5BE2962A64662500803E16 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB5BE2952A64662500803E16 /* FirebaseAnalytics */; };
@@ -179,6 +183,10 @@
 		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
 		AB2988B12A5D9CC600303262 /* UIFont+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
+		AB413EAB2A96B76200916054 /* UploadVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoViewController.swift; sourceTree = "<group>"; };
+		AB413EAD2A96B76A00916054 /* UploadVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoView.swift; sourceTree = "<group>"; };
+		AB413EAF2A96B77300916054 /* UploadVideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoViewModel.swift; sourceTree = "<group>"; };
+		AB413EB12A96B7C000916054 /* UploadVideoViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoViewState.swift; sourceTree = "<group>"; };
 		AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityOverviewSection.swift; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 				AB1BB0D12A94E1620051EB66 /* CreateVideoEntryViewState.swift */,
 				ABFA28DA2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift */,
 				AB1BB0D52A94F21C0051EB66 /* VideoPreviewView.swift */,
+				AB413EAA2A96B75000916054 /* UploadVideo */,
 			);
 			path = CreateVideoEntry;
 			sourceTree = "<group>";
@@ -403,6 +412,17 @@
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		AB413EAA2A96B75000916054 /* UploadVideo */ = {
+			isa = PBXGroup;
+			children = (
+				AB413EAB2A96B76200916054 /* UploadVideoViewController.swift */,
+				AB413EAD2A96B76A00916054 /* UploadVideoView.swift */,
+				AB413EAF2A96B77300916054 /* UploadVideoViewModel.swift */,
+				AB413EB12A96B7C000916054 /* UploadVideoViewState.swift */,
+			);
+			path = UploadVideo;
 			sourceTree = "<group>";
 		};
 		AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */ = {
@@ -893,6 +913,7 @@
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
 				AB95E2FB2A6EAA93001FDDD8 /* SignUpViewModel.swift in Sources */,
 				ABAB18A22A8EBB4000E22FB3 /* CustomAlertType.swift in Sources */,
+				AB413EAC2A96B76200916054 /* UploadVideoViewController.swift in Sources */,
 				ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */,
 				AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */,
 				ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */,
@@ -907,9 +928,11 @@
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
 				AB8E9B8C2A89371D00A99C3A /* MainTableView.swift in Sources */,
+				AB413EB22A96B7C000916054 /* UploadVideoViewState.swift in Sources */,
 				ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */,
 				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
 				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,
+				AB413EAE2A96B76A00916054 /* UploadVideoView.swift in Sources */,
 				ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */,
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
 				AB1BB0D02A94E1530051EB66 /* CreateVideoEntryCoordinator.swift in Sources */,
@@ -941,6 +964,7 @@
 				AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */,
+				AB413EB02A96B77300916054 /* UploadVideoViewModel.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,

@@ -45,6 +45,13 @@ final class CreateVideoEntryCoordinator: Coordinator {
     func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
+
+    func createVideoEntryViewDidFinishRecording(at videoURL: URL) {
+        let uploadVideoViewModel = UploadVideoViewModel(recordedVideoURL: videoURL)
+        let uploadVideoViewController = UploadVideoViewController(coordinator: self, viewModel: uploadVideoViewModel)
+
+        navigationController.pushViewController(uploadVideoViewController, animated: true)
+    }
 }
 
 extension CreateVideoEntryCoordinator: CreateVideoEntryViewDelegate {

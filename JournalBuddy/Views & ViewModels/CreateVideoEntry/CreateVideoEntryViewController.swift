@@ -34,15 +34,32 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         super.viewDidLoad()
 
         configure()
+        subscribeToPublishers()
     }
-    
-    func configure() {
-        viewRespectsSystemMinimumLayoutMargins = false
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
         navigationController?.isNavigationBarHidden = true
     }
 
-    func subscribeToPublishers() {
+    func configure() {
+        viewRespectsSystemMinimumLayoutMargins = false
+    }
 
+    func subscribeToPublishers() {
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .videoRecordingCompleted(let videoURL):
+                    self?.coordinator?.createVideoEntryViewDidFinishRecording(at: videoURL)
+                case .error(let message):
+                    self?.showError(message)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func showError(_ errorMessage: String) {
