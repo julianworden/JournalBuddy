@@ -1,5 +1,5 @@
 //
-//  AddEditVideoEntryCoordinator.swift
+//  CreateVideoEntryCoordinator.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/22/23.
@@ -8,7 +8,7 @@
 import UIKit
 
 @MainActor
-final class AddEditVideoEntryCoordinator: Coordinator {
+final class CreateVideoEntryCoordinator: Coordinator {
     weak var parentCoordinator: Coordinator?
     var childCoordinators = [Coordinator]()
     var databaseService: DatabaseServiceProtocol
@@ -31,8 +31,8 @@ final class AddEditVideoEntryCoordinator: Coordinator {
     }
 
     func start() {
-        let addEditVideoEntryViewModel = AddEditVideoEntryViewModel()
-        let addEditVideoEntryViewController = AddEditVideoEntryViewController(
+        let addEditVideoEntryViewModel = CreateVideoEntryViewModel()
+        let addEditVideoEntryViewController = CreateVideoEntryViewController(
             coordinator: self,
             viewModel: addEditVideoEntryViewModel
         )
@@ -47,7 +47,7 @@ final class AddEditVideoEntryCoordinator: Coordinator {
     }
 }
 
-extension AddEditVideoEntryCoordinator: AddEditVideoEntryViewDelegate {
+extension CreateVideoEntryCoordinator: CreateVideoEntryViewDelegate {
     func addEditVideoEntryViewShouldDismiss() {
         navigationController.popViewController(animated: true)
     }

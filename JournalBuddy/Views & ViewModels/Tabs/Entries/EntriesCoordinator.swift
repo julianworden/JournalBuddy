@@ -74,7 +74,7 @@ final class EntriesCoordinator: NSObject, Coordinator {
     }
 
     func presentAddEditVideoEntryViewController() {
-        let addEditVideoEntryCoordinator = AddEditVideoEntryCoordinator(
+        let addEditVideoEntryCoordinator = CreateVideoEntryCoordinator(
             parentCoordinator: self,
             databaseService: databaseService,
             authService: authService,
@@ -95,7 +95,7 @@ extension EntriesCoordinator: UINavigationControllerDelegate {
 
         if let addEditTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
             removeChildCoordinator(addEditTextEntryViewController.coordinator)
-        } else if let addEditVideoEntryViewController = fromViewController as? AddEditVideoEntryViewController {
+        } else if let addEditVideoEntryViewController = fromViewController as? CreateVideoEntryViewController {
             removeChildCoordinator(addEditVideoEntryViewController.coordinator)
         }
     }

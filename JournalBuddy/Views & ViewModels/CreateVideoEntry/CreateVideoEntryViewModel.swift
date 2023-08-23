@@ -1,5 +1,5 @@
 //
-//  AddEditVideoEntryViewModel.swift
+//  CreateVideoEntryViewModel.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/22/23.
@@ -12,11 +12,11 @@ import Photos
 #warning("If user has denied permission, we need to prompt them to go to settings to allow permissions.")
 
 @MainActor
-final class AddEditVideoEntryViewModel: NSObject, MainViewModel {
+final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureMovieFileOutput()
 
-    var viewState = AddEditVideoEntryViewState.displayingView
+    var viewState = CreateVideoEntryViewState.displayingView
 
     var videoCaptureIsAuthorized: Bool {
         get async {
@@ -80,7 +80,7 @@ final class AddEditVideoEntryViewModel: NSObject, MainViewModel {
     }
 }
 
-extension AddEditVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
+extension CreateVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
         #warning("Update View State")
     }

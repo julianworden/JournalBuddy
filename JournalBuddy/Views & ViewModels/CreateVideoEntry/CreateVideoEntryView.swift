@@ -1,5 +1,5 @@
 //
-//  AddEditVideoEntryView.swift
+//  CreateVideoEntryView.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/22/23.
@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-class AddEditVideoEntryView: UIView, MainView {
+class CreateVideoEntryView: UIView, MainView {
     private lazy var backButton = SFSymbolButton(symbol: UIImage(systemName: "chevron.left.circle.fill", withConfiguration: .largeScale)!.withTintColor(.primaryElement))
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
@@ -17,11 +17,11 @@ class AddEditVideoEntryView: UIView, MainView {
     private lazy var startRecordingTapGesture = UITapGestureRecognizer(target: self, action: #selector(startRecording))
     private lazy var stopRecordingTapGesture = UITapGestureRecognizer(target: self, action: #selector(stopRecording))
 
-    weak var delegate: AddEditVideoEntryViewDelegate?
-    var viewModel: AddEditVideoEntryViewModel
+    weak var delegate: CreateVideoEntryViewDelegate?
+    var viewModel: CreateVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: ViewModel, delegate: AddEditVideoEntryViewDelegate?) {
+    init(viewModel: ViewModel, delegate: CreateVideoEntryViewDelegate?) {
         self.viewModel = viewModel
         self.delegate = delegate
 

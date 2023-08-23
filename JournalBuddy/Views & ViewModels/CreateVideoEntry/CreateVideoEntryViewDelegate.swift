@@ -1,5 +1,5 @@
 //
-//  AddEditVideoEntryViewDelegate.swift
+//  CreateVideoEntryViewDelegate.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/23/23.
@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol AddEditVideoEntryViewDelegate: AnyObject {
+protocol CreateVideoEntryViewDelegate: AnyObject {
     func addEditVideoEntryViewShouldDismiss()
 }

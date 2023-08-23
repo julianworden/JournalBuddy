@@ -1,5 +1,5 @@
 //
-//  AddEditVideoEntryViewController.swift
+//  CreateVideoEntryViewController.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/22/23.
@@ -8,12 +8,12 @@
 import Combine
 import UIKit
 
-class AddEditVideoEntryViewController: UIViewController, MainViewController {
-    weak var coordinator: AddEditVideoEntryCoordinator?
-    var viewModel: AddEditVideoEntryViewModel
+class CreateVideoEntryViewController: UIViewController, MainViewController {
+    weak var coordinator: CreateVideoEntryCoordinator?
+    var viewModel: CreateVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(coordinator: AddEditVideoEntryCoordinator?, viewModel: AddEditVideoEntryViewModel) {
+    init(coordinator: CreateVideoEntryCoordinator?, viewModel: CreateVideoEntryViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
 
@@ -27,7 +27,7 @@ class AddEditVideoEntryViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = AddEditVideoEntryView(viewModel: viewModel, delegate: coordinator)
+        view = CreateVideoEntryView(viewModel: viewModel, delegate: coordinator)
     }
 
     override func viewDidLoad() {
