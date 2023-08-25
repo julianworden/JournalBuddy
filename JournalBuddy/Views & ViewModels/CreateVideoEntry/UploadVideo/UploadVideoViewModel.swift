@@ -26,8 +26,6 @@ final class UploadVideoViewModel: MainViewModel {
 
     init(recordedVideoURL: URL) {
         self.recordedVideoURL = recordedVideoURL
-
-        print(recordedVideoURL.absoluteString)
     }
 
     func videoPlayerPlayButtonTapped() {

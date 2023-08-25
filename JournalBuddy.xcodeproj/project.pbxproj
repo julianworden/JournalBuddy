@@ -11,6 +11,8 @@
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
 		AB16178A2A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */; };
+		AB16178C2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16178B2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift */; };
+		AB16178E2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */; };
 		AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */; };
 		AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB181C482A5B1B7500560299 /* AppDelegate.swift */; };
 		AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB181C4A2A5B1B7500560299 /* SceneDelegate.swift */; };
@@ -158,6 +160,8 @@
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsStackViewRow.swift; sourceTree = "<group>"; };
 		AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerMediaButtonType.swift; sourceTree = "<group>"; };
+		AB16178B2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB17ECA02A60A3DD00ADED40 /* HomeSquareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButton.swift; sourceTree = "<group>"; };
 		AB181C452A5B1B7500560299 /* JournalBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JournalBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB181C482A5B1B7500560299 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -604,6 +608,8 @@
 				AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */,
 				AB8E9B872A89279E00A99C3A /* GoalsViewModelUnitTests.swift */,
 				AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */,
+				AB16178B2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift */,
+				AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1005,11 +1011,13 @@
 				AB1AC7AB2A707D6A00FE7A7E /* SignUpViewModelUnitTests.swift in Sources */,
 				AB8E9B882A89279E00A99C3A /* GoalsViewModelUnitTests.swift in Sources */,
 				AB8760BD2A740955009D3D39 /* EntriesViewModelUnitTests.swift in Sources */,
+				AB16178E2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift in Sources */,
 				AB948B822A6D7EE700430E61 /* TestError.swift in Sources */,
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,
 				AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */,
 				ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */,
 				AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */,
+				AB16178C2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift in Sources */,
 				ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */,
 				AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */,
 			);

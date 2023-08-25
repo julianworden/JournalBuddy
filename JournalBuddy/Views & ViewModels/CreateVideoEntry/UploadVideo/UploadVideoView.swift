@@ -10,8 +10,6 @@ import CoreMedia
 import UIKit
 
 class UploadVideoView: UIView, MainView {
-
-
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
 
     private lazy var videoPlayerCenterButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
