@@ -74,13 +74,13 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
     func test_EntryTextViewDefaultTextColor_ReturnsSecondaryLabelWhenExpected() {
         initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
-        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .secondaryLabel)
+        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .textFieldPlaceholder)
     }
 
     func test_EntryTextViewDefaultTextColor_ReturnsLabelWhenExpected() {
         initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
 
-        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .label)
+        XCTAssertEqual(sut.entryTextViewDefaultTextColor, .primaryElement)
     }
 
     func test_EntryIsEmpty_ReturnsTrueWhenExpected() {

@@ -9,7 +9,8 @@ import Combine
 import UIKit
 
 class CreateVideoEntryView: UIView, MainView {
-    private lazy var backButton = SFSymbolButton(symbol: UIImage(systemName: "chevron.left.circle.fill", withConfiguration: .largeScale)!.withTintColor(.primaryElement))
+    private lazy var backButtonImage = UIImage(systemName: "chevron.left.circle.fill", withConfiguration: .largeScale)!.withTintColor(.primaryElement)
+    private lazy var backButton = SFSymbolButton(symbol: backButtonImage)
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
