@@ -27,10 +27,9 @@ class CreateVideoEntryView: UIView, MainView {
 
         super.init(frame: .zero)
 
-        configure()
-
         Task {
-            await setUpVideoPreview()
+            configure()
+            await configureVideoPreview()
             constrain()
         }
     }
@@ -101,7 +100,7 @@ class CreateVideoEntryView: UIView, MainView {
 
     }
 
-    func setUpVideoPreview() async {
+    func configureVideoPreview() async {
         await viewModel.setUpVideoCaptureSession()
         videoPreview.videoPreviewLayer.session = viewModel.captureSession
 
@@ -115,7 +114,7 @@ class CreateVideoEntryView: UIView, MainView {
         startRecordingButton.removeGestureRecognizer(startRecordingTapGesture)
         startRecordingButton.addGestureRecognizer(stopRecordingTapGesture)
 
-        UIView.animate(withDuration: 0.5) { [weak self] in
+        UIView.animate(withDuration: 0.25) { [weak self] in
             self?.startRecordingButtonInnerRedView.layer.cornerRadius = 8
             self?.startRecordingButtonInnerRedView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }
@@ -127,7 +126,7 @@ class CreateVideoEntryView: UIView, MainView {
         startRecordingButton.removeGestureRecognizer(stopRecordingTapGesture)
         startRecordingButton.addGestureRecognizer(startRecordingTapGesture)
 
-        UIView.animate(withDuration: 0.5) { [weak self] in
+        UIView.animate(withDuration: 0.25) { [weak self] in
             guard let self else { return }
 
             self.startRecordingButtonInnerRedView.layer.cornerRadius = self.startRecordingButton.bounds.size.width / 2

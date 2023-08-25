@@ -5,12 +5,14 @@
 //  Created by Julian Worden on 8/23/23.
 //
 
+import AVFoundation
 import Foundation
 
 @MainActor
 final class UploadVideoViewModel: MainViewModel {
-    var viewState = UploadVideoViewState.displayingView
+    lazy var videoPlayer = AVPlayer(url: recordedVideoURL)
 
+    var viewState = UploadVideoViewState.displayingView
     let recordedVideoURL: URL
 
     init(recordedVideoURL: URL) {

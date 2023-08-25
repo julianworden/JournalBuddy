@@ -9,6 +9,8 @@ import Combine
 import UIKit
 
 class UploadVideoView: UIView, MainView {
+    private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
+
     var viewModel: UploadVideoViewModel
     var cancellables = Set<AnyCancellable>()
 
@@ -18,6 +20,7 @@ class UploadVideoView: UIView, MainView {
         super.init(frame: .zero)
 
         configure()
+        constrain()
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +32,14 @@ class UploadVideoView: UIView, MainView {
     }
 
     func constrain() {
+        addConstrainedSubview(videoPlayerView)
 
+        NSLayoutConstraint.activate([
+            videoPlayerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
+            videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
+        ])
     }
     
     func makeAccessible() {
