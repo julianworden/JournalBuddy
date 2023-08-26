@@ -42,6 +42,8 @@ class UploadVideoView: UIView, MainView {
         videoPlayerTimelineSlider.maximumValue = 1
         videoPlayerTimelineSlider.thumbTintColor = .background
         videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
+        videoPlayerTimelineSlider.isContinuous = false
+
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
 
         videoPlayerCenterButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
