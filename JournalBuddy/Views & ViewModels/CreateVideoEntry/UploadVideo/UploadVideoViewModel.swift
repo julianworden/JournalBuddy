@@ -40,4 +40,8 @@ final class UploadVideoViewModel: MainViewModel {
         videoPlayer.seek(to: CMTime(value: 0, timescale: 1), toleranceBefore: .zero, toleranceAfter: .zero)
         videoPlayer.play()
     }
+
+    func seekVideoPlayer(to newTimestamp: Double) {
+        videoPlayer.seek(to: CMTime(seconds: newTimestamp, preferredTimescale: 1), toleranceBefore: .zero, toleranceAfter: .zero)
+    }
 }

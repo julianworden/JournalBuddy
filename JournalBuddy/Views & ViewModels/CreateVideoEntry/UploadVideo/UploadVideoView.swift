@@ -13,6 +13,7 @@ class UploadVideoView: UIView, MainView {
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
 
     private lazy var videoPlayerCenterButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
+    private lazy var videoPlayerTimelineSlider = UISlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
     private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
 
@@ -36,6 +37,13 @@ class UploadVideoView: UIView, MainView {
     func configure() {
         backgroundColor = .background
 
+        videoPlayerTimelineSlider.tintColor = .primaryElement
+        videoPlayerTimelineSlider.minimumValue = 0
+        videoPlayerTimelineSlider.maximumValue = 1
+        videoPlayerTimelineSlider.thumbTintColor = .background
+        videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
+        videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
+
         videoPlayerCenterButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         videoPlayerCenterButton.contentHorizontalAlignment = .fill
         videoPlayerCenterButton.contentVerticalAlignment = .fill
@@ -43,7 +51,7 @@ class UploadVideoView: UIView, MainView {
 
     func constrain() {
         addConstrainedSubview(videoPlayerView)
-        videoPlayerView.addConstrainedSubviews(videoPlayerCenterButton/*, restartVideoButton*/)
+        videoPlayerView.addConstrainedSubviews(videoPlayerCenterButton, videoPlayerTimelineSlider)
 
         NSLayoutConstraint.activate([
             videoPlayerView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -54,7 +62,11 @@ class UploadVideoView: UIView, MainView {
             videoPlayerCenterButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
             videoPlayerCenterButton.heightAnchor.constraint(equalToConstant: 80),
             videoPlayerCenterButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
-            videoPlayerCenterButton.widthAnchor.constraint(equalToConstant: 80)
+            videoPlayerCenterButton.widthAnchor.constraint(equalToConstant: 80),
+
+            videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
+            videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
+            videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -63,11 +75,22 @@ class UploadVideoView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
-        viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
+        viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 4), queue: .main) { [weak self] time in
+            self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
+
             if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
                 self?.videoPlayerCurrentItemIsFinished()
             }
         }
+
+        viewModel.videoPlayer.publisher(for: \.currentItem?.status)
+            .sink { [weak self] status in
+                guard status == .readyToPlay,
+                      let self else { return }
+
+                self.videoPlayerTimelineSlider.maximumValue = Float(self.viewModel.videoPlayerCurrentItemLengthInSeconds)
+            }
+            .store(in: &cancellables)
     }
     
     /// Configures `videoPlayerCenterButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
@@ -112,6 +135,7 @@ class UploadVideoView: UIView, MainView {
 
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterButton.alpha = 1
+            self?.videoPlayerTimelineSlider.alpha = 1
         }
     }
 
@@ -121,6 +145,11 @@ class UploadVideoView: UIView, MainView {
 
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterButton.alpha = 0
+            self?.videoPlayerTimelineSlider.alpha = 0
         }
+    }
+
+    @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
+        viewModel.seekVideoPlayer(to: Double(sender.value))
     }
 }
