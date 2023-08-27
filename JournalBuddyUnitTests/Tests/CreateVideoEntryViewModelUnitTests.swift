@@ -22,5 +22,11 @@ final class CreateVideoEntryViewModelUnitTests: XCTestCase {
 
     func test_OnInit_DefaultValuesAreCorrect() {
         XCTAssertEqual(sut.viewState, .displayingView)
+        XCTAssertNil(sut.recordingTimerStartDate)
+        XCTAssertNil(sut.recordingTimer)
+    }
+
+    func test_RecordingTimerDurationAsInt_ReturnsZeroWhenExpected() {
+        XCTAssertEqual(sut.recordingTimerDurationAsInt, 0)
     }
 }

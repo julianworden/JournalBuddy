@@ -11,8 +11,7 @@ import UIKit
 
 class UploadVideoView: UIView, MainView {
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
-
-    private lazy var videoPlayerCenterButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
+    private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
     private lazy var videoPlayerTimelineSlider = UISlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
     private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
@@ -46,14 +45,14 @@ class UploadVideoView: UIView, MainView {
 
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
 
-        videoPlayerCenterButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-        videoPlayerCenterButton.contentHorizontalAlignment = .fill
-        videoPlayerCenterButton.contentVerticalAlignment = .fill
+        videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        videoPlayerCenterMediaButton.contentHorizontalAlignment = .fill
+        videoPlayerCenterMediaButton.contentVerticalAlignment = .fill
     }
 
     func constrain() {
         addConstrainedSubview(videoPlayerView)
-        videoPlayerView.addConstrainedSubviews(videoPlayerCenterButton, videoPlayerTimelineSlider)
+        videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
 
         NSLayoutConstraint.activate([
             videoPlayerView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -61,10 +60,10 @@ class UploadVideoView: UIView, MainView {
             videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
 
-            videoPlayerCenterButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
-            videoPlayerCenterButton.heightAnchor.constraint(equalToConstant: 80),
-            videoPlayerCenterButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
-            videoPlayerCenterButton.widthAnchor.constraint(equalToConstant: 80),
+            videoPlayerCenterMediaButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
+            videoPlayerCenterMediaButton.heightAnchor.constraint(equalToConstant: 80),
+            videoPlayerCenterMediaButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
+            videoPlayerCenterMediaButton.widthAnchor.constraint(equalToConstant: 80),
 
             videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
             videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
@@ -95,16 +94,16 @@ class UploadVideoView: UIView, MainView {
             .store(in: &cancellables)
     }
     
-    /// Configures `videoPlayerCenterButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
-    /// `videoPlayerCenterButton` changes to a pause button.
+    /// Configures `videoPlayerCenterMediaButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
+    /// `videoPlayerCenterMediaButton` changes to a pause button.
     /// - Parameters:
-    ///   - selectorToRemove: The `Selector` to remove from `videoPlayerCenterButton` so that `selectorToAdd` gets triggered when the button is tapped.
-    ///   - selectorToAdd: The `Selector` to add to `videoPlayerCenterButton`. Replaces `selectorToRemove`.
-    ///   - newMediaButtonType: The type of button that `videoPlayerCenterButton` is to become.
+    ///   - selectorToRemove: The `Selector` to remove from `videoPlayerCenterMediaButton` so that `selectorToAdd` gets triggered when the button is tapped.
+    ///   - selectorToAdd: The `Selector` to add to `videoPlayerCenterMediaButton`. Replaces `selectorToRemove`.
+    ///   - newMediaButtonType: The type of button that `videoPlayerCenterMediaButton` is to become.
     func configureMediaButton(remove selectorToRemove: Selector, add selectorToAdd: Selector, newMediaButtonType: VideoPlayerMediaButtonType) {
-        videoPlayerCenterButton.setImage(newMediaButtonType.image, for: .normal)
-        videoPlayerCenterButton.removeTarget(self, action: selectorToRemove, for: .touchUpInside)
-        videoPlayerCenterButton.addTarget(self, action: selectorToAdd, for: .touchUpInside)
+        videoPlayerCenterMediaButton.setImage(newMediaButtonType.image, for: .normal)
+        videoPlayerCenterMediaButton.removeTarget(self, action: selectorToRemove, for: .touchUpInside)
+        videoPlayerCenterMediaButton.addTarget(self, action: selectorToAdd, for: .touchUpInside)
     }
     
     /// Configures the restart button when the video player's video reaches the end of its duration.
@@ -136,7 +135,7 @@ class UploadVideoView: UIView, MainView {
         videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
 
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.videoPlayerCenterButton.alpha = 1
+            self?.videoPlayerCenterMediaButton.alpha = 1
             self?.videoPlayerTimelineSlider.alpha = 1
         }
     }
@@ -146,7 +145,7 @@ class UploadVideoView: UIView, MainView {
         videoPlayerView.addGestureRecognizer(presentMediaControlsTapGestureRecognizer)
 
         UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.videoPlayerCenterButton.alpha = 0
+            self?.videoPlayerCenterMediaButton.alpha = 0
             self?.videoPlayerTimelineSlider.alpha = 0
         }
     }

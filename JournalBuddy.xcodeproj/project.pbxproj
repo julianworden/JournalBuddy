@@ -75,6 +75,7 @@
 		AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9192A645DC70054B1A4 /* HomeView.swift */; };
 		AB7CC91C2A6460A50054B1A4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC91B2A6460A50054B1A4 /* LoginView.swift */; };
 		AB8760BD2A740955009D3D39 /* EntriesViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */; };
+		AB8A49552A9BD7EE00791695 /* Int+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */; };
 		AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */; };
 		AB8E775B2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */; };
 		AB8E77772A770E6900EAF49D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8E77762A770E6900EAF49D /* User.swift */; };
@@ -219,6 +220,7 @@
 		AB7CC9192A645DC70054B1A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AB7CC91B2A6460A50054B1A4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AB8760BC2A740955009D3D39 /* EntriesViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Helpers.swift"; sourceTree = "<group>"; };
 		AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewDelegate.swift; sourceTree = "<group>"; };
 		AB8E775A2A76B4DE00EAF49D /* AddEditTextEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTextEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB8E77762A770E6900EAF49D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				AB72DCA32A6F687200B4D4AF /* UITextField+Helpers.swift */,
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
+				AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
 				ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */,
 				AB413EB02A96B77300916054 /* UploadVideoViewModel.swift in Sources */,
+				AB8A49552A9BD7EE00791695 /* Int+Helpers.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,

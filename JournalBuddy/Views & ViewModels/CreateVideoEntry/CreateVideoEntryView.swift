@@ -9,8 +9,14 @@ import Combine
 import UIKit
 
 class CreateVideoEntryView: UIView, MainView {
-    private lazy var backButtonImage = UIImage(systemName: "chevron.left.circle.fill", withConfiguration: .largeScale)!.withTintColor(.primaryElement)
+    private lazy var backButtonImage = UIImage(
+        systemName: "chevron.left.circle.fill",
+        withConfiguration: .largeScale
+    )!.withTintColor(.primaryElement)
     private lazy var backButton = SFSymbolButton(symbol: backButtonImage)
+    private lazy var recordingTimerLabelBackground = UIView()
+    /// Displays how long the user has been recording.
+    private lazy var recordingTimerLabel = UILabel()
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
@@ -39,7 +45,12 @@ class CreateVideoEntryView: UIView, MainView {
         super.layoutSubviews()
 
         startRecordingButton.layer.cornerRadius = startRecordingButton.bounds.size.width / 2
-        startRecordingButtonInnerRedView.layer.cornerRadius = startRecordingButton.bounds.size.width / 2
+
+        // layoutSubviews is called when the timer updates. Without this check, the startRecordingButtonInnerRedView
+        // becomes a circle while video is still being recorded.
+        if viewModel.recordingTimerStartDate == nil {
+            startRecordingButtonInnerRedView.layer.cornerRadius = startRecordingButton.bounds.size.width / 2
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -54,6 +65,13 @@ class CreateVideoEntryView: UIView, MainView {
         backButton.contentHorizontalAlignment = .fill
         backButton.contentVerticalAlignment = .fill
 
+        recordingTimerLabelBackground.backgroundColor = .primaryElement
+        recordingTimerLabelBackground.layer.cornerRadius = 12
+
+        recordingTimerLabel.text = "00:00 / 05:00"
+        recordingTimerLabel.textColor = .background
+        recordingTimerLabel.font = UIFontMetrics.avenirNextRegularBody
+
         clipsToBounds = true
 
         startRecordingButton.backgroundColor = .clear
@@ -66,15 +84,32 @@ class CreateVideoEntryView: UIView, MainView {
         startRecordingButtonInnerRedView.backgroundColor = .destructive
     }
 
+    func makeAccessible() {
+
+    }
+    
+    func subscribeToPublishers() {
+
+    }
+
     func constrain() {
-        addConstrainedSubviews(videoPreview, startRecordingButton, backButton)
+        addConstrainedSubviews(videoPreview, backButton, recordingTimerLabelBackground, startRecordingButton)
+        recordingTimerLabelBackground.addConstrainedSubview(recordingTimerLabel)
         startRecordingButton.addConstrainedSubviews(startRecordingButtonInnerRedView)
 
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            backButton.heightAnchor.constraint(equalToConstant: 44),
-            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            backButton.widthAnchor.constraint(equalToConstant: 44),
+            backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            backButton.heightAnchor.constraint(equalToConstant: 35),
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            backButton.widthAnchor.constraint(equalToConstant: 35),
+
+            recordingTimerLabelBackground.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            recordingTimerLabelBackground.centerXAnchor.constraint(equalTo: centerXAnchor),
+
+            recordingTimerLabel.topAnchor.constraint(equalTo: recordingTimerLabelBackground.topAnchor, constant: 7),
+            recordingTimerLabel.bottomAnchor.constraint(equalTo: recordingTimerLabelBackground.bottomAnchor, constant: -7),
+            recordingTimerLabel.leadingAnchor.constraint(equalTo: recordingTimerLabelBackground.leadingAnchor, constant: 15),
+            recordingTimerLabel.trailingAnchor.constraint(equalTo: recordingTimerLabelBackground.trailingAnchor, constant: -15),
 
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),
@@ -91,14 +126,6 @@ class CreateVideoEntryView: UIView, MainView {
             startRecordingButtonInnerRedView.leadingAnchor.constraint(equalTo: startRecordingButton.leadingAnchor),
             startRecordingButtonInnerRedView.trailingAnchor.constraint(equalTo: startRecordingButton.trailingAnchor)
         ])
-    }
-
-    func makeAccessible() {
-
-    }
-    
-    func subscribeToPublishers() {
-
     }
 
     func configureVideoPreview() async {
@@ -121,6 +148,15 @@ class CreateVideoEntryView: UIView, MainView {
         }
 
         viewModel.startRecording()
+        startUpdatingRecordingTimerLabel()
+    }
+
+    func startUpdatingRecordingTimerLabel() {
+        viewModel.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
+            guard let self else { return }
+
+            self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+        }
     }
 
     @objc func stopRecording() {
@@ -135,6 +171,7 @@ class CreateVideoEntryView: UIView, MainView {
         }
 
         viewModel.stopRecording()
+        viewModel.recordingTimer?.invalidate()
     }
 
     @objc func backButtonTapped() {

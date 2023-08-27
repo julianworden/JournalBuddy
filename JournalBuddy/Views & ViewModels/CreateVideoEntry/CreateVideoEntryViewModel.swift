@@ -17,6 +17,14 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
 
     let captureSession = AVCaptureSession()
     let videoOutput = AVCaptureMovieFileOutput()
+    var recordingTimerStartDate: Date?
+    var recordingTimer: Timer?
+
+    var recordingTimerDurationAsInt: Int {
+        guard let recordingTimerStartDate else { return 0 }
+
+        return Int(Date.now.timeIntervalSince(recordingTimerStartDate))
+    }
 
     var videoCaptureIsAuthorized: Bool {
         get async {
@@ -78,6 +86,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
                 try FileManager.default.removeItem(atPath: outputFilePath)
 
                 videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
+                recordingTimerStartDate = Date.now
             }
         } catch {
             print(error.emojiMessage)
@@ -87,6 +96,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
 
     func stopRecording() {
         videoOutput.stopRecording()
+        recordingTimerStartDate = nil
     }
 }
 
