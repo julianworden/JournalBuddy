@@ -12,6 +12,9 @@ import Foundation
 final class UploadVideoViewModel: MainViewModel {
     lazy var videoPlayer = AVPlayer(url: recordedVideoURL)
     @Published var videoPlayerCurrentItemIsFinished = false
+    /// The periodic time observer for the video player. This is created in in `UploadVideoView` and then removed
+    /// after `UploadVideoViewController` disappears.
+    var videoPlayerPeriodicTimeObserver: Any?
 
     var viewState = UploadVideoViewState.displayingView
     let recordedVideoURL: URL

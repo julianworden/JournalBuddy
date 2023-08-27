@@ -77,7 +77,7 @@ class UploadVideoView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
-        viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 4), queue: .main) { [weak self] time in
+        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
             self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
 
             if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {

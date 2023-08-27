@@ -24,5 +24,6 @@ final class UploadVideoViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.videoPlayerCurrentItemIsFinished)
         XCTAssertEqual(sut.viewState, .displayingView)
         XCTAssertEqual(sut.recordedVideoURL, URL(string: "https://example.com")!)
+        XCTAssertNil(sut.videoPlayerPeriodicTimeObserver)
     }
 }

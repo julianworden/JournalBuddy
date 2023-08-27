@@ -34,6 +34,13 @@ class UploadVideoViewController: UIViewController, MainViewController {
         configure()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        if let videoPlayerPeriodicTimeObserver = viewModel.videoPlayerPeriodicTimeObserver {
+            viewModel.videoPlayer.removeTimeObserver(videoPlayerPeriodicTimeObserver)
+            viewModel.videoPlayerPeriodicTimeObserver = nil
+        }
+    }
+
     func configure() {
         navigationItem.title = "Upload Video Entry"
         navigationItem.largeTitleDisplayMode = .never
