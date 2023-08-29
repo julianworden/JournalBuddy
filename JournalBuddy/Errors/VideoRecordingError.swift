@@ -8,7 +8,7 @@
 import Foundation
 
 enum VideoRecordingError: LocalizedError {
-    case recordingSetupFailed, cameraSwitchingFailed
+    case recordingSetupFailed, cameraSwitchingFailed, noFrontCameraFound, noBackCameraFound, noMicrophoneFound
     
     var errorDescription: String? {
         switch self {
@@ -16,6 +16,12 @@ enum VideoRecordingError: LocalizedError {
             return "We were unable to configure your device for video recording. Please contact support."
         case .cameraSwitchingFailed:
             return "Camera switch failed, please restart Journal Buddy and try again."
+        case .noFrontCameraFound:
+            return "We failed to locate your device's front camera. Please restart the app and try again."
+        case .noBackCameraFound:
+            return "We failed to locate your device's back camera. Please restart the app and try again."
+        case .noMicrophoneFound:
+            return "We failed to locate your device's microphone. Please restart the app and try again."
         }
     }
 }

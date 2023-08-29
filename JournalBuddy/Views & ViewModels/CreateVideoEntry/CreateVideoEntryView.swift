@@ -143,7 +143,7 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func configureVideoPreview() async {
-        await viewModel.setUpVideoCaptureSession()
+        await viewModel.configureNewCaptureSession()
         videoPreview.videoPreviewLayer.session = viewModel.captureSession
 
         Task.detached { [weak self] in
@@ -195,6 +195,6 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     @objc func switchCameraButtonTapped() {
-        viewModel.switchCameraButtonTapped()
+        viewModel.switchCamera()
     }
 }
