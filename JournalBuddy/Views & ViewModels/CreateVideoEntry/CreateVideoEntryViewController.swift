@@ -41,6 +41,13 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         super.viewIsAppearing(animated)
 
         navigationController?.isNavigationBarHidden = true
+        
+        guard let view = view as? CreateVideoEntryView else { return }
+        
+        // In case someone goes back after recording video
+        view.recordingTimerLabel.text = "00:00 / 05:00"
+        view.switchCameraButton.alpha = 1
+        view.switchCameraButton.isEnabled = true
     }
 
     func configure() {

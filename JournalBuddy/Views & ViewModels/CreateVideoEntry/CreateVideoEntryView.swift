@@ -13,10 +13,16 @@ class CreateVideoEntryView: UIView, MainView {
         systemName: "chevron.left.circle.fill",
         withConfiguration: .largeScale
     )!.withTintColor(.primaryElement)
+    private lazy var switchCameraButtonImage = UIImage(
+        systemName: "arrow.triangle.2.circlepath.circle.fill",
+        withConfiguration: .largeScale
+    )!.withTintColor(.primaryElement)
+
     private lazy var backButton = SFSymbolButton(symbol: backButtonImage)
     private lazy var recordingTimerLabelBackground = UIView()
     /// Displays how long the user has been recording.
-    private lazy var recordingTimerLabel = UILabel()
+    lazy var recordingTimerLabel = UILabel()
+    lazy var switchCameraButton = SFSymbolButton(symbol: switchCameraButtonImage)
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
@@ -58,6 +64,7 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func configure() {
+        clipsToBounds = true
         backgroundColor = .background
 
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -72,7 +79,9 @@ class CreateVideoEntryView: UIView, MainView {
         recordingTimerLabel.textColor = .background
         recordingTimerLabel.font = UIFontMetrics.avenirNextRegularBody
 
-        clipsToBounds = true
+        switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
+        switchCameraButton.contentHorizontalAlignment = .fill
+        switchCameraButton.contentVerticalAlignment = .fill
 
         startRecordingButton.backgroundColor = .clear
         startRecordingButton.layer.borderWidth = 3
@@ -93,7 +102,7 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func constrain() {
-        addConstrainedSubviews(videoPreview, backButton, recordingTimerLabelBackground, startRecordingButton)
+        addConstrainedSubviews(videoPreview, backButton, recordingTimerLabelBackground, switchCameraButton, startRecordingButton)
         recordingTimerLabelBackground.addConstrainedSubview(recordingTimerLabel)
         startRecordingButton.addConstrainedSubviews(startRecordingButtonInnerRedView)
 
@@ -110,6 +119,11 @@ class CreateVideoEntryView: UIView, MainView {
             recordingTimerLabel.bottomAnchor.constraint(equalTo: recordingTimerLabelBackground.bottomAnchor, constant: -7),
             recordingTimerLabel.leadingAnchor.constraint(equalTo: recordingTimerLabelBackground.leadingAnchor, constant: 15),
             recordingTimerLabel.trailingAnchor.constraint(equalTo: recordingTimerLabelBackground.trailingAnchor, constant: -15),
+
+            switchCameraButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            switchCameraButton.heightAnchor.constraint(equalToConstant: 35),
+            switchCameraButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            switchCameraButton.widthAnchor.constraint(equalToConstant: 35),
 
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),
@@ -138,6 +152,14 @@ class CreateVideoEntryView: UIView, MainView {
         }
     }
 
+    func startUpdatingRecordingTimerLabel() {
+        viewModel.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
+            guard let self else { return }
+
+            self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+        }
+    }
+
     @objc func startRecording() {
         startRecordingButton.removeGestureRecognizer(startRecordingTapGesture)
         startRecordingButton.addGestureRecognizer(stopRecordingTapGesture)
@@ -145,18 +167,12 @@ class CreateVideoEntryView: UIView, MainView {
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.startRecordingButtonInnerRedView.layer.cornerRadius = 8
             self?.startRecordingButtonInnerRedView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            self?.switchCameraButton.alpha = 0
+            self?.switchCameraButton.isEnabled = false
         }
 
         viewModel.startRecording()
         startUpdatingRecordingTimerLabel()
-    }
-
-    func startUpdatingRecordingTimerLabel() {
-        viewModel.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
-            guard let self else { return }
-
-            self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
-        }
     }
 
     @objc func stopRecording() {
@@ -176,5 +192,9 @@ class CreateVideoEntryView: UIView, MainView {
 
     @objc func backButtonTapped() {
         delegate?.addEditVideoEntryViewShouldDismiss()
+    }
+
+    @objc func switchCameraButtonTapped() {
+        viewModel.switchCameraButtonTapped()
     }
 }

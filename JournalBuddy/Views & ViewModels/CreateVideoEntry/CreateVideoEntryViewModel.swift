@@ -16,6 +16,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     @Published var viewState = CreateVideoEntryViewState.displayingView
 
     let captureSession = AVCaptureSession()
+    var videoDeviceInput: AVCaptureDeviceInput?
     let videoOutput = AVCaptureMovieFileOutput()
     var recordingTimerStartDate: Date?
     var recordingTimer: Timer?
@@ -58,24 +59,38 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         guard await videoCaptureIsAuthorized,
               await audioCaptureIsAuthorized else { return }
 
-        captureSession.beginConfiguration()
-        let videoDevice = AVCaptureDevice.default(.builtInTrueDepthCamera, for: .video, position: .front)
-        let audioDevice = AVCaptureDevice.default(.builtInMicrophone, for: .audio, position: .unspecified)
-
-        guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
-              let audioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!),
-              captureSession.canAddInput(videoDeviceInput),
-              captureSession.canAddInput(audioDeviceInput)
-              else { return }
-
-        captureSession.addInput(videoDeviceInput)
-        captureSession.addInput(audioDeviceInput)
-
-        guard captureSession.canAddOutput(videoOutput) else { return }
-
-        captureSession.sessionPreset = .high
-        captureSession.addOutput(videoOutput)
-        captureSession.commitConfiguration()
+        do {
+            captureSession.beginConfiguration()
+            #warning("Perform discovery session for video device here just to be safe.")
+            let defaultFrontCamera = AVCaptureDevice.default(.builtInTrueDepthCamera, for: .video, position: .front)
+            let defaultMicrophone = AVCaptureDevice.default(for: .audio)
+            
+            guard let defaultFrontCamera,
+                  let defaultMicrophone else {
+                viewState = .error(message: VideoRecordingError.recordingSetupFailed.localizedDescription)
+                return
+            }
+            
+            let videoDeviceInput = try AVCaptureDeviceInput(device: defaultFrontCamera)
+            let audioDeviceInput = try AVCaptureDeviceInput(device: defaultMicrophone)
+            
+            guard captureSession.canAddInput(videoDeviceInput),
+                  captureSession.canAddInput(audioDeviceInput),
+                  captureSession.canAddOutput(videoOutput) else {
+                viewState = .error(message: VideoRecordingError.recordingSetupFailed.localizedDescription)
+                return
+            }
+            
+            self.videoDeviceInput = videoDeviceInput
+            captureSession.addInput(videoDeviceInput)
+            captureSession.addInput(audioDeviceInput)
+            captureSession.addOutput(videoOutput)
+            
+            captureSession.commitConfiguration()
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
     }
 
     func startRecording() {
@@ -84,10 +99,10 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         do {
             if FileManager.default.fileExists(atPath: outputFilePath) {
                 try FileManager.default.removeItem(atPath: outputFilePath)
-
-                videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
-                recordingTimerStartDate = Date.now
             }
+            
+            videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
+            recordingTimerStartDate = Date.now
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
@@ -97,6 +112,65 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     func stopRecording() {
         videoOutput.stopRecording()
         recordingTimerStartDate = nil
+    }
+
+    func switchCameraButtonTapped() {
+        guard let currentVideoDeviceInput = videoDeviceInput else {
+            viewState = .error(message: VideoRecordingError.cameraSwitchingFailed.localizedDescription)
+            return
+        }
+        
+        if let newVideoDevice = getNewVideoDevice(currentVideoDevice: currentVideoDeviceInput.device) {
+            do {
+                try configureNewCaptureSession(byRemoving: currentVideoDeviceInput, andAdding: newVideoDevice)
+            } catch {
+                print(error.emojiMessage)
+                viewState = .error(message: VideoRecordingError.cameraSwitchingFailed.localizedDescription)
+            }
+        }
+    }
+    
+    func getNewVideoDevice(currentVideoDevice: AVCaptureDevice) -> AVCaptureDevice? {
+        let currentPosition = currentVideoDevice.position
+        let backVideoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInDualCamera, .builtInWideAngleCamera],
+            mediaType: .video, position: .back
+        )
+        let frontVideoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInTrueDepthCamera, .builtInWideAngleCamera],
+            mediaType: .video, position: .front
+        )
+        
+        switch currentPosition {
+        case .unspecified, .front:
+            return backVideoDeviceDiscoverySession.devices.first
+        case .back:
+            return frontVideoDeviceDiscoverySession.devices.first
+        @unknown default:
+            print("Unknown capture position. Defaulting to back, dual-camera.")
+            return AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
+        }
+    }
+    
+    func configureNewCaptureSession(
+        byRemoving oldVideoDeviceInput: AVCaptureDeviceInput,
+        andAdding newVideoDevice: AVCaptureDevice
+    ) throws {
+        let newVideoDeviceInput = try AVCaptureDeviceInput(device: newVideoDevice)
+        captureSession.beginConfiguration()
+        captureSession.removeInput(oldVideoDeviceInput)
+        
+        if captureSession.canAddInput(newVideoDeviceInput) {
+            captureSession.addInput(newVideoDeviceInput)
+            self.videoDeviceInput = newVideoDeviceInput
+        } else {
+            captureSession.addInput(oldVideoDeviceInput)
+            print("The current AVCaptureSession cannot add the new AVCaptureDeviceInput.")
+        }
+        
+        if videoOutput.connection(with: .video) != nil {
+            captureSession.commitConfiguration()
+        }
     }
 }
 

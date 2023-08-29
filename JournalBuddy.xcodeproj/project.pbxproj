@@ -104,6 +104,7 @@
 		AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E3002A6EB4D5001FDDD8 /* LoginViewDelegate.swift */; };
 		AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */; };
 		ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4F9022A682ADC0008D18E /* MainViewController.swift */; };
+		ABA69B5A2A9CDD7F0049B3BB /* VideoRecordingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA69B592A9CDD7F0049B3BB /* VideoRecordingError.swift */; };
 		ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */; };
 		ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */; };
 		ABAB18A22A8EBB4000E22FB3 /* CustomAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */; };
@@ -250,6 +251,7 @@
 		AB95E3002A6EB4D5001FDDD8 /* LoginViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
 		AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextFieldStack.swift; sourceTree = "<group>"; };
 		ABA4F9022A682ADC0008D18E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		ABA69B592A9CDD7F0049B3BB /* VideoRecordingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecordingError.swift; sourceTree = "<group>"; };
 		ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewTableViewDataSource.swift; sourceTree = "<group>"; };
 		ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIDConstants.swift; sourceTree = "<group>"; };
 		ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertType.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				AB90FF0D2A71FFB100D23017 /* FBFirestoreError.swift */,
 				AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */,
 				ABDB553C2A72A82600DC8DF8 /* FormError.swift */,
+				ABA69B592A9CDD7F0049B3BB /* VideoRecordingError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
+				ABA69B5A2A9CDD7F0049B3BB /* VideoRecordingError.swift in Sources */,
 				ABFA28DB2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				AB8E77772A770E6900EAF49D /* User.swift in Sources */,
