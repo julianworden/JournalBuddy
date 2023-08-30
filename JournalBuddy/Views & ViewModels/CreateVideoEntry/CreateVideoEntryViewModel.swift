@@ -7,7 +7,7 @@
 
 import AVFoundation
 import Foundation
-import Photos
+import PhotosUI
 
 #warning("If user has denied permission, we need to prompt them to go to settings to allow permissions.")
 
@@ -78,7 +78,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
 
     func switchCamera() {
         guard let currentVideoDeviceInput = videoDeviceInput else {
-            viewState = .error(message: VideoRecordingError.cameraSwitchingFailed.localizedDescription)
+            viewState = .error(message: VideoEntryError.cameraSwitchingFailed.localizedDescription)
             return
         }
         
@@ -145,7 +145,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         guard captureSession.canAddInput(audioInput),
               captureSession.canAddInput(videoInput),
               captureSession.canAddOutput(videoOutput) else {
-            viewState = .error(message: VideoRecordingError.recordingSetupFailed.localizedDescription)
+            viewState = .error(message: VideoEntryError.recordingSetupFailed.localizedDescription)
             return
         }
         
@@ -170,7 +170,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         } else if let videoDevice = AVCaptureDevice.default(for: .video) {
             return videoDevice
         } else {
-            throw VideoRecordingError.noFrontCameraFound
+            throw VideoEntryError.noFrontCameraFound
         }
     }
     
@@ -189,7 +189,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         } else if let videoDevice = AVCaptureDevice.default(for: .video) {
             return videoDevice
         } else {
-            throw VideoRecordingError.noBackCameraFound
+            throw VideoEntryError.noBackCameraFound
         }
     }
     
@@ -199,7 +199,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         if let defaultMicrophone = AVCaptureDevice.default(for: .audio) {
             return defaultMicrophone
         } else {
-            throw VideoRecordingError.noMicrophoneFound
+            throw VideoEntryError.noMicrophoneFound
         }
     }
     
@@ -221,6 +221,68 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
             return frontCameraDevice
         }
     }
+    
+    /// Handles changing the view state to push the user into the next view after they selected a video to upload as a video entry.
+    /// - Parameter selectedVideoResult: The picker result containing info about the video that the user selected.
+    func userDidSelectRecordedVideo(_ selectedVideoResult: PHPickerResult) {
+        movesSelectedRecordedVideoToPermanentURL(selectedVideoResult) { [weak self] permanentURL, error in
+            guard error == nil else {
+                self?.viewState = .error(message: error!.localizedDescription)
+                print(error!.emojiMessage)
+                return
+            }
+            
+            guard let permanentURL else {
+                self?.viewState = .error(message: VideoEntryError.videoSelectionFailed.localizedDescription)
+                print("New URL for selected video not found.")
+                return
+            }
+            
+            Task { @MainActor in
+                self?.viewState = .videoEntryWasSelectedOrRecorded(at: permanentURL)
+            }
+        }
+    }
+    
+    /// Moves the video entry that the user selected within a `PHPickerViewController` out of its temporary location created by iOS, and into a permanent URL in the
+    /// user's documents directory that the app can access at a later time for uploading. This is necessary because the
+    /// `itemProvider.loadFileRepresentation(forTypeIdentifier:completionHandler)` method on `PHPickerResult` stores the file in a temporary location
+    /// that it is deleted from after its `completionHandler` returns.
+    ///
+    /// This method only allows one video named VideoEntry.mov at a time to be stored in the user's document directory to prevent the app for storing unnecessarily large amounts of video data. If it finds another VideoEntry.mov in the user's documents directory, it will delete it before moving the the new video in `videoPickerResult` into the documents directory.
+    /// - Parameters:
+    ///   - videoPickerResult: The picker result containing info about the video that the user selected.
+    ///   - completion: The code to run after the video is successfully moved from the temporary URL to a permanent URL in the user's documents directory.
+    func movesSelectedRecordedVideoToPermanentURL(_ videoPickerResult: PHPickerResult, completion: @escaping (URL?, Error?) -> Void) {
+        videoPickerResult.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { temporaryURL, error in
+            guard let temporaryURL else {
+                completion(nil, VideoEntryError.videoSelectionFailed)
+                return
+            }
+            
+            guard error == nil else {
+                completion(nil, error)
+                print(error!.emojiMessage)
+                return
+            }
+        
+            #warning("Use AVAsset(url:) initializer to check the duration of the video, make sure it's under 5 minutes. Update documentation when this is done.")
+            
+            do {
+                let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                let videoDocumentsDirectoryURL = urls.first!.appending(path: "VideoEntry").appendingPathExtension("mov")
+                
+                if FileManager.default.fileExists(atPath: videoDocumentsDirectoryURL.path()) {
+                    try FileManager.default.removeItem(at: videoDocumentsDirectoryURL)
+                }
+                
+                try FileManager.default.moveItem(at: temporaryURL, to: videoDocumentsDirectoryURL)
+                completion(videoDocumentsDirectoryURL, nil)
+            } catch {
+                print(error.emojiMessage)
+            }
+        }
+    }
 }
 
 extension CreateVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
@@ -235,7 +297,7 @@ extension CreateVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
             return
         }
 
-        viewState = .videoRecordingCompleted(at: outputFileURL)
+        viewState = .videoEntryWasSelectedOrRecorded(at: outputFileURL)
 
         #warning("Move this code to view for uploading")
 //        Task {

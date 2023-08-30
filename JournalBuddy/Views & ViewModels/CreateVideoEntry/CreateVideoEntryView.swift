@@ -17,12 +17,17 @@ class CreateVideoEntryView: UIView, MainView {
         systemName: "arrow.triangle.2.circlepath.circle.fill",
         withConfiguration: .largeScale
     )!.withTintColor(.primaryElement)
+    private lazy var showVideoPickerImage = UIImage(
+        systemName: "photo.stack.fill",
+        withConfiguration: .largeScale
+    )!.withTintColor(.primaryElement)
 
     private lazy var backButton = SFSymbolButton(symbol: backButtonImage)
     private lazy var recordingTimerLabelBackground = UIView()
     /// Displays how long the user has been recording.
     lazy var recordingTimerLabel = UILabel()
     lazy var switchCameraButton = SFSymbolButton(symbol: switchCameraButtonImage)
+    private lazy var showVideoPickerButton = SFSymbolButton(symbol: showVideoPickerImage)
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
@@ -82,6 +87,10 @@ class CreateVideoEntryView: UIView, MainView {
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
         switchCameraButton.contentHorizontalAlignment = .fill
         switchCameraButton.contentVerticalAlignment = .fill
+        
+        showVideoPickerButton.addTarget(self, action: #selector(showVideoPickerButtonTapped), for: .touchUpInside)
+        showVideoPickerButton.contentHorizontalAlignment = .fill
+        showVideoPickerButton.contentVerticalAlignment = .fill
 
         startRecordingButton.backgroundColor = .clear
         startRecordingButton.layer.borderWidth = 3
@@ -102,7 +111,14 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func constrain() {
-        addConstrainedSubviews(videoPreview, backButton, recordingTimerLabelBackground, switchCameraButton, startRecordingButton)
+        addConstrainedSubviews(
+            videoPreview,
+            backButton,
+            recordingTimerLabelBackground,
+            switchCameraButton,
+            showVideoPickerButton,
+            startRecordingButton
+        )
         recordingTimerLabelBackground.addConstrainedSubview(recordingTimerLabel)
         startRecordingButton.addConstrainedSubviews(startRecordingButtonInnerRedView)
 
@@ -124,6 +140,11 @@ class CreateVideoEntryView: UIView, MainView {
             switchCameraButton.heightAnchor.constraint(equalToConstant: 35),
             switchCameraButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             switchCameraButton.widthAnchor.constraint(equalToConstant: 35),
+            
+            showVideoPickerButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            showVideoPickerButton.heightAnchor.constraint(equalToConstant: 45),
+            showVideoPickerButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            showVideoPickerButton.widthAnchor.constraint(equalToConstant: 45),
 
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),
@@ -191,10 +212,14 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     @objc func backButtonTapped() {
-        delegate?.addEditVideoEntryViewShouldDismiss()
+        delegate?.createVideoEntryViewControllerShouldDismiss()
     }
 
     @objc func switchCameraButtonTapped() {
         viewModel.switchCamera()
+    }
+    
+    @objc func showVideoPickerButtonTapped() {
+        delegate?.createVideoEntryViewControllerShouldPresentVideoPicker()
     }
 }

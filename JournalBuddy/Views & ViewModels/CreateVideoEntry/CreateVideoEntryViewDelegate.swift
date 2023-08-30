@@ -8,5 +8,6 @@
 import Foundation
 
 protocol CreateVideoEntryViewDelegate: AnyObject {
-    func addEditVideoEntryViewShouldDismiss()
+    func createVideoEntryViewControllerShouldDismiss()
+    func createVideoEntryViewControllerShouldPresentVideoPicker()
 }

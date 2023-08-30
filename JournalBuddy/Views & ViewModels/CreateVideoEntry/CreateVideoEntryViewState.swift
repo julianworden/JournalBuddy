@@ -8,5 +8,5 @@
 import Foundation
 
 enum CreateVideoEntryViewState: ViewState {
-    case displayingView, recordingVideo, videoRecordingCompleted(at: URL), error(message: String)
+    case displayingView, recordingVideo, videoEntryWasSelectedOrRecorded(at: URL), error(message: String)
 }

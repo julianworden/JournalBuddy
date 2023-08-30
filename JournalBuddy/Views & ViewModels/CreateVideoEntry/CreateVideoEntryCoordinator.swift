@@ -5,6 +5,7 @@
 //  Created by Julian Worden on 8/22/23.
 //
 
+import PhotosUI
 import UIKit
 
 @MainActor
@@ -52,10 +53,19 @@ final class CreateVideoEntryCoordinator: Coordinator {
 
         navigationController.pushViewController(uploadVideoViewController, animated: true)
     }
-}
-
-extension CreateVideoEntryCoordinator: CreateVideoEntryViewDelegate {
-    func addEditVideoEntryViewShouldDismiss() {
+    
+    func createVideoEntryViewControllerShouldDismiss() {
         navigationController.popViewController(animated: true)
     }
+    
+    func createVideoEntryViewControllerShouldPresentVideoPicker(_ viewController: CreateVideoEntryViewController) {
+        var videoPickerConfiguration = PHPickerConfiguration()
+        videoPickerConfiguration.filter = .videos
+        let videoPicker = PHPickerViewController(configuration: videoPickerConfiguration)
+        videoPicker.delegate = viewController
+        
+        navigationController.present(videoPicker, animated: true)
+    }
 }
+
+
