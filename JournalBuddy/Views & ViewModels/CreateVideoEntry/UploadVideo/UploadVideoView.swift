@@ -15,6 +15,9 @@ class UploadVideoView: UIView, MainView {
     private lazy var videoPlayerTimelineSlider = UISlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
     private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
+    
+    /// The timer that controls when the media controls are automatically hidden after they're shown.
+    var hideMediaControlsTimer: Timer?
 
     var viewModel: UploadVideoViewModel
     var cancellables = Set<AnyCancellable>()
@@ -84,6 +87,7 @@ class UploadVideoView: UIView, MainView {
             }
         }
 
+        // Necessary because AVPlayer's currentItem duration is not accessible until its status is .readyToPlay
         viewModel.videoPlayer.publisher(for: \.currentItem?.status)
             .sink { [weak self] status in
                 guard status == .readyToPlay,
@@ -108,8 +112,26 @@ class UploadVideoView: UIView, MainView {
     
     /// Configures the restart button when the video player's video reaches the end of its duration.
     func videoPlayerCurrentItemIsFinished() {
+        hideMediaControlsTimer?.invalidate()
+        hideMediaControlsTimer = nil
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(restartButtonTapped), newMediaButtonType: .restart)
         presentMediaControls()
+    }
+    
+    /// Starts a timer that fires every 1 second to determine when the media controls should automatically be hidden after the user has shown them. Hides media controls
+    /// after 2 seconds.
+    func startHideMediaControlsTimer() {
+        var timerDuration = 0
+        
+        hideMediaControlsTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
+            timerDuration += 1
+            
+            if timerDuration == 2 {
+                self?.dismissMediaControls()
+                self?.hideMediaControlsTimer?.invalidate()
+                self?.hideMediaControlsTimer = nil
+            }
+        })
     }
 
     @objc func playButtonTapped() {
@@ -133,6 +155,7 @@ class UploadVideoView: UIView, MainView {
     @objc func presentMediaControls() {
         videoPlayerView.removeGestureRecognizer(presentMediaControlsTapGestureRecognizer)
         videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
+        startHideMediaControlsTimer()
 
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterMediaButton.alpha = 1
