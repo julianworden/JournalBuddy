@@ -49,6 +49,10 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         view.recordingTimerLabel.text = "00:00 / 05:00"
         view.switchCameraButton.alpha = 1
         view.switchCameraButton.isEnabled = true
+        view.showVideoPickerButton.alpha = 1
+        view.showVideoPickerButton.isEnabled = true
+        view.backButton.alpha = 1
+        view.backButton.isEnabled = true
     }
     
     func configure() {

@@ -11,23 +11,23 @@ import UIKit
 class CreateVideoEntryView: UIView, MainView {
     private lazy var backButtonImage = UIImage(
         systemName: "chevron.left.circle.fill",
-        withConfiguration: .largeScale
-    )!.withTintColor(.primaryElement)
+        withConfiguration: .createVideoView
+    )!
     private lazy var switchCameraButtonImage = UIImage(
         systemName: "arrow.triangle.2.circlepath.circle.fill",
-        withConfiguration: .largeScale
-    )!.withTintColor(.primaryElement)
+        withConfiguration: .createVideoView
+    )!
     private lazy var showVideoPickerImage = UIImage(
-        systemName: "photo.stack.fill",
-        withConfiguration: .largeScale
-    )!.withTintColor(.primaryElement)
+        systemName: "photo.circle.fill",
+        withConfiguration: .createVideoView
+    )!
 
-    private lazy var backButton = SFSymbolButton(symbol: backButtonImage)
+    lazy var backButton = SFSymbolButton(symbol: backButtonImage)
     private lazy var recordingTimerLabelBackground = UIView()
     /// Displays how long the user has been recording.
     lazy var recordingTimerLabel = UILabel()
     lazy var switchCameraButton = SFSymbolButton(symbol: switchCameraButtonImage)
-    private lazy var showVideoPickerButton = SFSymbolButton(symbol: showVideoPickerImage)
+    lazy var showVideoPickerButton = SFSymbolButton(symbol: showVideoPickerImage)
     private lazy var videoPreview = VideoPreviewView()
     private lazy var startRecordingButton = UIView()
     private lazy var startRecordingButtonInnerRedView = UIView()
@@ -76,6 +76,7 @@ class CreateVideoEntryView: UIView, MainView {
         // Fill the bounds of the button with the image
         backButton.contentHorizontalAlignment = .fill
         backButton.contentVerticalAlignment = .fill
+        backButton.contentMode = .scaleAspectFit
 
         recordingTimerLabelBackground.backgroundColor = .primaryElement
         recordingTimerLabelBackground.layer.cornerRadius = 12
@@ -87,10 +88,12 @@ class CreateVideoEntryView: UIView, MainView {
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
         switchCameraButton.contentHorizontalAlignment = .fill
         switchCameraButton.contentVerticalAlignment = .fill
+        switchCameraButton.contentMode = .scaleAspectFit
         
         showVideoPickerButton.addTarget(self, action: #selector(showVideoPickerButtonTapped), for: .touchUpInside)
         showVideoPickerButton.contentHorizontalAlignment = .fill
         showVideoPickerButton.contentVerticalAlignment = .fill
+        showVideoPickerButton.contentMode = .scaleAspectFit
 
         startRecordingButton.backgroundColor = .clear
         startRecordingButton.layer.borderWidth = 3
@@ -124,9 +127,9 @@ class CreateVideoEntryView: UIView, MainView {
 
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            backButton.heightAnchor.constraint(equalToConstant: 35),
+            backButton.heightAnchor.constraint(equalToConstant: 38),
             backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            backButton.widthAnchor.constraint(equalToConstant: 35),
+            backButton.widthAnchor.constraint(equalToConstant: 38),
 
             recordingTimerLabelBackground.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
             recordingTimerLabelBackground.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -136,15 +139,15 @@ class CreateVideoEntryView: UIView, MainView {
             recordingTimerLabel.leadingAnchor.constraint(equalTo: recordingTimerLabelBackground.leadingAnchor, constant: 15),
             recordingTimerLabel.trailingAnchor.constraint(equalTo: recordingTimerLabelBackground.trailingAnchor, constant: -15),
 
-            switchCameraButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            switchCameraButton.heightAnchor.constraint(equalToConstant: 35),
+            switchCameraButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            switchCameraButton.heightAnchor.constraint(equalToConstant: 55),
             switchCameraButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            switchCameraButton.widthAnchor.constraint(equalToConstant: 35),
+            switchCameraButton.widthAnchor.constraint(equalToConstant: 55),
             
             showVideoPickerButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            showVideoPickerButton.heightAnchor.constraint(equalToConstant: 45),
+            showVideoPickerButton.heightAnchor.constraint(equalToConstant: 55),
             showVideoPickerButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            showVideoPickerButton.widthAnchor.constraint(equalToConstant: 45),
+            showVideoPickerButton.widthAnchor.constraint(equalToConstant: 55),
 
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),
@@ -190,6 +193,10 @@ class CreateVideoEntryView: UIView, MainView {
             self?.startRecordingButtonInnerRedView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             self?.switchCameraButton.alpha = 0
             self?.switchCameraButton.isEnabled = false
+            self?.showVideoPickerButton.alpha = 0
+            self?.showVideoPickerButton.isEnabled = false
+            self?.backButton.alpha = 0
+            self?.backButton.isEnabled = false
         }
 
         viewModel.startRecording()

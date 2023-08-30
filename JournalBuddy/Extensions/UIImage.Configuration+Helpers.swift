@@ -19,4 +19,8 @@ extension UIImage.Configuration {
     static var primaryElementColor: UIImage.SymbolConfiguration {
         return UIImage.SymbolConfiguration(paletteColors: [.primaryElement])
     }
+    
+    static var createVideoView: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(paletteColors: [.background, .primaryElement])
+    }
 }
