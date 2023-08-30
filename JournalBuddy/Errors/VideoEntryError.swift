@@ -8,7 +8,8 @@
 import Foundation
 
 enum VideoEntryError: LocalizedError {
-    case recordingSetupFailed, cameraSwitchingFailed, noFrontCameraFound, noBackCameraFound, noMicrophoneFound, videoSelectionFailed
+    case recordingSetupFailed, cameraSwitchingFailed, noFrontCameraFound, noBackCameraFound, noMicrophoneFound, videoSelectionFailed,
+    moreThanOneVideoEntryWasSelected
     
     var errorDescription: String? {
         switch self {
@@ -24,6 +25,8 @@ enum VideoEntryError: LocalizedError {
             return "We failed to locate your device's microphone. Please restart the app and try again."
         case .videoSelectionFailed:
             return "We were unable to locate the video you selected. Please restart the app and try again."
+        case .moreThanOneVideoEntryWasSelected:
+            return "We are unable to upload more than one video entry at a time. Please try again and only select one video entry to upload."
         }
     }
 }

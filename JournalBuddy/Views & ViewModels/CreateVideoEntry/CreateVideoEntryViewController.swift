@@ -89,13 +89,13 @@ extension CreateVideoEntryViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         
-        guard results.count == 1 else {
-            showError(VideoEntryError.videoSelectionFailed.localizedDescription)
+        guard results.count <= 1 else {
+            showError(VideoEntryError.moreThanOneVideoEntryWasSelected.localizedDescription)
             print("The user selected more than 1 video in the video picker.")
             return
         }
         
-        guard let selectedVideoResult = results.first else { return }
+        guard let selectedVideoResult = results.first else { /* User cancelled video picking */ return }
         
         viewModel.userDidSelectRecordedVideo(selectedVideoResult)
     }
