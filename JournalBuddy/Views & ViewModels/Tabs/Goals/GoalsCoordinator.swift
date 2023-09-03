@@ -42,7 +42,7 @@ final class GoalsCoordinator: Coordinator {
     
     func removeChildCoordinator(_ childCoordinator: Coordinator?) { }
 
-    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
+    func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 }

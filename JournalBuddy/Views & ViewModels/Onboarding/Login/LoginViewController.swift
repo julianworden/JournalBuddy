@@ -56,7 +56,7 @@ class LoginViewController: UIViewController, MainViewController {
     }
 
     func showError(_ errorMessage: String) {
-        coordinator?.viewController(self, shouldPresentErrorMessage: errorMessage)
+        coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
     }
 }
 

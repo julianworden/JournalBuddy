@@ -69,7 +69,7 @@ final class HomeCoordinator: NSObject, Coordinator {
         }
     }
 
-    func viewController(_ viewController: UIViewController, shouldPresentErrorMessage errorMessage: String) {
+    func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 
