@@ -15,6 +15,18 @@ class UploadVideoView: UIView, MainView {
     private lazy var videoPlayerTimelineSlider = UISlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
     private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
+    private lazy var underVideoPlayerStack = UIStackView(
+        arrangedSubviews: [
+            saveToDeviceToggleStack,
+            saveToDeviceExplanationLabel,
+            uploadButton
+        ]
+    )
+    private lazy var saveToDeviceLabel = UILabel()
+    private lazy var saveToDeviceSwitch = UISwitch()
+    private lazy var saveToDeviceToggleStack = UIStackView(arrangedSubviews: [saveToDeviceLabel, saveToDeviceSwitch])
+    private lazy var saveToDeviceExplanationLabel = UILabel()
+    private lazy var uploadButton = PrimaryButton(title: "Upload")
     
     /// The timer that controls when the media controls are automatically hidden after they're shown.
     var hideMediaControlsTimer: Timer?
@@ -51,31 +63,46 @@ class UploadVideoView: UIView, MainView {
         videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         videoPlayerCenterMediaButton.contentHorizontalAlignment = .fill
         videoPlayerCenterMediaButton.contentVerticalAlignment = .fill
-    }
-
-    func constrain() {
-        addConstrainedSubview(videoPlayerView)
-        videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
-
-        NSLayoutConstraint.activate([
-            videoPlayerView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
-            videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
-
-            videoPlayerCenterMediaButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
-            videoPlayerCenterMediaButton.heightAnchor.constraint(equalToConstant: 80),
-            videoPlayerCenterMediaButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
-            videoPlayerCenterMediaButton.widthAnchor.constraint(equalToConstant: 80),
-
-            videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
-            videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
-            videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10)
-        ])
+        
+        underVideoPlayerStack.axis = .vertical
+        underVideoPlayerStack.spacing = 15
+        
+        saveToDeviceToggleStack.distribution = .equalCentering
+        
+        saveToDeviceLabel.text = "Save to Device"
+        saveToDeviceLabel.font = UIFontMetrics.avenirNextRegularBody
+        saveToDeviceLabel.textAlignment = .left
+        saveToDeviceLabel.textColor = .primaryElement
+        saveToDeviceLabel.numberOfLines = 0
+        
+        saveToDeviceSwitch.onTintColor = .primaryElement
+        saveToDeviceSwitch.backgroundColor = .disabled
+        saveToDeviceSwitch.layer.cornerRadius = 16
+        saveToDeviceSwitch.thumbTintColor = .background
+        saveToDeviceSwitch.clipsToBounds = true
+        
+        let saveToDeviceExplanationLabelParagraphStyle = NSMutableParagraphStyle()
+        saveToDeviceExplanationLabelParagraphStyle.lineSpacing = 5
+        let saveToDeviceExplanationLabelText = NSMutableAttributedString(
+            string: "We recommend saving your entry to your device in case something goes wrong during uploading."
+        )
+        saveToDeviceExplanationLabelText.addAttribute(
+            .paragraphStyle,
+            value: saveToDeviceExplanationLabelParagraphStyle,
+            range: NSRange(location: 0, length: saveToDeviceExplanationLabelText.length)
+        )
+        saveToDeviceExplanationLabel.attributedText = saveToDeviceExplanationLabelText
+        saveToDeviceExplanationLabel.font = UIFontMetrics.avenirNextRegularFootnote
+        saveToDeviceExplanationLabel.textAlignment = .left
+        saveToDeviceExplanationLabel.textColor = .primaryElement
+        saveToDeviceExplanationLabel.numberOfLines = 0
+        
+        uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
     }
     
     func makeAccessible() {
-
+        saveToDeviceLabel.adjustsFontForContentSizeCategory = true
+        saveToDeviceExplanationLabel.adjustsFontForContentSizeCategory = true
     }
     
     func subscribeToPublishers() {
@@ -97,6 +124,33 @@ class UploadVideoView: UIView, MainView {
             }
             .store(in: &cancellables)
     }
+
+    func constrain() {
+        addConstrainedSubviews(videoPlayerView, underVideoPlayerStack)
+        videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
+
+        NSLayoutConstraint.activate([
+            videoPlayerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: -3),
+            videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
+            videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
+
+            videoPlayerCenterMediaButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
+            videoPlayerCenterMediaButton.heightAnchor.constraint(equalToConstant: 80),
+            videoPlayerCenterMediaButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
+            videoPlayerCenterMediaButton.widthAnchor.constraint(equalToConstant: 80),
+
+            videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
+            videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
+            videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10),
+            
+            underVideoPlayerStack.topAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: 15),
+            underVideoPlayerStack.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
+            underVideoPlayerStack.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
+            
+            uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 49)
+        ])
+    }
     
     /// Configures `videoPlayerCenterMediaButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
     /// `videoPlayerCenterMediaButton` changes to a pause button.
@@ -115,6 +169,7 @@ class UploadVideoView: UIView, MainView {
         hideMediaControlsTimer?.invalidate()
         hideMediaControlsTimer = nil
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(restartButtonTapped), newMediaButtonType: .restart)
+        #warning("Don't show timeline when video needs to be restarted, only show restart button.")
         presentMediaControls()
     }
     
@@ -175,5 +230,9 @@ class UploadVideoView: UIView, MainView {
 
     @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
         viewModel.seekVideoPlayer(to: Double(sender.value))
+    }
+    
+    @objc func uploadButtonTapped() {
+        
     }
 }
