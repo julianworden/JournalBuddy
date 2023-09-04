@@ -46,8 +46,15 @@ class UploadVideoViewController: UIViewController, MainViewController {
         navigationItem.largeTitleDisplayMode = .never
         hidesBottomBarWhenPushed = false
         navigationController?.isNavigationBarHidden = false
+        navigationItem.hidesBackButton = true
+        let backButtonView = BackButtonView(buttonTarget: self, buttonSelector: #selector(backButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
     }
 
+    @objc func backButtonTapped() {
+        coordinator?.presentUploadVideoViewControllerDismissConfirmation()
+    }
+    
     func subscribeToPublishers() {
 
     }

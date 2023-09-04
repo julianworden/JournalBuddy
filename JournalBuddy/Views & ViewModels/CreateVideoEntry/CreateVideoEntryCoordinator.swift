@@ -5,7 +5,7 @@
 //  Created by Julian Worden on 8/22/23.
 //
 
-import PhotosUI
+import AVFoundation
 import UIKit
 
 @MainActor
@@ -54,15 +54,29 @@ final class CreateVideoEntryCoordinator: Coordinator {
         navigationController.pushViewController(uploadVideoViewController, animated: true)
     }
     
-    func createVideoEntryViewControllerShouldDismiss() {
+    func dismissCreateVideoEntryViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func presentUploadVideoViewControllerDismissConfirmation() {
+        AlertPresenter.presentDestructiveConfirmationAlert(
+            message: "If you go back, your video entry will be discarded.",
+            confirmedWork: popCurrentViewController
+        )
+    }
+    
+    func popCurrentViewController() {
         navigationController.popViewController(animated: true)
     }
     
     func createVideoEntryViewControllerShouldPresentVideoPicker(_ viewController: CreateVideoEntryViewController) {
-        var videoPickerConfiguration = PHPickerConfiguration()
-        videoPickerConfiguration.filter = .videos
-        let videoPicker = PHPickerViewController(configuration: videoPickerConfiguration)
+        let videoPicker = UIImagePickerController()
         videoPicker.delegate = viewController
+        videoPicker.sourceType = .photoLibrary
+        videoPicker.mediaTypes = [UTType.movie.identifier]
+        videoPicker.videoMaximumDuration = 300
+        // Allow the user to trim the video to 5 minutes if it's too long.
+        videoPicker.allowsEditing = true
         
         navigationController.present(videoPicker, animated: true)
     }

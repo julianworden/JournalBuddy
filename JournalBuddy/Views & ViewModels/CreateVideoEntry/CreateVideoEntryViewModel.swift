@@ -7,57 +7,56 @@
 
 import AVFoundation
 import Foundation
-import PhotosUI
 
 #warning("If user has denied permission, we need to prompt them to go to settings to allow permissions.")
 
 @MainActor
 final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     @Published var viewState = CreateVideoEntryViewState.displayingView
-
+    
     let captureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     let videoOutput = AVCaptureMovieFileOutput()
     var recordingTimerStartDate: Date?
     var recordingTimer: Timer?
-
+    
     var recordingTimerDurationAsInt: Int {
         guard let recordingTimerStartDate else { return 0 }
-
+        
         return Int(Date.now.timeIntervalSince(recordingTimerStartDate))
     }
-
+    
     var videoCaptureIsAuthorized: Bool {
         get async {
             let status = AVCaptureDevice.authorizationStatus(for: .video)
-
+            
             var isAuthorized = status == .authorized
-
+            
             if !isAuthorized {
                 isAuthorized = await AVCaptureDevice.requestAccess(for: .video)
             }
-
+            
             return isAuthorized
         }
     }
-
+    
     var audioCaptureIsAuthorized: Bool {
         get async {
             let status = AVCaptureDevice.authorizationStatus(for: .audio)
-
+            
             var isAuthorized = status == .authorized
-
+            
             if !isAuthorized {
                 isAuthorized = await AVCaptureDevice.requestAccess(for: .audio)
             }
-
+            
             return isAuthorized
         }
     }
     
     func startRecording() {
         let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(("recordedvideo" as NSString).appendingPathExtension("mov")!)
-
+        
         do {
             if FileManager.default.fileExists(atPath: outputFilePath) {
                 try FileManager.default.removeItem(atPath: outputFilePath)
@@ -70,12 +69,13 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
             viewState = .error(message: error.localizedDescription)
         }
     }
-
+    
     func stopRecording() {
+        recordingTimer?.invalidate()
         videoOutput.stopRecording()
         recordingTimerStartDate = nil
     }
-
+    
     func switchCamera() {
         guard let currentVideoDeviceInput = videoDeviceInput else {
             viewState = .error(message: VideoEntryError.cameraSwitchingFailed.localizedDescription)
@@ -91,11 +91,15 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
+    func checkTimerDuration() {
+        
+    }
+    
     /// Configures `captureSession` to accept input from the user's front camera and microphone.
     func configureNewCaptureSession() async {
         guard await videoCaptureIsAuthorized,
               await audioCaptureIsAuthorized else { return }
-
+        
         do {
             captureSession.beginConfiguration()
             
@@ -154,7 +158,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         captureSession.addInput(videoInput)
         captureSession.addOutput(videoOutput)
     }
-
+    
     /// Gets the front camera device associated with the user's device. Throws an error if no front camera
     /// devices can be found.
     /// - Returns: The user's front camera device. If none is found in the  `AVCaptureDevice.DiscoverySession`,
@@ -222,66 +226,10 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    /// Handles changing the view state to push the user into the next view after they selected a video to upload as a video entry.
-    /// - Parameter selectedVideoResult: The picker result containing info about the video that the user selected.
-    func userDidSelectRecordedVideo(_ selectedVideoResult: PHPickerResult) {
-        movesSelectedRecordedVideoToPermanentURL(selectedVideoResult) { [weak self] permanentURL, error in
-            guard error == nil else {
-                self?.viewState = .error(message: error!.localizedDescription)
-                print(error!.emojiMessage)
-                return
-            }
-            
-            guard let permanentURL else {
-                self?.viewState = .error(message: VideoEntryError.videoSelectionFailed.localizedDescription)
-                print("New URL for selected video not found.")
-                return
-            }
-            
-            Task { @MainActor in
-                self?.viewState = .videoEntryWasSelectedOrRecorded(at: permanentURL)
-            }
-        }
-    }
-    
-    /// Moves the video entry that the user selected within a `PHPickerViewController` out of its temporary location created by iOS, and into a permanent URL in the
-    /// user's documents directory that the app can access at a later time for uploading. This is necessary because the
-    /// `itemProvider.loadFileRepresentation(forTypeIdentifier:completionHandler)` method on `PHPickerResult` stores the file in a temporary location
-    /// that it is deleted from after its `completionHandler` returns.
-    ///
-    /// This method only allows one video named VideoEntry.mov at a time to be stored in the user's document directory to prevent the app for storing unnecessarily large amounts of video data. If it finds another VideoEntry.mov in the user's documents directory, it will delete it before moving the the new video in `videoPickerResult` into the documents directory.
-    /// - Parameters:
-    ///   - videoPickerResult: The picker result containing info about the video that the user selected.
-    ///   - completion: The code to run after the video is successfully moved from the temporary URL to a permanent URL in the user's documents directory.
-    func movesSelectedRecordedVideoToPermanentURL(_ videoPickerResult: PHPickerResult, completion: @escaping (URL?, Error?) -> Void) {
-        videoPickerResult.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { temporaryURL, error in
-            guard let temporaryURL else {
-                completion(nil, VideoEntryError.videoSelectionFailed)
-                return
-            }
-            
-            guard error == nil else {
-                completion(nil, error)
-                print(error!.emojiMessage)
-                return
-            }
-        
-            #warning("Use AVAsset(url:) initializer to check the duration of the video, make sure it's under 5 minutes. Update documentation when this is done.")
-            
-            do {
-                let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                let videoDocumentsDirectoryURL = urls.first!.appending(path: "VideoEntry").appendingPathExtension("mov")
-                
-                if FileManager.default.fileExists(atPath: videoDocumentsDirectoryURL.path()) {
-                    try FileManager.default.removeItem(at: videoDocumentsDirectoryURL)
-                }
-                
-                try FileManager.default.moveItem(at: temporaryURL, to: videoDocumentsDirectoryURL)
-                completion(videoDocumentsDirectoryURL, nil)
-            } catch {
-                print(error.emojiMessage)
-            }
-        }
+    /// Changes the view state to push the user into UploadVideoViewController when they select a video.
+    /// - Parameter videoURL: The URL of the video that the user chose.
+    func userDidSelectRecordedVideo(at videoURL: URL) {
+        viewState = .videoEntryWasSelectedOrRecorded(at: videoURL)
     }
 }
 

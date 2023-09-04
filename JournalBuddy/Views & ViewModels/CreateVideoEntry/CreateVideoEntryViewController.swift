@@ -6,7 +6,6 @@
 //
 
 import Combine
-import PhotosUI
 import UIKit
 
 class CreateVideoEntryViewController: UIViewController, MainViewController {
@@ -56,6 +55,7 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
     }
     
     func configure() {
+        // Allows the camera view finder to go into the safe area
         viewRespectsSystemMinimumLayoutMargins = false
     }
     
@@ -81,7 +81,7 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
 
 extension CreateVideoEntryViewController: CreateVideoEntryViewDelegate {
     func createVideoEntryViewControllerShouldDismiss() {
-        coordinator?.createVideoEntryViewControllerShouldDismiss()
+        coordinator?.dismissCreateVideoEntryViewController()
     }
     
     func createVideoEntryViewControllerShouldPresentVideoPicker() {
@@ -89,18 +89,16 @@ extension CreateVideoEntryViewController: CreateVideoEntryViewDelegate {
     }
 }
 
-extension CreateVideoEntryViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+extension CreateVideoEntryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         
-        guard results.count <= 1 else {
-            showError(VideoEntryError.moreThanOneVideoEntryWasSelected.localizedDescription)
-            print("The user selected more than 1 video in the video picker.")
+        guard let videoNSURL = info[.mediaURL] as? NSURL else {
+            showError(VideoEntryError.videoSelectionFailed.localizedDescription)
+            print("❌ Failed to find the URL for the selected video.")
             return
         }
         
-        guard let selectedVideoResult = results.first else { /* User cancelled video picking */ return }
-        
-        viewModel.userDidSelectRecordedVideo(selectedVideoResult)
+        viewModel.userDidSelectRecordedVideo(at: videoNSURL.absoluteURL!)
     }
 }

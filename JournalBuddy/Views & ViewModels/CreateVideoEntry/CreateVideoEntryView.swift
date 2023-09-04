@@ -179,8 +179,13 @@ class CreateVideoEntryView: UIView, MainView {
     func startUpdatingRecordingTimerLabel() {
         viewModel.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             guard let self else { return }
-
-            self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+            
+            // Make sure the label isn't updated if the user tries to record for over 5 minutes
+            if viewModel.recordingTimerDurationAsInt > 300 {
+                stopRecording()
+            } else {
+                self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+            }
         }
     }
 
@@ -215,7 +220,6 @@ class CreateVideoEntryView: UIView, MainView {
         }
 
         viewModel.stopRecording()
-        viewModel.recordingTimer?.invalidate()
     }
 
     @objc func backButtonTapped() {
