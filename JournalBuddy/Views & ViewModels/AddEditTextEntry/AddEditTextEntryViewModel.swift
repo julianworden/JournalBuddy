@@ -88,7 +88,7 @@ final class AddEditTextEntryViewModel: MainViewModel {
                 text: entryText
             )
 
-            try await databaseService.saveEntry(textEntry)
+            try await databaseService.saveEntry(textEntry, at: nil)
             viewState = .textEntrySaved
         } catch {
             print(error.emojiMessage)

@@ -46,27 +46,18 @@ final class CreateVideoEntryCoordinator: Coordinator {
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
+    
+    // MARK: - CreateVideoEntryViewController
 
     func createVideoEntryViewDidFinishRecording(at videoURL: URL) {
-        let uploadVideoViewModel = UploadVideoViewModel(recordedVideoURL: videoURL)
-        let uploadVideoViewController = UploadVideoViewController(coordinator: self, viewModel: uploadVideoViewModel)
+        let uploadVideoViewModel = UploadVideoEntryViewModel(
+            recordedVideoURL: videoURL,
+            databaseService: databaseService,
+            authService: authService
+        )
+        let uploadVideoViewController = UploadVideoEntryViewController(coordinator: self, viewModel: uploadVideoViewModel)
 
         navigationController.pushViewController(uploadVideoViewController, animated: true)
-    }
-    
-    func dismissCreateVideoEntryViewController() {
-        navigationController.popViewController(animated: true)
-    }
-    
-    func presentUploadVideoViewControllerDismissConfirmation() {
-        AlertPresenter.presentDestructiveConfirmationAlert(
-            message: "If you go back, your video entry will be discarded.",
-            confirmedWork: popCurrentViewController
-        )
-    }
-    
-    func popCurrentViewController() {
-        navigationController.popViewController(animated: true)
     }
     
     func createVideoEntryViewControllerShouldPresentVideoPicker(_ viewController: CreateVideoEntryViewController) {
@@ -79,6 +70,23 @@ final class CreateVideoEntryCoordinator: Coordinator {
         videoPicker.allowsEditing = true
         
         navigationController.present(videoPicker, animated: true)
+    }
+    
+    // MARK: - UploadVideoEntryViewController
+    
+    func uploadVideoEntryViewControllerDidUploadVideo() {
+        navigationController.popToRootViewController(animated: true)
+    }
+    
+    func presentUploadVideoViewControllerDismissConfirmation() {
+        AlertPresenter.presentDestructiveConfirmationAlert(
+            message: "If you go back, your video entry will be discarded.",
+            confirmedWork: dismissCurrentViewController
+        )
+    }
+    
+    func dismissCurrentViewController() {
+        navigationController.popViewController(animated: true)
     }
 }
 

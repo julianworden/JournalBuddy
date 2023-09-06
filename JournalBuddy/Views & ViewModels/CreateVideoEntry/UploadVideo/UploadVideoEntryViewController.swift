@@ -1,5 +1,5 @@
 //
-//  UploadVideoViewController.swift
+//  UploadVideoEntryViewController.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/23/23.
@@ -8,12 +8,12 @@
 import Combine
 import UIKit
 
-class UploadVideoViewController: UIViewController, MainViewController {
+class UploadVideoEntryViewController: UIViewController, MainViewController {
     weak var coordinator: CreateVideoEntryCoordinator?
-    let viewModel: UploadVideoViewModel
+    let viewModel: UploadVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(coordinator: CreateVideoEntryCoordinator?, viewModel: UploadVideoViewModel) {
+    init(coordinator: CreateVideoEntryCoordinator?, viewModel: UploadVideoEntryViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
 
@@ -25,13 +25,14 @@ class UploadVideoViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = UploadVideoView(viewModel: viewModel)
+        view = UploadVideoEntryView(viewModel: viewModel)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configure()
+        subscribeToPublishers()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -56,7 +57,18 @@ class UploadVideoViewController: UIViewController, MainViewController {
     }
     
     func subscribeToPublishers() {
-
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .videoEntryWasCreated:
+                    self?.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
+                case .error(let message):
+                    self?.showError(message)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func showError(_ errorMessage: String) {

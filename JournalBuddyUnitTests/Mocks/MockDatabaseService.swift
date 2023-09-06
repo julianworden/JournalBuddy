@@ -41,11 +41,13 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func saveEntry<T: Entry>(_ entry: T) async throws -> T {
+    func saveEntry<T: Entry>(_ entry: T, at url: URL?) async throws -> T {
         do {
             switch entry.type {
             case .text:
                 return try await saveTextEntry(entry as! TextEntry) as! T
+            case .video:
+                return try await saveVideoEntry(entry as! VideoEntry, at: url!) as! T
             default:
                 fatalError("Entry type not implemented.")
             }
@@ -79,7 +81,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         return []
     }
 
-    func saveTextEntry(_ textEntry: JournalBuddy.TextEntry) async throws -> JournalBuddy.TextEntry {
+    func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
         if let errorToThrow {
             throw errorToThrow
         } else {
@@ -89,9 +91,32 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func updateTextEntry(_ textEntry: JournalBuddy.TextEntry) async throws {
+    func updateTextEntry(_ textEntry: TextEntry) async throws {
         if let errorToThrow {
             throw errorToThrow
         }
+    }
+    
+    // MARK: - VideoEntry
+    
+    func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            var newVideoEntry = videoEntry
+            newVideoEntry.downloadURL = "https://exampledownloadurl.com"
+            newVideoEntry.id = UUID().uuidString
+            return newVideoEntry
+        }
+    }
+    
+    // MARK: - Firebase Storage
+    
+    func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+        
+        return url
     }
 }

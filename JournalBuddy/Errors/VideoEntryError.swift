@@ -9,7 +9,7 @@ import Foundation
 
 enum VideoEntryError: LocalizedError {
     case recordingSetupFailed, cameraSwitchingFailed, noFrontCameraFound, noBackCameraFound, noMicrophoneFound, videoSelectionFailed,
-    moreThanOneVideoEntryWasSelected
+    moreThanOneVideoEntryWasSelected, uploadFailed, conversionToDataTypeFailed, failedToFetchDownloadURL
     
     var errorDescription: String? {
         switch self {
@@ -27,6 +27,12 @@ enum VideoEntryError: LocalizedError {
             return "We were unable to locate the video you selected. Please restart the app and try again."
         case .moreThanOneVideoEntryWasSelected:
             return "We are unable to upload more than one video entry at a time. Please try again and only select one video entry to upload."
+        case .uploadFailed:
+            return "Something went wrong while we were trying to upload your video entry. Please try again."
+        case .conversionToDataTypeFailed:
+            return "We failed to encode your video. Please try again."
+        case .failedToFetchDownloadURL:
+            return "We failed to associate your video entry with a URL. Please contact support."
         }
     }
 }

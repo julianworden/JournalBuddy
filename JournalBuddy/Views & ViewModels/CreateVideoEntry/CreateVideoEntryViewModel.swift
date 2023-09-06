@@ -91,10 +91,6 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    func checkTimerDuration() {
-        
-    }
-    
     /// Configures `captureSession` to accept input from the user's front camera and microphone.
     func configureNewCaptureSession() async {
         guard await videoCaptureIsAuthorized,
@@ -226,7 +222,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    /// Changes the view state to push the user into UploadVideoViewController when they select a video.
+    /// Changes the view state to push the user into UploadVideoEntryViewController when they select a video.
     /// - Parameter videoURL: The URL of the video that the user chose.
     func userDidSelectRecordedVideo(at videoURL: URL) {
         viewState = .videoEntryWasSelectedOrRecorded(at: videoURL)

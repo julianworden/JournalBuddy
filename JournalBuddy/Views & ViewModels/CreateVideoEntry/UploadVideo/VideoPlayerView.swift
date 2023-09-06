@@ -9,7 +9,6 @@ import AVFoundation
 import UIKit
 
 class VideoPlayerView: UIView {
-    // The associated player object.
     var player: AVPlayer? {
         get { playerLayer.player }
         set { playerLayer.player = newValue }

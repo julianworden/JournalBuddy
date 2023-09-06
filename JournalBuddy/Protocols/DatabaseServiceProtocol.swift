@@ -12,11 +12,14 @@ protocol DatabaseServiceProtocol {
     func createUser(_ user: User) async throws
 
     func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T]
-    @discardableResult func saveEntry<T: Entry>(_ entry: T) async throws -> T
+    @discardableResult func saveEntry<T: Entry>(_ entry: T, at url: URL?) async throws -> T
     func updateEntry<T: Entry>(_ entry: T) async throws
     func deleteEntry<T: Entry>(_ entry: T) async throws
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry]
     func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry
     func updateTextEntry(_ textEntry: TextEntry) async throws
+    
+    func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry
+    func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL
 }

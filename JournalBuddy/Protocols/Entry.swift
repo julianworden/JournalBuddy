@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Entry: Codable, Identifiable {
-    var id: String { get set }
+    var id: String { get }
     var creatorUID: String { get }
     var unixDate: Double { get }
     var type: EntryType { get }

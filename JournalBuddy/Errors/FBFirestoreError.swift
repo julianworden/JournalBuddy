@@ -15,11 +15,11 @@ enum FBFirestoreError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .fetchDataFailed(let systemError):
-            return "Failed to fetch data, please try again. System Error: \(systemError)"
+            return "Failed to fetch data, please try again. System error: \(systemError)"
         case .saveDataFailed(let systemError):
-            return "Failed to save data, please try again. System Error: \(systemError)"
+            return "Failed to save data, please try again. System error: \(systemError)"
         case .updateDataFailed(let systemError):
-            return "Failed to update data, please try again. System Error: \(systemError)"
+            return "Failed to update data, please try again. System error: \(systemError)"
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  UploadVideoView.swift
+//  UploadVideoEntryView.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/23/23.
@@ -9,7 +9,7 @@ import Combine
 import CoreMedia
 import UIKit
 
-class UploadVideoView: UIView, MainView {
+class UploadVideoEntryView: UIView, MainView {
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
     private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
     private lazy var videoPlayerTimelineSlider = UISlider()
@@ -31,10 +31,10 @@ class UploadVideoView: UIView, MainView {
     /// The timer that controls when the media controls are automatically hidden after they're shown.
     var hideMediaControlsTimer: Timer?
 
-    var viewModel: UploadVideoViewModel
+    var viewModel: UploadVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: UploadVideoViewModel) {
+    init(viewModel: UploadVideoEntryViewModel) {
         self.viewModel = viewModel
 
         super.init(frame: .zero)
@@ -233,6 +233,8 @@ class UploadVideoView: UIView, MainView {
     }
     
     @objc func uploadButtonTapped() {
-        
+        Task {
+            await viewModel.uploadButtonTapped()
+        }
     }
 }
