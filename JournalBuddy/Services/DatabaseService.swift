@@ -121,6 +121,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.entries)
+                .whereField(FBConstants.type, isEqualTo: EntryType.text.rawValue)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: TextEntry.self) }

@@ -117,6 +117,31 @@ class EntriesViewController: UIViewController, MainViewController {
     func showError(_ errorMessage: String) {
         self.coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
     }
+    
+    /// Adds a `dismissCustomMenuGestureRecognizer` to all elements in the view so that `createNewEntryMenu` is dismissable by tapping anywhere
+    /// on the screen. Called when
+    func addCustomMenuDismissGestureRecognizer() {
+        view.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+        coordinator?.navigationController.navigationBar.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
+
+        tabBarControllerView.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
+    }
+
+    /// Removes `dismissCustomMenuGestureRecognizer` from all elements in the view so that it doesn't block the user
+    /// from being able to interact with UI elements. Called when `createNewEntryMenu` is dismissed.
+    /// on the screen when it's visible.
+    func removeCustomMenuDismissGestureRecognizer() {
+        view.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
+        coordinator?.navigationController.navigationBar.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
+
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
+
+        tabBarControllerView.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
+    }
 
     @objc func createEntryButtonTapped() {
         // Prevent visual bug that occurs if the user taps the menu button twice very quickly
@@ -152,31 +177,6 @@ class EntriesViewController: UIViewController, MainViewController {
         createNewEntryMenu.dismiss { [weak self] in
             self?.viewModel.customMenuIsShowing = false
         }
-    }
-    
-    /// Adds a `dismissCustomMenuGestureRecognizer` to all elements in the view so that `createNewEntryMenu` is dismissable by tapping anywhere
-    /// on the screen. Called when
-    func addCustomMenuDismissGestureRecognizer() {
-        view.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
-        coordinator?.navigationController.navigationBar.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
-
-        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
-              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
-
-        tabBarControllerView.addGestureRecognizer(dismissCustomMenuGestureRecognizer)
-    }
-
-    /// Removes `dismissCustomMenuGestureRecognizer` from all elements in the view so that it doesn't block the user
-    /// from being able to interact with UI elements. Called when `createNewEntryMenu` is dismissed.
-    /// on the screen when it's visible.
-    func removeCustomMenuDismissGestureRecognizer() {
-        view.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
-        coordinator?.navigationController.navigationBar.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
-
-        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
-              let tabBarControllerView = currentUIWindow.rootViewController?.view else { return }
-
-        tabBarControllerView.removeGestureRecognizer(dismissCustomMenuGestureRecognizer)
     }
 }
 
