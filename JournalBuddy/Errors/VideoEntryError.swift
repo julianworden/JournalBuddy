@@ -8,8 +8,17 @@
 import Foundation
 
 enum VideoEntryError: LocalizedError {
-    case recordingSetupFailed, cameraSwitchingFailed, noFrontCameraFound, noBackCameraFound, noMicrophoneFound, videoSelectionFailed,
-    moreThanOneVideoEntryWasSelected, uploadFailed, conversionToDataTypeFailed, failedToFetchDownloadURL
+    case recordingSetupFailed
+    case cameraSwitchingFailed
+    case noFrontCameraFound
+    case noBackCameraFound
+    case noMicrophoneFound
+    case videoSelectionFailed
+    case moreThanOneVideoEntryWasSelected
+    case uploadFailed
+    case conversionToDataTypeFailed
+    case failedToFetchDownloadURL
+    case insufficientPermissions
     
     var errorDescription: String? {
         switch self {
@@ -33,6 +42,8 @@ enum VideoEntryError: LocalizedError {
             return "We failed to encode your video. Please try again."
         case .failedToFetchDownloadURL:
             return "We failed to associate your video entry with a URL. Please contact support."
+        case .insufficientPermissions:
+            return "We do not have permission to access the file you selected. Please try again."
         }
     }
 }

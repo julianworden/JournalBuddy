@@ -45,7 +45,6 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.title = "Upload Video Entry"
         navigationItem.largeTitleDisplayMode = .never
-        hidesBottomBarWhenPushed = false
         navigationController?.isNavigationBarHidden = false
         navigationItem.hidesBackButton = true
         let backButtonView = BackButtonView(buttonTarget: self, buttonSelector: #selector(backButtonTapped))

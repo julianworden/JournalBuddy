@@ -222,10 +222,23 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    /// Changes the view state to push the user into UploadVideoEntryViewController when they select a video.
+    /// Changes the view state to push the user into UploadVideoEntryViewController when they select a video from a `UIImagePickerController` library.
     /// - Parameter videoURL: The URL of the video that the user chose.
     func userDidSelectRecordedVideo(at videoURL: URL) {
-        viewState = .videoEntryWasSelectedOrRecorded(at: videoURL)
+        do {
+            let documentsURL = URL.documentsDirectory.appending(path: "videoentry").appendingPathExtension("mov")
+            
+            if FileManager.default.fileExists(atPath: documentsURL.path()) {
+                try FileManager.default.removeItem(at: documentsURL)
+            }
+            
+            try FileManager.default.copyItem(at: videoURL, to: documentsURL)
+            
+            viewState = .videoEntryWasSelectedOrRecorded(at: documentsURL, videoWasSelectedFromLibrary: true)
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: VideoEntryError.insufficientPermissions.localizedDescription)
+        }
     }
 }
 
@@ -241,23 +254,6 @@ extension CreateVideoEntryViewModel: AVCaptureFileOutputRecordingDelegate {
             return
         }
 
-        viewState = .videoEntryWasSelectedOrRecorded(at: outputFileURL)
-
-        #warning("Move this code to view for uploading")
-//        Task {
-//            let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
-//            if photoLibraryAuthorizationStatus == .authorized {
-//                do {
-//                    try await PHPhotoLibrary.shared().performChanges {
-//                        let options = PHAssetResourceCreationOptions()
-//                        options.shouldMoveFile = true
-//                        let creationRequest = PHAssetCreationRequest.forAsset()
-//                        creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
-//                    }
-//                } catch {
-//                    print(error.emojiMessage)
-//                }
-//            }
-//        }
+        viewState = .videoEntryWasSelectedOrRecorded(at: outputFileURL, videoWasSelectedFromLibrary: false)
     }
 }

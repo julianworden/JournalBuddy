@@ -23,14 +23,16 @@ final class UploadVideoViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.viewState, .displayingView)
         XCTAssertEqual(sut.recordedVideoURL, URL(string: "https://example.com")!)
         XCTAssertNil(sut.videoPlayerPeriodicTimeObserver)
+        XCTAssertFalse(sut.saveVideoToDevice)
+        XCTAssertTrue(sut.videoWasSelectedFromLibrary)
     }
     
-    func test_OnSuccessfullySaveVideoEntry_ViewStateIsUpdated() async {
+    func test_OnSuccessfullyUploadVideoEntry_ViewStateIsUpdated() async {
         initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
         
-        await sut.uploadButtonTapped()
+        await sut.uploadVideo()
         
-        XCTAssertEqual(sut.viewState, .videoEntryWasCreated)
+        XCTAssertEqual(sut.viewState, .videoEntryWasUploaded)
     }
     
     func test_OnUnSuccessfullySaveVideoEntry_ViewStateIsUpdated() async {
@@ -44,6 +46,7 @@ final class UploadVideoViewModelUnitTests: XCTestCase {
     func initializeSUTWith(databaseServiceError: Error?, authServiceError: Error?) {
         sut = UploadVideoEntryViewModel(
             recordedVideoURL: URL(string: "https://example.com")!,
+            videoWasSelectedFromLibrary: true,
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
             authService: MockAuthService(errorToThrow: authServiceError)
         )

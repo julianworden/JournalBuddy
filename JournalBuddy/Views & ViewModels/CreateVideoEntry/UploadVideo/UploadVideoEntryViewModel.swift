@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import Photos
 
 @MainActor
 final class UploadVideoEntryViewModel: MainViewModel {
@@ -17,10 +18,13 @@ final class UploadVideoEntryViewModel: MainViewModel {
     var videoPlayerPeriodicTimeObserver: Any?
     
     @Published var viewState = UploadVideoEntryViewState.displayingView
+    var saveVideoToDevice = false
 
+    let recordedVideoURL: URL
+    /// Indicates whether or not the user is uploading a video entry directly from their photo library or not.
+    let videoWasSelectedFromLibrary: Bool
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
-    let recordedVideoURL: URL
 
     var videoPlayerCurrentItemLengthInSeconds: Double {
         guard let currentItem = videoPlayer.currentItem else {
@@ -30,8 +34,14 @@ final class UploadVideoEntryViewModel: MainViewModel {
         return currentItem.duration.seconds
     }
 
-    init(recordedVideoURL: URL, databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol) {
+    init(
+        recordedVideoURL: URL,
+        videoWasSelectedFromLibrary: Bool,
+        databaseService: DatabaseServiceProtocol,
+        authService: AuthServiceProtocol
+    ) {
         self.recordedVideoURL = recordedVideoURL
+        self.videoWasSelectedFromLibrary = videoWasSelectedFromLibrary
         self.databaseService = databaseService
         self.authService = authService
     }
@@ -54,6 +64,14 @@ final class UploadVideoEntryViewModel: MainViewModel {
     }
     
     func uploadButtonTapped() async {
+        if saveVideoToDevice {
+            await saveVideoToDevice()
+        }
+        
+        await uploadVideo()
+    }
+    
+    func uploadVideo() async {
         do {
             viewState = .videoEntryIsUploading
             
@@ -67,9 +85,38 @@ final class UploadVideoEntryViewModel: MainViewModel {
             
             try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
             viewState = .videoEntryWasUploaded
+            
+            // Don't take up unnecessary storage on the user's device
+            do {
+                try FileManager.default.removeItem(at: recordedVideoURL)
+            } catch {
+                print("❌ Failed to delete item from local device storage.\n\(error.emojiMessage)")
+            }
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
+        }
+    }
+    
+    func saveVideoToDevice() async {
+        let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+        if photoLibraryAuthorizationStatus == .authorized {
+            do {
+                viewState = .videoEntryIsSavingToDevice
+                
+                try await PHPhotoLibrary.shared().performChanges { [weak self] in
+                    guard let self else { return }
+                    
+                    let options = PHAssetResourceCreationOptions()
+                    let creationRequest = PHAssetCreationRequest.forAsset()
+                    creationRequest.addResource(with: .video, fileURL: self.recordedVideoURL, options: options)
+                }
+                
+                viewState = .videoEntryWasSavedToDevice
+            } catch {
+                print(error.emojiMessage)
+                viewState = .error(message: error.localizedDescription)
+            }
         }
     }
 }

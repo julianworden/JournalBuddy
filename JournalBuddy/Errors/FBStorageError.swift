@@ -8,12 +8,12 @@
 import Foundation
 
 enum FBStorageError: LocalizedError {
-    case saveDataFailed(systemError: String)
+    case uploadDataFailed(systemError: String)
     
     var errorDescription: String? {
         switch self {
-        case .saveDataFailed(let systemError):
-            return "Failed to save data, please try again. System error: \(systemError)"
+        case .uploadDataFailed(let systemError):
+            return "Failed to upload data, please try again. System error: \(systemError)"
         }
     }
 }

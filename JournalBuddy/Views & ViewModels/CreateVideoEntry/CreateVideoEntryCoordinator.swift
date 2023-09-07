@@ -49,9 +49,10 @@ final class CreateVideoEntryCoordinator: Coordinator {
     
     // MARK: - CreateVideoEntryViewController
 
-    func createVideoEntryViewDidFinishRecording(at videoURL: URL) {
+    func createVideoEntryViewDidFinishRecording(at videoURL: URL, videoWasSelectedFromLibrary: Bool) {
         let uploadVideoViewModel = UploadVideoEntryViewModel(
             recordedVideoURL: videoURL,
+            videoWasSelectedFromLibrary: videoWasSelectedFromLibrary,
             databaseService: databaseService,
             authService: authService
         )

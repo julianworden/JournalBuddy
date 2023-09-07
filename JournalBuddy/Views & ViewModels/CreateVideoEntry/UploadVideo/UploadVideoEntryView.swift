@@ -20,7 +20,8 @@ class UploadVideoEntryView: UIView, MainView {
             saveToDeviceToggleStack,
             saveToDeviceExplanationLabel,
             uploadButton,
-            uploadingProgressViewStack
+            savingToDeviceStack,
+            uploadingStack
         ]
     )
     private lazy var saveToDeviceToggleStack = UIStackView(arrangedSubviews: [saveToDeviceLabel, saveToDeviceSwitch])
@@ -28,7 +29,10 @@ class UploadVideoEntryView: UIView, MainView {
     private lazy var saveToDeviceSwitch = UISwitch()
     private lazy var saveToDeviceExplanationLabel = UILabel()
     private lazy var uploadButton = PrimaryButton(title: "Upload")
-    private lazy var uploadingProgressViewStack = UIStackView(arrangedSubviews: [uploadingProgressView, uploadingProgressViewLabelStack])
+    private lazy var savingToDeviceStack = UIStackView(arrangedSubviews: [savingToDeviceProgressView, savingToDeviceLabel])
+    private lazy var savingToDeviceProgressView = UIProgressView(progressViewStyle: .bar)
+    private lazy var savingToDeviceLabel = UILabel()
+    private lazy var uploadingStack = UIStackView(arrangedSubviews: [uploadingProgressView, uploadingProgressViewLabelStack])
     private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
     private lazy var uploadingProgressViewLabelStack = UIStackView(
         arrangedSubviews: [
@@ -41,15 +45,15 @@ class UploadVideoEntryView: UIView, MainView {
     
     /// The timer that controls when the media controls are automatically hidden after they're shown.
     var hideMediaControlsTimer: Timer?
-
+    
     var viewModel: UploadVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
-
+    
     init(viewModel: UploadVideoEntryViewModel) {
         self.viewModel = viewModel
-
+        
         super.init(frame: .zero)
-
+        
         configure()
         subscribeToPublishers()
         constrain()
@@ -58,19 +62,19 @@ class UploadVideoEntryView: UIView, MainView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func configure() {
         backgroundColor = .background
-
+        
         videoPlayerTimelineSlider.tintColor = .primaryElement
         videoPlayerTimelineSlider.minimumValue = 0
         videoPlayerTimelineSlider.maximumValue = 1
         videoPlayerTimelineSlider.thumbTintColor = .background
         videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
         videoPlayerTimelineSlider.isContinuous = false
-
+        
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
-
+        
         videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         videoPlayerCenterMediaButton.contentHorizontalAlignment = .fill
         videoPlayerCenterMediaButton.contentVerticalAlignment = .fill
@@ -78,57 +82,18 @@ class UploadVideoEntryView: UIView, MainView {
         underVideoPlayerStack.axis = .vertical
         underVideoPlayerStack.spacing = 15
         
-        saveToDeviceToggleStack.distribution = .equalCentering
-        
-        saveToDeviceLabel.text = "Save to Device"
-        saveToDeviceLabel.font = UIFontMetrics.avenirNextRegularBody
-        saveToDeviceLabel.textAlignment = .left
-        saveToDeviceLabel.textColor = .primaryElement
-        saveToDeviceLabel.numberOfLines = 0
-        
-        saveToDeviceSwitch.onTintColor = .primaryElement
-        saveToDeviceSwitch.backgroundColor = .disabled
-        saveToDeviceSwitch.layer.cornerRadius = 16
-        saveToDeviceSwitch.thumbTintColor = .background
-        saveToDeviceSwitch.clipsToBounds = true
-        
-        let saveToDeviceExplanationLabelParagraphStyle = NSMutableParagraphStyle()
-        saveToDeviceExplanationLabelParagraphStyle.lineSpacing = 5
-        let saveToDeviceExplanationLabelText = NSMutableAttributedString(
-            string: "We recommend saving your entry to your device in case something goes wrong during uploading."
-        )
-        saveToDeviceExplanationLabelText.addAttribute(
-            .paragraphStyle,
-            value: saveToDeviceExplanationLabelParagraphStyle,
-            range: NSRange(location: 0, length: saveToDeviceExplanationLabelText.length)
-        )
-        saveToDeviceExplanationLabel.attributedText = saveToDeviceExplanationLabelText
-        saveToDeviceExplanationLabel.font = UIFontMetrics.avenirNextRegularFootnote
-        saveToDeviceExplanationLabel.textAlignment = .left
-        saveToDeviceExplanationLabel.textColor = .primaryElement
-        saveToDeviceExplanationLabel.numberOfLines = 0
+        if viewModel.videoWasSelectedFromLibrary {
+            // No need to offer the user the option to save to device if they're uploading a video
+            // that's already on their device
+            saveToDeviceToggleStack.isHidden = true
+        } else {
+            configureSaveToDeviceToggleUI()
+        }
         
         uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
         
-        uploadingProgressViewStack.isHidden = true
-        uploadingProgressViewStack.axis = .vertical
-        uploadingProgressViewStack.spacing = 7
-        uploadingProgressViewStack.alignment = .leading
-        
-        uploadingProgressView.layer.cornerRadius = 6
-        uploadingProgressView.clipsToBounds = true
-        uploadingProgressView.progressTintColor = .primaryElement
-        uploadingProgressView.trackTintColor = .disabled
-        
-        uploadingProgressViewLabelStack.spacing = 5                                                           
-        
-        uploadingProgressViewLabel.text = "Uploading..."
-        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
-        uploadingProgressViewLabel.textColor = .primaryElement
-        
-        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
-        uploadingProgressViewActivityIndicator.isHidden = true
-        uploadingProgressViewActivityIndicator.color = .primaryElement
+        savingToDeviceStack.isHidden = true
+        uploadingStack.isHidden = true
     }
     
     func makeAccessible() {
@@ -140,12 +105,25 @@ class UploadVideoEntryView: UIView, MainView {
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
+                guard let self else { return }
+                
                 switch viewState {
+                case .videoEntryIsSavingToDevice:
+                    self.configureSavingToDeviceProgressViewUI()
+                    self.presentSavingToDeviceUI()
+                    self.configureUploadingProgressViewUI()
+                    self.presentUploadingUI()
+                case .videoEntryWasSavedToDevice:
+                    self.savingToDeviceProgressView.setProgress(1.0, animated: true)
                 case .videoEntryIsUploading:
-                    self?.configureUploadingUI()
+                    // If video was saved to device, uploading UI was already configured
+                    if !self.viewModel.saveVideoToDevice {
+                        self.configureUploadingProgressViewUI()
+                        self.presentUploadingUI()
+                    }
                 case .videoEntryWasUploaded:
-                    self?.uploadingProgressViewLabel.text = "Uploaded."
-                    self?.uploadingProgressViewActivityIndicator.isHidden = true
+                    self.uploadingProgressViewLabel.text = "Uploaded."
+                    self.uploadingProgressViewActivityIndicator.isHidden = true
                 default:
                     break
                 }
@@ -167,41 +145,41 @@ class UploadVideoEntryView: UIView, MainView {
                 }
             }
             .store(in: &cancellables)
-
+        
         viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
             self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
-
+            
             if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
                 self?.videoPlayerCurrentItemIsFinished()
             }
         }
-
+        
         // Necessary because AVPlayer's currentItem duration is not accessible until its status is .readyToPlay
         viewModel.videoPlayer.publisher(for: \.currentItem?.status)
             .sink { [weak self] status in
                 guard status == .readyToPlay,
                       let self else { return }
-
+                
                 self.videoPlayerTimelineSlider.maximumValue = Float(self.viewModel.videoPlayerCurrentItemLengthInSeconds)
             }
             .store(in: &cancellables)
     }
-
+    
     func constrain() {
         addConstrainedSubviews(videoPlayerView, underVideoPlayerStack)
         videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
-
+        
         NSLayoutConstraint.activate([
             videoPlayerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: -3),
             videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
             videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
-
+            
             videoPlayerCenterMediaButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
             videoPlayerCenterMediaButton.heightAnchor.constraint(equalToConstant: 80),
             videoPlayerCenterMediaButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
             videoPlayerCenterMediaButton.widthAnchor.constraint(equalToConstant: 80),
-
+            
             videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
             videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
             videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10),
@@ -212,10 +190,99 @@ class UploadVideoEntryView: UIView, MainView {
             
             uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 49),
             
+            savingToDeviceProgressView.heightAnchor.constraint(equalToConstant: 12),
+            savingToDeviceProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
+            savingToDeviceProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
+            
             uploadingProgressView.heightAnchor.constraint(equalToConstant: 12),
             uploadingProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
             uploadingProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor)
         ])
+    }
+    
+    func configureSaveToDeviceToggleUI() {
+        saveToDeviceToggleStack.distribution = .equalCentering
+        
+        saveToDeviceLabel.text = "Save to Device"
+        saveToDeviceLabel.font = UIFontMetrics.avenirNextRegularBody
+        saveToDeviceLabel.textAlignment = .left
+        saveToDeviceLabel.textColor = .primaryElement
+        saveToDeviceLabel.numberOfLines = 0
+        
+        saveToDeviceSwitch.onTintColor = .primaryElement
+        saveToDeviceSwitch.backgroundColor = .disabled
+        saveToDeviceSwitch.layer.cornerRadius = 16
+        saveToDeviceSwitch.thumbTintColor = .background
+        saveToDeviceSwitch.clipsToBounds = true
+        saveToDeviceSwitch.addTarget(self, action: #selector(saveToDeviceSwitchTapped), for: .valueChanged)
+        
+        let saveToDeviceExplanationLabelParagraphStyle = NSMutableParagraphStyle()
+        saveToDeviceExplanationLabelParagraphStyle.lineSpacing = 5
+        let saveToDeviceExplanationLabelText = NSMutableAttributedString(
+            string: "We recommend saving your entry to your device in case something goes wrong during uploading."
+        )
+        saveToDeviceExplanationLabelText.addAttribute(
+            .paragraphStyle,
+            value: saveToDeviceExplanationLabelParagraphStyle,
+            range: NSRange(location: 0, length: saveToDeviceExplanationLabelText.length)
+        )
+        saveToDeviceExplanationLabel.attributedText = saveToDeviceExplanationLabelText
+        saveToDeviceExplanationLabel.font = UIFontMetrics.avenirNextRegularFootnote
+        saveToDeviceExplanationLabel.textAlignment = .left
+        saveToDeviceExplanationLabel.textColor = .primaryElement
+        saveToDeviceExplanationLabel.numberOfLines = 0
+    }
+    
+    func configureSavingToDeviceProgressViewUI() {
+        savingToDeviceStack.axis = .vertical
+        savingToDeviceStack.spacing = 7
+        savingToDeviceStack.alignment = .leading
+        
+        savingToDeviceProgressView.layer.cornerRadius = 6
+        savingToDeviceProgressView.clipsToBounds = true
+        savingToDeviceProgressView.progressTintColor = .primaryElement
+        savingToDeviceProgressView.trackTintColor = .disabled
+        
+        savingToDeviceLabel.font = UIFontMetrics.avenirNextBoldFootnote
+        savingToDeviceLabel.textColor = .primaryElement
+    }
+    
+    func configureUploadingProgressViewUI() {
+        uploadingStack.axis = .vertical
+        uploadingStack.spacing = 7
+        uploadingStack.alignment = .leading
+        
+        uploadingProgressView.layer.cornerRadius = 6
+        uploadingProgressView.clipsToBounds = true
+        uploadingProgressView.progressTintColor = .primaryElement
+        uploadingProgressView.trackTintColor = .disabled
+        
+        uploadingProgressViewLabelStack.spacing = 5
+        
+        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
+        uploadingProgressViewLabel.textColor = .primaryElement
+        
+        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
+        uploadingProgressViewActivityIndicator.isHidden = true
+        uploadingProgressViewActivityIndicator.color = .primaryElement
+    }
+    
+    func presentUploadingUI() {
+        uploadingProgressViewLabel.text = "Uploading..."
+        savingToDeviceLabel.text = "Saved."
+        uploadingStack.isHidden = false
+        saveToDeviceToggleStack.isHidden = true
+        saveToDeviceExplanationLabel.isHidden = true
+        uploadButton.isHidden = true
+    }
+    
+    func presentSavingToDeviceUI() {
+        savingToDeviceLabel.text = "Saving..."
+        uploadingProgressViewLabel.text = "Waiting..."
+        savingToDeviceStack.isHidden = false
+        saveToDeviceToggleStack.isHidden = true
+        saveToDeviceExplanationLabel.isHidden = true
+        uploadButton.isHidden = true
     }
     
     /// Configures `videoPlayerCenterMediaButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
@@ -235,7 +302,7 @@ class UploadVideoEntryView: UIView, MainView {
         hideMediaControlsTimer?.invalidate()
         hideMediaControlsTimer = nil
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(restartButtonTapped), newMediaButtonType: .restart)
-        #warning("Don't show timeline when video needs to be restarted, only show restart button.")
+#warning("Don't show timeline when video needs to be restarted, only show restart button.")
         presentMediaControls()
     }
     
@@ -255,54 +322,51 @@ class UploadVideoEntryView: UIView, MainView {
         })
     }
     
-    func configureUploadingUI() {
-        uploadingProgressViewStack.isHidden = false
-        saveToDeviceToggleStack.isHidden = true
-        saveToDeviceExplanationLabel.isHidden = true
-        uploadButton.isHidden = true
-    }
-
     @objc func playButtonTapped() {
         viewModel.videoPlayerPlayButtonTapped()
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(pauseButtonTapped), newMediaButtonType: .pause)
         dismissMediaControls()
     }
-
+    
     @objc func pauseButtonTapped() {
         viewModel.videoPlayerPauseButtonTapped()
         configureMediaButton(remove: #selector(pauseButtonTapped), add: #selector(playButtonTapped), newMediaButtonType: .play)
         presentMediaControls()
     }
-
+    
     @objc func restartButtonTapped() {
         viewModel.videoPlayerRestartButtonTapped()
         configureMediaButton(remove: #selector(restartButtonTapped), add: #selector(pauseButtonTapped), newMediaButtonType: .pause)
         dismissMediaControls()
     }
-
+    
     @objc func presentMediaControls() {
         videoPlayerView.removeGestureRecognizer(presentMediaControlsTapGestureRecognizer)
         videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
         startHideMediaControlsTimer()
-
+        
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterMediaButton.alpha = 1
             self?.videoPlayerTimelineSlider.alpha = 1
         }
     }
-
+    
     @objc func dismissMediaControls() {
         videoPlayerView.removeGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
         videoPlayerView.addGestureRecognizer(presentMediaControlsTapGestureRecognizer)
-
+        
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterMediaButton.alpha = 0
             self?.videoPlayerTimelineSlider.alpha = 0
         }
     }
-
+    
     @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
         viewModel.seekVideoPlayer(to: Double(sender.value))
+    }
+    
+    @objc func saveToDeviceSwitchTapped(_ sender: UISwitch) {
+        viewModel.saveVideoToDevice = sender.isOn
     }
     
     @objc func uploadButtonTapped() {

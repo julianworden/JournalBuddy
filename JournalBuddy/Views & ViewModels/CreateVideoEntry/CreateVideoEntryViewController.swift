@@ -54,6 +54,11 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         view.backButton.isEnabled = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+    }
+    
     func configure() {
         // Allows the camera view finder to go into the safe area
         viewRespectsSystemMinimumLayoutMargins = false
@@ -63,8 +68,11 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .videoEntryWasSelectedOrRecorded(let videoURL):
-                    self?.coordinator?.createVideoEntryViewDidFinishRecording(at: videoURL)
+                case .videoEntryWasSelectedOrRecorded(let videoURL, let videoWasSelectedFromLibrary):
+                    self?.coordinator?.createVideoEntryViewDidFinishRecording(
+                        at: videoURL,
+                        videoWasSelectedFromLibrary: videoWasSelectedFromLibrary
+                    )
                 case .error(let message):
                     self?.showError(message)
                 default:

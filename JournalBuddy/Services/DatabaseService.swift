@@ -197,10 +197,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let newVideoEntryLocationRef = storageRef.child("Video Entries/\(videoEntry.creatorUID)/\(UUID().uuidString).mov")
             
-            guard let videoData = try? Data(contentsOf: url) else {
-                print("❌ Failed to store video into Data type.")
-                throw VideoEntryError.conversionToDataTypeFailed
-            }
+            let videoData = try Data(contentsOf: url)
             
             _ = try await newVideoEntryLocationRef.putDataAsync(videoData) { progress in
                 guard let progress else { return }
@@ -213,12 +210,13 @@ final class DatabaseService: DatabaseServiceProtocol {
             }
             
             do {
-                return try await newVideoEntryLocationRef.downloadURL()
+                let downloadURL = try await newVideoEntryLocationRef.downloadURL()
+                return downloadURL
             } catch {
                 throw VideoEntryError.failedToFetchDownloadURL
             }
         } catch {
-            throw FBStorageError.saveDataFailed(systemError: error.localizedDescription)
+            throw FBStorageError.uploadDataFailed(systemError: error.localizedDescription)
         }
     }
 }
