@@ -46,6 +46,7 @@ class EntriesView: UIView, MainView {
         entryTypeCollectionView.showsHorizontalScrollIndicator = false
         entryTypeCollectionView.isHidden = true
 
+        fetchingEntriesActivityIndicator.color = .primaryElement
         fetchingEntriesActivityIndicator.hidesWhenStopped = true
         fetchingEntriesActivityIndicator.startAnimating()
     }

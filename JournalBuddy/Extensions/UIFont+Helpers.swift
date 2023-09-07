@@ -23,6 +23,10 @@ extension UIFont {
     static var regularBody: UIFont {
         systemFont(ofSize: UIFont.labelFontSize)
     }
+    
+    static var boldFootnote: UIFont {
+        boldSystemFont(ofSize: UIConstants.footnoteSize)
+    }
 
     static var regularFootnote: UIFont {
         systemFont(ofSize: UIConstants.footnoteSize)
@@ -46,6 +50,10 @@ extension UIFont {
 
     static var avenirNextRegularBody: UIFont {
         UIFont(name: FontConstants.avenirNextRegular, size: UIFont.labelFontSize) ?? regularBody
+    }
+    
+    static var avenirNextBoldFootnote: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIConstants.footnoteSize) ?? boldFootnote
     }
 
     static var avenirNextRegularFootnote: UIFont {

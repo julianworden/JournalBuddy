@@ -11,6 +11,8 @@
 		AB0D85072AA6712B00E4C9D6 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButtonView.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
+		AB12E2442AA9302B007DFAE4 /* Notification.Name+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */; };
+		AB12E2462AA93097007DFAE4 /* NotificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12E2452AA93097007DFAE4 /* NotificationConstants.swift */; };
 		AB16178A2A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */; };
 		AB16178C2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16178B2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift */; };
 		AB16178E2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */; };
@@ -165,6 +167,8 @@
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsStackViewRow.swift; sourceTree = "<group>"; };
+		AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Helpers.swift"; sourceTree = "<group>"; };
+		AB12E2452AA93097007DFAE4 /* NotificationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConstants.swift; sourceTree = "<group>"; };
 		AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerMediaButtonType.swift; sourceTree = "<group>"; };
 		AB16178B2A98F7A2001CDC53 /* UploadVideoViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
@@ -431,6 +435,7 @@
 				ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */,
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
 				AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */,
+				AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -547,6 +552,7 @@
 				ABA946612A733AD4002A96D3 /* ReuseIDConstants.swift */,
 				AB90AA182A803CCA003F94D7 /* FontConstants.swift */,
 				AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */,
+				AB12E2452AA93097007DFAE4 /* NotificationConstants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -921,6 +927,7 @@
 				AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
 				AB8E9B8A2A8935F700A99C3A /* EntriesViewTableViewCell.swift in Sources */,
+				AB12E2462AA93097007DFAE4 /* NotificationConstants.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
 				AB1BB0D62A94F21C0051EB66 /* VideoPreviewView.swift in Sources */,
 				AB8E9B7E2A89126300A99C3A /* GoalsViewController.swift in Sources */,
@@ -962,6 +969,7 @@
 				ABB348382A6AC2C90050A9AC /* EntriesCoordinator.swift in Sources */,
 				AB1AC7A92A70778700FE7A7E /* LogicError.swift in Sources */,
 				AB413EAE2A96B76A00916054 /* UploadVideoEntryView.swift in Sources */,
+				AB12E2442AA9302B007DFAE4 /* Notification.Name+Helpers.swift in Sources */,
 				ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */,
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
 				AB1BB0D02A94E1530051EB66 /* CreateVideoEntryCoordinator.swift in Sources */,

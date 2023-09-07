@@ -7,6 +7,8 @@
 
 import UIKit
 
+#warning("Turn this into a custom UIButton.Configuration instead.")
+
 /// A view that contains a custom back button. This view subclasses `UIView` instead of `UIButton` to avoid
 /// creating a custom `UIButton.Configuration`, which is more complicated than subclassing `UIView`.
 class BackButtonView: UIView {

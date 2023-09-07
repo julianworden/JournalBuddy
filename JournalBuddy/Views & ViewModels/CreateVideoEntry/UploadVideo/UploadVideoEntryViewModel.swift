@@ -55,6 +55,8 @@ final class UploadVideoEntryViewModel: MainViewModel {
     
     func uploadButtonTapped() async {
         do {
+            viewState = .videoEntryIsUploading
+            
             let newVideoEntry = VideoEntry(
                 id: "",
                 creatorUID: authService.currentUserUID,
@@ -64,7 +66,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
             )
             
             try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
-            viewState = .videoEntryWasCreated
+            viewState = .videoEntryWasUploaded
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)

@@ -202,8 +202,14 @@ final class DatabaseService: DatabaseServiceProtocol {
                 throw VideoEntryError.conversionToDataTypeFailed
             }
             
-            let metadata = try await newVideoEntryLocationRef.putDataAsync(videoData) { progress in
+            _ = try await newVideoEntryLocationRef.putDataAsync(videoData) { progress in
+                guard let progress else { return }
                 
+                NotificationCenter.default.post(
+                    name: .videoIsUploading,
+                    object: nil,
+                    userInfo: [NotificationConstants.uploadingProgress: progress.fractionCompleted]
+                )
             }
             
             do {

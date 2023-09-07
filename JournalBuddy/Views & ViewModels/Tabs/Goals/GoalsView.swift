@@ -32,6 +32,7 @@ class GoalsView: UIView, MainView {
 
         fetchingGoalsActivityIndicator.hidesWhenStopped = true
         fetchingGoalsActivityIndicator.startAnimating()
+        fetchingGoalsActivityIndicator.color = .primaryElement
     }
 
     func constrain() {

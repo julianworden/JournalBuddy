@@ -19,14 +19,25 @@ class UploadVideoEntryView: UIView, MainView {
         arrangedSubviews: [
             saveToDeviceToggleStack,
             saveToDeviceExplanationLabel,
-            uploadButton
+            uploadButton,
+            uploadingProgressViewStack
         ]
     )
+    private lazy var saveToDeviceToggleStack = UIStackView(arrangedSubviews: [saveToDeviceLabel, saveToDeviceSwitch])
     private lazy var saveToDeviceLabel = UILabel()
     private lazy var saveToDeviceSwitch = UISwitch()
-    private lazy var saveToDeviceToggleStack = UIStackView(arrangedSubviews: [saveToDeviceLabel, saveToDeviceSwitch])
     private lazy var saveToDeviceExplanationLabel = UILabel()
     private lazy var uploadButton = PrimaryButton(title: "Upload")
+    private lazy var uploadingProgressViewStack = UIStackView(arrangedSubviews: [uploadingProgressView, uploadingProgressViewLabelStack])
+    private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
+    private lazy var uploadingProgressViewLabelStack = UIStackView(
+        arrangedSubviews: [
+            uploadingProgressViewLabel,
+            uploadingProgressViewActivityIndicator
+        ]
+    )
+    private lazy var uploadingProgressViewLabel = UILabel()
+    private lazy var uploadingProgressViewActivityIndicator = UIActivityIndicatorView(style: .medium)
     
     /// The timer that controls when the media controls are automatically hidden after they're shown.
     var hideMediaControlsTimer: Timer?
@@ -98,14 +109,65 @@ class UploadVideoEntryView: UIView, MainView {
         saveToDeviceExplanationLabel.numberOfLines = 0
         
         uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
+        
+        uploadingProgressViewStack.isHidden = true
+        uploadingProgressViewStack.axis = .vertical
+        uploadingProgressViewStack.spacing = 7
+        uploadingProgressViewStack.alignment = .leading
+        
+        uploadingProgressView.layer.cornerRadius = 6
+        uploadingProgressView.clipsToBounds = true
+        uploadingProgressView.progressTintColor = .primaryElement
+        uploadingProgressView.trackTintColor = .disabled
+        
+        uploadingProgressViewLabelStack.spacing = 5                                                           
+        
+        uploadingProgressViewLabel.text = "Uploading..."
+        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
+        uploadingProgressViewLabel.textColor = .primaryElement
+        
+        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
+        uploadingProgressViewActivityIndicator.isHidden = true
+        uploadingProgressViewActivityIndicator.color = .primaryElement
     }
     
     func makeAccessible() {
         saveToDeviceLabel.adjustsFontForContentSizeCategory = true
         saveToDeviceExplanationLabel.adjustsFontForContentSizeCategory = true
+        uploadingProgressViewLabel.adjustsFontForContentSizeCategory = true
     }
     
     func subscribeToPublishers() {
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .videoEntryIsUploading:
+                    self?.configureUploadingUI()
+                case .videoEntryWasUploaded:
+                    self?.uploadingProgressViewLabel.text = "Uploaded."
+                    self?.uploadingProgressViewActivityIndicator.isHidden = true
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .videoIsUploading)
+            .sink { [weak self] notification in
+                guard let loadingProgress = notification.userInfo?[NotificationConstants.uploadingProgress] as? Double else {
+                    return
+                }
+                
+                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
+                
+                if loadingProgress == 1.0 {
+                    self?.uploadingProgressViewLabel.text = "Finalizing..."
+                    self?.uploadingProgressViewActivityIndicator.startAnimating()
+                    self?.uploadingProgressViewActivityIndicator.isHidden = false
+                }
+            }
+            .store(in: &cancellables)
+
         viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
             self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
 
@@ -148,7 +210,11 @@ class UploadVideoEntryView: UIView, MainView {
             underVideoPlayerStack.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
             underVideoPlayerStack.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
             
-            uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 49)
+            uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 49),
+            
+            uploadingProgressView.heightAnchor.constraint(equalToConstant: 12),
+            uploadingProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
+            uploadingProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor)
         ])
     }
     
@@ -187,6 +253,13 @@ class UploadVideoEntryView: UIView, MainView {
                 self?.hideMediaControlsTimer = nil
             }
         })
+    }
+    
+    func configureUploadingUI() {
+        uploadingProgressViewStack.isHidden = false
+        saveToDeviceToggleStack.isHidden = true
+        saveToDeviceExplanationLabel.isHidden = true
+        uploadButton.isHidden = true
     }
 
     @objc func playButtonTapped() {

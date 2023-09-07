@@ -60,7 +60,7 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .videoEntryWasCreated:
+                case .videoEntryWasUploaded:
                     self?.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
                 case .error(let message):
                     self?.showError(message)

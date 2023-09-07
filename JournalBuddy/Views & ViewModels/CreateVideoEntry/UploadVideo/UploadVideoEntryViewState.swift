@@ -6,5 +6,5 @@
 //
 
 enum UploadVideoEntryViewState: ViewState {
-    case displayingView, videoEntryWasCreated, error(message: String)
+    case displayingView, videoEntryIsUploading, videoEntryWasUploaded, error(message: String)
 }
