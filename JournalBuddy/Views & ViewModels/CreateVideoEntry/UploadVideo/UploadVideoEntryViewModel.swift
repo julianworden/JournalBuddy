@@ -84,8 +84,9 @@ final class UploadVideoEntryViewModel: MainViewModel {
             )
             
             try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
-            viewState = .videoEntryWasUploaded
             
+            viewState = .videoEntryWasUploaded
+
             // Don't take up unnecessary storage on the user's device
             do {
                 try FileManager.default.removeItem(at: recordedVideoURL)

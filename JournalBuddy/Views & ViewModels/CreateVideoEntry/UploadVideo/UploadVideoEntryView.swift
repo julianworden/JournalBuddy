@@ -103,66 +103,10 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
-        viewModel.$viewState
-            .sink { [weak self] viewState in
-                guard let self else { return }
-                
-                switch viewState {
-                case .videoEntryIsSavingToDevice:
-                    self.configureSavingToDeviceProgressViewUI()
-                    self.presentSavingToDeviceUI()
-                    self.configureUploadingProgressViewUI()
-                    self.presentUploadingUI()
-                case .videoEntryWasSavedToDevice:
-                    self.savingToDeviceProgressView.setProgress(1.0, animated: true)
-                case .videoEntryIsUploading:
-                    // If video was saved to device, uploading UI was already configured
-                    if !self.viewModel.saveVideoToDevice {
-                        self.configureUploadingProgressViewUI()
-                        self.presentUploadingUI()
-                    }
-                case .videoEntryWasUploaded:
-                    self.uploadingProgressViewLabel.text = "Uploaded."
-                    self.uploadingProgressViewActivityIndicator.isHidden = true
-                default:
-                    break
-                }
-            }
-            .store(in: &cancellables)
-        
-        NotificationCenter.default.publisher(for: .videoIsUploading)
-            .sink { [weak self] notification in
-                guard let loadingProgress = notification.userInfo?[NotificationConstants.uploadingProgress] as? Double else {
-                    return
-                }
-                
-                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
-                
-                if loadingProgress == 1.0 {
-                    self?.uploadingProgressViewLabel.text = "Finalizing..."
-                    self?.uploadingProgressViewActivityIndicator.startAnimating()
-                    self?.uploadingProgressViewActivityIndicator.isHidden = false
-                }
-            }
-            .store(in: &cancellables)
-        
-        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
-            self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
-            
-            if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
-                self?.videoPlayerCurrentItemIsFinished()
-            }
-        }
-        
-        // Necessary because AVPlayer's currentItem duration is not accessible until its status is .readyToPlay
-        viewModel.videoPlayer.publisher(for: \.currentItem?.status)
-            .sink { [weak self] status in
-                guard status == .readyToPlay,
-                      let self else { return }
-                
-                self.videoPlayerTimelineSlider.maximumValue = Float(self.viewModel.videoPlayerCurrentItemLengthInSeconds)
-            }
-            .store(in: &cancellables)
+        subscribeToViewStateUpdates()
+        subscribeToVideoUploadingProgress()
+        subscribeToVideoTimelineUpdates()
+        subscribeToVideoPlayerStatusUpdates()
     }
     
     func constrain() {
@@ -198,6 +142,95 @@ class UploadVideoEntryView: UIView, MainView {
             uploadingProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
             uploadingProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor)
         ])
+    }
+    
+    func subscribeToViewStateUpdates() {
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                guard let self else { return }
+                
+                switch viewState {
+                case .videoEntryIsSavingToDevice:
+                    self.videoPlayerTimelineSlider.isEnabled = false
+                    self.videoPlayerCenterMediaButton.isEnabled = false
+                    self.videoPlayerView.isUserInteractionEnabled = false
+                    self.configureSavingToDeviceProgressViewUI()
+                    self.presentSavingToDeviceUI()
+                    self.configureUploadingProgressViewUI()
+                    self.presentUploadingUI()
+                case .videoEntryWasSavedToDevice:
+                    self.savingToDeviceProgressView.setProgress(1.0, animated: true)
+                case .videoEntryIsUploading:
+                    // If video was saved to device, uploading UI was already configured
+                    if !self.viewModel.saveVideoToDevice {
+                        self.videoPlayerTimelineSlider.isEnabled = false
+                        self.videoPlayerCenterMediaButton.isEnabled = false
+                        self.videoPlayerView.isUserInteractionEnabled = false
+                        self.configureUploadingProgressViewUI()
+                        self.presentUploadingUI()
+                    }
+                case .videoEntryWasUploaded:
+                    self.uploadingProgressViewLabel.text = "Uploaded."
+                    self.uploadingProgressViewActivityIndicator.isHidden = true
+                case .error(_):
+                    self.videoPlayerCenterMediaButton.isEnabled = true
+                    self.videoPlayerTimelineSlider.isEnabled = true
+                    self.saveToDeviceToggleStack.isHidden = false
+                    self.savingToDeviceStack.isHidden = true
+                    self.uploadingStack.isHidden = true
+                    self.uploadButton.isHidden = false
+                    self.videoPlayerView.isUserInteractionEnabled = true
+                    
+                    if !viewModel.videoWasSelectedFromLibrary {
+                        self.saveToDeviceToggleStack.isHidden = false
+                        self.saveToDeviceExplanationLabel.isHidden = false
+                    }
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVideoUploadingProgress() {
+        NotificationCenter.default.publisher(for: .videoIsUploading)
+            .sink { [weak self] notification in
+                guard let loadingProgress = notification.userInfo?[NotificationConstants.uploadingProgress] as? Double else {
+                    return
+                }
+                
+                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
+                
+                if loadingProgress == 1.0 {
+                    self?.uploadingProgressViewLabel.text = "Finalizing..."
+                    self?.uploadingProgressViewActivityIndicator.startAnimating()
+                    self?.uploadingProgressViewActivityIndicator.isHidden = false
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVideoTimelineUpdates() {
+        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
+            self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
+            
+            if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
+                self?.videoPlayerCurrentItemIsFinished()
+            }
+        }
+    }
+    
+    /// Creates a subscriber that sets the video player's timeline's maximum value once the video player's `AVPlayerItem.Status`  is `.readyToPlay`.
+    /// This is necessary because the video player will not return the correct length of its `currentItem` unless it's ready to play.
+    func subscribeToVideoPlayerStatusUpdates() {
+        viewModel.videoPlayer.publisher(for: \.currentItem?.status)
+            .sink { [weak self] status in
+                guard status == .readyToPlay,
+                      let self else { return }
+                
+                self.videoPlayerTimelineSlider.maximumValue = Float(self.viewModel.videoPlayerCurrentItemLengthInSeconds)
+            }
+            .store(in: &cancellables)
     }
     
     func configureSaveToDeviceToggleUI() {
@@ -371,7 +404,6 @@ class UploadVideoEntryView: UIView, MainView {
     
     @objc func uploadButtonTapped() {
         Task {
-            
             await viewModel.uploadButtonTapped()
         }
     }

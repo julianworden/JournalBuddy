@@ -67,6 +67,7 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
                     self?.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
                 case .error(let message):
                     self?.showError(message)
+                    self?.backButton.isEnabled = true
                 default:
                     break
                 }
