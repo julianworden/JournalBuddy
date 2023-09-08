@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */; };
-		AB0D85072AA6712B00E4C9D6 /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButtonView.swift */; };
+		AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButton.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
 		AB12E2442AA9302B007DFAE4 /* Notification.Name+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */; };
@@ -129,6 +129,7 @@
 		ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
+		ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */; };
 		ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */; };
 		ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
@@ -163,7 +164,7 @@
 
 /* Begin PBXFileReference section */
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
-		AB0D85062AA6712B00E4C9D6 /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
+		AB0D85062AA6712B00E4C9D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsStackViewRow.swift; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewDelegate.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+back.swift"; sourceTree = "<group>"; };
 		ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewDataSourceAndDelegate.swift; sourceTree = "<group>"; };
 		ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 				AB8E9B922A8A580500A99C3A /* UIApplication+currentUIWindow.swift */,
 				AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */,
 				AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */,
+				ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -565,11 +568,11 @@
 				ABDA15852A802E5400D94D7E /* MainNavigationController.swift */,
 				ABD819E72A85C9BC0078604A /* CustomDivider.swift */,
 				AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */,
+				AB0D85062AA6712B00E4C9D6 /* BackButton.swift */,
 				AB5E7B0F2A8FA854004A9051 /* Buttons */,
 				AB5E7B0C2A8FA265004A9051 /* Password Text Field */,
 				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
 				AB8E9B8F2A894E3800A99C3A /* Custom Menu */,
-				AB0D85062AA6712B00E4C9D6 /* BackButtonView.swift */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -959,7 +962,7 @@
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
-				AB0D85072AA6712B00E4C9D6 /* BackButtonView.swift in Sources */,
+				AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */,
 				AB1BB0D22A94E1620051EB66 /* CreateVideoEntryViewState.swift in Sources */,
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
@@ -1007,6 +1010,7 @@
 				AB8A49552A9BD7EE00791695 /* Int+Helpers.swift in Sources */,
 				AB95E2F92A6EAA26001FDDD8 /* SignUpViewController.swift in Sources */,
 				AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */,
+				ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,

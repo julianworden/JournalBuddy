@@ -9,6 +9,8 @@ import Combine
 import UIKit
 
 class UploadVideoEntryViewController: UIViewController, MainViewController {
+    private lazy var backButton = BackButton(configuration: .back)
+    
     weak var coordinator: CreateVideoEntryCoordinator?
     let viewModel: UploadVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -47,8 +49,8 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.isNavigationBarHidden = false
         navigationItem.hidesBackButton = true
-        let backButtonView = BackButtonView(buttonTarget: self, buttonSelector: #selector(backButtonTapped))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButtonView)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
     @objc func backButtonTapped() {
@@ -59,6 +61,8 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
+                case .videoEntryIsUploading, .videoEntryIsSavingToDevice:
+                    self?.backButton.isEnabled = false
                 case .videoEntryWasUploaded:
                     self?.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
                 case .error(let message):

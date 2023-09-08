@@ -13,7 +13,7 @@ extension UIImage.Configuration {
     }
     
     static var boldLargeScale: UIImage.SymbolConfiguration {
-        return UIImage.SymbolConfiguration(weight: .bold).applying(largeScale)
+        return UIImage.SymbolConfiguration(weight: .semibold).applying(largeScale)
     }
 
     static var destructive: UIImage.SymbolConfiguration {

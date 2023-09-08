@@ -83,8 +83,8 @@ class UploadVideoEntryView: UIView, MainView {
         underVideoPlayerStack.spacing = 15
         
         if viewModel.videoWasSelectedFromLibrary {
-            // No need to offer the user the option to save to device if they're uploading a video
-            // that's already on their device
+            // Necessary because saveToDevice switch has an intrinsic content size, so just
+            // not configuring it isn't enough to hide it
             saveToDeviceToggleStack.isHidden = true
         } else {
             configureSaveToDeviceToggleUI()
@@ -371,6 +371,7 @@ class UploadVideoEntryView: UIView, MainView {
     
     @objc func uploadButtonTapped() {
         Task {
+            
             await viewModel.uploadButtonTapped()
         }
     }
