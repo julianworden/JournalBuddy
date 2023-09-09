@@ -339,6 +339,13 @@
 			path = Accomplishments;
 			sourceTree = "<group>";
 		};
+		AB1429DB2AAB548F00C66ADD /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		AB181C3C2A5B1B7500560299 = {
 			isa = PBXGroup;
 			children = (
@@ -654,6 +661,7 @@
 				AB948B5B2A6D7D9800430E61 /* Mocks */,
 				AB948B5F2A6D7D9800430E61 /* Errors */,
 				AB948B592A6D7D9800430E61 /* Utilities */,
+				AB1429DB2AAB548F00C66ADD /* Assets */,
 			);
 			path = JournalBuddyUnitTests;
 			sourceTree = "<group>";

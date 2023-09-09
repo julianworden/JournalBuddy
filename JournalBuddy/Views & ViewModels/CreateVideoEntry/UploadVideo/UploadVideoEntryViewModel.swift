@@ -60,7 +60,11 @@ final class UploadVideoEntryViewModel: MainViewModel {
     }
 
     func seekVideoPlayer(to newTimestamp: Double) {
-        videoPlayer.seek(to: CMTime(seconds: newTimestamp, preferredTimescale: 1), toleranceBefore: .zero, toleranceAfter: .zero)
+        videoPlayer.seek(
+            to: CMTime(seconds: newTimestamp, preferredTimescale: 1),
+            toleranceBefore: .zero,
+            toleranceAfter: .zero
+        )
     }
     
     func uploadButtonTapped() async {

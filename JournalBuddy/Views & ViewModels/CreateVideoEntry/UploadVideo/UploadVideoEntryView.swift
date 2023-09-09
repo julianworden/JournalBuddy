@@ -11,6 +11,8 @@ import UIKit
 
 class UploadVideoEntryView: UIView, MainView {
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
+    /// The button in the middle of the video player. This button's appearance and target depends on what the video player is currently doing. It
+    /// alternates between a play button, pause button, and restart button.
     private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
     private lazy var videoPlayerTimelineSlider = UISlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
@@ -24,15 +26,30 @@ class UploadVideoEntryView: UIView, MainView {
             uploadingStack
         ]
     )
-    private lazy var saveToDeviceToggleStack = UIStackView(arrangedSubviews: [saveToDeviceLabel, saveToDeviceSwitch])
+    private lazy var saveToDeviceToggleStack = UIStackView(
+        arrangedSubviews: [
+            saveToDeviceLabel,
+            saveToDeviceSwitch
+        ]
+    )
     private lazy var saveToDeviceLabel = UILabel()
     private lazy var saveToDeviceSwitch = UISwitch()
     private lazy var saveToDeviceExplanationLabel = UILabel()
     private lazy var uploadButton = PrimaryButton(title: "Upload")
-    private lazy var savingToDeviceStack = UIStackView(arrangedSubviews: [savingToDeviceProgressView, savingToDeviceLabel])
+    private lazy var savingToDeviceStack = UIStackView(
+        arrangedSubviews: [
+            savingToDeviceProgressView,
+            savingToDeviceLabel
+        ]
+    )
     private lazy var savingToDeviceProgressView = UIProgressView(progressViewStyle: .bar)
     private lazy var savingToDeviceLabel = UILabel()
-    private lazy var uploadingStack = UIStackView(arrangedSubviews: [uploadingProgressView, uploadingProgressViewLabelStack])
+    private lazy var uploadingStack = UIStackView(
+        arrangedSubviews: [
+            uploadingProgressView,
+            uploadingProgressViewLabelStack
+        ]
+    )
     private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
     private lazy var uploadingProgressViewLabelStack = UIStackView(
         arrangedSubviews: [
@@ -72,7 +89,6 @@ class UploadVideoEntryView: UIView, MainView {
         videoPlayerTimelineSlider.thumbTintColor = .background
         videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
         videoPlayerTimelineSlider.isContinuous = false
-        
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
         
         videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
@@ -151,9 +167,6 @@ class UploadVideoEntryView: UIView, MainView {
                 
                 switch viewState {
                 case .videoEntryIsSavingToDevice:
-                    self.videoPlayerTimelineSlider.isEnabled = false
-                    self.videoPlayerCenterMediaButton.isEnabled = false
-                    self.videoPlayerView.isUserInteractionEnabled = false
                     self.configureSavingToDeviceProgressViewUI()
                     self.presentSavingToDeviceUI()
                     self.configureUploadingProgressViewUI()
@@ -163,9 +176,6 @@ class UploadVideoEntryView: UIView, MainView {
                 case .videoEntryIsUploading:
                     // If video was saved to device, uploading UI was already configured
                     if !self.viewModel.saveVideoToDevice {
-                        self.videoPlayerTimelineSlider.isEnabled = false
-                        self.videoPlayerCenterMediaButton.isEnabled = false
-                        self.videoPlayerView.isUserInteractionEnabled = false
                         self.configureUploadingProgressViewUI()
                         self.presentUploadingUI()
                     }
@@ -173,18 +183,7 @@ class UploadVideoEntryView: UIView, MainView {
                     self.uploadingProgressViewLabel.text = "Uploaded."
                     self.uploadingProgressViewActivityIndicator.isHidden = true
                 case .error(_):
-                    self.videoPlayerCenterMediaButton.isEnabled = true
-                    self.videoPlayerTimelineSlider.isEnabled = true
-                    self.saveToDeviceToggleStack.isHidden = false
-                    self.savingToDeviceStack.isHidden = true
-                    self.uploadingStack.isHidden = true
-                    self.uploadButton.isHidden = false
-                    self.videoPlayerView.isUserInteractionEnabled = true
-                    
-                    if !viewModel.videoWasSelectedFromLibrary {
-                        self.saveToDeviceToggleStack.isHidden = false
-                        self.saveToDeviceExplanationLabel.isHidden = false
-                    }
+                    configureErrorUI()
                 default:
                     break
                 }
@@ -211,7 +210,10 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func subscribeToVideoTimelineUpdates() {
-        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: .main) { [weak self] time in
+        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(
+            forInterval: CMTime(value: 1,timescale: 1),
+            queue: .main
+        ) { [weak self] time in
             self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
             
             if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
@@ -267,6 +269,10 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func configureSavingToDeviceProgressViewUI() {
+        videoPlayerTimelineSlider.isEnabled = false
+        videoPlayerCenterMediaButton.isEnabled = false
+        videoPlayerView.isUserInteractionEnabled = false
+        
         savingToDeviceStack.axis = .vertical
         savingToDeviceStack.spacing = 7
         savingToDeviceStack.alignment = .leading
@@ -281,6 +287,10 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func configureUploadingProgressViewUI() {
+        videoPlayerTimelineSlider.isEnabled = false
+        videoPlayerCenterMediaButton.isEnabled = false
+        videoPlayerView.isUserInteractionEnabled = false
+        
         uploadingStack.axis = .vertical
         uploadingStack.spacing = 7
         uploadingStack.alignment = .leading
@@ -298,6 +308,21 @@ class UploadVideoEntryView: UIView, MainView {
         uploadingProgressViewActivityIndicator.hidesWhenStopped = true
         uploadingProgressViewActivityIndicator.isHidden = true
         uploadingProgressViewActivityIndicator.color = .primaryElement
+    }
+    
+    func configureErrorUI() {
+        videoPlayerCenterMediaButton.isEnabled = true
+        videoPlayerTimelineSlider.isEnabled = true
+        saveToDeviceToggleStack.isHidden = false
+        savingToDeviceStack.isHidden = true
+        uploadingStack.isHidden = true
+        uploadButton.isHidden = false
+        videoPlayerView.isUserInteractionEnabled = true
+        
+        if !viewModel.videoWasSelectedFromLibrary {
+            saveToDeviceToggleStack.isHidden = false
+            saveToDeviceExplanationLabel.isHidden = false
+        }
     }
     
     func presentUploadingUI() {
@@ -335,8 +360,12 @@ class UploadVideoEntryView: UIView, MainView {
         hideMediaControlsTimer?.invalidate()
         hideMediaControlsTimer = nil
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(restartButtonTapped), newMediaButtonType: .restart)
-#warning("Don't show timeline when video needs to be restarted, only show restart button.")
-        presentMediaControls()
+        videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
+
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.videoPlayerCenterMediaButton.alpha = 1
+            self?.videoPlayerTimelineSlider.alpha = 1
+        }
     }
     
     /// Starts a timer that fires every 1 second to determine when the media controls should automatically be hidden after the user has shown them. Hides media controls
@@ -387,6 +416,8 @@ class UploadVideoEntryView: UIView, MainView {
     @objc func dismissMediaControls() {
         videoPlayerView.removeGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
         videoPlayerView.addGestureRecognizer(presentMediaControlsTapGestureRecognizer)
+        hideMediaControlsTimer?.invalidate()
+        hideMediaControlsTimer = nil
         
         UIView.animate(withDuration: 0.25) { [weak self] in
             self?.videoPlayerCenterMediaButton.alpha = 0
@@ -396,6 +427,7 @@ class UploadVideoEntryView: UIView, MainView {
     
     @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
         viewModel.seekVideoPlayer(to: Double(sender.value))
+        playButtonTapped()
     }
     
     @objc func saveToDeviceSwitchTapped(_ sender: UISwitch) {
