@@ -9,14 +9,18 @@ import UIKit
 
 extension UIImage.Configuration {
     static var largeScale: UIImage.SymbolConfiguration {
-        return UIImage.SymbolConfiguration(scale: .large)
+        return UIImage.SymbolConfiguration(
+            scale: .large
+        ).applying(UIImage.SymbolConfiguration(textStyle: .body))
     }
     
     static var boldLargeScale: UIImage.SymbolConfiguration {
-        return UIImage.SymbolConfiguration(weight: .semibold).applying(largeScale)
+        return UIImage.SymbolConfiguration(
+            weight: .semibold
+        ).applying(largeScale)
     }
 
-    static var destructive: UIImage.SymbolConfiguration {
+    static var destructiveColor: UIImage.SymbolConfiguration {
         return UIImage.SymbolConfiguration(paletteColors: [.background, .destructive])
     }
 
@@ -28,7 +32,12 @@ extension UIImage.Configuration {
         return UIImage.SymbolConfiguration(paletteColors: [.disabled])
     }
     
-    static var createVideoView: UIImage.SymbolConfiguration {
-        return UIImage.SymbolConfiguration(paletteColors: [.background, .primaryElement])
+    static var createVideoViewButton: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(
+            paletteColors: [
+                .background,
+                .primaryElement
+            ]
+        ).applying(.largeScale)
     }
 }

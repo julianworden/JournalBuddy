@@ -11,15 +11,15 @@ import UIKit
 class CreateVideoEntryView: UIView, MainView {
     private lazy var backButtonImage = UIImage(
         systemName: "chevron.left.circle.fill",
-        withConfiguration: .createVideoView
+        withConfiguration: .createVideoViewButton
     )!
     private lazy var switchCameraButtonImage = UIImage(
         systemName: "arrow.triangle.2.circlepath.circle.fill",
-        withConfiguration: .createVideoView
+        withConfiguration: .createVideoViewButton
     )!
     private lazy var showVideoPickerImage = UIImage(
         systemName: "photo.circle.fill",
-        withConfiguration: .createVideoView
+        withConfiguration: .createVideoViewButton
     )!
 
     lazy var backButton = SFSymbolButton(symbol: backButtonImage)
@@ -84,6 +84,7 @@ class CreateVideoEntryView: UIView, MainView {
         recordingTimerLabel.text = "00:00 / 05:00"
         recordingTimerLabel.textColor = .background
         recordingTimerLabel.font = UIFontMetrics.avenirNextRegularBody
+        recordingTimerLabel.numberOfLines = 0
 
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
         switchCameraButton.contentHorizontalAlignment = .fill
@@ -106,7 +107,7 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func makeAccessible() {
-
+        recordingTimerLabel.adjustsFontForContentSizeCategory = true
     }
     
     func subscribeToPublishers() {
@@ -127,11 +128,12 @@ class CreateVideoEntryView: UIView, MainView {
 
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            backButton.heightAnchor.constraint(equalToConstant: 38),
+            backButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 38),
             backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            backButton.widthAnchor.constraint(equalToConstant: 38),
+            backButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 38),
 
             recordingTimerLabelBackground.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            recordingTimerLabelBackground.leadingAnchor.constraint(greaterThanOrEqualTo: backButton.trailingAnchor, constant: 10),
             recordingTimerLabelBackground.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             recordingTimerLabel.topAnchor.constraint(equalTo: recordingTimerLabelBackground.topAnchor, constant: 7),
@@ -140,14 +142,14 @@ class CreateVideoEntryView: UIView, MainView {
             recordingTimerLabel.trailingAnchor.constraint(equalTo: recordingTimerLabelBackground.trailingAnchor, constant: -15),
 
             switchCameraButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            switchCameraButton.heightAnchor.constraint(equalToConstant: 55),
+            switchCameraButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 55),
             switchCameraButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            switchCameraButton.widthAnchor.constraint(equalToConstant: 55),
+            switchCameraButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 55),
             
             showVideoPickerButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            showVideoPickerButton.heightAnchor.constraint(equalToConstant: 55),
+            showVideoPickerButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 55),
             showVideoPickerButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            showVideoPickerButton.widthAnchor.constraint(equalToConstant: 55),
+            showVideoPickerButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 55),
 
             videoPreview.topAnchor.constraint(equalTo: topAnchor, constant: -50),
             videoPreview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 50),

@@ -9,8 +9,18 @@ import Combine
 import UIKit
 
 class AddEditTextEntryViewController: UIViewController, MainViewController {
-    private lazy var saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveButtonTapped))
-    private lazy var moreButton = UIBarButtonItem(title: "Delete Text Entry", image: SFSymbolConstants.trash, target: self, action: #selector(deleteTextEntryButtonTapped))
+    private lazy var saveButton = UIBarButtonItem(
+        title: "Save",
+        style: .plain,
+        target: self,
+        action: #selector(saveButtonTapped)
+    )
+    private lazy var deleteButton = UIBarButtonItem(
+        title: "Delete Text Entry",
+        image: SFSymbolConstants.trash,
+        target: self,
+        action: #selector(deleteTextEntryButtonTapped)
+    )
 
     weak var coordinator: AddEditTextEntryCoordinator?
     var viewModel: AddEditTextEntryViewModel
@@ -43,7 +53,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
         navigationItem.rightBarButtonItems = if viewModel.navigationBarShouldHideMoreButton {
             [saveButton]
         } else {
-            [saveButton, moreButton]
+            [saveButton, deleteButton]
         }
         title = viewModel.navigationTitle
     }
@@ -88,12 +98,12 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
 
     func disableButtons() {
         saveButton.isEnabled = false
-        moreButton.isEnabled = false
+        deleteButton.isEnabled = false
     }
 
     func enableButtons() {
         saveButton.isEnabled = true
-        moreButton.isEnabled = false
+        deleteButton.isEnabled = false
     }
 
     func deleteEntryConfirmed() async {

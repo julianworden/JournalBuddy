@@ -8,8 +8,6 @@
 import AVFoundation
 import Foundation
 
-#warning("If user has denied permission, we need to prompt them to go to settings to allow permissions.")
-
 @MainActor
 final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     @Published var viewState = CreateVideoEntryViewState.displayingView

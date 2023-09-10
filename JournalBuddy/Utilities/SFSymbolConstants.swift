@@ -8,5 +8,8 @@
 import UIKit
 
 enum SFSymbolConstants {
-    static let trash = UIImage(systemName: "trash.circle.fill", withConfiguration: .largeScale)?.applyingSymbolConfiguration(.destructive)
+    static let trash = UIImage(
+        systemName: "trash.circle.fill",
+        withConfiguration: .largeScale
+    )?.applyingSymbolConfiguration(.destructiveColor)
 }
