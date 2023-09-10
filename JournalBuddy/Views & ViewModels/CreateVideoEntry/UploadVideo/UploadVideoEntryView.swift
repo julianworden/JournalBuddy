@@ -211,7 +211,7 @@ class UploadVideoEntryView: UIView, MainView {
     
     func subscribeToVideoTimelineUpdates() {
         viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(
-            forInterval: CMTime(value: 1,timescale: 1),
+            forInterval: CMTime(value: 1, timescale: 1),
             queue: .main
         ) { [weak self] time in
             self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)

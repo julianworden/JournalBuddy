@@ -8,13 +8,17 @@
 import Foundation
 
 enum CustomAlertType {
-    case error, confirmation(confirmedWork: () async -> Void)
+    case error
+    case confirmation(confirmedWork: () async -> Void)
+    case inadequatePermissions(dismissWork: () -> Void)
 
     var dismissButton: CustomAlertButton {
         switch self {
         case .error:
             return CustomAlertButton(text: "OK")
         case .confirmation(_):
+            return CustomAlertButton(text: "Cancel")
+        case .inadequatePermissions(_):
             return CustomAlertButton(text: "Cancel")
         }
     }

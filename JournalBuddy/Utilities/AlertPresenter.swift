@@ -7,12 +7,17 @@
 
 import UIKit
 
+@MainActor
 struct AlertPresenter {
     static func presentBasicErrorAlert(errorMessage: String) {
         guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
               let currentRootView = currentUIWindow.rootViewController?.view else { return }
 
-        let alertToDisplay = CustomAlert(title: "Error", message: errorMessage, type: .error)
+        let alertToDisplay = CustomAlert(
+            title: "Error",
+            message: errorMessage,
+            dismissButtonText: "OK"
+        )
 
         present(alertToDisplay, on: currentRootView)
     }
@@ -28,10 +33,42 @@ struct AlertPresenter {
     ) {
         guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
               let currentRootView = currentUIWindow.rootViewController?.view else { return }
-
-        let alertToDisplay = CustomAlert(title: "Are You Sure?", message: message, type: .confirmation(confirmedWork: confirmedWork))
+        
+        let alertToDisplay = CustomAlert(
+            title: "Are You Sure?",
+            message: message,
+            dismissButtonText: "Cancel",
+            primaryButtonText: "Yes",
+            primaryButtonTextColor: .destructive,
+            primaryAction: confirmedWork
+        )
 
         present(alertToDisplay, on: currentRootView)
+    }
+    
+    static func presentInadequatePermissionsAlert(on viewController: UIViewController, withMessage message: String) {
+        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
+              let currentRootView = currentUIWindow.rootViewController?.view else { return }
+        
+        
+        let alertToDisplay = CustomAlert(
+            title: "Error",
+            message: message,
+            dismissButtonText: "Cancel",
+            dismissAction: { viewController.navigationController?.popViewController(animated: true) },
+            primaryButtonText: "Settings",
+            primaryButtonTextColor: .primaryElement,
+            primaryAction: { await openSettingsURL(on: viewController) }
+        )
+
+        present(alertToDisplay, on: currentRootView)
+    }
+    
+    private static func openSettingsURL(on viewController: UIViewController) async {
+        let settingsURL = UIApplication.openSettingsURLString
+        
+        await UIApplication.shared.open(URL(string: settingsURL)!)
+        viewController.navigationController?.popViewController(animated: true)
     }
 
     private static func present(_ alertToDisplay: CustomAlert, on currentRootView: UIView) {

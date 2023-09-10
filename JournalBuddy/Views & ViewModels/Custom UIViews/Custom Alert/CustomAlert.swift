@@ -25,15 +25,35 @@ class CustomAlert: UIView {
 
     let title: String
     let message: String
-    let type: CustomAlertType
-    var dismissButton: CustomAlertButton!
-    var confirmButton: CustomAlertButton?
+    private lazy var dismissButton = CustomAlertButton(text: dismissButtonText)
+    let dismissButtonText: String
+    /// The work that the dismiss button should perform when tapped. If this is nil, the alert should
+    /// only dismiss when the dismiss button is tapped.
+    let dismissWork: (() -> Void)?
+    /// The button that's shown to the right or bottom of the `dismissButton`.
+    var primaryButton: CustomAlertButton?
+    var primaryButtonText: String?
+    var primaryButtonTextColor: UIColor?
+    /// The work that `PrimaryButton` is to perform when tapped.
+    let primaryWork: (() async -> Void)?
     var cancellables = Set<AnyCancellable>()
 
-    init(title: String, message: String, type: CustomAlertType) {
+    init(
+        title: String,
+        message: String,
+        dismissButtonText: String,
+        dismissAction: (() -> Void)? = nil,
+        primaryButtonText: String? = nil,
+        primaryButtonTextColor: UIColor? = nil,
+        primaryAction: (() async -> Void)? = nil
+    ) {
         self.title = title
         self.message = message
-        self.type = type
+        self.dismissButtonText = dismissButtonText
+        self.dismissWork = dismissAction
+        self.primaryButtonText = primaryButtonText
+        self.primaryButtonTextColor = primaryButtonTextColor
+        self.primaryWork = primaryAction
 
         super.init(frame: .zero)
 
@@ -72,13 +92,30 @@ class CustomAlert: UIView {
         messageLabel.textColor = .primaryElement
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
+        
+        dismissButton.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
 
-        dismissButton = type.dismissButton
-        dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        if let dismissWork {
+            let dismissButtonAction = UIAction { [weak self] _ in
+                self?.dismiss()
+                dismissWork()
+            }
+            
+            dismissButton.addAction(dismissButtonAction, for: .touchUpInside)
+        } else {
+            dismissButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        }
+
         buttonStack.addArrangedSubview(dismissButton)
-
-        if case let .confirmation(confirmedWork) = type {
-            configureTwoButtonStack(with: confirmedWork)
+        
+        if let primaryWork,
+           let primaryButtonText,
+           let primaryButtonTextColor {
+               configurePrimaryButton(
+                withWork: primaryWork,
+                textColor: primaryButtonTextColor,
+                andText: primaryButtonText
+               )
         }
     }
 
@@ -107,8 +144,10 @@ class CustomAlert: UIView {
             seeThroughBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             seeThroughBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            alertContentBackgroundBox.widthAnchor.constraint(equalToConstant: 270),
+            alertContentBackgroundBox.topAnchor.constraint(greaterThanOrEqualTo: seeThroughBackground.topAnchor, constant: 75),
+            alertContentBackgroundBox.bottomAnchor.constraint(lessThanOrEqualTo: seeThroughBackground.bottomAnchor, constant: -75),
             alertContentBackgroundBox.centerYAnchor.constraint(equalTo: seeThroughBackground.centerYAnchor),
+            alertContentBackgroundBox.widthAnchor.constraint(equalToConstant: 270),
             alertContentBackgroundBox.centerXAnchor.constraint(equalTo: seeThroughBackground.centerXAnchor),
 
             titleAndMessageStack.topAnchor.constraint(equalTo: alertContentBackgroundBox.topAnchor, constant: 15),
@@ -129,90 +168,109 @@ class CustomAlert: UIView {
     }
     
     /// Lays out and constrains the elements of `buttonStack` when it contains more than 1 `CustomAlertButton`.
-    /// - Parameter confirmedWork: The work that is to be performed if the user taps `confirmButton`.
-    func configureTwoButtonStack(with confirmedWork: @escaping () async -> Void) {
-        let confirmButton = getConfirmButton(with: confirmedWork)
-        self.confirmButton = confirmButton
+    /// - Parameter primaryButtonWork: The work that is to be performed if the user taps `primaryButton`.
+    /// - Parameter textColor: The color of the text in `primaryButton`.
+    /// - Parameter buttonTitle: `primaryButton`'s text
+    func configurePrimaryButton(
+        withWork primaryButtonWork: @escaping () async -> Void,
+        textColor: UIColor,
+        andText buttonTitle: String
+    ) {
+        let primaryButton = getPrimaryButton(
+            with: primaryButtonWork,
+            textColor: textColor,
+            andButtonTitle: buttonTitle
+        )
+        primaryButton.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
+        self.primaryButton = primaryButton
 
         buttonStack.insertArrangedSubview(buttonStackDivider, at: 1)
 
         if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
-            layoutVerticalButtonStack(with: confirmButton)
+            layoutVerticalButtonStack(with: primaryButton)
+            NSLayoutConstraint.activate(buttonStackConstraints)
         } else {
-            layoutHorizontalButtonStack(with: confirmButton)
+            layoutHorizontalButtonStack(with: primaryButton)
+            NSLayoutConstraint.activate(buttonStackConstraints)
         }
-
-        NSLayoutConstraint.activate(buttonStackConstraints)
     }
     
     /// Lays out and constrains elements of a vertical `buttonStack`.
-    /// - Parameter confirmButton: The button that the user is to press if they confirm that they'd like to perform whatever
+    /// - Parameter primaryButton: The button that the user is to press if they confirm that they'd like to perform whatever
     /// work the button is asking about.
-    func layoutVerticalButtonStack(with confirmButton: CustomAlertButton) {
-        buttonStack.insertArrangedSubview(confirmButton, at: 0)
+    func layoutVerticalButtonStack(with primaryButton: CustomAlertButton) {
+        buttonStack.insertArrangedSubview(primaryButton, at: 0)
         buttonStack.insertArrangedSubview(dismissButton, at: 2)
 
         buttonStackConstraints = [
             dismissButton.widthAnchor.constraint(equalToConstant: UIConstants.customAlertMinimumWidth),
             buttonStackDivider.heightAnchor.constraint(equalToConstant: 1),
-            confirmButton.widthAnchor.constraint(equalToConstant: UIConstants.customAlertMinimumWidth)
+            primaryButton.widthAnchor.constraint(equalToConstant: UIConstants.customAlertMinimumWidth)
         ]
 
         buttonStack.axis = .vertical
     }
 
     /// Lays out and constrains elements of a horizontal `buttonStack`.
-    /// - Parameter confirmButton: The button that the user is to press if they confirm that they'd like to perform whatever
+    /// - Parameter primaryButton: The button that the user is to press if they confirm that they'd like to perform whatever
     /// work the button is asking about.
-    func layoutHorizontalButtonStack(with confirmButton: CustomAlertButton) {
-        buttonStack.insertArrangedSubview(confirmButton, at: 2)
+    func layoutHorizontalButtonStack(with primaryButton: CustomAlertButton) {
+        buttonStack.insertArrangedSubview(primaryButton, at: 2)
 
         buttonStackConstraints = [
             dismissButton.widthAnchor.constraint(equalToConstant: UIConstants.customAlertMinimumWidth / 2),
             buttonStackDivider.widthAnchor.constraint(equalToConstant: 1),
-            confirmButton.widthAnchor.constraint(equalToConstant: (UIConstants.customAlertMinimumWidth / 2) - 1)
+            primaryButton.widthAnchor.constraint(equalToConstant: (UIConstants.customAlertMinimumWidth / 2) - 1)
         ]
         buttonStack.axis = .horizontal
     }
     
-    /// Creates `createButton`, which is the button that the user will tap to confirm they want to perform whatever work that
-    /// the alert is askinga about.
-    /// - Parameter confirmedWork: The work that is to be performed if the user taps `confirmButton`.
+    /// Creates `primaryButton`, which is the button that the user will tap to confirm they want to perform whatever work that
+    /// the alert is asking about.
+    /// - Parameter confirmedWork: The work that is to be performed if the user taps `primaryButton`.
     /// - Returns: The button that the user will tap to confirm the work that the alert is asking about.
-    func getConfirmButton(with confirmedWork: @escaping () async -> Void) -> CustomAlertButton {
-        let confirmButton = CustomAlertButton(text: "Yes")
-        confirmButton.setTitleColor(.destructive, for: .normal)
-        confirmButton.addAction(
+    func getPrimaryButton(
+        with primaryButtonWork: @escaping () async -> Void,
+        textColor: UIColor,
+        andButtonTitle buttonTitle: String
+    ) -> CustomAlertButton {
+        let primaryButton = CustomAlertButton(text: buttonTitle)
+        primaryButton.setTitleColor(textColor, for: .normal)
+        primaryButton.addAction(
             UIAction(
                 handler: { [weak self] _ in
                     Task {
-                        await confirmedWork()
                         self?.dismiss()
+                        await primaryButtonWork()
                     }
                 }
             ),
             for: .touchUpInside
         )
 
-        return confirmButton
+        return primaryButton
     }
     
     /// Lays out `buttonStack` in the event that the Dynamic Type size is changed to a value above or below `.accessibilityMedium`.
     func adjustLayoutForNewPreferredContentSizeCategory(_ newContentSizeCategory: UIContentSizeCategory) {
         // No need to adjust constraints and stack axis if there is no confirmButton
-        guard let confirmButton else { return }
+        guard let primaryButton else { return }
 
         NSLayoutConstraint.deactivate(buttonStackConstraints)
 
         buttonStack.insertArrangedSubview(buttonStackDivider, at: 1)
 
         if newContentSizeCategory >= .accessibilityMedium {
-            layoutVerticalButtonStack(with: confirmButton)
+            layoutVerticalButtonStack(with: primaryButton)
         } else {
-            layoutHorizontalButtonStack(with: confirmButton)
+            layoutHorizontalButtonStack(with: primaryButton)
         }
 
         NSLayoutConstraint.activate(buttonStackConstraints)
+    }
+    
+    @objc func performDismissAction(_ dismissAction: () -> Void) {
+        dismissAction()
     }
     
     /// Dismisses the currently displaying `CustomAlert`.

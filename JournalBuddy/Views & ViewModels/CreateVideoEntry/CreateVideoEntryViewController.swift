@@ -67,14 +67,18 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
+                guard let self else { return }
+                
                 switch viewState {
                 case .videoEntryWasSelectedOrRecorded(let videoURL, let videoWasSelectedFromLibrary):
-                    self?.coordinator?.createVideoEntryViewDidFinishRecording(
+                    self.coordinator?.createVideoEntryViewDidFinishRecording(
                         at: videoURL,
                         videoWasSelectedFromLibrary: videoWasSelectedFromLibrary
                     )
+                case .inadequatePermissions:
+                    self.coordinator?.presentInadequatePermissionsAlert(on: self)
                 case .error(let message):
-                    self?.showError(message)
+                    self.showError(message)
                 default:
                     break
                 }

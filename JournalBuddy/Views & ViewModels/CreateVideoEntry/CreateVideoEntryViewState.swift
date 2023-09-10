@@ -11,5 +11,6 @@ enum CreateVideoEntryViewState: ViewState {
     case displayingView
     case recordingVideo
     case videoEntryWasSelectedOrRecorded(at: URL, videoWasSelectedFromLibrary: Bool)
+    case inadequatePermissions
     case error(message: String)
 }

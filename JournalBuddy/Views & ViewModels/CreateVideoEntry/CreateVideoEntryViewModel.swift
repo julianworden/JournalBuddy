@@ -30,9 +30,10 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         get async {
             let status = AVCaptureDevice.authorizationStatus(for: .video)
             
-            var isAuthorized = status == .authorized
+            var isAuthorized = (status == .authorized)
             
             if !isAuthorized {
+                // This only prompts the user for access if they've never denied/disabled it before
                 isAuthorized = await AVCaptureDevice.requestAccess(for: .video)
             }
             
@@ -44,9 +45,10 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         get async {
             let status = AVCaptureDevice.authorizationStatus(for: .audio)
             
-            var isAuthorized = status == .authorized
+            var isAuthorized = (status == .authorized)
             
             if !isAuthorized {
+                // This only prompts the user for access if they've never denied/disabled it before
                 isAuthorized = await AVCaptureDevice.requestAccess(for: .audio)
             }
             
@@ -94,7 +96,10 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     /// Configures `captureSession` to accept input from the user's front camera and microphone.
     func configureNewCaptureSession() async {
         guard await videoCaptureIsAuthorized,
-              await audioCaptureIsAuthorized else { return }
+              await audioCaptureIsAuthorized else {
+            viewState = .inadequatePermissions
+            return
+        }
         
         do {
             captureSession.beginConfiguration()

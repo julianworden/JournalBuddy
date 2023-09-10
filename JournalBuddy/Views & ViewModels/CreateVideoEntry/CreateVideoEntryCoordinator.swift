@@ -16,7 +16,7 @@ final class CreateVideoEntryCoordinator: Coordinator {
     var authService: AuthServiceProtocol
     let navigationController: MainNavigationController
     let currentUser: User
-
+    
     init(
         parentCoordinator: Coordinator?,
         databaseService: DatabaseServiceProtocol,
@@ -30,25 +30,25 @@ final class CreateVideoEntryCoordinator: Coordinator {
         self.navigationController = navigationController
         self.currentUser = currentUser
     }
-
+    
     func start() {
         let addEditVideoEntryViewModel = CreateVideoEntryViewModel()
         let addEditVideoEntryViewController = CreateVideoEntryViewController(
             coordinator: self,
             viewModel: addEditVideoEntryViewModel
         )
-
+        
         navigationController.pushViewController(addEditVideoEntryViewController, animated: true)
     }
     
     func removeChildCoordinator(_ childCoordinator: Coordinator?) { }
-
+    
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
     
     // MARK: - CreateVideoEntryViewController
-
+    
     func createVideoEntryViewDidFinishRecording(at videoURL: URL, videoWasSelectedFromLibrary: Bool) {
         let uploadVideoViewModel = UploadVideoEntryViewModel(
             recordedVideoURL: videoURL,
@@ -57,7 +57,7 @@ final class CreateVideoEntryCoordinator: Coordinator {
             authService: authService
         )
         let uploadVideoViewController = UploadVideoEntryViewController(coordinator: self, viewModel: uploadVideoViewModel)
-
+        
         navigationController.pushViewController(uploadVideoViewController, animated: true)
     }
     
@@ -71,6 +71,13 @@ final class CreateVideoEntryCoordinator: Coordinator {
         videoPicker.allowsEditing = true
         
         navigationController.present(videoPicker, animated: true)
+    }
+    
+    func presentInadequatePermissionsAlert(on viewController: UIViewController) {
+        AlertPresenter.presentInadequatePermissionsAlert(
+            on: viewController,
+            withMessage: "Before you can create a video entry, you'll need to grant us permission to use your camera and microphone in Settings."
+        )
     }
     
     // MARK: - UploadVideoEntryViewController
