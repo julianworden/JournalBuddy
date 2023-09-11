@@ -48,6 +48,7 @@ class CreateVideoEntryView: UIView, MainView {
         Task {
             configure()
             await configureVideoPreview()
+            makeAccessible()
             constrain()
         }
     }
@@ -85,6 +86,7 @@ class CreateVideoEntryView: UIView, MainView {
         recordingTimerLabel.textColor = .background
         recordingTimerLabel.font = UIFontMetrics.avenirNextRegularBody
         recordingTimerLabel.numberOfLines = 0
+        recordingTimerLabel.textAlignment = .center
 
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
         switchCameraButton.contentHorizontalAlignment = .fill

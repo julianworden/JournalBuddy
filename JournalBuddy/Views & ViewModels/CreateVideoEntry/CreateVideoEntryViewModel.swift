@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import Photos
 
 @MainActor
 final class CreateVideoEntryViewModel: NSObject, MainViewModel {
@@ -54,6 +55,13 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
+    var videoSavingIsAuthorized: Bool {
+        get async {
+            let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+            return photoLibraryAuthorizationStatus == .authorized
+        }
+    }
+    
     func startRecording() {
         let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(("recordedvideo" as NSString).appendingPathExtension("mov")!)
         
@@ -94,7 +102,8 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     /// Configures `captureSession` to accept input from the user's front camera and microphone.
     func configureNewCaptureSession() async {
         guard await videoCaptureIsAuthorized,
-              await audioCaptureIsAuthorized else {
+              await audioCaptureIsAuthorized,
+              await videoSavingIsAuthorized else {
             viewState = .inadequatePermissions
             return
         }

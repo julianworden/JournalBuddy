@@ -60,14 +60,16 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
+                guard let self else { return }
+                
                 switch viewState {
                 case .videoEntryIsUploading, .videoEntryIsSavingToDevice:
-                    self?.backButton.isEnabled = false
+                    self.backButton.isEnabled = false
                 case .videoEntryWasUploaded:
-                    self?.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
+                    self.coordinator?.uploadVideoEntryViewControllerDidUploadVideo()
                 case .error(let message):
-                    self?.showError(message)
-                    self?.backButton.isEnabled = true
+                    self.showError(message)
+                    self.backButton.isEnabled = true
                 default:
                     break
                 }

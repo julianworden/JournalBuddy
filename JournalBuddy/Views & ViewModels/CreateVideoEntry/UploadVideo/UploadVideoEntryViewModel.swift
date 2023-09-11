@@ -104,24 +104,21 @@ final class UploadVideoEntryViewModel: MainViewModel {
     }
     
     func saveVideoToDevice() async {
-        let photoLibraryAuthorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
-        if photoLibraryAuthorizationStatus == .authorized {
-            do {
-                viewState = .videoEntryIsSavingToDevice
+        do {
+            viewState = .videoEntryIsSavingToDevice
+            
+            try await PHPhotoLibrary.shared().performChanges { [weak self] in
+                guard let self else { return }
                 
-                try await PHPhotoLibrary.shared().performChanges { [weak self] in
-                    guard let self else { return }
-                    
-                    let options = PHAssetResourceCreationOptions()
-                    let creationRequest = PHAssetCreationRequest.forAsset()
-                    creationRequest.addResource(with: .video, fileURL: self.recordedVideoURL, options: options)
-                }
-                
-                viewState = .videoEntryWasSavedToDevice
-            } catch {
-                print(error.emojiMessage)
-                viewState = .error(message: error.localizedDescription)
+                let options = PHAssetResourceCreationOptions()
+                let creationRequest = PHAssetCreationRequest.forAsset()
+                creationRequest.addResource(with: .video, fileURL: self.recordedVideoURL, options: options)
             }
+            
+            viewState = .videoEntryWasSavedToDevice
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
         }
     }
 }

@@ -73,10 +73,10 @@ final class CreateVideoEntryCoordinator: Coordinator {
         navigationController.present(videoPicker, animated: true)
     }
     
-    func presentInadequatePermissionsAlert(on viewController: UIViewController) {
+    func presentMicOrCameraInadequatePermissionsAlert(on viewController: UIViewController) {
         AlertPresenter.presentInadequatePermissionsAlert(
             on: viewController,
-            withMessage: "Before you can create a video entry, you'll need to grant us permission to use your camera and microphone in Settings."
+            withMessage: "Before you can create a video entry, you'll need to grant us full permission to access your camera, microphone, and Photos library in Settings."
         )
     }
     

@@ -37,11 +37,15 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         subscribeToPublishers()
     }
     
-    override func viewIsAppearing(_ animated: Bool) {
-        super.viewIsAppearing(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = true
-        
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
         guard let view = view as? CreateVideoEntryView else { return }
         
         // In case someone goes back after recording video
@@ -56,10 +60,10 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
     }
     
     func configure() {
+        navigationController?.isNavigationBarHidden = true
         // Allows the camera view finder to go into the safe area
         viewRespectsSystemMinimumLayoutMargins = false
     }
@@ -76,7 +80,7 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
                         videoWasSelectedFromLibrary: videoWasSelectedFromLibrary
                     )
                 case .inadequatePermissions:
-                    self.coordinator?.presentInadequatePermissionsAlert(on: self)
+                    self.coordinator?.presentMicOrCameraInadequatePermissionsAlert(on: self)
                 case .error(let message):
                     self.showError(message)
                 default:

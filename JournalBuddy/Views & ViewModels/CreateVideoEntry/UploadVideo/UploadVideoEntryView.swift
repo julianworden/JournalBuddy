@@ -10,6 +10,13 @@ import CoreMedia
 import UIKit
 
 class UploadVideoEntryView: UIView, MainView {
+    private lazy var mainScrollView = UIScrollView()
+    private lazy var mainScrollViewContentStack = UIStackView(
+        arrangedSubviews: [
+            videoPlayerView,
+            underVideoPlayerStack
+        ]
+    )
     private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
     /// The button in the middle of the video player. This button's appearance and target depends on what the video player is currently doing. It
     /// alternates between a play button, pause button, and restart button.
@@ -72,6 +79,7 @@ class UploadVideoEntryView: UIView, MainView {
         super.init(frame: .zero)
         
         configure()
+        makeAccessible()
         subscribeToPublishers()
         constrain()
     }
@@ -82,6 +90,14 @@ class UploadVideoEntryView: UIView, MainView {
     
     func configure() {
         backgroundColor = .background
+        
+        mainScrollView.showsVerticalScrollIndicator = false
+        
+        mainScrollViewContentStack.axis = .vertical
+        mainScrollViewContentStack.spacing = UIConstants.mainStackViewSpacing
+        mainScrollViewContentStack.layoutMargins = UIConstants.mainStackViewLeadingAndTrailingLayoutMargins
+        mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
+        mainScrollViewContentStack.alignment = .center
         
         videoPlayerTimelineSlider.tintColor = .primaryElement
         videoPlayerTimelineSlider.minimumValue = 0
@@ -115,6 +131,7 @@ class UploadVideoEntryView: UIView, MainView {
     func makeAccessible() {
         saveToDeviceLabel.adjustsFontForContentSizeCategory = true
         saveToDeviceExplanationLabel.adjustsFontForContentSizeCategory = true
+        savingToDeviceLabel.adjustsFontForContentSizeCategory = true
         uploadingProgressViewLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -126,11 +143,21 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func constrain() {
-        addConstrainedSubviews(videoPlayerView, underVideoPlayerStack)
+        addConstrainedSubviews(mainScrollView)
+        mainScrollView.addConstrainedSubviews(mainScrollViewContentStack)
         videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
         
         NSLayoutConstraint.activate([
-            videoPlayerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: -3),
+            mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            mainScrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainScrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            mainScrollViewContentStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
+            mainScrollViewContentStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
+            mainScrollViewContentStack.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
+            mainScrollViewContentStack.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
+
             videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
             videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
@@ -144,7 +171,6 @@ class UploadVideoEntryView: UIView, MainView {
             videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
             videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10),
             
-            underVideoPlayerStack.topAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: 15),
             underVideoPlayerStack.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
             underVideoPlayerStack.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
             
@@ -168,8 +194,8 @@ class UploadVideoEntryView: UIView, MainView {
                 switch viewState {
                 case .videoEntryIsSavingToDevice:
                     self.configureSavingToDeviceProgressViewUI()
-                    self.presentSavingToDeviceUI()
                     self.configureUploadingProgressViewUI()
+                    self.presentSavingToDeviceUI()
                     self.presentUploadingUI()
                 case .videoEntryWasSavedToDevice:
                     self.savingToDeviceProgressView.setProgress(1.0, animated: true)
@@ -237,12 +263,14 @@ class UploadVideoEntryView: UIView, MainView {
     
     func configureSaveToDeviceToggleUI() {
         saveToDeviceToggleStack.distribution = .equalCentering
+        saveToDeviceToggleStack.alignment = .center
         
         saveToDeviceLabel.text = "Save to Device"
         saveToDeviceLabel.font = UIFontMetrics.avenirNextRegularBody
         saveToDeviceLabel.textAlignment = .left
         saveToDeviceLabel.textColor = .primaryElement
-        saveToDeviceLabel.numberOfLines = 0
+        saveToDeviceLabel.numberOfLines = 2
+        saveToDeviceLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
         
         saveToDeviceSwitch.onTintColor = .primaryElement
         saveToDeviceSwitch.backgroundColor = .disabled
@@ -284,6 +312,7 @@ class UploadVideoEntryView: UIView, MainView {
         
         savingToDeviceLabel.font = UIFontMetrics.avenirNextBoldFootnote
         savingToDeviceLabel.textColor = .primaryElement
+        savingToDeviceLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
     }
     
     func configureUploadingProgressViewUI() {
@@ -304,6 +333,7 @@ class UploadVideoEntryView: UIView, MainView {
         
         uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
         uploadingProgressViewLabel.textColor = .primaryElement
+        uploadingProgressViewLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
         
         uploadingProgressViewActivityIndicator.hidesWhenStopped = true
         uploadingProgressViewActivityIndicator.isHidden = true

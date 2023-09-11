@@ -46,10 +46,12 @@ struct AlertPresenter {
         present(alertToDisplay, on: currentRootView)
     }
     
-    static func presentInadequatePermissionsAlert(on viewController: UIViewController, withMessage message: String) {
+    static func presentInadequatePermissionsAlert(
+        on viewController: UIViewController,
+        withMessage message: String
+    ) {
         guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
               let currentRootView = currentUIWindow.rootViewController?.view else { return }
-        
         
         let alertToDisplay = CustomAlert(
             title: "Error",
