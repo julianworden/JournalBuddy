@@ -55,15 +55,19 @@ final class UploadVideoEntryViewModel: MainViewModel {
     }
 
     func videoPlayerRestartButtonTapped() {
-        videoPlayer.seek(to: CMTime(value: 0, timescale: 1), toleranceBefore: .zero, toleranceAfter: .zero)
+        videoPlayer.seek(
+            to: CMTime(value: 0, timescale: 1),
+            toleranceBefore: .zero,
+            toleranceAfter: .zero
+        )
         videoPlayer.play()
     }
 
     func seekVideoPlayer(to newTimestamp: Double) {
         videoPlayer.seek(
             to: CMTime(seconds: newTimestamp, preferredTimescale: 1),
-            toleranceBefore: .zero,
-            toleranceAfter: .zero
+            toleranceBefore: CMTime(seconds: 1, preferredTimescale: 2),
+            toleranceAfter: CMTime(seconds: 1, preferredTimescale: 2)
         )
     }
     

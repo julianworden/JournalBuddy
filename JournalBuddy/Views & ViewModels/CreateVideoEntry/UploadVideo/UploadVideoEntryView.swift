@@ -105,6 +105,7 @@ class UploadVideoEntryView: UIView, MainView {
         videoPlayerTimelineSlider.thumbTintColor = .background
         videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
         videoPlayerTimelineSlider.isContinuous = false
+        videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
         
         videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
@@ -453,6 +454,12 @@ class UploadVideoEntryView: UIView, MainView {
             self?.videoPlayerCenterMediaButton.alpha = 0
             self?.videoPlayerTimelineSlider.alpha = 0
         }
+    }
+    
+    @objc func userDidTouchDownTimelineSlider() {
+        hideMediaControlsTimer?.invalidate()
+        hideMediaControlsTimer = nil
+        viewModel.videoPlayer.pause()
     }
     
     @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
