@@ -463,8 +463,10 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
-        viewModel.seekVideoPlayer(to: Double(sender.value))
-        playButtonTapped()
+        Task {
+            await viewModel.seekVideoPlayer(to: Double(sender.value))
+            playButtonTapped()
+        }
     }
     
     @objc func saveToDeviceSwitchTapped(_ sender: UISwitch) {
@@ -473,6 +475,7 @@ class UploadVideoEntryView: UIView, MainView {
     
     @objc func uploadButtonTapped() {
         Task {
+            pauseButtonTapped()
             await viewModel.uploadButtonTapped()
         }
     }

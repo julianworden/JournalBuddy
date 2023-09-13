@@ -5,6 +5,7 @@
 //  Created by Julian Worden on 7/22/23.
 //
 
+import AVFoundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
@@ -166,9 +167,11 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// - Returns: The saved video entry, which should have valid `downloadURL` and `id` properties, as they were assigned during
     /// the execution of the method.
     func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
-        let downloadURL = try await uploadVideoEntryToFBStorage(videoEntry, at: url)
+        let videoEntryDownloadURL = try await uploadVideoEntryToFBStorage(videoEntry, at: url)
+        let videoEntryThumbnailDownloadURL = try await uploadVideoEntryThumbnailToFBStorage(videoEntry: videoEntry, videoEntryLocalURL: url)
         var newVideoEntry = videoEntry
-        newVideoEntry.downloadURL = downloadURL.absoluteString
+        newVideoEntry.downloadURL = videoEntryDownloadURL.absoluteString
+        newVideoEntry.thumbnailDownloadURL = videoEntryThumbnailDownloadURL.absoluteString
         
         do {
             let newVideoEntryDocumentReference = try usersCollection
@@ -195,7 +198,9 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// URL as the `videoEntry`'s `downloadURL` property.
     func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL {
         do {
-            let newVideoEntryLocationRef = storageRef.child("Video Entries/\(videoEntry.creatorUID)/\(UUID().uuidString).mov")
+            let newVideoEntryLocationRef = storageRef.child(
+                "Video Entries/\(videoEntry.creatorUID)/\(videoEntry.unixDate)/\(videoEntry.unixDate).mov"
+            )
             
             let videoData = try Data(contentsOf: url)
             
@@ -213,10 +218,44 @@ final class DatabaseService: DatabaseServiceProtocol {
                 let downloadURL = try await newVideoEntryLocationRef.downloadURL()
                 return downloadURL
             } catch {
-                throw VideoEntryError.failedToFetchDownloadURL
+                throw VideoEntryError.failedToFetchEntryDownloadURL
             }
         } catch {
             throw FBStorageError.uploadDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
+        do {
+            let newVideoEntryThumbnailRef = storageRef.child(
+                "Video Entries/\(videoEntry.creatorUID)/\(videoEntry.unixDate)/\(videoEntry.unixDate).jpeg"
+            )
+            let videoAsset = AVAsset(url: videoEntryLocalURL)
+            let videoThumbnailGenerator = AVAssetImageGenerator(asset: videoAsset)
+            videoThumbnailGenerator.requestedTimeToleranceBefore = .zero
+            videoThumbnailGenerator.requestedTimeToleranceAfter = CMTime(value: 3, timescale: 1)
+            // Keeps image in video's orientation and stops it from rotating into landscape
+            videoThumbnailGenerator.appliesPreferredTrackTransform = true
+            
+            let imageAsCGImage = try await videoThumbnailGenerator.image(at: .zero).image
+            let imageAsUIImage = UIImage(cgImage: imageAsCGImage)
+            
+            guard let imageData = imageAsUIImage.jpegData(compressionQuality: 0.7) else {
+                throw VideoEntryError.thumbnailGenerationFailed
+            }
+            
+            _ = try await newVideoEntryThumbnailRef.putDataAsync(imageData)
+            
+            do {
+                let thumbnailDownloadURL = try await newVideoEntryThumbnailRef.downloadURL()
+                return thumbnailDownloadURL
+            } catch {
+                print(error.emojiMessage)
+                throw VideoEntryError.failedToFetchThumbnailDownloadURL
+            }
+        } catch {
+            print(error.emojiMessage)
+            throw VideoEntryError.thumbnailUploadingFailed
         }
     }
 }

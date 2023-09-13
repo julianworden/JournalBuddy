@@ -12,7 +12,6 @@ import Photos
 @MainActor
 final class UploadVideoEntryViewModel: MainViewModel {
     lazy var videoPlayer = AVPlayer(url: recordedVideoURL)
-    @Published var videoPlayerCurrentItemIsFinished = false
     /// The periodic time observer for the video player. This is created in in `UploadVideoView` and then removed
     /// after `UploadVideoViewController` disappears.
     var videoPlayerPeriodicTimeObserver: Any?
@@ -20,6 +19,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
     @Published var viewState = UploadVideoEntryViewState.displayingView
     var saveVideoToDevice = false
 
+    let isTesting: Bool
     let recordedVideoURL: URL
     /// Indicates whether or not the user is uploading a video entry directly from their photo library or not.
     let videoWasSelectedFromLibrary: Bool
@@ -31,15 +31,17 @@ final class UploadVideoEntryViewModel: MainViewModel {
             return 0
         }
 
-        return currentItem.duration.seconds
+        return videoPlayer.currentItem?.duration.seconds ?? 0
     }
 
     init(
+        isTesting: Bool = false,
         recordedVideoURL: URL,
         videoWasSelectedFromLibrary: Bool,
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol
     ) {
+        self.isTesting = isTesting
         self.recordedVideoURL = recordedVideoURL
         self.videoWasSelectedFromLibrary = videoWasSelectedFromLibrary
         self.databaseService = databaseService
@@ -63,17 +65,17 @@ final class UploadVideoEntryViewModel: MainViewModel {
         videoPlayer.play()
     }
 
-    func seekVideoPlayer(to newTimestamp: Double) {
-        videoPlayer.seek(
-            to: CMTime(seconds: newTimestamp, preferredTimescale: 1),
-            toleranceBefore: CMTime(seconds: 1, preferredTimescale: 2),
-            toleranceAfter: CMTime(seconds: 1, preferredTimescale: 2)
+    func seekVideoPlayer(to newTimestamp: Double) async {
+        await videoPlayer.seek(
+            to: CMTime(value: CMTimeValue(newTimestamp), timescale: 1),
+            toleranceBefore: CMTime(value: 1, timescale: 2),
+            toleranceAfter: CMTime(value: 1, timescale: 2)
         )
     }
     
-    func uploadButtonTapped() async {
+    func uploadButtonTapped(photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()) async {
         if saveVideoToDevice {
-            await saveVideoToDevice()
+            await saveVideoToDevice(photoLibrary: photoLibrary)
         }
         
         await uploadVideo()
@@ -88,6 +90,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
                 creatorUID: authService.currentUserUID,
                 unixDate: Date.now.timeIntervalSince1970,
                 downloadURL: "",
+                thumbnailDownloadURL: "",
                 type: .video
             )
             
@@ -97,7 +100,10 @@ final class UploadVideoEntryViewModel: MainViewModel {
 
             // Don't take up unnecessary storage on the user's device
             do {
-                try FileManager.default.removeItem(at: recordedVideoURL)
+                // Avoid deleting item during testing so that other tests don't fail
+                if !isTesting {
+                    try FileManager.default.removeItem(at: recordedVideoURL)
+                }
             } catch {
                 print("❌ Failed to delete item from local device storage.\n\(error.emojiMessage)")
             }
@@ -107,16 +113,16 @@ final class UploadVideoEntryViewModel: MainViewModel {
         }
     }
     
-    func saveVideoToDevice() async {
+    func saveVideoToDevice(
+        photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()
+    ) async {
         do {
             viewState = .videoEntryIsSavingToDevice
             
-            try await PHPhotoLibrary.shared().performChanges { [weak self] in
+            try await photoLibrary.performChanges { [weak self] in
                 guard let self else { return }
-                
-                let options = PHAssetResourceCreationOptions()
-                let creationRequest = PHAssetCreationRequest.forAsset()
-                creationRequest.addResource(with: .video, fileURL: self.recordedVideoURL, options: options)
+
+                PHAssetCreationRequest.forAsset().addResource(with: .video, fileURL: self.recordedVideoURL, options: nil)
             }
             
             viewState = .videoEntryWasSavedToDevice

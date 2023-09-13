@@ -7,6 +7,8 @@
 
 import FirebaseAuth
 
+#warning("Remove methods that are only called from within DatabaseService from this Protocol and make those methods private in DatabaseService.")
+
 protocol DatabaseServiceProtocol {
     func getUser(withUID uid: String) async throws -> User
     func createUser(_ user: User) async throws
@@ -22,4 +24,5 @@ protocol DatabaseServiceProtocol {
     
     func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry
     func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL
+    func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL
 }

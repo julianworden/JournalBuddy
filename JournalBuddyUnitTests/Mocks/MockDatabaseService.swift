@@ -106,6 +106,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             var newVideoEntry = videoEntry
             newVideoEntry.downloadURL = "https://exampledownloadurl.com"
             newVideoEntry.id = UUID().uuidString
+            newVideoEntry.downloadURL = "https://examplethumbnaildownloadurl.com"
             return newVideoEntry
         }
     }
@@ -118,5 +119,13 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
         
         return url
+    }
+    
+    func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+        
+        return videoEntryLocalURL
     }
 }

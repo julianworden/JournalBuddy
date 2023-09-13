@@ -13,5 +13,6 @@ struct VideoEntry: Entry {
     let unixDate: Double
     /// The URL at which `self` can be downloaded.
     var downloadURL: String
+    var thumbnailDownloadURL: String
     let type: EntryType
 }
