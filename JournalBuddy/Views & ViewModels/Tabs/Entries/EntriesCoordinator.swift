@@ -73,8 +73,8 @@ final class EntriesCoordinator: NSObject, Coordinator {
         addEditTextEntryCoordinator.start()
     }
 
-    func presentAddEditVideoEntryViewController() {
-        let addEditVideoEntryCoordinator = CreateVideoEntryCoordinator(
+    func presentCreateVideoEntryViewController() {
+        let createVideoEntryCoordinator = CreateVideoEntryCoordinator(
             parentCoordinator: self,
             databaseService: databaseService,
             authService: authService,
@@ -82,8 +82,21 @@ final class EntriesCoordinator: NSObject, Coordinator {
             currentUser: currentUser
         )
 
-        childCoordinators.append(addEditVideoEntryCoordinator)
-        addEditVideoEntryCoordinator.start()
+        childCoordinators.append(createVideoEntryCoordinator)
+        createVideoEntryCoordinator.start()
+    }
+    
+    func presentCreateVoiceEntryViewController() {
+        let createVoiceEntryCoordinator = CreateVoiceEntryCoordinator(
+            parentCoordinator: self,
+            databaseService: databaseService,
+            authService: authService,
+            navigationController: navigationController,
+            currentUser: currentUser
+        )
+        
+        childCoordinators.append(createVoiceEntryCoordinator)
+        createVoiceEntryCoordinator.start()
     }
 }
 
@@ -95,8 +108,10 @@ extension EntriesCoordinator: UINavigationControllerDelegate {
 
         if let addEditTextEntryViewController = fromViewController as? AddEditTextEntryViewController {
             removeChildCoordinator(addEditTextEntryViewController.coordinator)
-        } else if let addEditVideoEntryViewController = fromViewController as? CreateVideoEntryViewController {
-            removeChildCoordinator(addEditVideoEntryViewController.coordinator)
+        } else if let createVideoEntryViewController = fromViewController as? CreateVideoEntryViewController {
+            removeChildCoordinator(createVideoEntryViewController.coordinator)
+        } else if let createVoiceEntryViewController = fromViewController as? CreateVoiceEntryViewController {
+            removeChildCoordinator(createVoiceEntryViewController.coordinator)
         }
     }
 }

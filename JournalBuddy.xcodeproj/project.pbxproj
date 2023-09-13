@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */; };
+		AB07D2E02AB1F19F00927D6C /* CreateVoiceEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */; };
+		AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */; };
+		AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */; };
+		AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */; };
+		AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */; };
 		AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButton.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
@@ -167,6 +172,11 @@
 
 /* Begin PBXFileReference section */
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
+		AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewController.swift; sourceTree = "<group>"; };
+		AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryView.swift; sourceTree = "<group>"; };
+		AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryCoordinator.swift; sourceTree = "<group>"; };
+		AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModel.swift; sourceTree = "<group>"; };
+		AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewState.swift; sourceTree = "<group>"; };
 		AB0D85062AA6712B00E4C9D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
@@ -336,6 +346,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */ = {
+			isa = PBXGroup;
+			children = (
+				AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */,
+				AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */,
+				AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */,
+				AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */,
+				AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */,
+			);
+			path = CreateVoiceEntry;
+			sourceTree = "<group>";
+		};
 		AB0E971C2A858E7E005F77A5 /* Accomplishments */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,6 +801,7 @@
 				ABB24E3E2A66D127001A76E0 /* Tabs */,
 				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
 				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
+				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
 				AB7CC9142A643D1B0054B1A4 /* Custom UIViews */,
 			);
 			path = "Views & ViewModels";
@@ -946,11 +969,13 @@
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
+				AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */,
 				AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
 				ABD819EA2A866C510078604A /* HomeSectionPrimaryBox.swift in Sources */,
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
 				AB0E97202A858F55005F77A5 /* Goal.swift in Sources */,
+				AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */,
 				AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */,
 				AB181C4D2A5B1B7500560299 /* HomeViewController.swift in Sources */,
 				AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */,
@@ -985,6 +1010,7 @@
 				ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */,
 				AB1BB0CC2A94E0240051EB66 /* CreateVideoEntryViewController.swift in Sources */,
 				AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */,
+				AB07D2E02AB1F19F00927D6C /* CreateVoiceEntryViewController.swift in Sources */,
 				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
@@ -1020,6 +1046,7 @@
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
 				ABA69B5A2A9CDD7F0049B3BB /* VideoEntryError.swift in Sources */,
+				AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */,
 				ABFA28DB2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				AB8E77772A770E6900EAF49D /* User.swift in Sources */,
@@ -1042,6 +1069,7 @@
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
 				ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */,
+				AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */,
 				AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
