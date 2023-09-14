@@ -5,7 +5,7 @@
 //  Created by Julian Worden on 9/13/23.
 //
 
-import Foundation
+import UIKit
 
 @MainActor
 final class CreateVoiceEntryCoordinator: Coordinator {
@@ -47,5 +47,12 @@ final class CreateVoiceEntryCoordinator: Coordinator {
     
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         
+    }
+    
+    func presentMicInadequatePermissionsAlert(on viewController: UIViewController) {
+        AlertPresenter.presentInadequatePermissionsAlert(
+            on: viewController,
+            withMessage: "Before you can create a voice entry, you'll need to grant us permission to access your microphone in Settings."
+        )
     }
 }

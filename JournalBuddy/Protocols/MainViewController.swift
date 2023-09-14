@@ -18,5 +18,6 @@ protocol MainViewController {
 
     func configure()
     func subscribeToPublishers()
+    #warning("Don't have showError in this protocol, use it in Coordinators instead so we're only presenting alerts from Coordinators.")
     func showError(_ errorMessage: String)
 }

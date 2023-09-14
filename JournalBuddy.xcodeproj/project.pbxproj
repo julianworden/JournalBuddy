@@ -13,6 +13,7 @@
 		AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */; };
 		AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */; };
 		AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */; };
+		AB07D2EA2AB1FE7000927D6C /* VoiceEntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */; };
 		AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButton.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
@@ -66,6 +67,7 @@
 		AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5BE2A12A64762B00803E16 /* MainTextField.swift */; };
 		AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */; };
 		AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */; };
+		AB6C8A0C2AB34249008F5455 /* TestAudio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */; };
 		AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */; };
 		AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076852A8E606300E7E4DB /* CustomAlert.swift */; };
 		AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */; };
@@ -177,6 +179,7 @@
 		AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModel.swift; sourceTree = "<group>"; };
 		AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewState.swift; sourceTree = "<group>"; };
+		AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryError.swift; sourceTree = "<group>"; };
 		AB0D85062AA6712B00E4C9D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
@@ -227,6 +230,7 @@
 		AB5BE2A12A64762B00803E16 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
 		AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolButton.swift; sourceTree = "<group>"; };
+		AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = TestAudio.m4a; sourceTree = "<group>"; };
 		AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolConstants.swift; sourceTree = "<group>"; };
 		AB7076852A8E606300E7E4DB /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
@@ -371,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */,
+				AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -571,6 +576,7 @@
 				AB58B8F42AA7E28F00FAA4D7 /* FBStorageError.swift */,
 				ABDB553C2A72A82600DC8DF8 /* FormError.swift */,
 				ABA69B592A9CDD7F0049B3BB /* VideoEntryError.swift */,
+				AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -940,6 +946,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB6C8A0C2AB34249008F5455 /* TestAudio.m4a in Resources */,
 				AB181C552A5B1B7800560299 /* LaunchScreen.storyboard in Resources */,
 				AB181C522A5B1B7800560299 /* Assets.xcassets in Resources */,
 				AB181C5D2A5B25DB00560299 /* GoogleService-Info.plist in Resources */,
@@ -963,6 +970,7 @@
 			files = (
 				AB95E2FF2A6EAB3F001FDDD8 /* SignUpViewState.swift in Sources */,
 				ABB348362A6AC2C20050A9AC /* EntriesView.swift in Sources */,
+				AB07D2EA2AB1FE7000927D6C /* VoiceEntryError.swift in Sources */,
 				AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */,
 				ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */,
 				ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */,

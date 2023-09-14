@@ -380,7 +380,11 @@ class UploadVideoEntryView: UIView, MainView {
     ///   - selectorToRemove: The `Selector` to remove from `videoPlayerCenterMediaButton` so that `selectorToAdd` gets triggered when the button is tapped.
     ///   - selectorToAdd: The `Selector` to add to `videoPlayerCenterMediaButton`. Replaces `selectorToRemove`.
     ///   - newMediaButtonType: The type of button that `videoPlayerCenterMediaButton` is to become.
-    func configureMediaButton(remove selectorToRemove: Selector, add selectorToAdd: Selector, newMediaButtonType: VideoPlayerMediaButtonType) {
+    func configureMediaButton(
+        remove selectorToRemove: Selector,
+        add selectorToAdd: Selector,
+        newMediaButtonType: VideoPlayerMediaButtonType
+    ) {
         videoPlayerCenterMediaButton.setImage(newMediaButtonType.image, for: .normal)
         videoPlayerCenterMediaButton.removeTarget(self, action: selectorToRemove, for: .touchUpInside)
         videoPlayerCenterMediaButton.addTarget(self, action: selectorToAdd, for: .touchUpInside)

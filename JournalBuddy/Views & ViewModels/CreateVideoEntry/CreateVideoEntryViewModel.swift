@@ -63,7 +63,9 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     }
     
     func startRecording() {
-        let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent(("recordedvideo" as NSString).appendingPathExtension("mov")!)
+        let outputFilePath = (NSTemporaryDirectory() as NSString)
+                                .appendingPathComponent(("recordedvideo" as NSString)
+                                .appendingPathExtension("mov")!)
         
         do {
             if FileManager.default.fileExists(atPath: outputFilePath) {
@@ -249,7 +251,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
             viewState = .videoEntryWasSelectedOrRecorded(at: documentsURL, videoWasSelectedFromLibrary: true)
         } catch {
             print(error.emojiMessage)
-            viewState = .error(message: VideoEntryError.insufficientPermissions.localizedDescription)
+            viewState = .error(message: VideoEntryError.videoSelectionFailed.localizedDescription)
         }
     }
 }

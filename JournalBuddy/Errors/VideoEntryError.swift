@@ -19,7 +19,6 @@ enum VideoEntryError: LocalizedError {
     case conversionToDataTypeFailed
     case failedToFetchEntryDownloadURL
     case failedToFetchThumbnailDownloadURL
-    case insufficientPermissions
     case thumbnailGenerationFailed
     case thumbnailUploadingFailed
     
@@ -47,8 +46,6 @@ enum VideoEntryError: LocalizedError {
             return "We failed to associate your video entry with a URL. Please contact support."
         case .failedToFetchThumbnailDownloadURL:
             return "We failed to associate your video entry's thumbnail with a URL. Please contact support."
-        case .insufficientPermissions:
-            return "We do not have permission to access the file you selected. Please try again."
         case .thumbnailGenerationFailed:
             return "We failed to generate a thumbnail image for your video entry. Please try again."
         case .thumbnailUploadingFailed:

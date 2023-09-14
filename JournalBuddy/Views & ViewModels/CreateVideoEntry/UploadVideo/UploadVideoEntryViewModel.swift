@@ -31,7 +31,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
             return 0
         }
 
-        return videoPlayer.currentItem?.duration.seconds ?? 0
+        return currentItem.duration.seconds
     }
 
     init(

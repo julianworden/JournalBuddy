@@ -9,4 +9,11 @@ import Foundation
 
 enum CreateVoiceEntryViewState: ViewState {
     case displayingView
+    case audioIsRecording
+    case audioRecordingHasFinished
+    case audioIsPlaying
+    case audioWasPaused
+    case audioPlayingHasFinished
+    case inadequatePermissions
+    case error(message: String)
 }

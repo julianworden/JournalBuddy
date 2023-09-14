@@ -32,6 +32,7 @@ extension UIImage.Configuration {
         return UIImage.SymbolConfiguration(paletteColors: [.disabled])
     }
     
+    #warning("Change the name of this since it's being used for voice entries too")
     static var createVideoViewButton: UIImage.SymbolConfiguration {
         return UIImage.SymbolConfiguration(
             paletteColors: [
