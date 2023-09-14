@@ -116,6 +116,7 @@
 		AB95E2FF2A6EAB3F001FDDD8 /* SignUpViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E2FE2A6EAB3F001FDDD8 /* SignUpViewState.swift */; };
 		AB95E3012A6EB4D5001FDDD8 /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E3002A6EB4D5001FDDD8 /* LoginViewDelegate.swift */; };
 		AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */; };
+		ABA4EEC22AB3B698005ADC48 /* VoiceEntryControlButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4EEC12AB3B698005ADC48 /* VoiceEntryControlButtonType.swift */; };
 		ABA4F9032A682ADC0008D18E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4F9022A682ADC0008D18E /* MainViewController.swift */; };
 		ABA69B5A2A9CDD7F0049B3BB /* VideoEntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA69B592A9CDD7F0049B3BB /* VideoEntryError.swift */; };
 		ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */; };
@@ -279,6 +280,7 @@
 		AB95E2FE2A6EAB3F001FDDD8 /* SignUpViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewState.swift; sourceTree = "<group>"; };
 		AB95E3002A6EB4D5001FDDD8 /* LoginViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
 		AB95E3042A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextFieldStack.swift; sourceTree = "<group>"; };
+		ABA4EEC12AB3B698005ADC48 /* VoiceEntryControlButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryControlButtonType.swift; sourceTree = "<group>"; };
 		ABA4F9022A682ADC0008D18E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ABA69B592A9CDD7F0049B3BB /* VideoEntryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEntryError.swift; sourceTree = "<group>"; };
 		ABA9465F2A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewTableViewDataSource.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 				ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */,
 				AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */,
+				ABA4EEC12AB3B698005ADC48 /* VoiceEntryControlButtonType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1047,6 +1050,7 @@
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
+				ABA4EEC22AB3B698005ADC48 /* VoiceEntryControlButtonType.swift in Sources */,
 				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
 				AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */,
 				ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */,

@@ -16,6 +16,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     
     @Published var viewState = CreateVoiceEntryViewState.displayingView
     let voiceEntryURL = URL.documentsDirectory.appending(path: "voiceentry").appendingPathExtension("m4a")
+    var recordButtonAnimationTimer: Timer?
     
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
@@ -72,13 +73,17 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     func startPlaying() {
         let audioPlayerDidStartPlaying = audioPlayer.play()
         
-        if audioPlayerDidStartPlaying {
+        if !audioPlayerDidStartPlaying {
             viewState = .error(message: VoiceEntryError.failedToStartPlaying.localizedDescription)
         }
     }
     
     func pausePlaying() {
         audioPlayer.pause()
+    }
+    
+    func restartAudioPlayer() {
+        audioPlayer.play()
     }
     
     private func checkMicPermissions(completion: @escaping (Bool) -> Void) {
@@ -104,6 +109,12 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         audioRecorder.delegate = self
         audioRecorder.prepareToRecord()
     }
+  
+    #warning("Try this later.")
+//    func getRecordingVolume() -> Float {
+//        audioRecorder.updateMeters()
+//        return audioRecorder.peakPower(forChannel: 1)
+//    }
 }
 
 extension CreateVoiceEntryViewModel: AVAudioRecorderDelegate {
@@ -115,8 +126,6 @@ extension CreateVoiceEntryViewModel: AVAudioRecorderDelegate {
         
         viewState = .audioRecordingHasFinished
     }
-    
-    
 }
 
 extension CreateVoiceEntryViewModel: AVAudioPlayerDelegate {

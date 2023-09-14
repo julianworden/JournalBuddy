@@ -9,9 +9,6 @@ import Combine
 import UIKit
 
 class CreateVoiceEntryViewController: UIViewController, MainViewController {
-    private lazy var stopButton = UIBarButtonItem(image: UIImage(systemName: "stop"), style: .plain, target: self, action: #selector(stopButtonTapped))
-    private lazy var playButton = UIBarButtonItem(image: UIImage(systemName: "play"), style: .plain, target: self, action: #selector(playButtonTapped))
-    
     weak var coordinator: CreateVoiceEntryCoordinator?
     var viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -42,7 +39,6 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = "Create Voice Entry"
-        navigationItem.rightBarButtonItems = [playButton, stopButton]
     }
     
     func subscribeToPublishers() {
@@ -64,13 +60,5 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
     
     func showError(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
-    }
-    
-    @objc func playButtonTapped() {
-        viewModel.startPlaying()
-    }
-    
-    @objc func stopButtonTapped() {
-        viewModel.stopRecording()
     }
 }

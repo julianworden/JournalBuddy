@@ -13,6 +13,10 @@ class CreateVoiceEntryView: UIView, MainView {
         systemName: "mic.circle.fill",
         withConfiguration: .createVideoViewButton
     )!
+    private lazy var stopImage = UIImage(
+        systemName: "stop.circle.fill",
+        withConfiguration: .createVideoViewButton
+    )!
     private lazy var audioControlButton = SFSymbolButton(symbol: micImage)
     
     let viewModel: CreateVoiceEntryViewModel
@@ -24,6 +28,7 @@ class CreateVoiceEntryView: UIView, MainView {
         super.init(frame: .zero)
         
         configure()
+        subscribeToPublishers()
         constrain()
     }
     
@@ -55,10 +60,109 @@ class CreateVoiceEntryView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
-        
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .audioPlayingHasFinished:
+                    self?.audioPlayingHasFinished()
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func configureAudioControlButton(
+        remove selectorToRemove: Selector,
+        add selectorToAdd: Selector,
+        newControlButtonType: VoiceEntryControlButtonType
+    ) {
+        audioControlButton.setImage(
+            newControlButtonType.image,
+            for: .normal
+        )
+        audioControlButton.removeTarget(
+            self,
+            action: selectorToRemove,
+            for: .touchUpInside
+        )
+        audioControlButton.addTarget(
+            self,
+            action: selectorToAdd,
+            for: .touchUpInside
+        )
     }
     
     @objc func recordButtonTapped() {
         viewModel.startRecording()
+        
+        configureAudioControlButton(
+            remove: #selector(recordButtonTapped),
+            add: #selector(stopButtonTapped),
+            newControlButtonType: .stop
+        )
+  
+        #warning("Try something like this later")
+//        viewModel.recordButtonAnimationTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
+//            guard let recordingVolume = self?.viewModel.getRecordingVolume() else { return }
+//            
+//            if recordingVolume < -100 {
+//                UIView.animate(withDuration: 0.5) {
+//                    self?.audioControlButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+//                }
+//            } else {
+//                UIView.animate(withDuration: 0.5) {
+//                    self?.audioControlButton.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+//                }
+//            }
+//        }
+    }
+    
+    @objc func playButtonTapped() {
+        viewModel.startPlaying()
+        
+        configureAudioControlButton(
+            remove: #selector(playButtonTapped),
+            add: #selector(pauseButtonTapped),
+            newControlButtonType: .pause
+        )
+    }
+    
+    @objc func pauseButtonTapped() {
+        viewModel.pausePlaying()
+        
+        configureAudioControlButton(
+            remove: #selector(pauseButtonTapped),
+            add: #selector(playButtonTapped),
+            newControlButtonType: .play
+        )
+    }
+    
+    @objc func stopButtonTapped() {
+        viewModel.stopRecording()
+        
+        configureAudioControlButton(
+            remove: #selector(stopButtonTapped),
+            add: #selector(playButtonTapped),
+            newControlButtonType: .play
+        )
+    }
+    
+    @objc func restartButtonTapped() {
+        viewModel.startPlaying()
+        
+        configureAudioControlButton(
+            remove: #selector(restartButtonTapped),
+            add: #selector(pauseButtonTapped),
+            newControlButtonType: .pause
+        )
+    }
+    
+    @objc func audioPlayingHasFinished() {
+        configureAudioControlButton(
+            remove: #selector(pauseButtonTapped),
+            add: #selector(restartButtonTapped),
+            newControlButtonType: .restart
+        )
     }
 }
