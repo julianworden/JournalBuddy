@@ -155,6 +155,7 @@
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
 		ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */; };
 		ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */; };
+		ABF8BFC22AB5117A001D49F8 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8BFC12AB5117A001D49F8 /* TimerView.swift */; };
 		ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */; };
 		ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */; };
 		ABFA28DB2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFA28DA2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift */; };
@@ -319,6 +320,7 @@
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
 		ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageConstants.swift; sourceTree = "<group>"; };
 		ABF2B0DB2A700E69007A93DB /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		ABF8BFC12AB5117A001D49F8 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		ABF8FD5E2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelUnitTests.swift; sourceTree = "<group>"; };
 		ABF8FD602A72B5230065B8D9 /* LoginViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelUnitTests.swift; sourceTree = "<group>"; };
 		ABFA28DA2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVideoEntryViewDelegate.swift; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				AB5E7B0C2A8FA265004A9051 /* Password Text Field */,
 				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
 				AB8E9B8F2A894E3800A99C3A /* Custom Menu */,
+				ABF8BFC12AB5117A001D49F8 /* TimerView.swift */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -1041,6 +1044,7 @@
 				AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */,
 				AB1BB0D02A94E1530051EB66 /* CreateVideoEntryCoordinator.swift in Sources */,
 				ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */,
+				ABF8BFC22AB5117A001D49F8 /* TimerView.swift in Sources */,
 				AB7CC91A2A645DC70054B1A4 /* HomeView.swift in Sources */,
 				AB58B8F52AA7E28F00FAA4D7 /* FBStorageError.swift in Sources */,
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,

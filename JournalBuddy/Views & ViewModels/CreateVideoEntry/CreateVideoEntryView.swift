@@ -23,9 +23,7 @@ class CreateVideoEntryView: UIView, MainView {
     )!
 
     lazy var backButton = SFSymbolButton(symbol: backButtonImage)
-    private lazy var recordingTimerLabelBackground = UIView()
-    /// Displays how long the user has been recording.
-    lazy var recordingTimerLabel = UILabel()
+    lazy var recordingTimerView = TimerView()
     lazy var switchCameraButton = SFSymbolButton(symbol: switchCameraButtonImage)
     lazy var showVideoPickerButton = SFSymbolButton(symbol: showVideoPickerImage)
     private lazy var videoPreview = VideoPreviewView()
@@ -79,15 +77,6 @@ class CreateVideoEntryView: UIView, MainView {
         backButton.contentVerticalAlignment = .fill
         backButton.contentMode = .scaleAspectFit
 
-        recordingTimerLabelBackground.backgroundColor = .primaryElement
-        recordingTimerLabelBackground.layer.cornerRadius = 12
-
-        recordingTimerLabel.text = "00:00 / 05:00"
-        recordingTimerLabel.textColor = .background
-        recordingTimerLabel.font = UIFontMetrics.avenirNextRegularBody
-        recordingTimerLabel.numberOfLines = 0
-        recordingTimerLabel.textAlignment = .center
-
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonTapped), for: .touchUpInside)
         switchCameraButton.contentHorizontalAlignment = .fill
         switchCameraButton.contentVerticalAlignment = .fill
@@ -109,7 +98,7 @@ class CreateVideoEntryView: UIView, MainView {
     }
 
     func makeAccessible() {
-        recordingTimerLabel.adjustsFontForContentSizeCategory = true
+        
     }
     
     func subscribeToPublishers() {
@@ -120,12 +109,12 @@ class CreateVideoEntryView: UIView, MainView {
         addConstrainedSubviews(
             videoPreview,
             backButton,
-            recordingTimerLabelBackground,
+            recordingTimerView,
             switchCameraButton,
             showVideoPickerButton,
             startRecordingButton
         )
-        recordingTimerLabelBackground.addConstrainedSubview(recordingTimerLabel)
+        
         startRecordingButton.addConstrainedSubviews(startRecordingButtonInnerRedView)
 
         NSLayoutConstraint.activate([
@@ -134,14 +123,9 @@ class CreateVideoEntryView: UIView, MainView {
             backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             backButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 38),
 
-            recordingTimerLabelBackground.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            recordingTimerLabelBackground.leadingAnchor.constraint(greaterThanOrEqualTo: backButton.trailingAnchor, constant: 10),
-            recordingTimerLabelBackground.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            recordingTimerLabel.topAnchor.constraint(equalTo: recordingTimerLabelBackground.topAnchor, constant: 7),
-            recordingTimerLabel.bottomAnchor.constraint(equalTo: recordingTimerLabelBackground.bottomAnchor, constant: -7),
-            recordingTimerLabel.leadingAnchor.constraint(equalTo: recordingTimerLabelBackground.leadingAnchor, constant: 15),
-            recordingTimerLabel.trailingAnchor.constraint(equalTo: recordingTimerLabelBackground.trailingAnchor, constant: -15),
+            recordingTimerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            recordingTimerView.leadingAnchor.constraint(greaterThanOrEqualTo: backButton.trailingAnchor, constant: 10),
+            recordingTimerView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             switchCameraButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5),
             switchCameraButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 55),
@@ -188,7 +172,9 @@ class CreateVideoEntryView: UIView, MainView {
             if viewModel.recordingTimerDurationAsInt > 300 {
                 stopRecording()
             } else {
-                self.recordingTimerLabel.text = "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+                self.recordingTimerView.updateTimerLabelText(
+                    with: "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+                )
             }
         }
     }
