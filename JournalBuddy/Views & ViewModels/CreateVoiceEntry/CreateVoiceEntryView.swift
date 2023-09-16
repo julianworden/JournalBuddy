@@ -68,6 +68,7 @@ class CreateVoiceEntryView: UIView, MainView {
         audioPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
         
         newRecordingButton.isHidden = true
+        newRecordingButton.addTarget(self, action: #selector(newRecordingButtonTapped), for: .touchUpInside)
         
         uploadButton.isHidden = true
     }
@@ -173,6 +174,11 @@ class CreateVoiceEntryView: UIView, MainView {
             newControlButtonType: .stop
         )
         
+        newRecordingButton.isHidden = true
+        uploadButton.isHidden = true
+        audioPlayerTimelineSlider.isHidden = true
+        recordingTimerView.isHidden = false
+        
         startUpdatingRecordingTimerLabel()
   
         #warning("Try something like this later")
@@ -229,10 +235,11 @@ class CreateVoiceEntryView: UIView, MainView {
             newControlButtonType: .play
         )
         
+        audioPlayerTimelineSlider.maximumValue = Float(viewModel.audioPlayer.duration)
+        audioPlayerTimelineSlider.setValue(0, animated: false)
         recordingTimerView.isHidden = true
         newRecordingButton.isHidden = false
         uploadButton.isHidden = false
-        audioPlayerTimelineSlider.maximumValue = Float(viewModel.audioPlayer.duration)
         audioPlayerTimelineSlider.isHidden = false
     }
     
@@ -280,5 +287,21 @@ class CreateVoiceEntryView: UIView, MainView {
             viewModel.audioPlayer.currentTime = TimeInterval(sender.value)
             playButtonTapped()
         }
+    }
+    
+    @objc func newRecordingButtonTapped() {
+        let audioRecorderDidDeleteRecording = viewModel.audioRecorder.deleteRecording()
+        
+        guard audioRecorderDidDeleteRecording else {
+            viewModel.viewState = .error(
+                message: VoiceEntryError.failedToStartNewRecording.localizedDescription
+            )
+            print("❌ Failed to delete audio recorder recording.")
+            return
+        }
+        
+        viewModel.audioPlayer = nil
+        recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
+        recordButtonTapped()
     }
 }

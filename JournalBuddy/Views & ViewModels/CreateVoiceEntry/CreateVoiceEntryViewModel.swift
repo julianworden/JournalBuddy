@@ -98,10 +98,6 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         audioPlayer.pause()
     }
     
-    func restartAudioPlayer() {
-        audioPlayer.play()
-    }
-    
     private func checkMicPermissions(completion: @escaping (Bool) -> Void) {
         audioSession.requestRecordPermission { recordPermissionGranted in
             completion(recordPermissionGranted)
