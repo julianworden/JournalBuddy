@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let videoIsUploading = Notification.Name("videoIsUploading")
+    static let voiceEntryIsUploading = Notification.Name("voiceEntryIsUploading")
 }

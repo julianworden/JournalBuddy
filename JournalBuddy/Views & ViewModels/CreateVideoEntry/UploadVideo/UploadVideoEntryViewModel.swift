@@ -90,8 +90,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
                 creatorUID: authService.currentUserUID,
                 unixDate: Date.now.timeIntervalSince1970,
                 downloadURL: "",
-                thumbnailDownloadURL: "",
-                type: .video
+                thumbnailDownloadURL: ""
             )
             
             try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
@@ -105,7 +104,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
                     try FileManager.default.removeItem(at: recordedVideoURL)
                 }
             } catch {
-                print("❌ Failed to delete item from local device storage.\n\(error.emojiMessage)")
+                print(error.emojiMessage)
             }
         } catch {
             print(error.emojiMessage)

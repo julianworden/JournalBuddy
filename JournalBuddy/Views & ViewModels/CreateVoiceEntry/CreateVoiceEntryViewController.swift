@@ -56,6 +56,8 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
                 switch viewState {
                 case .inadequatePermissions:
                     self.coordinator?.presentMicInadequatePermissionsAlert(on: self)
+                case .uploadedVoiceEntry:
+                    self.coordinator?.createVoiceEntryViewControllerDidUploadEntry()
                 case .error(let message):
                     self.showError(message)
                 default:

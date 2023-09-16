@@ -81,8 +81,9 @@ final class DatabaseService: DatabaseServiceProtocol {
             case .video:
                 let videoEntry = entry as! VideoEntry
                 return try await saveVideoEntry(videoEntry, at: url!) as! T
-            default:
-                fatalError("No other types of entries have been implemented yet")
+            case .voice:
+                let voiceEntry = entry as! VoiceEntry
+                return try await saveVoiceEntry(voiceEntry, at: url!) as! T
             }
         } catch {
             throw error
@@ -167,7 +168,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// - Returns: The saved video entry, which should have valid `downloadURL` and `id` properties, as they were assigned during
     /// the execution of the method.
     func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
-        let videoEntryDownloadURL = try await uploadVideoEntryToFBStorage(videoEntry, at: url)
+        let videoEntryDownloadURL = try await uploadVideoEntryToFBStorage(upload: videoEntry, at: url)
         let videoEntryThumbnailDownloadURL = try await uploadVideoEntryThumbnailToFBStorage(videoEntry: videoEntry, videoEntryLocalURL: url)
         var newVideoEntry = videoEntry
         newVideoEntry.downloadURL = videoEntryDownloadURL.absoluteString
@@ -188,6 +189,29 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    // MARK: - VoiceEntry
+    
+    func saveVoiceEntry(_ voiceEntry: VoiceEntry, at url: URL) async throws -> VoiceEntry {
+        let voiceEntryDownloadURL = try await uploadVoiceEntryToFBStorage(upload: voiceEntry, at: url)
+        var newVoiceEntry = voiceEntry
+        newVoiceEntry.downloadURL = voiceEntryDownloadURL.absoluteString
+        
+        do {
+            let newVoiceEntryDocumentReference = try usersCollection
+                .document(newVoiceEntry.creatorUID)
+                .collection(FBConstants.entries)
+                .addDocument(from: newVoiceEntry)
+            try await newVoiceEntryDocumentReference
+                .updateData([FBConstants.id: newVoiceEntryDocumentReference.documentID])
+            
+            newVoiceEntry.id = newVoiceEntryDocumentReference.documentID
+            
+            return newVoiceEntry
+        } catch {
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
     // MARK: - Firebase Storage
     
     /// Uploads a video entry to Firebase Storage.
@@ -196,10 +220,10 @@ final class DatabaseService: DatabaseServiceProtocol {
     ///   - url: The local URL on the user's device where the video entry is being stored.
     /// - Returns: The download URL for `videoEntry` that was provided by Firebase Storage. This method's caller should use this
     /// URL as the `videoEntry`'s `downloadURL` property.
-    func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL {
+    func uploadVideoEntryToFBStorage(upload videoEntry: VideoEntry, at url: URL) async throws -> URL {
         do {
             let newVideoEntryLocationRef = storageRef.child(
-                "Video Entries/\(videoEntry.creatorUID)/\(videoEntry.unixDate)/\(videoEntry.unixDate).mov"
+                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).mov"
             )
             
             let videoData = try Data(contentsOf: url)
@@ -228,7 +252,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
         do {
             let newVideoEntryThumbnailRef = storageRef.child(
-                "Video Entries/\(videoEntry.creatorUID)/\(videoEntry.unixDate)/\(videoEntry.unixDate).jpeg"
+                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).jpeg"
             )
             let videoAsset = AVAsset(url: videoEntryLocalURL)
             let videoThumbnailGenerator = AVAssetImageGenerator(asset: videoAsset)
@@ -256,6 +280,36 @@ final class DatabaseService: DatabaseServiceProtocol {
         } catch {
             print(error.emojiMessage)
             throw VideoEntryError.thumbnailUploadingFailed
+        }
+    }
+    
+    func uploadVoiceEntryToFBStorage(upload voiceEntry: VoiceEntry, at url: URL) async throws -> URL {
+        do {
+            let newVoiceEntryRef = storageRef.child(
+                "Users/\(voiceEntry.creatorUID)/Voice Entries/\(voiceEntry.unixDate).m4a"
+            )
+            let voiceEntryData = try Data(contentsOf: url)
+            
+            _ = try await newVoiceEntryRef.putDataAsync(voiceEntryData) { progress in
+                guard let progress else { return }
+                
+                NotificationCenter.default.post(
+                    name: .voiceEntryIsUploading,
+                    object: nil,
+                    userInfo: [NotificationConstants.uploadingProgress: progress.fractionCompleted]
+                )
+            }
+            
+            do {
+                let voiceEntryDownloadURL = try await newVoiceEntryRef.downloadURL()
+                return voiceEntryDownloadURL
+            } catch {
+                print(error.emojiMessage)
+                throw VoiceEntryError.failedToFetchDownloadURL
+            }
+        } catch {
+            print(error.emojiMessage)
+            throw VoiceEntryError.uploadingFailed
         }
     }
 }

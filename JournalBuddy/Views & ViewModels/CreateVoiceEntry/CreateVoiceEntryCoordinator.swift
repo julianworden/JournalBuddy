@@ -46,6 +46,12 @@ final class CreateVoiceEntryCoordinator: Coordinator {
     }
     
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
+        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
+    }
+    
+    func createVoiceEntryViewControllerDidUploadEntry() {
+        navigationController.popViewController(animated: true)
+        parentCoordinator?.removeChildCoordinator(self)
         
     }
     

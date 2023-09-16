@@ -24,7 +24,8 @@ class CreateVoiceEntryView: UIView, MainView {
             audioControlButton,
             audioPlayerTimelineSlider,
             newRecordingButton,
-            uploadButton
+            uploadButton,
+            uploadingStack
         ]
     )
     private lazy var recordingTimerView = TimerView()
@@ -32,6 +33,21 @@ class CreateVoiceEntryView: UIView, MainView {
     private lazy var audioPlayerTimelineSlider = TimelineSlider()
     private lazy var newRecordingButton = PrimaryButton(title: "New Recording")
     private lazy var uploadButton = PrimaryButton(title: "Upload")
+    private lazy var uploadingStack = UIStackView(
+        arrangedSubviews: [
+            uploadingProgressView,
+            uploadingProgressViewLabelStack
+        ]
+    )
+    private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
+    private lazy var uploadingProgressViewLabelStack = UIStackView(
+        arrangedSubviews: [
+            uploadingProgressViewLabel,
+            uploadingProgressViewActivityIndicator
+        ]
+    )
+    private lazy var uploadingProgressViewLabel = UILabel()
+    private lazy var uploadingProgressViewActivityIndicator = UIActivityIndicatorView(style: .medium)
     
     let viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -71,6 +87,9 @@ class CreateVoiceEntryView: UIView, MainView {
         newRecordingButton.addTarget(self, action: #selector(newRecordingButtonTapped), for: .touchUpInside)
         
         uploadButton.isHidden = true
+        uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
+        
+        uploadingStack.isHidden = true
     }
     
     func constrain() {
@@ -90,6 +109,9 @@ class CreateVoiceEntryView: UIView, MainView {
             
             uploadButton.widthAnchor.constraint(equalToConstant: 270),
             uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            
+            uploadingProgressView.heightAnchor.constraint(equalToConstant: 12),
+            uploadingProgressView.widthAnchor.constraint(equalToConstant: 270)
         ])
     }
     
@@ -103,11 +125,74 @@ class CreateVoiceEntryView: UIView, MainView {
                 switch viewState {
                 case .audioPlayingHasFinished:
                     self?.audioPlayingHasFinished()
+                case .uploadingVoiceEntry:
+                    self?.configureUploadingUI()
+                    self?.presentUploadingUI()
+                case .uploadedVoiceEntry:
+                    self?.uploadingProgressViewLabel.text = "Uploaded."
+                    self?.uploadingProgressViewActivityIndicator.isHidden = true
+                case .error(_):
+                    self?.configureErrorUI()
                 default:
                     break
                 }
             }
             .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .voiceEntryIsUploading)
+            .sink { [weak self] notification in
+                guard let loadingProgress = notification.userInfo?[NotificationConstants.uploadingProgress] as? Double else {
+                    return
+                }
+                
+                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
+                
+                if loadingProgress == 1.0 {
+                    self?.uploadingProgressViewLabel.text = "Finalizing..."
+                    self?.uploadingProgressViewActivityIndicator.startAnimating()
+                    self?.uploadingProgressViewActivityIndicator.isHidden = false
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func configureUploadingUI() {
+        audioPlayerTimelineSlider.isEnabled = false
+        audioControlButton.isEnabled = false
+        
+        uploadingStack.axis = .vertical
+        uploadingStack.spacing = 7
+        uploadingStack.alignment = .leading
+        
+        uploadingProgressView.layer.cornerRadius = 6
+        uploadingProgressView.clipsToBounds = true
+        uploadingProgressView.progressTintColor = .primaryElement
+        uploadingProgressView.trackTintColor = .disabled
+        
+        uploadingProgressViewLabelStack.spacing = 5
+        
+        uploadingProgressViewLabel.text = "Uploading..."
+        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
+        uploadingProgressViewLabel.textColor = .primaryElement
+        uploadingProgressViewLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
+        
+        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
+        uploadingProgressViewActivityIndicator.isHidden = true
+        uploadingProgressViewActivityIndicator.color = .primaryElement
+    }
+    
+    func configureErrorUI() {
+        audioControlButton.isEnabled = true
+        audioPlayerTimelineSlider.isEnabled = true
+        newRecordingButton.isHidden = false
+        uploadButton.isHidden = false
+        uploadingStack.isHidden = true
+    }
+    
+    func presentUploadingUI() {
+        newRecordingButton.isHidden = true
+        uploadButton.isHidden = true
+        uploadingStack.isHidden = false
     }
     
     func configureAudioControlButton(
@@ -303,5 +388,11 @@ class CreateVoiceEntryView: UIView, MainView {
         viewModel.audioPlayer = nil
         recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
         recordButtonTapped()
+    }
+    
+    @objc func uploadButtonTapped() {
+        Task {
+            await viewModel.uploadVoiceEntry()
+        }
     }
 }

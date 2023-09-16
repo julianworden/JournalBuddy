@@ -14,6 +14,8 @@ enum CreateVoiceEntryViewState: ViewState {
     case audioIsPlaying
     case audioWasPaused
     case audioPlayingHasFinished
+    case uploadingVoiceEntry
+    case uploadedVoiceEntry
     case inadequatePermissions
     case error(message: String)
 }

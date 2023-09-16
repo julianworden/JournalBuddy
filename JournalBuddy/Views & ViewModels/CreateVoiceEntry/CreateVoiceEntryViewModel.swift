@@ -25,6 +25,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
+    let isTesting: Bool
     let currentUser: User
     
     /// The amount of time that `recordingTimer` has been running in seconds.
@@ -37,10 +38,12 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     init(
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
+        isTesting: Bool = false,
         currentUser: User
     ) {
         self.databaseService = databaseService
         self.authService = authService
+        self.isTesting = isTesting
         self.currentUser = currentUser
     }
     
@@ -96,6 +99,36 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     
     func pausePlaying() {
         audioPlayer.pause()
+    }
+    
+    func uploadVoiceEntry() async {
+        do {
+            viewState = .uploadingVoiceEntry
+            
+            let newVoiceEntry = VoiceEntry(
+                id: "",
+                creatorUID: currentUser.uid,
+                unixDate: Date.now.timeIntervalSince1970,
+                downloadURL: ""
+            )
+            
+            try await databaseService.saveEntry(newVoiceEntry, at: voiceEntryURL)
+            
+            viewState = .uploadedVoiceEntry
+
+            // Don't take up unnecessary storage on the user's device
+            do {
+                // Avoid deleting item during testing so that other tests don't fail
+                if !isTesting {
+                    try FileManager.default.removeItem(at: voiceEntryURL)
+                }
+            } catch {
+                print(error.emojiMessage)
+            }
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
+        }
     }
     
     private func checkMicPermissions(completion: @escaping (Bool) -> Void) {

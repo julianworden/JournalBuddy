@@ -23,6 +23,9 @@ protocol DatabaseServiceProtocol {
     func updateTextEntry(_ textEntry: TextEntry) async throws
     
     func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry
-    func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL
+    func uploadVideoEntryToFBStorage(upload videoEntry: VideoEntry, at url: URL) async throws -> URL
     func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL
+    
+    func saveVoiceEntry(_ voiceEntry: VoiceEntry, at url: URL) async throws -> VoiceEntry
+    func uploadVoiceEntryToFBStorage(upload voiceEntry: VoiceEntry, at url: URL) async throws -> URL
 }

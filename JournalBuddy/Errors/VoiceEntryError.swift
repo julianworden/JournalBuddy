@@ -14,6 +14,8 @@ enum VoiceEntryError: LocalizedError {
     case failedToStartPlaying
     case failedToStopPlaying
     case failedToStartNewRecording
+    case failedToFetchDownloadURL
+    case uploadingFailed
     case insufficientPermissions
     
     var errorDescription: String? {
@@ -29,7 +31,11 @@ enum VoiceEntryError: LocalizedError {
         case .failedToStopPlaying:
             return "We were unable to stop playing your voice entry. Please try again."
         case .failedToStartNewRecording:
-            return "We were unable to start recording a new voice entry. Please go "
+            return "We were unable to start recording a new voice entry. Please try again."
+        case .failedToFetchDownloadURL:
+            return "We were unable to generate a download URL for your voice entry URL. Please try again."
+        case .uploadingFailed:
+            return "We were unable to upload your voice entry. Please try again."
         case .insufficientPermissions:
             return "We do not have permission to access the file you selected. Please try again."
         }
