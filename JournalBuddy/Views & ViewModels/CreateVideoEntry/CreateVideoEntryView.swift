@@ -23,7 +23,7 @@ class CreateVideoEntryView: UIView, MainView {
     )!
 
     lazy var backButton = SFSymbolButton(symbol: backButtonImage)
-    lazy var recordingTimerView = TimerView()
+    private lazy var recordingTimerView = TimerView()
     lazy var switchCameraButton = SFSymbolButton(symbol: switchCameraButtonImage)
     lazy var showVideoPickerButton = SFSymbolButton(symbol: showVideoPickerImage)
     private lazy var videoPreview = VideoPreviewView()
@@ -162,6 +162,11 @@ class CreateVideoEntryView: UIView, MainView {
             // Runtime error will be thrown if this isn't called from background thread
             await self?.viewModel.captureSession.startRunning()
         }
+    }
+    
+    /// Resets `recordingTimerView`'s text when the view appears.
+    func setNewRecordingTimerLabelText() {
+        recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
     }
 
     func startUpdatingRecordingTimerLabel() {

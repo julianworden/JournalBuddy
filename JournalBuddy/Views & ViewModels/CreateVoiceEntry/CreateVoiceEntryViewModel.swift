@@ -16,11 +16,23 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     
     @Published var viewState = CreateVoiceEntryViewState.displayingView
     let voiceEntryURL = URL.documentsDirectory.appending(path: "voiceentry").appendingPathExtension("m4a")
-    var recordButtonAnimationTimer: Timer?
+    /// Triggers updates for `CreateVoiceEntryView`'s label that shows how long the user has been recording.
+    var recordingTimer: Timer?
+    var recordingTimerStartDate: Date?
+    /// Triggers updates for `CreateVoiceEntryView`'s timeline slider. Starts
+    /// and stops when playback does.
+    var playbackTimer: Timer?
     
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     let currentUser: User
+    
+    /// The amount of time that `recordingTimer` has been running in seconds.
+    var recordingTimerDurationAsInt: Int {
+        guard let recordingTimerStartDate else { return 0 }
+        
+        return Int(Date.now.timeIntervalSince(recordingTimerStartDate))
+    }
     
     init(
         databaseService: DatabaseServiceProtocol,
@@ -54,11 +66,15 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     
     func startRecording() {
         audioRecorder.record()
+        
+        recordingTimerStartDate = Date.now
     }
     
     func stopRecording() {
         do {
             audioRecorder.stop()
+            recordingTimer?.invalidate()
+            recordingTimer = nil
             
             audioPlayer = try AVAudioPlayer(contentsOf: voiceEntryURL)
             audioPlayer.volume = 1

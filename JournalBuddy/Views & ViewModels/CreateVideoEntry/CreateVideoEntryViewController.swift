@@ -48,8 +48,8 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
 
         guard let view = view as? CreateVideoEntryView else { return }
         
-        // In case someone goes back after recording video
-        view.recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
+        // In case the user goes back after recording video
+        view.setNewRecordingTimerLabelText()
         view.switchCameraButton.alpha = 1
         view.switchCameraButton.isEnabled = true
         view.showVideoPickerButton.alpha = 1

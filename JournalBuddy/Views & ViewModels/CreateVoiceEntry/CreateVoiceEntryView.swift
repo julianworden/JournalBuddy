@@ -17,7 +17,22 @@ class CreateVoiceEntryView: UIView, MainView {
         systemName: "stop.circle.fill",
         withConfiguration: .createVideoViewButton
     )!
+    
+    private lazy var contentStack = UIStackView(
+        arrangedSubviews: [
+            recordingTimerView,
+            audioControlButton,
+            audioPlayerTimelineSlider,
+            newRecordingButton,
+            uploadButton
+        ]
+    )
+    private lazy var recordingTimerView = TimerView()
     private lazy var audioControlButton = SFSymbolButton(symbol: micImage)
+    #warning("Make this a reusable slider view")
+    private lazy var audioPlayerTimelineSlider = UISlider()
+    private lazy var newRecordingButton = PrimaryButton(title: "New Recording")
+    private lazy var uploadButton = PrimaryButton(title: "Upload")
     
     let viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -39,19 +54,48 @@ class CreateVoiceEntryView: UIView, MainView {
     func configure() {
         backgroundColor = .background
         
+        contentStack.axis = .vertical
+        contentStack.spacing = 10
+        contentStack.alignment = .center
+        
+        recordingTimerView.setTimerLabelFont(UIFontMetrics.avenirNextRegularTitle2)
+        
         audioControlButton.contentHorizontalAlignment = .fill
         audioControlButton.contentVerticalAlignment = .fill
         audioControlButton.addTarget(self, action: #selector(recordButtonTapped), for: .touchUpInside)
+        
+        audioPlayerTimelineSlider.tintColor = .primaryElement
+        audioPlayerTimelineSlider.minimumValue = 0
+        audioPlayerTimelineSlider.maximumValue = 1
+        audioPlayerTimelineSlider.thumbTintColor = .background
+        audioPlayerTimelineSlider.maximumTrackTintColor = .disabled
+        audioPlayerTimelineSlider.isContinuous = false
+        audioPlayerTimelineSlider.isHidden = true
+        audioPlayerTimelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
+        audioPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
+        
+        newRecordingButton.isHidden = true
+        
+        uploadButton.isHidden = true
     }
     
     func constrain() {
-        addConstrainedSubview(audioControlButton)
+        addConstrainedSubview(contentStack)
         
         NSLayoutConstraint.activate([
+            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            contentStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
             audioControlButton.heightAnchor.constraint(equalToConstant: 180),
-            audioControlButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             audioControlButton.widthAnchor.constraint(equalToConstant: 180),
-            audioControlButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+            
+            audioPlayerTimelineSlider.widthAnchor.constraint(equalToConstant: 180),
+            
+            newRecordingButton.widthAnchor.constraint(equalToConstant: 270),
+            newRecordingButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            
+            uploadButton.widthAnchor.constraint(equalToConstant: 270),
+            uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
         ])
     }
     
@@ -93,6 +137,40 @@ class CreateVoiceEntryView: UIView, MainView {
         )
     }
     
+    /// Resets `recordingTimerView`'s text when the view appears.
+    func setNewRecordingTimerLabelText() {
+        recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
+    }
+    
+    func startUpdatingRecordingTimerLabel() {
+        viewModel.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            
+            // Make sure the label isn't updated if the user tries to record for over 5 minutes
+            if viewModel.recordingTimerDurationAsInt > 300 {
+                stopButtonTapped()
+            } else {
+                self.recordingTimerView.updateTimerLabelText(
+                    with: "\(self.viewModel.recordingTimerDurationAsInt.secondsAsTimerDurationString) / 05:00"
+                )
+            }
+        }
+    }
+    
+    func startUpdatingPlaybackTimelineSlider() {
+        var playbackDuration = viewModel.audioPlayer.currentTime
+        
+        viewModel.playbackTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            
+            playbackDuration += 0.5
+            
+            if playbackDuration < self.viewModel.audioPlayer.duration {
+                self.audioPlayerTimelineSlider.setValue(Float(playbackDuration), animated: true)
+            }
+        }
+    }
+
     @objc func recordButtonTapped() {
         viewModel.startRecording()
         
@@ -101,6 +179,8 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(stopButtonTapped),
             newControlButtonType: .stop
         )
+        
+        startUpdatingRecordingTimerLabel()
   
         #warning("Try something like this later")
 //        viewModel.recordButtonAnimationTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
@@ -126,6 +206,10 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(pauseButtonTapped),
             newControlButtonType: .pause
         )
+        
+        startUpdatingPlaybackTimelineSlider()
+        newRecordingButton.isHidden = true
+        uploadButton.isHidden = true
     }
     
     @objc func pauseButtonTapped() {
@@ -136,6 +220,11 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(playButtonTapped),
             newControlButtonType: .play
         )
+        
+        viewModel.playbackTimer?.invalidate()
+        viewModel.playbackTimer = nil
+        newRecordingButton.isHidden = false
+        uploadButton.isHidden = false
     }
     
     @objc func stopButtonTapped() {
@@ -146,9 +235,18 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(playButtonTapped),
             newControlButtonType: .play
         )
+        
+        recordingTimerView.isHidden = true
+        newRecordingButton.isHidden = false
+        uploadButton.isHidden = false
+        audioPlayerTimelineSlider.maximumValue = Float(viewModel.audioPlayer.duration)
+        audioPlayerTimelineSlider.isHidden = false
     }
     
     @objc func restartButtonTapped() {
+        viewModel.audioPlayer.currentTime = 0
+        audioPlayerTimelineSlider.setValue(0, animated: true)
+        
         viewModel.startPlaying()
         
         configureAudioControlButton(
@@ -156,6 +254,10 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(pauseButtonTapped),
             newControlButtonType: .pause
         )
+
+        startUpdatingPlaybackTimelineSlider()
+        newRecordingButton.isHidden = true
+        uploadButton.isHidden = true
     }
     
     @objc func audioPlayingHasFinished() {
@@ -164,5 +266,26 @@ class CreateVoiceEntryView: UIView, MainView {
             add: #selector(restartButtonTapped),
             newControlButtonType: .restart
         )
+        
+        viewModel.playbackTimer?.invalidate()
+        viewModel.playbackTimer = nil
+        audioPlayerTimelineSlider.setValue(Float(viewModel.audioPlayer.duration), animated: true)
+        newRecordingButton.isHidden = false
+        uploadButton.isHidden = false
+    }
+    
+    @objc func userDidTouchDownTimelineSlider() {
+        viewModel.pausePlaying()
+        viewModel.playbackTimer?.invalidate()
+        viewModel.playbackTimer = nil
+    }
+    
+    @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
+        if sender.value == Float(viewModel.audioPlayer.duration) {
+            audioPlayingHasFinished()
+        } else {
+            viewModel.audioPlayer.currentTime = TimeInterval(sender.value)
+            playButtonTapped()
+        }
     }
 }

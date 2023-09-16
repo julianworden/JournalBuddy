@@ -39,6 +39,13 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = "Create Voice Entry"
+        
+        guard let view = view as? CreateVoiceEntryView else {
+            print("❌ CreateVoiceEntryViewController's view should be of type CreateVoiceEntryView.")
+            return
+        }
+        
+        view.setNewRecordingTimerLabelText()
     }
     
     func subscribeToPublishers() {

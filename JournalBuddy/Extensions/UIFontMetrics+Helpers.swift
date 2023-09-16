@@ -15,6 +15,10 @@ extension UIFontMetrics {
     static var avenirNextBoldTitle2: UIFont {
         UIFontMetrics(forTextStyle: .title2).scaledFont(for: .avenirNextBoldTitle2)
     }
+    
+    static var avenirNextRegularTitle2: UIFont {
+        UIFontMetrics(forTextStyle: .title2).scaledFont(for: .avenirNextRegularTitle2)
+    }
 
     static var avenirNextBoldBody: UIFont {
         UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextBoldBody)

@@ -61,4 +61,8 @@ class TimerView: UIView {
     func updateTimerLabelText(with text: String) {
         timerLabel.text = text
     }
+    
+    func setTimerLabelFont(_ font: UIFont) {
+        timerLabel.font = font
+    }
 }

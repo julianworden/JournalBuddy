@@ -15,6 +15,10 @@ extension UIFont {
     static var boldTitle2: UIFont {
         boldSystemFont(ofSize: UIConstants.title2Size)
     }
+    
+    static var regularTitle2: UIFont {
+        systemFont(ofSize: UIConstants.title2Size)
+    }
 
     static var boldBody: UIFont {
         boldSystemFont(ofSize: UIFont.labelFontSize)
@@ -38,6 +42,10 @@ extension UIFont {
 
     static var avenirNextBoldTitle2: UIFont {
         UIFont(name: FontConstants.avenirNextBold, size: UIConstants.title2Size) ?? boldTitle2
+    }
+    
+    static var avenirNextRegularTitle2: UIFont {
+        UIFont(name: FontConstants.avenirNextRegular, size: UIConstants.title2Size) ?? regularTitle2
     }
 
     static var avenirNextBoldBody: UIFont {
