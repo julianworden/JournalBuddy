@@ -21,7 +21,7 @@ class UploadVideoEntryView: UIView, MainView {
     /// The button in the middle of the video player. This button's appearance and target depends on what the video player is currently doing. It
     /// alternates between a play button, pause button, and restart button.
     private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
-    private lazy var videoPlayerTimelineSlider = UISlider()
+    private lazy var videoPlayerTimelineSlider = TimelineSlider()
     private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
     private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
     private lazy var underVideoPlayerStack = UIStackView(
@@ -99,12 +99,6 @@ class UploadVideoEntryView: UIView, MainView {
         mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
         mainScrollViewContentStack.alignment = .center
         
-        videoPlayerTimelineSlider.tintColor = .primaryElement
-        videoPlayerTimelineSlider.minimumValue = 0
-        videoPlayerTimelineSlider.maximumValue = 1
-        videoPlayerTimelineSlider.thumbTintColor = .background
-        videoPlayerTimelineSlider.maximumTrackTintColor = .disabled
-        videoPlayerTimelineSlider.isContinuous = false
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
         videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
         

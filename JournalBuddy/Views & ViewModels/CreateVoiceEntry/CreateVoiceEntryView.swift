@@ -29,8 +29,7 @@ class CreateVoiceEntryView: UIView, MainView {
     )
     private lazy var recordingTimerView = TimerView()
     private lazy var audioControlButton = SFSymbolButton(symbol: micImage)
-    #warning("Make this a reusable slider view")
-    private lazy var audioPlayerTimelineSlider = UISlider()
+    private lazy var audioPlayerTimelineSlider = TimelineSlider()
     private lazy var newRecordingButton = PrimaryButton(title: "New Recording")
     private lazy var uploadButton = PrimaryButton(title: "Upload")
     
@@ -64,12 +63,6 @@ class CreateVoiceEntryView: UIView, MainView {
         audioControlButton.contentVerticalAlignment = .fill
         audioControlButton.addTarget(self, action: #selector(recordButtonTapped), for: .touchUpInside)
         
-        audioPlayerTimelineSlider.tintColor = .primaryElement
-        audioPlayerTimelineSlider.minimumValue = 0
-        audioPlayerTimelineSlider.maximumValue = 1
-        audioPlayerTimelineSlider.thumbTintColor = .background
-        audioPlayerTimelineSlider.maximumTrackTintColor = .disabled
-        audioPlayerTimelineSlider.isContinuous = false
         audioPlayerTimelineSlider.isHidden = true
         audioPlayerTimelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
         audioPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)

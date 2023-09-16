@@ -68,6 +68,7 @@
 		AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */; };
 		AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */; };
 		AB6C8A0C2AB34249008F5455 /* TestAudio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */; };
+		AB6E5F9F2AB6107800BB8FD1 /* TimelineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */; };
 		AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */; };
 		AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076852A8E606300E7E4DB /* CustomAlert.swift */; };
 		AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */; };
@@ -233,6 +234,7 @@
 		AB5CB57E2A843C73005F6016 /* HomeSectionSecondaryBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSectionSecondaryBox.swift; sourceTree = "<group>"; };
 		AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolButton.swift; sourceTree = "<group>"; };
 		AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = TestAudio.m4a; sourceTree = "<group>"; };
+		AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineSlider.swift; sourceTree = "<group>"; };
 		AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolConstants.swift; sourceTree = "<group>"; };
 		AB7076852A8E606300E7E4DB /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		AB7076892A8E60BE00E7E4DB /* CustomAlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertButton.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
 				AB8E9B8F2A894E3800A99C3A /* Custom Menu */,
 				ABF8BFC12AB5117A001D49F8 /* TimerView.swift */,
+				AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */,
 			);
 			path = "Custom UIViews";
 			sourceTree = "<group>";
@@ -1027,6 +1030,7 @@
 				AB07D2E02AB1F19F00927D6C /* CreateVoiceEntryViewController.swift in Sources */,
 				ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */,
 				AB181C492A5B1B7500560299 /* AppDelegate.swift in Sources */,
+				AB6E5F9F2AB6107800BB8FD1 /* TimelineSlider.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
 				AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */,
