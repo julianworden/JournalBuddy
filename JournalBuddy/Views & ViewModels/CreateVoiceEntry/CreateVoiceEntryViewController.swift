@@ -9,6 +9,8 @@ import Combine
 import UIKit
 
 class CreateVoiceEntryViewController: UIViewController, MainViewController {
+    private lazy var backButton = BackButton(configuration: .back)
+    
     weak var coordinator: CreateVoiceEntryCoordinator?
     var viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -36,9 +38,20 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
         viewModel.configureAudioSession()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if viewModel.voiceEntryHasBeenRecorded {
+            viewModel.deleteLocalRecording()
+        }
+    }
+    
     func configure() {
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.title = "Create Voice Entry"
+        navigationItem.hidesBackButton = true
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
         guard let view = view as? CreateVoiceEntryView else {
             print("❌ CreateVoiceEntryViewController's view should be of type CreateVoiceEntryView.")
@@ -57,7 +70,7 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
                 case .inadequatePermissions:
                     self.coordinator?.presentMicInadequatePermissionsAlert(on: self)
                 case .uploadedVoiceEntry:
-                    self.coordinator?.createVoiceEntryViewControllerDidUploadEntry()
+                    self.coordinator?.dismissCreateVoiceEntryViewController()
                 case .error(let message):
                     self.showError(message)
                 default:
@@ -69,5 +82,13 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
     
     func showError(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
+    }
+    
+    @objc func backButtonTapped() {
+        if viewModel.voiceEntryHasBeenRecorded {
+            coordinator?.presentCreateViewEntryViewControllerDismissConfirmation()
+        } else {
+            coordinator?.dismissCreateVoiceEntryViewController()
+        }
     }
 }

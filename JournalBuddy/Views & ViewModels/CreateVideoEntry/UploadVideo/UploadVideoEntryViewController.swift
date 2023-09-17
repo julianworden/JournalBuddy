@@ -42,6 +42,8 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
             viewModel.videoPlayer.removeTimeObserver(videoPlayerPeriodicTimeObserver)
             viewModel.videoPlayerPeriodicTimeObserver = nil
         }
+        
+        viewModel.deleteLocalRecording()
     }
 
     func configure() {
@@ -51,10 +53,6 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
         navigationItem.hidesBackButton = true
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
-
-    @objc func backButtonTapped() {
-        coordinator?.presentUploadVideoViewControllerDismissConfirmation()
     }
     
     func subscribeToPublishers() {
@@ -79,5 +77,13 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
 
     func showError(_ errorMessage: String) {
         coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
+    }
+    
+    @objc func backButtonTapped() {
+        if viewModel.videoWasSelectedFromLibrary {
+            coordinator?.dismissUploadVideoEntryViewController()
+        } else {
+            coordinator?.presentUploadVideoViewControllerDismissConfirmation()
+        }
     }
 }

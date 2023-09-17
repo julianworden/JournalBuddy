@@ -338,17 +338,7 @@ class CreateVoiceEntryView: UIView, MainView {
     }
     
     @objc func newRecordingButtonTapped() {
-        let audioRecorderDidDeleteRecording = viewModel.audioRecorder.deleteRecording()
-        
-        guard audioRecorderDidDeleteRecording else {
-            viewModel.viewState = .error(
-                message: VoiceEntryError.failedToStartNewRecording.localizedDescription
-            )
-            print("❌ Failed to delete audio recorder recording.")
-            return
-        }
-        
-        viewModel.audioPlayer = nil
+        viewModel.newRecordingButtonTapped()
         recordingTimerView.updateTimerLabelText(with: "00:00 / 05:00")
         recordButtonTapped()
     }

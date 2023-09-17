@@ -80,21 +80,27 @@ final class CreateVideoEntryCoordinator: Coordinator {
         )
     }
     
+    func dismissCreateVideoEntryViewController() {
+        navigationController.popViewController(animated: true)
+        parentCoordinator?.removeChildCoordinator(self)
+    }
+    
     // MARK: - UploadVideoEntryViewController
     
     func uploadVideoEntryViewControllerDidUploadVideo() {
         navigationController.popToRootViewController(animated: true)
+        parentCoordinator?.removeChildCoordinator(self)
+    }
+    
+    func dismissUploadVideoEntryViewController() {
+        navigationController.popViewController(animated: true)
     }
     
     func presentUploadVideoViewControllerDismissConfirmation() {
         AlertPresenter.presentDestructiveConfirmationAlert(
             message: "If you go back, your video entry will be discarded.",
-            confirmedWork: dismissCurrentViewController
+            confirmedWork: dismissCreateVideoEntryViewController
         )
-    }
-    
-    func dismissCurrentViewController() {
-        navigationController.popViewController(animated: true)
     }
 }
 

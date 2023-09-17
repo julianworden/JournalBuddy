@@ -22,6 +22,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     /// Triggers updates for `CreateVoiceEntryView`'s timeline slider. Starts
     /// and stops when playback does.
     var playbackTimer: Timer?
+    var voiceEntryHasBeenRecorded = false
     
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
@@ -78,6 +79,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             audioRecorder.stop()
             recordingTimer?.invalidate()
             recordingTimer = nil
+            voiceEntryHasBeenRecorded = true
             
             audioPlayer = try AVAudioPlayer(contentsOf: voiceEntryURL)
             audioPlayer.volume = 1
@@ -115,19 +117,28 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             try await databaseService.saveEntry(newVoiceEntry, at: voiceEntryURL)
             
             viewState = .uploadedVoiceEntry
-
-            // Don't take up unnecessary storage on the user's device
-            do {
-                // Avoid deleting item during testing so that other tests don't fail
-                if !isTesting {
-                    try FileManager.default.removeItem(at: voiceEntryURL)
-                }
-            } catch {
-                print(error.emojiMessage)
-            }
+            deleteLocalRecording()
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
+        }
+    }
+    
+    func newRecordingButtonTapped() {
+        deleteLocalRecording()
+        audioPlayer = nil
+        voiceEntryHasBeenRecorded = false
+    }
+    
+    /// Deletes the recorded voice entry from local storage to avoid taking up
+    /// unnecessary space on the users' device.
+    func deleteLocalRecording() {
+        guard !isTesting else { return }
+        
+        let audioRecorderDidDeleteRecording = audioRecorder.deleteRecording()
+        
+        if !audioRecorderDidDeleteRecording {
+            print("❌ Audio recorder failed to delete recording.")
         }
     }
     

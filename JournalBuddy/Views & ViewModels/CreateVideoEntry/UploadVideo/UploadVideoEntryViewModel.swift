@@ -96,16 +96,7 @@ final class UploadVideoEntryViewModel: MainViewModel {
             try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
             
             viewState = .videoEntryWasUploaded
-
-            // Don't take up unnecessary storage on the user's device
-            do {
-                // Avoid deleting item during testing so that other tests don't fail
-                if !isTesting {
-                    try FileManager.default.removeItem(at: recordedVideoURL)
-                }
-            } catch {
-                print(error.emojiMessage)
-            }
+            deleteLocalRecording()
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
@@ -128,6 +119,18 @@ final class UploadVideoEntryViewModel: MainViewModel {
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    /// Deletes the recorded video entry from local storage to avoid taking up
+    /// unnecessary space on the users' device.
+    func deleteLocalRecording() {
+        guard !isTesting else { return }
+        
+        do {
+            try FileManager.default.removeItem(at: recordedVideoURL)
+        } catch {
+            print(error.emojiMessage)
         }
     }
 }

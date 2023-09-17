@@ -41,18 +41,22 @@ final class CreateVoiceEntryCoordinator: Coordinator {
         navigationController.pushViewController(createVoiceEntryViewController, animated: true)
     }
     
-    func removeChildCoordinator(_ childCoordinator: Coordinator?) {
-        
-    }
+    func removeChildCoordinator(_ childCoordinator: Coordinator?) { }
     
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
     
-    func createVoiceEntryViewControllerDidUploadEntry() {
+    func dismissCreateVoiceEntryViewController() {
         navigationController.popViewController(animated: true)
         parentCoordinator?.removeChildCoordinator(self)
-        
+    }
+    
+    func presentCreateViewEntryViewControllerDismissConfirmation() {
+        AlertPresenter.presentDestructiveConfirmationAlert(
+            message: "If you go back, your recorded entry will be discarded.",
+            confirmedWork: dismissCreateVoiceEntryViewController
+        )
     }
     
     func presentMicInadequatePermissionsAlert(on viewController: UIViewController) {

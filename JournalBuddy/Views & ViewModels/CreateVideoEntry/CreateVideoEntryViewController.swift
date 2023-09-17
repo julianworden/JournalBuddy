@@ -97,7 +97,7 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
 
 extension CreateVideoEntryViewController: CreateVideoEntryViewDelegate {
     func createVideoEntryViewControllerShouldDismiss() {
-        coordinator?.dismissCurrentViewController()
+        coordinator?.dismissCreateVideoEntryViewController()
     }
     
     func createVideoEntryViewControllerShouldPresentVideoPicker() {
