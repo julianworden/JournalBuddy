@@ -33,21 +33,7 @@ class CreateVoiceEntryView: UIView, MainView {
     private lazy var audioPlayerTimelineSlider = TimelineSlider()
     private lazy var newRecordingButton = PrimaryButton(title: "New Recording")
     private lazy var uploadButton = PrimaryButton(title: "Upload")
-    private lazy var uploadingStack = UIStackView(
-        arrangedSubviews: [
-            uploadingProgressView,
-            uploadingProgressViewLabelStack
-        ]
-    )
-    private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
-    private lazy var uploadingProgressViewLabelStack = UIStackView(
-        arrangedSubviews: [
-            uploadingProgressViewLabel,
-            uploadingProgressViewActivityIndicator
-        ]
-    )
-    private lazy var uploadingProgressViewLabel = UILabel()
-    private lazy var uploadingProgressViewActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private lazy var uploadingStack = ProgressViewStack()
     
     let viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -109,9 +95,6 @@ class CreateVoiceEntryView: UIView, MainView {
             
             uploadButton.widthAnchor.constraint(equalToConstant: 270),
             uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 50),
-            
-            uploadingProgressView.heightAnchor.constraint(equalToConstant: 12),
-            uploadingProgressView.widthAnchor.constraint(equalToConstant: 270)
         ])
     }
     
@@ -129,8 +112,8 @@ class CreateVoiceEntryView: UIView, MainView {
                     self?.configureUploadingUI()
                     self?.presentUploadingUI()
                 case .uploadedVoiceEntry:
-                    self?.uploadingProgressViewLabel.text = "Uploaded."
-                    self?.uploadingProgressViewActivityIndicator.isHidden = true
+                    self?.uploadingStack.updateLabelText(to: "Uploaded")
+                    self?.uploadingStack.hideActivityIndicator()
                 case .error(_):
                     self?.configureErrorUI()
                 default:
@@ -145,12 +128,11 @@ class CreateVoiceEntryView: UIView, MainView {
                     return
                 }
                 
-                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
+                self?.uploadingStack.updateProgress(to: Float(loadingProgress))
                 
                 if loadingProgress == 1.0 {
-                    self?.uploadingProgressViewLabel.text = "Finalizing..."
-                    self?.uploadingProgressViewActivityIndicator.startAnimating()
-                    self?.uploadingProgressViewActivityIndicator.isHidden = false
+                    self?.uploadingStack.updateLabelText(to: "Finalizing...")
+                    self?.uploadingStack.presentActivityIndicator()
                 }
             }
             .store(in: &cancellables)
@@ -159,26 +141,7 @@ class CreateVoiceEntryView: UIView, MainView {
     func configureUploadingUI() {
         audioPlayerTimelineSlider.isEnabled = false
         audioControlButton.isEnabled = false
-        
-        uploadingStack.axis = .vertical
-        uploadingStack.spacing = 7
-        uploadingStack.alignment = .leading
-        
-        uploadingProgressView.layer.cornerRadius = 6
-        uploadingProgressView.clipsToBounds = true
-        uploadingProgressView.progressTintColor = .primaryElement
-        uploadingProgressView.trackTintColor = .disabled
-        
-        uploadingProgressViewLabelStack.spacing = 5
-        
-        uploadingProgressViewLabel.text = "Uploading..."
-        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
-        uploadingProgressViewLabel.textColor = .primaryElement
-        uploadingProgressViewLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
-        
-        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
-        uploadingProgressViewActivityIndicator.isHidden = true
-        uploadingProgressViewActivityIndicator.color = .primaryElement
+        uploadingStack.updateLabelText(to: "Uploading...")
     }
     
     func configureErrorUI() {

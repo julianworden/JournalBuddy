@@ -22,14 +22,12 @@ class UploadVideoEntryView: UIView, MainView {
     /// alternates between a play button, pause button, and restart button.
     private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
     private lazy var videoPlayerTimelineSlider = TimelineSlider()
-    private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(presentMediaControls))
-    private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMediaControls))
     private lazy var underVideoPlayerStack = UIStackView(
         arrangedSubviews: [
             saveToDeviceToggleStack,
             saveToDeviceExplanationLabel,
             uploadButton,
-            savingToDeviceStack,
+            savingStack,
             uploadingStack
         ]
     )
@@ -43,30 +41,17 @@ class UploadVideoEntryView: UIView, MainView {
     private lazy var saveToDeviceSwitch = UISwitch()
     private lazy var saveToDeviceExplanationLabel = UILabel()
     private lazy var uploadButton = PrimaryButton(title: "Upload")
-    private lazy var savingToDeviceStack = UIStackView(
-        arrangedSubviews: [
-            savingToDeviceProgressView,
-            savingToDeviceLabel
-        ]
-    )
-    private lazy var savingToDeviceProgressView = UIProgressView(progressViewStyle: .bar)
-    private lazy var savingToDeviceLabel = UILabel()
-    private lazy var uploadingStack = UIStackView(
-        arrangedSubviews: [
-            uploadingProgressView,
-            uploadingProgressViewLabelStack
-        ]
-    )
-    private lazy var uploadingProgressView = UIProgressView(progressViewStyle: .bar)
-    private lazy var uploadingProgressViewLabelStack = UIStackView(
-        arrangedSubviews: [
-            uploadingProgressViewLabel,
-            uploadingProgressViewActivityIndicator
-        ]
-    )
-    private lazy var uploadingProgressViewLabel = UILabel()
-    private lazy var uploadingProgressViewActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private lazy var savingStack = ProgressViewStack()
+    private lazy var uploadingStack = ProgressViewStack()
     
+    private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(
+        target: self,
+        action: #selector(presentMediaControls)
+    )
+    private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(
+        target: self,
+        action: #selector(dismissMediaControls)
+    )
     /// The timer that controls when the media controls are automatically hidden after they're shown.
     var hideMediaControlsTimer: Timer?
     
@@ -119,15 +104,13 @@ class UploadVideoEntryView: UIView, MainView {
         
         uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
         
-        savingToDeviceStack.isHidden = true
+        savingStack.isHidden = true
         uploadingStack.isHidden = true
     }
     
     func makeAccessible() {
         saveToDeviceLabel.adjustsFontForContentSizeCategory = true
         saveToDeviceExplanationLabel.adjustsFontForContentSizeCategory = true
-        savingToDeviceLabel.adjustsFontForContentSizeCategory = true
-        uploadingProgressViewLabel.adjustsFontForContentSizeCategory = true
     }
     
     func subscribeToPublishers() {
@@ -170,14 +153,6 @@ class UploadVideoEntryView: UIView, MainView {
             underVideoPlayerStack.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
             
             uploadButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 49),
-            
-            savingToDeviceProgressView.heightAnchor.constraint(equalToConstant: 12),
-            savingToDeviceProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
-            savingToDeviceProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
-            
-            uploadingProgressView.heightAnchor.constraint(equalToConstant: 12),
-            uploadingProgressView.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
-            uploadingProgressView.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor)
         ])
     }
     
@@ -193,16 +168,19 @@ class UploadVideoEntryView: UIView, MainView {
                     self.presentSavingToDeviceUI()
                     self.presentUploadingUI()
                 case .videoEntryWasSavedToDevice:
-                    self.savingToDeviceProgressView.setProgress(1.0, animated: true)
+                    self.savingStack.updateProgress(to: 1.0)
+                    self.savingStack.updateLabelText(to: "Saved.")
+                    self.uploadingStack.updateLabelText(to: "Uploading...")
                 case .videoEntryIsUploading:
                     // If video was saved to device, uploading UI was already configured
                     if !self.viewModel.saveVideoToDevice {
+                        self.uploadingStack.updateLabelText(to: "Uploading...")
                         self.configureUploadingProgressViewUI()
                         self.presentUploadingUI()
                     }
                 case .videoEntryWasUploaded:
-                    self.uploadingProgressViewLabel.text = "Uploaded."
-                    self.uploadingProgressViewActivityIndicator.isHidden = true
+                    self.uploadingStack.updateLabelText(to: "Uploaded.")
+                    self.uploadingStack.hideActivityIndicator()
                 case .error(_):
                     configureErrorUI()
                 default:
@@ -219,12 +197,12 @@ class UploadVideoEntryView: UIView, MainView {
                     return
                 }
                 
-                self?.uploadingProgressView.setProgress(Float(loadingProgress), animated: true)
+                self?.uploadingStack.updateProgress(to: Float(loadingProgress))
+
                 
                 if loadingProgress == 1.0 {
-                    self?.uploadingProgressViewLabel.text = "Finalizing..."
-                    self?.uploadingProgressViewActivityIndicator.startAnimating()
-                    self?.uploadingProgressViewActivityIndicator.isHidden = false
+                    self?.uploadingStack.updateLabelText(to: "Finalizing...")
+                    self?.uploadingStack.presentActivityIndicator()
                 }
             }
             .store(in: &cancellables)
@@ -295,51 +273,21 @@ class UploadVideoEntryView: UIView, MainView {
         videoPlayerTimelineSlider.isEnabled = false
         videoPlayerCenterMediaButton.isEnabled = false
         videoPlayerView.isUserInteractionEnabled = false
-        
-        savingToDeviceStack.axis = .vertical
-        savingToDeviceStack.spacing = 7
-        savingToDeviceStack.alignment = .leading
-        
-        savingToDeviceProgressView.layer.cornerRadius = 6
-        savingToDeviceProgressView.clipsToBounds = true
-        savingToDeviceProgressView.progressTintColor = .primaryElement
-        savingToDeviceProgressView.trackTintColor = .disabled
-        
-        savingToDeviceLabel.font = UIFontMetrics.avenirNextBoldFootnote
-        savingToDeviceLabel.textColor = .primaryElement
-        savingToDeviceLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
+        savingStack.updateLabelText(to: "Saving...")
+        uploadingStack.updateLabelText(to: "Waiting...")
     }
     
     func configureUploadingProgressViewUI() {
         videoPlayerTimelineSlider.isEnabled = false
         videoPlayerCenterMediaButton.isEnabled = false
         videoPlayerView.isUserInteractionEnabled = false
-        
-        uploadingStack.axis = .vertical
-        uploadingStack.spacing = 7
-        uploadingStack.alignment = .leading
-        
-        uploadingProgressView.layer.cornerRadius = 6
-        uploadingProgressView.clipsToBounds = true
-        uploadingProgressView.progressTintColor = .primaryElement
-        uploadingProgressView.trackTintColor = .disabled
-        
-        uploadingProgressViewLabelStack.spacing = 5
-        
-        uploadingProgressViewLabel.font = UIFontMetrics.avenirNextBoldFootnote
-        uploadingProgressViewLabel.textColor = .primaryElement
-        uploadingProgressViewLabel.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
-        
-        uploadingProgressViewActivityIndicator.hidesWhenStopped = true
-        uploadingProgressViewActivityIndicator.isHidden = true
-        uploadingProgressViewActivityIndicator.color = .primaryElement
     }
     
     func configureErrorUI() {
         videoPlayerCenterMediaButton.isEnabled = true
         videoPlayerTimelineSlider.isEnabled = true
         saveToDeviceToggleStack.isHidden = false
-        savingToDeviceStack.isHidden = true
+        savingStack.isHidden = true
         uploadingStack.isHidden = true
         uploadButton.isHidden = false
         videoPlayerView.isUserInteractionEnabled = true
@@ -351,8 +299,6 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func presentUploadingUI() {
-        uploadingProgressViewLabel.text = "Uploading..."
-        savingToDeviceLabel.text = "Saved."
         uploadingStack.isHidden = false
         saveToDeviceToggleStack.isHidden = true
         saveToDeviceExplanationLabel.isHidden = true
@@ -360,9 +306,7 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func presentSavingToDeviceUI() {
-        savingToDeviceLabel.text = "Saving..."
-        uploadingProgressViewLabel.text = "Waiting..."
-        savingToDeviceStack.isHidden = false
+        savingStack.isHidden = false
         saveToDeviceToggleStack.isHidden = true
         saveToDeviceExplanationLabel.isHidden = true
         uploadButton.isHidden = true

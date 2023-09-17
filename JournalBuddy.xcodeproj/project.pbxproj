@@ -84,6 +84,7 @@
 		AB7677332A6C20D50050149E /* EntryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677322A6C20D50050149E /* EntryType.swift */; };
 		AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677352A6C64AB0050149E /* FBConstants.swift */; };
 		AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */; };
+		AB7688BF2AB672A400EFC56B /* ProgressViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7688BE2AB672A400EFC56B /* ProgressViewStack.swift */; };
 		AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */; };
 		AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */; };
 		AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */; };
@@ -250,6 +251,7 @@
 		AB7677322A6C20D50050149E /* EntryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryType.swift; sourceTree = "<group>"; };
 		AB7677352A6C64AB0050149E /* FBConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBConstants.swift; sourceTree = "<group>"; };
 		AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceProtocol.swift; sourceTree = "<group>"; };
+		AB7688BE2AB672A400EFC56B /* ProgressViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewStack.swift; sourceTree = "<group>"; };
 		AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 				ABD819E72A85C9BC0078604A /* CustomDivider.swift */,
 				AB8E9B8B2A89371D00A99C3A /* MainTableView.swift */,
 				AB0D85062AA6712B00E4C9D6 /* BackButton.swift */,
+				AB7688BE2AB672A400EFC56B /* ProgressViewStack.swift */,
 				AB5E7B0F2A8FA854004A9051 /* Buttons */,
 				AB5E7B0C2A8FA265004A9051 /* Password Text Field */,
 				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
@@ -1106,6 +1109,7 @@
 				AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */,
 				ABB348462A6ACE8E0050A9AC /* AddEditTextEntryViewState.swift in Sources */,
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
+				AB7688BF2AB672A400EFC56B /* ProgressViewStack.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
 				AB1BB0CE2A94E02F0051EB66 /* CreateVideoEntryView.swift in Sources */,
 				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
