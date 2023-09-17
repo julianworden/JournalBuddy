@@ -42,30 +42,23 @@ final class MockDatabaseService: DatabaseServiceProtocol {
     }
 
     func saveEntry<T: Entry>(_ entry: T, at url: URL?) async throws -> T {
-        do {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
             switch entry.type {
             case .text:
-                return try await saveTextEntry(entry as! TextEntry) as! T
+                return TextEntry.example as! T
             case .video:
-                return try await saveVideoEntry(entry as! VideoEntry, at: url!) as! T
-            default:
-                fatalError("Entry type not implemented.")
+                return VideoEntry.example as! T
+            case .voice:
+                return VoiceEntry.example as! T
             }
-        } catch {
-            throw error
         }
     }
 
     func updateEntry<T: Entry>(_ entry: T) async throws {
-        do {
-            switch entry.type {
-            case .text:
-                try await updateTextEntry(entry as! TextEntry)
-            default:
-                fatalError("Entry type not implemented.")
-            }
-        } catch {
-            throw error
+        if let errorToThrow {
+            throw errorToThrow
         }
     }
 
@@ -79,53 +72,5 @@ final class MockDatabaseService: DatabaseServiceProtocol {
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         return []
-    }
-
-    func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
-        if let errorToThrow {
-            throw errorToThrow
-        } else {
-            var textEntryWithID = textEntry
-            textEntryWithID.id = UUID().uuidString
-            return textEntryWithID
-        }
-    }
-
-    func updateTextEntry(_ textEntry: TextEntry) async throws {
-        if let errorToThrow {
-            throw errorToThrow
-        }
-    }
-    
-    // MARK: - VideoEntry
-    
-    func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
-        if let errorToThrow {
-            throw errorToThrow
-        } else {
-            var newVideoEntry = videoEntry
-            newVideoEntry.downloadURL = "https://exampledownloadurl.com"
-            newVideoEntry.id = UUID().uuidString
-            newVideoEntry.downloadURL = "https://examplethumbnaildownloadurl.com"
-            return newVideoEntry
-        }
-    }
-    
-    // MARK: - Firebase Storage
-    
-    func uploadVideoEntryToFBStorage(_ videoEntry: VideoEntry, at url: URL) async throws -> URL {
-        if let errorToThrow {
-            throw errorToThrow
-        }
-        
-        return url
-    }
-    
-    func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
-        if let errorToThrow {
-            throw errorToThrow
-        }
-        
-        return videoEntryLocalURL
     }
 }

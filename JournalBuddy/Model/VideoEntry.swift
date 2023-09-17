@@ -16,6 +16,14 @@ struct VideoEntry: Entry {
     var thumbnailDownloadURL: String
     let type: EntryType
     
+    static let example = VideoEntry(
+        id: UUID().uuidString,
+        creatorUID: UUID().uuidString,
+        unixDate: Date.now.timeIntervalSince1970,
+        downloadURL: UUID().uuidString,
+        thumbnailDownloadURL: UUID().uuidString
+    )
+    
     init(
         id: String,
         creatorUID: String,

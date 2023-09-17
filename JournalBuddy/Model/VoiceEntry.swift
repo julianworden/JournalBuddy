@@ -14,6 +14,13 @@ struct VoiceEntry: Entry {
     var downloadURL: String
     let type: EntryType
     
+    static let example = VoiceEntry(
+        id: UUID().uuidString,
+        creatorUID: UUID().uuidString,
+        unixDate: Date.now.timeIntervalSince1970,
+        downloadURL: UUID().uuidString
+    )
+    
     init(
         id: String,
         creatorUID: String,

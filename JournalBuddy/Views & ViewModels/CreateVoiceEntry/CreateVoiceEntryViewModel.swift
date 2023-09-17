@@ -15,7 +15,6 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     var audioPlayer: AVAudioPlayer!
     
     @Published var viewState = CreateVoiceEntryViewState.displayingView
-    let voiceEntryURL = URL.documentsDirectory.appending(path: "voiceentry").appendingPathExtension("m4a")
     /// Triggers updates for `CreateVoiceEntryView`'s label that shows how long the user has been recording.
     var recordingTimer: Timer?
     var recordingTimerStartDate: Date?
@@ -28,6 +27,21 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     let authService: AuthServiceProtocol
     let isTesting: Bool
     let currentUser: User
+    
+    var voiceEntryURL: URL {
+        if isTesting {
+            return Bundle.main.url(
+                forResource: "TestAudio",
+                withExtension: "m4a"
+            )!
+        } else {
+            return URL.documentsDirectory.appending(
+                path: "voiceentry"
+            ).appendingPathExtension(
+                "m4a"
+            )
+        }
+    }
     
     /// The amount of time that `recordingTimer` has been running in seconds.
     var recordingTimerDurationAsInt: Int {
@@ -103,6 +117,12 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         audioPlayer.pause()
     }
     
+    func newRecordingButtonTapped() {
+        deleteLocalRecording()
+        audioPlayer = nil
+        voiceEntryHasBeenRecorded = false
+    }
+    
     func uploadVoiceEntry() async {
         do {
             viewState = .uploadingVoiceEntry
@@ -124,12 +144,6 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    func newRecordingButtonTapped() {
-        deleteLocalRecording()
-        audioPlayer = nil
-        voiceEntryHasBeenRecorded = false
-    }
-    
     /// Deletes the recorded voice entry from local storage to avoid taking up
     /// unnecessary space on the users' device.
     func deleteLocalRecording() {
@@ -149,9 +163,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     }
     
     private func prepareAudioRecorderForRecording() throws {
-        if FileManager.default.fileExists(atPath: voiceEntryURL.path()) {
-            try FileManager.default.removeItem(at: voiceEntryURL)
-        }
+        deleteLocalRecording()
         
         audioRecorder = try AVAudioRecorder(
             url: URL(filePath: voiceEntryURL.path()),

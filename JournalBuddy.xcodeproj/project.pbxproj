@@ -154,6 +154,7 @@
 		ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */; };
 		ABDA15862A802E5400D94D7E /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDA15852A802E5400D94D7E /* MainNavigationController.swift */; };
 		ABDB553D2A72A82600DC8DF8 /* FormError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDB553C2A72A82600DC8DF8 /* FormError.swift */; };
+		ABE30F002AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE30EFF2AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift */; };
 		ABE7A52E2A71554F00B0D21D /* Error+emojiMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */; };
 		ABEA45602A61808300F6E8EB /* HomeSquareButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */; };
 		ABF2B0DA2A6FFC3A007A93DB /* ErrorMessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */; };
@@ -322,6 +323,7 @@
 		ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
 		ABDA15852A802E5400D94D7E /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		ABDB553C2A72A82600DC8DF8 /* FormError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormError.swift; sourceTree = "<group>"; };
+		ABE30EFF2AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
 		ABE7A52D2A71554F00B0D21D /* Error+emojiMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+emojiMessage.swift"; sourceTree = "<group>"; };
 		ABEA455F2A61808300F6E8EB /* HomeSquareButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSquareButtonType.swift; sourceTree = "<group>"; };
 		ABF2B0D92A6FFC3A007A93DB /* ErrorMessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageConstants.swift; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 				AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */,
 				AB16178B2A98F7A2001CDC53 /* UploadVideoEntryViewModelUnitTests.swift */,
 				AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */,
+				ABE30EFF2AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,
 				AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */,
 				ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */,
+				ABE30F002AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift in Sources */,
 				ABAA249C2AAFC4C000C82367 /* MockPHPhotoLibrary.swift in Sources */,
 				AB948B832A6D7EEB00430E61 /* TestData.swift in Sources */,
 				AB16178C2A98F7A2001CDC53 /* UploadVideoEntryViewModelUnitTests.swift in Sources */,

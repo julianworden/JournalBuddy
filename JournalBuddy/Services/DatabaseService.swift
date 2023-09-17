@@ -130,7 +130,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
+    private func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
         do {
             let newDocument = try usersCollection
                 .document(textEntry.creatorUID)
@@ -146,7 +146,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func updateTextEntry(_ textEntry: TextEntry) async throws {
+    private func updateTextEntry(_ textEntry: TextEntry) async throws {
         do {
             try await usersCollection
                 .document(textEntry.creatorUID)
@@ -167,7 +167,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     ///   - url: The local URL on the user's device where the video entry that is to be saved is being stored.
     /// - Returns: The saved video entry, which should have valid `downloadURL` and `id` properties, as they were assigned during
     /// the execution of the method.
-    func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
+    private func saveVideoEntry(_ videoEntry: VideoEntry, at url: URL) async throws -> VideoEntry {
         let videoEntryDownloadURL = try await uploadVideoEntryToFBStorage(upload: videoEntry, at: url)
         let videoEntryThumbnailDownloadURL = try await uploadVideoEntryThumbnailToFBStorage(videoEntry: videoEntry, videoEntryLocalURL: url)
         var newVideoEntry = videoEntry
@@ -191,7 +191,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - VoiceEntry
     
-    func saveVoiceEntry(_ voiceEntry: VoiceEntry, at url: URL) async throws -> VoiceEntry {
+    private func saveVoiceEntry(_ voiceEntry: VoiceEntry, at url: URL) async throws -> VoiceEntry {
         let voiceEntryDownloadURL = try await uploadVoiceEntryToFBStorage(upload: voiceEntry, at: url)
         var newVoiceEntry = voiceEntry
         newVoiceEntry.downloadURL = voiceEntryDownloadURL.absoluteString
@@ -220,7 +220,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     ///   - url: The local URL on the user's device where the video entry is being stored.
     /// - Returns: The download URL for `videoEntry` that was provided by Firebase Storage. This method's caller should use this
     /// URL as the `videoEntry`'s `downloadURL` property.
-    func uploadVideoEntryToFBStorage(upload videoEntry: VideoEntry, at url: URL) async throws -> URL {
+    private func uploadVideoEntryToFBStorage(upload videoEntry: VideoEntry, at url: URL) async throws -> URL {
         do {
             let newVideoEntryLocationRef = storageRef.child(
                 "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).mov"
@@ -249,7 +249,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
+    private func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
         do {
             let newVideoEntryThumbnailRef = storageRef.child(
                 "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).jpeg"
@@ -283,7 +283,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func uploadVoiceEntryToFBStorage(upload voiceEntry: VoiceEntry, at url: URL) async throws -> URL {
+    private func uploadVoiceEntryToFBStorage(upload voiceEntry: VoiceEntry, at url: URL) async throws -> URL {
         do {
             let newVoiceEntryRef = storageRef.child(
                 "Users/\(voiceEntry.creatorUID)/Voice Entries/\(voiceEntry.unixDate).m4a"

@@ -9,10 +9,7 @@ import Foundation
 
 enum CreateVoiceEntryViewState: ViewState {
     case displayingView
-    case audioIsRecording
     case audioRecordingHasFinished
-    case audioIsPlaying
-    case audioWasPaused
     case audioPlayingHasFinished
     case uploadingVoiceEntry
     case uploadedVoiceEntry
