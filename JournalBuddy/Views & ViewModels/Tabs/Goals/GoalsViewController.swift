@@ -28,7 +28,7 @@ class GoalsViewController: UIViewController, MainViewController {
     }
 
     override func loadView() {
-        view = GoalsView(viewModel: viewModel)
+        view = GoalsView(viewModel: viewModel, delegate: self)
     }
 
     override func viewDidLoad() {
@@ -67,6 +67,12 @@ class GoalsViewController: UIViewController, MainViewController {
     }
     
     @objc func createGoalButtonTapped() {
-        coordinator?.presentAddEditGoalViewController()
+        coordinator?.presentAddEditGoalViewController(goalToEdit: nil)
+    }
+}
+
+extension GoalsViewController: GoalsViewDelegate {
+    func goalsViewDidSelect(goalToEdit: Goal) {
+        coordinator?.presentAddEditGoalViewController(goalToEdit: goalToEdit)
     }
 }

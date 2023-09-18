@@ -47,6 +47,11 @@
 		AB1E170F2AB0B3AE008EA954 /* TestVideo.mov in Resources */ = {isa = PBXBuildFile; fileRef = AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */; };
 		AB258EA52AB8782700F8BBA3 /* GoalsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */; };
 		AB258EA72AB878BF00F8BBA3 /* GoalsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */; };
+		AB258EAA2AB887CF00F8BBA3 /* AddEditGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA92AB887CF00F8BBA3 /* AddEditGoalViewController.swift */; };
+		AB258EAC2AB887E100F8BBA3 /* AddEditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EAB2AB887E100F8BBA3 /* AddEditGoalView.swift */; };
+		AB258EAE2AB8880700F8BBA3 /* AddEditGoalViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EAD2AB8880700F8BBA3 /* AddEditGoalViewState.swift */; };
+		AB258EB02AB8882D00F8BBA3 /* AddEditGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EAF2AB8882D00F8BBA3 /* AddEditGoalViewModel.swift */; };
+		AB258EB22AB88B5F00F8BBA3 /* GoalsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EB12AB88B5F00F8BBA3 /* GoalsViewDelegate.swift */; };
 		AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */; };
 		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
@@ -224,6 +229,11 @@
 		AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = TestVideo.mov; sourceTree = "<group>"; };
 		AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewDataSource.swift; sourceTree = "<group>"; };
 		AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewCell.swift; sourceTree = "<group>"; };
+		AB258EA92AB887CF00F8BBA3 /* AddEditGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalViewController.swift; sourceTree = "<group>"; };
+		AB258EAB2AB887E100F8BBA3 /* AddEditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalView.swift; sourceTree = "<group>"; };
+		AB258EAD2AB8880700F8BBA3 /* AddEditGoalViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalViewState.swift; sourceTree = "<group>"; };
+		AB258EAF2AB8882D00F8BBA3 /* AddEditGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalViewModel.swift; sourceTree = "<group>"; };
+		AB258EB12AB88B5F00F8BBA3 /* GoalsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewDelegate.swift; sourceTree = "<group>"; };
 		AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsSection.swift; sourceTree = "<group>"; };
 		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
@@ -495,6 +505,17 @@
 			path = GoalsTableView;
 			sourceTree = "<group>";
 		};
+		AB258EA82AB887BF00F8BBA3 /* AddEditGoal */ = {
+			isa = PBXGroup;
+			children = (
+				AB258EA92AB887CF00F8BBA3 /* AddEditGoalViewController.swift */,
+				AB258EAB2AB887E100F8BBA3 /* AddEditGoalView.swift */,
+				AB258EAF2AB8882D00F8BBA3 /* AddEditGoalViewModel.swift */,
+				AB258EAD2AB8880700F8BBA3 /* AddEditGoalViewState.swift */,
+			);
+			path = AddEditGoal;
+			sourceTree = "<group>";
+		};
 		AB2988B02A5D9CA700303262 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,10 +676,12 @@
 			children = (
 				AB8E9B7D2A89126300A99C3A /* GoalsViewController.swift */,
 				AB8E9B852A89172400A99C3A /* GoalsView.swift */,
+				AB258EB12AB88B5F00F8BBA3 /* GoalsViewDelegate.swift */,
 				AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */,
 				AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */,
 				AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */,
 				AB258EA32AB8780800F8BBA3 /* GoalsTableView */,
+				AB258EA82AB887BF00F8BBA3 /* AddEditGoal */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -1025,6 +1048,7 @@
 				AB12E2462AA93097007DFAE4 /* NotificationConstants.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
 				AB1BB0D62A94F21C0051EB66 /* VideoPreviewView.swift in Sources */,
+				AB258EB02AB8882D00F8BBA3 /* AddEditGoalViewModel.swift in Sources */,
 				AB8E9B7E2A89126300A99C3A /* GoalsViewController.swift in Sources */,
 				AB7239CB2A5BA0A400A0392D /* HomeViewModel.swift in Sources */,
 				AB72DCA42A6F687200B4D4AF /* UITextField+Helpers.swift in Sources */,
@@ -1037,6 +1061,7 @@
 				AB17ECA12A60A3DD00ADED40 /* HomeSquareButton.swift in Sources */,
 				ABB348342A6AC2AC0050A9AC /* EntriesViewController.swift in Sources */,
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
+				AB258EAE2AB8880700F8BBA3 /* AddEditGoalViewState.swift in Sources */,
 				AB8E9B912A894E5500A99C3A /* CustomMenuRow.swift in Sources */,
 				AB58B8F32AA7DC2800FAA4D7 /* VideoEntry.swift in Sources */,
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
@@ -1083,6 +1108,7 @@
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
+				AB258EAA2AB887CF00F8BBA3 /* AddEditGoalViewController.swift in Sources */,
 				ABA4EEC22AB3B698005ADC48 /* VoiceEntryControlButtonType.swift in Sources */,
 				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
 				AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */,
@@ -1091,6 +1117,7 @@
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
 				AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */,
 				ABA69B5A2A9CDD7F0049B3BB /* VideoEntryError.swift in Sources */,
+				AB258EAC2AB887E100F8BBA3 /* AddEditGoalView.swift in Sources */,
 				AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */,
 				ABFA28DB2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
@@ -1122,6 +1149,7 @@
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
 				AB8E9B862A89172400A99C3A /* GoalsView.swift in Sources */,
 				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift in Sources */,
+				AB258EB22AB88B5F00F8BBA3 /* GoalsViewDelegate.swift in Sources */,
 				ABA946602A7333F7002A96D3 /* EntriesViewTableViewDataSource.swift in Sources */,
 				AB16178A2A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift in Sources */,
 				AB90AA192A803CCA003F94D7 /* FontConstants.swift in Sources */,

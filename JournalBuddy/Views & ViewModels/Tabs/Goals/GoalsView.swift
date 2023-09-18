@@ -14,11 +14,13 @@ class GoalsView: UIView, MainView {
 
     private lazy var goalsTableViewDataSource = GoalsTableViewDataSource(viewModel: viewModel, tableView: goalsTableView)
     
+    weak var delegate: GoalsViewDelegate?
     let viewModel: GoalsViewModel
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: GoalsViewModel) {
+    init(viewModel: GoalsViewModel, delegate: GoalsViewDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
 
         super.init(frame: .zero)
 
@@ -85,5 +87,7 @@ class GoalsView: UIView, MainView {
 extension GoalsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        delegate?.goalsViewDidSelect(goalToEdit: viewModel.goals[indexPath.row])
     }
 }

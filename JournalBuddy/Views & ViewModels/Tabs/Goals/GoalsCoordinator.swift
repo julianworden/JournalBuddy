@@ -46,7 +46,11 @@ final class GoalsCoordinator: Coordinator {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
     
-    func presentAddEditGoalViewController() {
+    func presentAddEditGoalViewController(goalToEdit: Goal?) {
+        let addEditGoalViewModel = AddEditGoalViewModel(goalToEdit: goalToEdit)
+        let addEditGoalViewController = AddEditGoalViewController(viewModel: addEditGoalViewModel)
+        let addEditGoalNavigationController = MainNavigationController(rootViewController: addEditGoalViewController)
         
+        navigationController.present(addEditGoalNavigationController, animated: true)
     }
 }
