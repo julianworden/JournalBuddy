@@ -20,12 +20,17 @@ class AddEditGoalViewController: UIViewController, MainViewController {
     let viewModel: AddEditGoalViewModel
     var cancellables = Set<AnyCancellable>()
     
-    init(viewModel: AddEditGoalViewModel) {
+    init(
+        viewModel: AddEditGoalViewModel,
+        coordinator: GoalsCoordinator
+    ) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         
         super.init(nibName: nil, bundle: nil)
         
         configure()
+        subscribeToPublishers()
     }
     
     required init?(coder: NSCoder) {
@@ -47,14 +52,32 @@ class AddEditGoalViewController: UIViewController, MainViewController {
     }
     
     func subscribeToPublishers() {
-        
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                guard let self else { return }
+                
+                switch viewState {
+                case .goalIsSaving:
+                    self.cancelButton.isEnabled = false
+                    self.isModalInPresentation = true
+                case .goalWasSaved:
+                    self.coordinator?.dismissAddEditGoalViewController(self)
+                case .error(let message):
+                    self.showError(message)
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
     }
     
     func showError(_ errorMessage: String) {
-        
+        coordinator?.viewControllerShouldPresentErrorMessage(
+            errorMessage
+        )
     }
     
     @objc func cancelButtonTapped() {
-        dismiss(animated: true)
+        coordinator?.dismissAddEditGoalViewController(self)
     }
 }

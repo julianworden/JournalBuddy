@@ -11,9 +11,21 @@ import Foundation
 final class HomeViewModel: MainViewModel {
     @Published var viewState = HomeViewState.displayingView
     @Published var userGoals = [
-        Goal(id: "asdf123", name: "Get a raise."),
-        Goal(id: "qwer123", name: "Pay off student loans."),
-        Goal(id: "zxcv123", name: "Rule the world.")
+        Goal(
+            id: "asdf123",
+            name: "Get a raise.",
+            creatorUID: UUID().uuidString
+        ),
+        Goal(
+            id: "qwer123",
+            name: "Pay off student loans.",
+            creatorUID: UUID().uuidString
+        ),
+        Goal(
+            id: "zxcv123",
+            name: "Rule the world.",
+            creatorUID: UUID().uuidString
+        )
     ]
 
     let databaseService: DatabaseServiceProtocol

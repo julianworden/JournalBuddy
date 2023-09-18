@@ -11,6 +11,7 @@ enum FormError: LocalizedError {
     case emailAddressesDoNotMatchOnSignUp
     case passwordsDoNotMatchOnSignUp
     case textEntryIsEmpty
+    case goalNameIsEmpty
     case textEntryHasNotBeenUpdated
 
     var errorDescription: String? {
@@ -21,6 +22,8 @@ enum FormError: LocalizedError {
             return "The passwords you entered do not match, please try again."
         case .textEntryIsEmpty:
             return "You cannot save an empty text entry, please try again after entering text."
+        case .goalNameIsEmpty:
+            return "You cannot save your goal without a name. Please enter a name and try again."
         case .textEntryHasNotBeenUpdated:
             return "You have not changed this text entry, so there is no need to update it."
         }

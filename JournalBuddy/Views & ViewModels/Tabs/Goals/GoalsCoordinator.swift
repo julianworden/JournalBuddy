@@ -47,10 +47,22 @@ final class GoalsCoordinator: Coordinator {
     }
     
     func presentAddEditGoalViewController(goalToEdit: Goal?) {
-        let addEditGoalViewModel = AddEditGoalViewModel(goalToEdit: goalToEdit)
-        let addEditGoalViewController = AddEditGoalViewController(viewModel: addEditGoalViewModel)
+        let addEditGoalViewModel = AddEditGoalViewModel(
+            databaseService: databaseService,
+            authService: authService,
+            currentUser: currentUser,
+            goalToEdit: goalToEdit
+        )
+        let addEditGoalViewController = AddEditGoalViewController(
+            viewModel: addEditGoalViewModel,
+            coordinator: self
+        )
         let addEditGoalNavigationController = MainNavigationController(rootViewController: addEditGoalViewController)
         
         navigationController.present(addEditGoalNavigationController, animated: true)
+    }
+    
+    func dismissAddEditGoalViewController(_ viewController: AddEditGoalViewController) {
+        viewController.dismiss(animated: true)
     }
 }

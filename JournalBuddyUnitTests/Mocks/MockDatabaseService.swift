@@ -73,4 +73,12 @@ final class MockDatabaseService: DatabaseServiceProtocol {
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         return []
     }
+    
+    // MARK: - Goal
+    
+    func saveNewGoal(_ newGoal: Goal) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
 }

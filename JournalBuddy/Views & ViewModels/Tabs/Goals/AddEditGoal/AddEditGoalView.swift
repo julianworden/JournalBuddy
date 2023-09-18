@@ -9,6 +9,15 @@ import Combine
 import UIKit
 
 final class AddEditGoalView: UIView, MainView {
+    private lazy var contentStack = UIStackView(
+        arrangedSubviews: [
+            goalNameTextField,
+            saveGoalButton
+        ]
+    )
+    private lazy var goalNameTextField = MainTextField(type: .name)
+    private lazy var saveGoalButton = PrimaryButton(title: "Save")
+    
     let viewModel: AddEditGoalViewModel
     var cancellables = Set<AnyCancellable>()
     
@@ -18,6 +27,8 @@ final class AddEditGoalView: UIView, MainView {
         super.init(frame: .zero)
         
         configure()
+        subscribeToPublishers()
+        constrain()
     }
     
     required init?(coder: NSCoder) {
@@ -26,10 +37,20 @@ final class AddEditGoalView: UIView, MainView {
     
     func configure() {
         backgroundColor = .background
-    }
-    
-    func constrain() {
         
+        contentStack.axis = .vertical
+        contentStack.spacing = UIConstants.mainStackViewSpacing
+        
+        goalNameTextField.delegate = self
+        if let goalToEdit = viewModel.goalToEdit {
+            goalNameTextField.text = goalToEdit.name
+        }
+        
+        saveGoalButton.addTarget(
+            self,
+            action: #selector(saveButtonTapped),
+            for: .touchUpInside
+        )
     }
     
     func makeAccessible() {
@@ -37,6 +58,51 @@ final class AddEditGoalView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .goalIsSaving:
+                    self?.saveGoalButton.isEnabled = false
+                    self?.goalNameTextField.isEnabled = false
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func constrain() {
+        addConstrainedSubview(contentStack)
         
+        NSLayoutConstraint.activate([
+            contentStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            
+            goalNameTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight),
+            
+            saveGoalButton.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight)
+        ])
+    }
+    
+    @objc func saveButtonTapped() {
+        Task {
+            await viewModel.saveButtonTapped()
+        }
+    }
+}
+
+extension AddEditGoalView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textFieldTextAfterUpdate = textField.getTextFieldTextAfterUpdate(newStringRange: range, newString: string)
+
+        switch textField.tag {
+        case MainTextFieldType.name.tag:
+            viewModel.goalName = textFieldTextAfterUpdate
+        default:
+            print(ErrorMessageConstants.unexpectedTextFieldTagFound(tag: tag))
+        }
+
+        return true
     }
 }

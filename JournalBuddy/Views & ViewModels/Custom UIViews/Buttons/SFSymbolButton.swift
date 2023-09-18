@@ -16,6 +16,7 @@ class SFSymbolButton: UIButton {
         super.init(frame: .zero)
 
         configure()
+        makeAccessible()
     }
     
     required init?(coder: NSCoder) {
@@ -29,6 +30,10 @@ class SFSymbolButton: UIButton {
         addTarget(self, action: #selector(touchDown), for: .touchDown)
         addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
         addTarget(self, action: #selector(touchUpOutside), for: .touchUpOutside)
+    }
+    
+    func makeAccessible() {
+        adjustsImageSizeForAccessibilityContentSizeCategory = true
     }
 
     /// Changes the tint color of the button as soon as it's touched.

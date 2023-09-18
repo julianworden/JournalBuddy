@@ -19,4 +19,6 @@ protocol DatabaseServiceProtocol {
     func deleteEntry<T: Entry>(_ entry: T) async throws
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry]
+    
+    func saveNewGoal(_ newGoal: Goal) async throws
 }

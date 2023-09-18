@@ -44,7 +44,12 @@ class GoalsTableViewCell: UITableViewCell {
         goalNameLabel.textColor = .primaryElement
         goalNameLabel.numberOfLines = 0
         
+        makeAccessible()
         constrain()
+    }
+    
+    func makeAccessible() {
+        goalNameLabel.adjustsFontForContentSizeCategory = true
     }
     
     func constrain() {

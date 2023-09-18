@@ -71,7 +71,6 @@ class LoginView: UIView, MainView {
         logInButton.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
 
         emailAddressTextField.delegate = self
-        emailAddressTextField.addTarget(self, action: #selector(emailAddressTextFieldEdited), for: .editingChanged)
 
         signUpStack.axis = .vertical
         signUpStack.spacing = 7
@@ -144,10 +143,6 @@ class LoginView: UIView, MainView {
 
             signUpButton.heightAnchor.constraint(greaterThanOrEqualToConstant: UIConstants.mainStackViewMinimumFormElementHeight)
         ])
-    }
-
-    @objc func emailAddressTextFieldEdited(_ textField: UITextField) {
-        viewModel.emailAddress = textField.text ?? ""
     }
 
     @objc func logInButtonTapped() {

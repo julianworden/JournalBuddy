@@ -10,6 +10,11 @@ import Foundation
 struct Goal: Codable, Hashable {
     let id: String
     let name: String
+    let creatorUID: String
 
-    static let example = Goal(id: "asdf123", name: "Get a job.")
+    static let example = Goal(
+        id: "asdf123",
+        name: "Get a job.",
+        creatorUID: UUID().uuidString
+    )
 }

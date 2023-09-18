@@ -11,6 +11,7 @@ enum FBConstants {
     // MARK: - Collections
     static let users = "users"
     static let entries = "entries"
+    static let goals = "goals"
 
     // MARK: - Fields
     static let id = "id"

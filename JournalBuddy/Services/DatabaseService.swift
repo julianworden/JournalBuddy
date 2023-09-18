@@ -212,6 +212,24 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    // MARK: - Goal
+    
+    func saveNewGoal(_ newGoal: Goal) async throws {
+        do {
+            let newGoalRef = try usersCollection
+                .document(newGoal.creatorUID)
+                .collection(FBConstants.goals)
+                .addDocument(from: newGoal)
+            
+            try await newGoalRef.updateData(
+                [FBConstants.id: newGoalRef.documentID]
+            )
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
     // MARK: - Firebase Storage
     
     /// Uploads a video entry to Firebase Storage.

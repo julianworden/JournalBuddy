@@ -9,4 +9,7 @@ import Foundation
 
 enum AddEditGoalViewState: ViewState {
     case displayingView
+    case goalIsSaving
+    case goalWasSaved
+    case error(message: String)
 }

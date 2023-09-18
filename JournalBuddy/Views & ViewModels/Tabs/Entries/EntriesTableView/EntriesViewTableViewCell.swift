@@ -25,6 +25,7 @@ class EntriesViewTableViewCell: UITableViewCell {
         contentConfiguration.textProperties.color = .primaryElement
         contentConfiguration.textProperties.numberOfLines = 0
         contentConfiguration.secondaryText = textEntry.text
+        #warning("Make secondary text caption1 and .disabled color")
         contentConfiguration.secondaryTextProperties.font = UIFontMetrics.avenirNextRegularBody
         contentConfiguration.secondaryTextProperties.color = .primaryElement
         contentConfiguration.secondaryTextProperties.numberOfLines = 3

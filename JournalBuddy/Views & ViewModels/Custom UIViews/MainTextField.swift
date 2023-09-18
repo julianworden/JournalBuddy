@@ -30,17 +30,17 @@ class MainTextField: UITextField {
     }
 
     func configure(textFieldType: MainTextFieldType) {
-        self.keyboardType = textFieldType.keyboardType
-        self.tag = textFieldType.tag
-        self.attributedPlaceholder = NSAttributedString(string: textFieldType.placeholder, attributes: [.foregroundColor: UIColor.textFieldPlaceholder])
-        self.clearButtonMode = .whileEditing
-        self.isSecureTextEntry = textFieldType.isSecureTextEntry
-        self.font = UIFontMetrics.avenirNextRegularBody
-        self.textColor = .primaryElement
-        self.adjustsFontForContentSizeCategory = true
-        self.layer.cornerRadius = 12
-        self.layer.borderColor = UIColor.disabled.cgColor
-        self.layer.borderWidth = 1.5
+        keyboardType = textFieldType.keyboardType
+        tag = textFieldType.tag
+        attributedPlaceholder = NSAttributedString(string: textFieldType.placeholder, attributes: [.foregroundColor: UIColor.textFieldPlaceholder])
+        clearButtonMode = .whileEditing
+        isSecureTextEntry = textFieldType.isSecureTextEntry
+        font = UIFontMetrics.avenirNextRegularBody
+        textColor = .primaryElement
+        adjustsFontForContentSizeCategory = true
+        layer.cornerRadius = 12
+        layer.borderColor = UIColor.disabled.cgColor
+        layer.borderWidth = 1.5
     }
 
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {

@@ -8,23 +8,27 @@
 import UIKit
 
 enum MainTextFieldType {
-    case emailAddress, confirmEmailAddress, password, confirmPassword
+    case emailAddress
+    case confirmEmailAddress
+    case password
+    case confirmPassword
+    case name
 
     var keyboardType: UIKeyboardType {
         switch self {
         case .emailAddress, .confirmEmailAddress:
             return .emailAddress
-        case .password, .confirmPassword:
+        case .password, .confirmPassword, .name:
             return .default
         }
     }
 
     var isSecureTextEntry: Bool {
         switch self {
-        case .emailAddress, .confirmEmailAddress:
-            return false
         case .password, .confirmPassword:
             return true
+        default:
+            return false
         }
     }
 
@@ -38,6 +42,8 @@ enum MainTextFieldType {
             return 3
         case .confirmPassword:
             return 4
+        case .name:
+            return 5
         }
     }
 
@@ -51,6 +57,8 @@ enum MainTextFieldType {
             return "Password"
         case .confirmPassword:
             return "Confirm Password"
+        case .name:
+            return "Name"
         }
     }
 }
