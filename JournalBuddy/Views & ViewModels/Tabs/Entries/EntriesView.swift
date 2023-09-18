@@ -37,38 +37,6 @@ class EntriesView: UIView, MainView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureFetchingEntriesUI() {
-        backgroundColor = .background
-
-        tableView.isHidden = true
-
-        entryTypeCollectionView.backgroundColor = .background
-        entryTypeCollectionView.showsHorizontalScrollIndicator = false
-        entryTypeCollectionView.isHidden = true
-
-        fetchingEntriesActivityIndicator.color = .primaryElement
-        fetchingEntriesActivityIndicator.hidesWhenStopped = true
-        fetchingEntriesActivityIndicator.startAnimating()
-    }
-
-    func configureTableView() {
-        tableView.register(
-            EntriesViewTableViewCell.self,
-            forCellReuseIdentifier: EntriesViewTableViewCell.reuseID
-        )
-        tableView.delegate = self
-        tableView.dataSource = tableViewDataSource
-    }
-
-    func configureFetchedEntriesUI() {
-        entryTypeCollectionView.dataSource = entryTypeCollectionViewDataSourceAndDelegate
-        entryTypeCollectionView.delegate = entryTypeCollectionViewDataSourceAndDelegate
-
-        fetchingEntriesActivityIndicator.stopAnimating()
-        entryTypeCollectionView.isHidden = false
-        tableView.isHidden = false
-    }
-
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
@@ -117,6 +85,38 @@ class EntriesView: UIView, MainView {
             fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+    }
+    
+    func configureFetchingEntriesUI() {
+        backgroundColor = .background
+
+        tableView.isHidden = true
+
+        entryTypeCollectionView.backgroundColor = .background
+        entryTypeCollectionView.showsHorizontalScrollIndicator = false
+        entryTypeCollectionView.isHidden = true
+
+        fetchingEntriesActivityIndicator.color = .primaryElement
+        fetchingEntriesActivityIndicator.hidesWhenStopped = true
+        fetchingEntriesActivityIndicator.startAnimating()
+    }
+
+    func configureTableView() {
+        tableView.register(
+            EntriesViewTableViewCell.self,
+            forCellReuseIdentifier: EntriesViewTableViewCell.reuseID
+        )
+        tableView.delegate = self
+        tableView.dataSource = tableViewDataSource
+    }
+
+    func configureFetchedEntriesUI() {
+        entryTypeCollectionView.dataSource = entryTypeCollectionViewDataSourceAndDelegate
+        entryTypeCollectionView.delegate = entryTypeCollectionViewDataSourceAndDelegate
+
+        fetchingEntriesActivityIndicator.stopAnimating()
+        entryTypeCollectionView.isHidden = false
+        tableView.isHidden = false
     }
 
     func getEntryTypeSelectorFlowLayout() -> UICollectionViewFlowLayout {

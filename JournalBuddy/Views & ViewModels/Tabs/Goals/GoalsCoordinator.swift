@@ -45,4 +45,8 @@ final class GoalsCoordinator: Coordinator {
     func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
+    
+    func presentAddEditGoalViewController() {
+        
+    }
 }

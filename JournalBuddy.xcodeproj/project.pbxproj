@@ -45,6 +45,8 @@
 		AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02932A69E14B006F42F8 /* ViewState.swift */; };
 		AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */; };
 		AB1E170F2AB0B3AE008EA954 /* TestVideo.mov in Resources */ = {isa = PBXBuildFile; fileRef = AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */; };
+		AB258EA52AB8782700F8BBA3 /* GoalsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */; };
+		AB258EA72AB878BF00F8BBA3 /* GoalsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */; };
 		AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */; };
 		AB2988AD2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */; };
 		AB2988AF2A5D8FE700303262 /* HomeHowAreYouFeelingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */; };
@@ -220,6 +222,8 @@
 		AB1E02932A69E14B006F42F8 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewState.swift; sourceTree = "<group>"; };
 		AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = TestVideo.mov; sourceTree = "<group>"; };
+		AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewDataSource.swift; sourceTree = "<group>"; };
+		AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewCell.swift; sourceTree = "<group>"; };
 		AB28CD412A847CE100E0C08C /* HomeAccomplishmentsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccomplishmentsSection.swift; sourceTree = "<group>"; };
 		AB2988AC2A5D8B3F00303262 /* OrangeYellowGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrangeYellowGradientBackground.swift; sourceTree = "<group>"; };
 		AB2988AE2A5D8FE600303262 /* HomeHowAreYouFeelingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHowAreYouFeelingCard.swift; sourceTree = "<group>"; };
@@ -482,6 +486,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		AB258EA32AB8780800F8BBA3 /* GoalsTableView */ = {
+			isa = PBXGroup;
+			children = (
+				AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */,
+				AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */,
+			);
+			path = GoalsTableView;
+			sourceTree = "<group>";
+		};
 		AB2988B02A5D9CA700303262 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -645,6 +658,7 @@
 				AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */,
 				AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */,
 				AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */,
+				AB258EA32AB8780800F8BBA3 /* GoalsTableView */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -1063,6 +1077,7 @@
 				AB58B8F52AA7E28F00FAA4D7 /* FBStorageError.swift in Sources */,
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,
 				AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */,
+				AB258EA52AB8782700F8BBA3 /* GoalsTableViewDataSource.swift in Sources */,
 				AB8E9B842A8912B700A99C3A /* GoalsCoordinator.swift in Sources */,
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
@@ -1114,6 +1129,7 @@
 				AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */,
 				AB7688BF2AB672A400EFC56B /* ProgressViewStack.swift in Sources */,
 				ABB24E3B2A66C067001A76E0 /* AuthService.swift in Sources */,
+				AB258EA72AB878BF00F8BBA3 /* GoalsTableViewCell.swift in Sources */,
 				AB1BB0CE2A94E02F0051EB66 /* CreateVideoEntryView.swift in Sources */,
 				ABB3483C2A6AC3350050A9AC /* EntriesViewState.swift in Sources */,
 				AB1BB0D42A94E19F0051EB66 /* CreateVideoEntryViewModel.swift in Sources */,

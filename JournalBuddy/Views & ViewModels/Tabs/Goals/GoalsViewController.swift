@@ -9,6 +9,9 @@ import Combine
 import UIKit
 
 class GoalsViewController: UIViewController, MainViewController {
+    let createGoalImage = UIImage(systemName: "plus.circle.fill", withConfiguration: .largeScale)
+    private lazy var createGoalButton = UIBarButtonItem(image: createGoalImage, style: .plain, target: self, action: #selector(createGoalButtonTapped))
+    
     weak var coordinator: GoalsCoordinator?
     let viewModel: GoalsViewModel
     var cancellables = Set<AnyCancellable>()
@@ -30,20 +33,17 @@ class GoalsViewController: UIViewController, MainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configure()
         subscribeToPublishers()
-    }
-
-    func configure() {
-        navigationItem.title = "Goals"
-        navigationItem.largeTitleDisplayMode = .always
     }
     
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
+                case .fetchedGoals:
+                    self?.configureFetchedGoalsUI()
                 case .error(let message):
                     self?.showError(message)
                 default:
@@ -55,5 +55,18 @@ class GoalsViewController: UIViewController, MainViewController {
     
     func showError(_ errorMessage: String) {
         coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
+    }
+    
+    func configure() {
+        navigationItem.title = "Goals"
+        navigationItem.largeTitleDisplayMode = .always
+    }
+    
+    func configureFetchedGoalsUI() {
+        navigationItem.rightBarButtonItem = createGoalButton
+    }
+    
+    @objc func createGoalButtonTapped() {
+        coordinator?.presentAddEditGoalViewController()
     }
 }

@@ -8,5 +8,8 @@
 import Foundation
 
 enum GoalsViewState: ViewState {
-    case displayingView, fetchingGoals, error(message: String)
+    case displayingView
+    case fetchingGoals
+    case fetchedGoals
+    case error(message: String)
 }

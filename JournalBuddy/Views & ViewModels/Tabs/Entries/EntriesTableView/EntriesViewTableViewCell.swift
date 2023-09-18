@@ -35,6 +35,7 @@ class EntriesViewTableViewCell: UITableViewCell {
 
         let selectedCellBackgroundView = UIView()
         selectedCellBackgroundView.backgroundColor = .groupedBackground
+        selectedCellBackgroundView.clipsToBounds = true
         selectedBackgroundView = selectedCellBackgroundView
         backgroundColor = .background
     }
