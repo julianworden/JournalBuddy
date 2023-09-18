@@ -147,7 +147,8 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     /// Deletes the recorded voice entry from local storage to avoid taking up
     /// unnecessary space on the users' device.
     func deleteLocalRecording() {
-        guard !isTesting else { return }
+        guard !isTesting,
+              let audioRecorder else { return }
         
         let audioRecorderDidDeleteRecording = audioRecorder.deleteRecording()
         
