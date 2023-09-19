@@ -42,8 +42,11 @@ final class GoalsCoordinator: Coordinator {
     
     func removeChildCoordinator(_ childCoordinator: Coordinator?) { }
 
-    func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
-        AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
+    func presentErrorMessage(
+        onViewController viewController: UIViewController? = nil,
+        errorMessage: String
+    ) {
+        AlertPresenter.presentBasicErrorAlert(onViewController: viewController, errorMessage: errorMessage)
     }
     
     func presentAddEditGoalViewController(goalToEdit: Goal?) {

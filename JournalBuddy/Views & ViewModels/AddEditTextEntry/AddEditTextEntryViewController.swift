@@ -93,7 +93,7 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
     }
 
     func showError(_ errorMessage: String) {
-        self.coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
+        self.coordinator?.presentErrorMessage(errorMessage: errorMessage)
     }
 
     func disableButtons() {

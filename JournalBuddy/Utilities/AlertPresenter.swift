@@ -9,17 +9,30 @@ import UIKit
 
 @MainActor
 struct AlertPresenter {
-    static func presentBasicErrorAlert(errorMessage: String) {
-        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
-              let currentRootView = currentUIWindow.rootViewController?.view else { return }
-
+    /// Presents a `CustomAlert` with an OK button to notify the user that an error occurred. This OK
+    /// button dismisses the alert without doing anything else.
+    /// - Parameters:
+    ///   - viewController: The view controller containing the view on top of which the alert should be presented. When this value is nil,
+    ///   the alert is presented on top of the current root view controller's view. This value will only not be nil when an alert should be presented
+    ///   on top of a sheet, as presenting the view on the current root view controller's view during a modal presentation will result in the
+    ///   alert being put behind the sheet. To fix this, the alert is presented on the sheet's navigation controller's view.
+    ///   - errorMessage: The error message that the alert will display.
+    static func presentBasicErrorAlert(
+        onViewController viewController: UIViewController? = nil,
+        errorMessage: String
+    ) {
         let alertToDisplay = CustomAlert(
             title: "Error",
             message: errorMessage,
             dismissButtonText: "OK"
         )
-
-        present(alertToDisplay, on: currentRootView)
+        
+        if let viewController {
+            present(alertToDisplay, on: viewController.view)
+        } else if let currentUIWindow = UIApplication.shared.currentUIWindow(),
+                  let currentRootView = currentUIWindow.rootViewController?.view {
+            present(alertToDisplay, on: currentRootView)
+        }
     }
 
     /// Presents a `UIAlertController` that confirms whether or not the user wants to perform a certain destruction action.

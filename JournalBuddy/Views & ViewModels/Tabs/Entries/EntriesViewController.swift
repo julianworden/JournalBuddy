@@ -115,7 +115,7 @@ class EntriesViewController: UIViewController, MainViewController {
     }
 
     func showError(_ errorMessage: String) {
-        self.coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
+        self.coordinator?.presentErrorMessage(errorMessage: errorMessage)
     }
     
     /// Adds a `dismissCustomMenuGestureRecognizer` to all elements in the view so that `createNewEntryMenu` is dismissable by tapping anywhere

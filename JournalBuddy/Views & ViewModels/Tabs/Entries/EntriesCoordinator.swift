@@ -55,7 +55,10 @@ final class EntriesCoordinator: NSObject, Coordinator {
         }
     }
 
-    func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
+    func presentErrorMessage(
+        onViewController viewController: UIViewController? = nil,
+        errorMessage: String
+    ) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 

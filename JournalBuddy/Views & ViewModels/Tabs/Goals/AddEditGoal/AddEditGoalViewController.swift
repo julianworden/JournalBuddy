@@ -64,6 +64,8 @@ class AddEditGoalViewController: UIViewController, MainViewController {
                     self.coordinator?.dismissAddEditGoalViewController(self)
                 case .error(let message):
                     self.showError(message)
+                    self.cancelButton.isEnabled = true
+                    self.isModalInPresentation = false
                 default:
                     break
                 }
@@ -72,8 +74,9 @@ class AddEditGoalViewController: UIViewController, MainViewController {
     }
     
     func showError(_ errorMessage: String) {
-        coordinator?.viewControllerShouldPresentErrorMessage(
-            errorMessage
+        coordinator?.presentErrorMessage(
+            onViewController: navigationController,
+            errorMessage: errorMessage
         )
     }
     

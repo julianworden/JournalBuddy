@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, MainViewController {
     }
 
     func showError(_ errorMessage: String) {
-        coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
+        coordinator?.presentErrorMessage(errorMessage: errorMessage)
     }
 
     @objc func logOutButtonTapped() {

@@ -76,8 +76,7 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
     }
 
     func showError(_ errorMessage: String) {
-        coordinator?.viewControllerShouldPresentErrorMessage(errorMessage)
-    }
+        coordinator?.presentErrorMessage(errorMessage: errorMessage)    }
     
     @objc func backButtonTapped() {
         if viewModel.videoWasSelectedFromLibrary {

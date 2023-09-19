@@ -72,7 +72,10 @@ final class OnboardingCoordinator: Coordinator {
         navigationController.pushViewController(signUpViewController, animated: true)
     }
 
-    func viewControllerShouldPresentErrorMessage(_ errorMessage: String) {
+    func presentErrorMessage(
+        onViewController viewController: UIViewController? = nil,
+        errorMessage: String
+    ) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
 }

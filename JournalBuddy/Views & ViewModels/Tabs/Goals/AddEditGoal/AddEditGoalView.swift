@@ -64,6 +64,9 @@ final class AddEditGoalView: UIView, MainView {
                 case .goalIsSaving:
                     self?.saveGoalButton.isEnabled = false
                     self?.goalNameTextField.isEnabled = false
+                case .error(_):
+                    self?.saveGoalButton.isEnabled = true
+                    self?.goalNameTextField.isEnabled = true
                 default:
                     break
                 }
