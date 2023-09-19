@@ -16,7 +16,7 @@ final class AddEditGoalView: UIView, MainView {
         ]
     )
     private lazy var goalNameTextField = MainTextField(type: .name)
-    private lazy var saveGoalButton = PrimaryButton(title: "Save")
+    private lazy var saveGoalButton = PrimaryButton(title: viewModel.saveButtonText)
     
     let viewModel: AddEditGoalViewModel
     var cancellables = Set<AnyCancellable>()

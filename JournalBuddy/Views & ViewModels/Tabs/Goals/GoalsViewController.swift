@@ -38,6 +38,14 @@ class GoalsViewController: UIViewController, MainViewController {
         subscribeToPublishers()
     }
     
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        Task {
+            await viewModel.fetchGoals()
+        }
+    }
+    
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in

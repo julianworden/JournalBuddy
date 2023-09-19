@@ -9,7 +9,7 @@ import Foundation
 
 struct Goal: Codable, Hashable {
     let id: String
-    let name: String
+    var name: String
     let creatorUID: String
 
     static let example = Goal(

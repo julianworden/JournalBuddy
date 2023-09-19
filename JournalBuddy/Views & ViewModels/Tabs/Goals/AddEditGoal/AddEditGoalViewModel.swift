@@ -26,6 +26,14 @@ final class AddEditGoalViewModel: MainViewModel {
         }
     }
     
+    var saveButtonText: String {
+        if goalToEdit != nil {
+            return "Update"
+        } else {
+            return "Save"
+        }
+    }
+    
     init(
         databaseService: DatabaseServiceProtocol,
         authService: AuthServiceProtocol,
@@ -41,14 +49,30 @@ final class AddEditGoalViewModel: MainViewModel {
     
     func saveButtonTapped() async {
         if let goalToEdit {
-            updateExistingGoal(goalToEdit)
+            await updateExistingGoal(goalToEdit)
         } else {
             await saveNewGoal()
         }
     }
     
-    func updateExistingGoal(_ goalToEdit: Goal) {
+    func updateExistingGoal(_ goalToEdit: Goal) async {
+        guard goalToEdit.name != goalName else {
+            viewState = .goalWasSaved
+            return
+        }
         
+        do {
+            var updatedGoal = goalToEdit
+            updatedGoal.name = goalName
+            
+            viewState = .goalIsSaving
+            try await databaseService.updateGoal(updatedGoal)
+            viewState = .goalWasSaved
+            postGoalSavedNotification()
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
     }
     
     func saveNewGoal() async {
@@ -67,9 +91,14 @@ final class AddEditGoalViewModel: MainViewModel {
             viewState = .goalIsSaving
             try await databaseService.saveNewGoal(newGoal)
             viewState = .goalWasSaved
+            postGoalSavedNotification()
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
+    }
+    
+    func postGoalSavedNotification() {
+        NotificationCenter.default.post(name: .goalWasSaved, object: nil)
     }
 }

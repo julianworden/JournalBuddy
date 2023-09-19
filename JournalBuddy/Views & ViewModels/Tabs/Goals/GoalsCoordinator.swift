@@ -34,7 +34,11 @@ final class GoalsCoordinator: Coordinator {
     }
 
     func start() {
-        let goalsViewModel = GoalsViewModel()
+        let goalsViewModel = GoalsViewModel(
+            databaseService: databaseService,
+            authService: authService,
+            currentUser: currentUser
+        )
         let goalsViewController = GoalsViewController(coordinator: self, viewModel: goalsViewModel)
 
         navigationController.pushViewController(goalsViewController, animated: true)

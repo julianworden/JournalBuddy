@@ -31,6 +31,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .document(uid)
                 .getDocument(as: User.self)
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
         }
     }
@@ -46,6 +47,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                     ]
                 )
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
@@ -61,7 +63,8 @@ final class DatabaseService: DatabaseServiceProtocol {
                 fatalError("No other types of entries have been implemented yet.")
             }
         } catch {
-            throw error
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
         }
     }
     
@@ -86,7 +89,8 @@ final class DatabaseService: DatabaseServiceProtocol {
                 return try await saveVoiceEntry(voiceEntry, at: url!) as! T
             }
         } catch {
-            throw error
+            print(error.emojiMessage)
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
 
@@ -100,7 +104,8 @@ final class DatabaseService: DatabaseServiceProtocol {
                 fatalError("No other types of entries have been implemented yet")
             }
         } catch {
-            throw error
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
         }
     }
 
@@ -112,7 +117,8 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .document(entry.id)
                 .delete()
         } catch {
-            throw error
+            print(error.emojiMessage)
+            throw FBFirestoreError.deleteDataFailed(systemError: error.localizedDescription)
         }
     }
 
@@ -127,6 +133,9 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: TextEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
         }
     }
 
@@ -142,6 +151,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             textEntryWithID.id = newDocument.documentID
             return textEntryWithID
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
@@ -154,6 +164,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .document(textEntry.id)
                 .updateData([FBConstants.text: textEntry.text])
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
         }
     }
@@ -185,6 +196,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             
             return newVideoEntry
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
@@ -208,11 +220,28 @@ final class DatabaseService: DatabaseServiceProtocol {
             
             return newVoiceEntry
         } catch {
+            print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
     
     // MARK: - Goal
+    
+    func fetchGoals() async throws -> [Goal] {
+        do {
+            let snapshot = try await usersCollection
+                .document(authService.currentUserUID)
+                .collection(FBConstants.goals)
+                .getDocuments()
+            
+            return try snapshot
+                .documents
+                .map { try $0.data(as: Goal.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
     
     func saveNewGoal(_ newGoal: Goal) async throws {
         do {
@@ -227,6 +256,19 @@ final class DatabaseService: DatabaseServiceProtocol {
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    func updateGoal(_ updatedGoal: Goal) async throws {
+        do {
+            try usersCollection
+                .document(updatedGoal.creatorUID)
+                .collection(FBConstants.goals)
+                .document(updatedGoal.id)
+                .setData(from: updatedGoal)
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
         }
     }
     

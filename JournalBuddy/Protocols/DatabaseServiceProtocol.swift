@@ -20,5 +20,7 @@ protocol DatabaseServiceProtocol {
 
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry]
     
+    func fetchGoals() async throws -> [Goal]
     func saveNewGoal(_ newGoal: Goal) async throws
+    func updateGoal(_ updatedGoal: Goal) async throws
 }

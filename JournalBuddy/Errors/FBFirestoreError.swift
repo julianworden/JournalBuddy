@@ -11,6 +11,7 @@ enum FBFirestoreError: LocalizedError {
     case fetchDataFailed(systemError: String)
     case saveDataFailed(systemError: String)
     case updateDataFailed(systemError: String)
+    case deleteDataFailed(systemError: String)
 
     var errorDescription: String? {
         switch self {
@@ -20,6 +21,8 @@ enum FBFirestoreError: LocalizedError {
             return "Failed to save data, please try again. System error: \(systemError)"
         case .updateDataFailed(let systemError):
             return "Failed to update data, please try again. System error: \(systemError)"
+        case .deleteDataFailed(let systemError):
+            return "Failed to delete data, please try again. System error: \(systemError)"
         }
     }
 }
