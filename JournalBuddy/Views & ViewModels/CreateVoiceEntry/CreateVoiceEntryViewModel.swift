@@ -140,7 +140,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             deleteLocalRecording()
         } catch {
             print(error.emojiMessage)
-            viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
+            viewState = .error(message: VoiceEntryError.uploadingFailed.localizedDescription)
         }
     }
     

@@ -36,6 +36,7 @@ class GoalsViewController: UIViewController, MainViewController {
         
         configure()
         subscribeToPublishers()
+        viewModel.subscribeToPublishers()
     }
     
     override func viewIsAppearing(_ animated: Bool) {

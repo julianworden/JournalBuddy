@@ -85,21 +85,21 @@ final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.voiceEntryHasBeenRecorded)
     }
     
-    func test_OnUploadVoiceEntry_ViewStateChanges() async {
+    func test_OnUploadVoiceEntrySuccessfully_ViewStateChanges() async {
         initializeSUT(
             databaseServiceError: nil,
             authServiceError: nil
         )
-        let voiceEntryIsUploadingExpectation = XCTestExpectation()
-        let voiceEntryWasUploadedExpectation = XCTestExpectation()
+        let expectation1 = XCTestExpectation(description: ".uploadingVoiceEntry view state set.")
+        let expectation2 = XCTestExpectation(description: ".uploadedVoiceEntry view state set.")
         
         sut.$viewState
             .sink { viewState in
                 switch viewState {
                 case .uploadingVoiceEntry:
-                    voiceEntryIsUploadingExpectation.fulfill()
+                    expectation1.fulfill()
                 case .uploadedVoiceEntry:
-                    voiceEntryWasUploadedExpectation.fulfill()
+                    expectation2.fulfill()
                 default:
                     break
                 }
@@ -110,11 +110,22 @@ final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
         
         await fulfillment(
             of: [
-                voiceEntryIsUploadingExpectation,
-                voiceEntryWasUploadedExpectation
+                expectation1,
+                expectation2
             ],
             timeout: 3
         )
+    }
+    
+    func test_OnUploadVoiceEntryUnsuccessfully_ViewStateChanges() async {
+        initializeSUT(
+            databaseServiceError: TestError.general,
+            authServiceError: nil
+        )
+        
+        await sut.uploadVoiceEntry()
+        
+        XCTAssertEqual(sut.viewState, .error(message: VoiceEntryError.uploadingFailed.localizedDescription))
     }
     
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {

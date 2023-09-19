@@ -10,7 +10,7 @@ import Combine
 
 @MainActor
 final class GoalsViewModel: MainViewModel {
-    @Published var viewState = GoalsViewState.fetchedGoals
+    @Published var viewState = GoalsViewState.fetchingGoals
     @Published var goals = [Goal]()
 
     var cancellables = Set<AnyCancellable>()
@@ -23,8 +23,6 @@ final class GoalsViewModel: MainViewModel {
         self.databaseService = databaseService
         self.authService = authService
         self.currentUser = currentUser
-        
-        subscribeToPublishers()
     }
     
     func fetchGoals() async {

@@ -76,7 +76,21 @@ final class MockDatabaseService: DatabaseServiceProtocol {
     
     // MARK: - Goal
     
+    func fetchGoals() async throws -> [Goal] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return []
+        }
+    }
+    
     func saveNewGoal(_ newGoal: Goal) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
+    
+    func updateGoal(_ updatedGoal: Goal) async throws {
         if let errorToThrow {
             throw errorToThrow
         }
