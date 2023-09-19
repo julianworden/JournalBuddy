@@ -63,7 +63,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
         NotificationCenter.default.post(name: .goalWasSaved, object: nil)
         
         wait(for: [fetchingGoalsExpectation, fetchedGoalsExpectation], timeout: 3)
-        
     }
     
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {

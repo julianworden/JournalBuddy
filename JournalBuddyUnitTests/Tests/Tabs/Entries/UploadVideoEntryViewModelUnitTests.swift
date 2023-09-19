@@ -113,8 +113,17 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
                 self.sut.videoPlayerRestartButtonTapped()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    XCTAssertEqual(self.sut.videoPlayer.currentTime().seconds, 3, accuracy: 0.5, "The video player should start over from the very beginning.")
-                    XCTAssertEqual(self.sut.videoPlayer.timeControlStatus, .playing, "After restarting the video player should automatically start playing again.")
+                    XCTAssertEqual(
+                        self.sut.videoPlayer.currentTime().seconds,
+                        3,
+                        accuracy: 0.5,
+                        "The video player should start over from the very beginning."
+                    )
+                    XCTAssertEqual(
+                        self.sut.videoPlayer.timeControlStatus,
+                        .playing,
+                        "After restarting the video player should automatically start playing again."
+                    )
                     expectation.fulfill()
                 }
             }
@@ -139,10 +148,96 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 3)
     }
     
-    func test_OnUploadButtonTappedWithSaveToDeviceEnabled_ViewStateIsUpdated() async {
+    func test_OnUploadButtonTappedWithSaveToDeviceEnabled_SavingAndUploadingCompleteSuccessfully() async {
         initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
         sut.saveVideoToDevice = true
 
+        subscribeToViewStateUpdates()
+        
+        await sut.uploadButtonTapped(photoLibrary: MockPHPhotoLibrary(errorToThrow: nil))
+        
+        await fulfillment(
+            of: [
+                videoEntryIsSavingExpectation,
+                videoEntryWasSavedExpectation,
+                videoEntryIsUploadingExpectation,
+                videoEntryWasUploadedExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
+    }
+    
+    func test_OnUploadButtonTappedWithSaveToDeviceEnabled_VideoDoesNotStartUploadingWhenSavingErrorIsThrown() async throws {
+        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
+        sut.saveVideoToDevice = true
+        
+        subscribeToViewStateUpdates()
+        sut.$viewState
+            .sink { viewState in
+                switch viewState {
+                case .videoEntryIsUploading, .videoEntryWasUploaded:
+                    XCTFail("An error should have been thrown during saving and uploading shouldn't have started.")
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+        
+        await sut.uploadButtonTapped(photoLibrary: MockPHPhotoLibrary(errorToThrow: TestError.general))
+        
+        // Give the view model the chance to set uploading-related view states. Test will fail if this happens
+        try await Task.sleep(seconds: 3)
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnUploadButtonTappedWithSaveToDeviceDisabled_SavingToDeviceDoesNotOccurAndUploadingIsSuccessful() async {
+        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
+        
+        subscribeToViewStateUpdates()
+        sut.$viewState
+            .sink { viewState in
+                switch viewState {
+                case .videoEntryIsSavingToDevice, .videoEntryWasSavedToDevice:
+                    XCTFail("The video entry shouldn't be getting saved to the device.")
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+        
+        await sut.uploadButtonTapped(photoLibrary: MockPHPhotoLibrary(errorToThrow: nil))
+        
+        await fulfillment(
+            of: [
+                videoEntryIsUploadingExpectation,
+                videoEntryWasUploadedExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
+    }
+    
+    func test_OnUploadButtonTapped_ErrorViewStateIsSetWhenUploadingFails() async {
+        initializeSUTWith(databaseServiceError: TestError.general, authServiceError: nil)
+        
+        await sut.uploadButtonTapped()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func initializeSUTWith(databaseServiceError: Error?, authServiceError: Error?) {
+        sut = UploadVideoEntryViewModel(
+            isTesting: true,
+            recordedVideoURL: Bundle.main.url(forResource: "TestVideo", withExtension: "mov")!,
+            videoWasSelectedFromLibrary: true,
+            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
+            authService: MockAuthService(errorToThrow: authServiceError)
+        )
+    }
+    
+    func subscribeToViewStateUpdates() {
         sut.$viewState
             .sink { viewState in
                 switch viewState {
@@ -159,81 +254,6 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
                 }
             }
             .store(in: &cancellables)
-        
-        await sut.uploadButtonTapped(photoLibrary: MockPHPhotoLibrary(errorToThrow: nil))
-        
-        await fulfillment(
-            of: [
-                videoEntryIsSavingExpectation,
-                videoEntryWasSavedExpectation,
-                videoEntryIsUploadingExpectation,
-                videoEntryWasUploadedExpectation
-            ],
-            timeout: 3,
-            enforceOrder: true
-        )
-    }
-    
-    func test_OnUploadButtonTappedWithSaveToDeviceDisabled_ViewStateIsUpdated() async {
-        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
-
-        sut.$viewState
-            .sink { viewState in
-                switch viewState {
-                case .videoEntryIsSavingToDevice, .videoEntryWasSavedToDevice:
-                    XCTFail("The video entry shouldn't be getting saved to the device.")
-                case .videoEntryIsUploading:
-                    self.videoEntryIsUploadingExpectation.fulfill()
-                case .videoEntryWasUploaded:
-                    self.videoEntryWasUploadedExpectation.fulfill()
-                default:
-                    break
-                }
-            }
-            .store(in: &cancellables)
-        
-        await sut.uploadButtonTapped(photoLibrary: MockPHPhotoLibrary(errorToThrow: nil))
-        
-        await fulfillment(
-            of: [
-                videoEntryIsUploadingExpectation,
-                videoEntryWasUploadedExpectation
-            ],
-            timeout: 3,
-            enforceOrder: true
-        )
-    }
-    
-    func test_OnSuccessfullySaveVideoEntryToDevice_ViewStateIsUpdated() async {
-        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
-        
-        await sut.saveVideoToDevice(photoLibrary: MockPHPhotoLibrary(errorToThrow: nil))
-        
-        XCTAssertEqual(sut.viewState, .videoEntryWasSavedToDevice)
-    }
-    
-    func test_OnUnsuccessfullySaveVideoEntryToDevice_ViewStateIsUpdated() async {
-        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
-        
-        await sut.saveVideoToDevice(photoLibrary: MockPHPhotoLibrary(errorToThrow: TestError.general))
-        
-        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
-    }
-    
-    func test_OnSuccessfullyUploadVideoEntry_ViewStateIsUpdated() async {
-        initializeSUTWith(databaseServiceError: nil, authServiceError: nil)
-        
-        await sut.uploadVideo()
-        
-        XCTAssertEqual(sut.viewState, .videoEntryWasUploaded)
-    }
-    
-    func test_OnUnSuccessfullyUploadVideoEntry_ViewStateIsUpdated() async {
-        initializeSUTWith(databaseServiceError: TestError.general, authServiceError: nil)
-        
-        await sut.uploadVideo()
-        
-        XCTAssertEqual(sut.viewState, .error(message: VideoEntryError.uploadFailed.localizedDescription))
     }
     
     func waitForVideoPlayerReadyToPlayStatus(completion: @escaping () -> Void) {
@@ -245,16 +265,6 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
                 }
             }
             .store(in: &cancellables)
-    }
-    
-    func initializeSUTWith(databaseServiceError: Error?, authServiceError: Error?) {
-        sut = UploadVideoEntryViewModel(
-            isTesting: true,
-            recordedVideoURL: Bundle.main.url(forResource: "TestVideo", withExtension: "mov")!,
-            videoWasSelectedFromLibrary: true,
-            databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
-            authService: MockAuthService(errorToThrow: authServiceError)
-        )
     }
 }
 

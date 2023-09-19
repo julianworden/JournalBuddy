@@ -74,52 +74,47 @@ final class UploadVideoEntryViewModel: MainViewModel {
     }
     
     func uploadButtonTapped(photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()) async {
-        if saveVideoToDevice {
-            await saveVideoToDevice(photoLibrary: photoLibrary)
-        }
-        
-        await uploadVideo()
-    }
-    
-    func uploadVideo() async {
         do {
-            viewState = .videoEntryIsUploading
-            
-            let newVideoEntry = VideoEntry(
-                id: "",
-                creatorUID: authService.currentUserUID,
-                unixDate: Date.now.timeIntervalSince1970,
-                downloadURL: "",
-                thumbnailDownloadURL: ""
-            )
-            
-            try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
-            
-            viewState = .videoEntryWasUploaded
-            deleteLocalRecording()
-        } catch {
-            print(error.emojiMessage)
-            viewState = .error(message: VideoEntryError.uploadFailed.localizedDescription)
-        }
-    }
-    
-    func saveVideoToDevice(
-        photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()
-    ) async {
-        do {
-            viewState = .videoEntryIsSavingToDevice
-            
-            try await photoLibrary.performChanges { [weak self] in
-                guard let self else { return }
-
-                PHAssetCreationRequest.forAsset().addResource(with: .video, fileURL: self.recordedVideoURL, options: nil)
+            if saveVideoToDevice {
+                try await saveVideoToDevice(photoLibrary: photoLibrary)
             }
             
-            viewState = .videoEntryWasSavedToDevice
+            try await uploadVideo()
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
+    }
+    
+    private func uploadVideo() async throws {
+        viewState = .videoEntryIsUploading
+        
+        let newVideoEntry = VideoEntry(
+            id: "",
+            creatorUID: authService.currentUserUID,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: "",
+            thumbnailDownloadURL: ""
+        )
+        
+        try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
+        
+        viewState = .videoEntryWasUploaded
+        deleteLocalRecording()
+    }
+    
+    private func saveVideoToDevice(
+        photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()
+    ) async throws {
+        viewState = .videoEntryIsSavingToDevice
+        
+        try await photoLibrary.performChanges { [weak self] in
+            guard let self else { return }
+
+            PHAssetCreationRequest.forAsset().addResource(with: .video, fileURL: self.recordedVideoURL, options: nil)
+        }
+        
+        viewState = .videoEntryWasSavedToDevice
     }
     
     /// Deletes the recorded video entry from local storage to avoid taking up

@@ -61,7 +61,7 @@ final class AddEditGoalView: UIView, MainView {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .goalIsSaving:
+                case .goalIsSaving, .goalIsUpdating:
                     self?.saveGoalButton.isEnabled = false
                     self?.goalNameTextField.isEnabled = false
                 case .error(_):

@@ -48,54 +48,54 @@ final class AddEditGoalViewModel: MainViewModel {
     }
     
     func saveButtonTapped() async {
-        if let goalToEdit {
-            await updateExistingGoal(goalToEdit)
-        } else {
-            await saveNewGoal()
-        }
-    }
-    
-    func updateExistingGoal(_ goalToEdit: Goal) async {
-        guard goalToEdit.name != goalName else {
-            viewState = .goalWasSaved
-            return
-        }
-        
         do {
-            var updatedGoal = goalToEdit
-            updatedGoal.name = goalName
-            
-            viewState = .goalIsSaving
-            try await databaseService.updateGoal(updatedGoal)
-            viewState = .goalWasSaved
-            postGoalSavedNotification()
+            if let goalToEdit {
+                try await updateExistingGoal(goalToEdit)
+            } else {
+                try await saveNewGoal()
+            }
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
     }
     
-    func saveNewGoal() async {
+    private func updateExistingGoal(_ goalToEdit: Goal) async throws {
         guard !goalName.isReallyEmpty else {
             viewState = .error(message: FormError.goalNameIsEmpty.localizedDescription)
             return
         }
         
-        do {
-            let newGoal = Goal(
-                id: "",
-                name: goalName,
-                creatorUID: currentUser.uid
-            )
-            
-            viewState = .goalIsSaving
-            try await databaseService.saveNewGoal(newGoal)
-            viewState = .goalWasSaved
-            postGoalSavedNotification()
-        } catch {
-            print(error.emojiMessage)
-            viewState = .error(message: error.localizedDescription)
+        guard goalToEdit.name != goalName else {
+            viewState = .goalWasUpdated
+            return
         }
+        
+        var updatedGoal = goalToEdit
+        updatedGoal.name = goalName
+        
+        viewState = .goalIsUpdating
+        try await databaseService.updateGoal(updatedGoal)
+        viewState = .goalWasUpdated
+        postGoalSavedNotification()
+    }
+    
+    private func saveNewGoal() async throws {
+        guard !goalName.isReallyEmpty else {
+            viewState = .error(message: FormError.goalNameIsEmpty.localizedDescription)
+            return
+        }
+        
+        let newGoal = Goal(
+            id: "",
+            name: goalName,
+            creatorUID: currentUser.uid
+        )
+        
+        viewState = .goalIsSaving
+        try await databaseService.saveNewGoal(newGoal)
+        viewState = .goalWasSaved
+        postGoalSavedNotification()
     }
     
     func postGoalSavedNotification() {
