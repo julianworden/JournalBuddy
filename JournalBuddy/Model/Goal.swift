@@ -9,12 +9,20 @@ import Foundation
 
 struct Goal: Codable, Hashable {
     let id: String
-    var name: String
     let creatorUID: String
+    var name: String
+    var isComplete: Bool
+    
+    init(id: String, creatorUID: String, name: String, isComplete: Bool = false) {
+        self.id = id
+        self.creatorUID = creatorUID
+        self.name = name
+        self.isComplete = isComplete
+    }
 
     static let example = Goal(
         id: "asdf123",
-        name: "Get a job.",
-        creatorUID: UUID().uuidString
+        creatorUID: UUID().uuidString,
+        name: "Get a job."
     )
 }

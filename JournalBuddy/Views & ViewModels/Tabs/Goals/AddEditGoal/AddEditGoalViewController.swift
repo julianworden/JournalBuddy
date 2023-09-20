@@ -60,7 +60,7 @@ class AddEditGoalViewController: UIViewController, MainViewController {
                 case .goalIsSaving, .goalIsUpdating:
                     self.cancelButton.isEnabled = false
                     self.isModalInPresentation = true
-                case .goalWasSaved, .goalWasSaved:
+                case .goalWasSaved, .goalWasUpdated:
                     self.coordinator?.dismissAddEditGoalViewController(self)
                 case .error(let message):
                     self.showError(message)

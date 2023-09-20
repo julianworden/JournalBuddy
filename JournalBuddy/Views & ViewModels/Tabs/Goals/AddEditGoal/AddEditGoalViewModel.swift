@@ -88,8 +88,8 @@ final class AddEditGoalViewModel: MainViewModel {
         
         let newGoal = Goal(
             id: "",
-            name: goalName,
-            creatorUID: currentUser.uid
+            creatorUID: currentUser.uid,
+            name: goalName
         )
         
         viewState = .goalIsSaving

@@ -259,6 +259,19 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    func completeGoal(_ completedGoal: Goal) async throws {
+        do {
+            try await usersCollection
+                .document(completedGoal.creatorUID)
+                .collection(FBConstants.goals)
+                .document(completedGoal.id)
+                .updateData([FBConstants.isComplete: true])
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
     func updateGoal(_ updatedGoal: Goal) async throws {
         do {
             try usersCollection

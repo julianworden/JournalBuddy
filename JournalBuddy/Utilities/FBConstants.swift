@@ -19,4 +19,5 @@ enum FBConstants {
     static let text = "text"
     static let emailAddress = "emailAddress"
     static let type = "type"
+    static let isComplete = "isComplete"
 }

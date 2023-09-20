@@ -22,5 +22,14 @@ protocol DatabaseServiceProtocol {
     
     func fetchGoals() async throws -> [Goal]
     func saveNewGoal(_ newGoal: Goal) async throws
+    /// Updates a given goal in Firestore.
+    /// - Parameter updatedGoal: The updated goal that is to be saved to
+    /// Firestore. This goal should contain the new, updated info before it's passed
+    /// into this method.
     func updateGoal(_ updatedGoal: Goal) async throws
+    /// Updates an existing goal in Firestore with an `isComplete` status of `true`.
+    /// - Parameter completedGoal: The updated goal that is to be saved
+    /// to firestore. This goal should already have its `isComplete` property
+    /// set to `true` before its passed into this method.
+    func completeGoal(_ completedGoal: Goal) async throws
 }

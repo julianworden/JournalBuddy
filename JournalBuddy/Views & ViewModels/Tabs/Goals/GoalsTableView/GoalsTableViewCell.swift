@@ -8,8 +8,12 @@
 import UIKit
 
 class GoalsTableViewCell: UITableViewCell {
-    private lazy var circleImage = UIImage(
+    let circleImage = UIImage(
         systemName: "circle",
+        withConfiguration: .largeScale.applying(.primaryElementColor)
+    )!
+    let checkmarkImage = UIImage(
+        systemName: "checkmark.circle.fill",
         withConfiguration: .largeScale.applying(.primaryElementColor)
     )!
     
@@ -18,9 +22,19 @@ class GoalsTableViewCell: UITableViewCell {
         completeGoalButton
     ])
     private lazy var goalNameLabel = UILabel()
-    private lazy var completeGoalButton = SFSymbolButton(symbol: circleImage)
+    private lazy var completeGoalButton = SFSymbolButton(symbol: completeGoalButtonImage)
     
     static let reuseIdentifier = "GoalsTableViewCell"
+    var viewModel: GoalsViewModel!
+    var goal: Goal!
+    
+    var completeGoalButtonImage: UIImage {
+        if goal.isComplete {
+            return checkmarkImage
+        } else {
+            return circleImage
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +50,7 @@ class GoalsTableViewCell: UITableViewCell {
         selectedCellBackgroundView.clipsToBounds = true
         selectedBackgroundView = selectedCellBackgroundView
         backgroundColor = .background
+        self.goal = goal
         
         contentStack.distribution = .equalCentering
         
@@ -43,6 +58,14 @@ class GoalsTableViewCell: UITableViewCell {
         goalNameLabel.font = UIFontMetrics.avenirNextRegularBody
         goalNameLabel.textColor = .primaryElement
         goalNameLabel.numberOfLines = 0
+        
+        if !goal.isComplete {
+            completeGoalButton.addTarget(
+                self,
+                action: #selector(completeGoalButtonTapped),
+                for: .touchUpInside
+            )
+        }
         
         makeAccessible()
         constrain()
@@ -61,5 +84,28 @@ class GoalsTableViewCell: UITableViewCell {
             contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15)
         ])
+    }
+    
+    @objc func completeGoalButtonTapped() {
+        Task {
+            do {
+                completeGoalButton.setImage(checkmarkImage, for: .normal)
+                completeGoalButton.removeTarget(
+                    self,
+                    action: #selector(completeGoalButtonTapped),
+                    for: .touchUpInside
+                )
+                try await viewModel.completeGoal(goal)
+            } catch {
+                print(error.emojiMessage)
+                // Reset button if anything goes wrong
+                completeGoalButton.setImage(circleImage, for: .normal)
+                completeGoalButton.addTarget(
+                    self,
+                    action: #selector(completeGoalButtonTapped),
+                    for: .touchUpInside
+                )
+            }
+        }
     }
 }

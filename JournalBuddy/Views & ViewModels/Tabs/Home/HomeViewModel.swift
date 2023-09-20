@@ -13,18 +13,19 @@ final class HomeViewModel: MainViewModel {
     @Published var userGoals = [
         Goal(
             id: "asdf123",
-            name: "Get a raise.",
-            creatorUID: UUID().uuidString
+            creatorUID: UUID().uuidString,
+            name: "Get a raise."
         ),
         Goal(
             id: "qwer123",
-            name: "Pay off student loans.",
-            creatorUID: UUID().uuidString
+            creatorUID: UUID().uuidString,
+            name: "Pay off student loans."
+            
         ),
         Goal(
             id: "zxcv123",
-            name: "Rule the world.",
-            creatorUID: UUID().uuidString
+            creatorUID: UUID().uuidString,
+            name: "Rule the world."
         )
     ]
 

@@ -36,6 +36,13 @@ final class GoalsViewModel: MainViewModel {
         }
     }
     
+    func completeGoal(_ goal: Goal) async throws {
+        var completedGoal = goal
+        completedGoal.isComplete = true
+        
+        try await databaseService.completeGoal(completedGoal)
+    }
+    
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: .goalWasSaved)
             .sink { [weak self] _ in

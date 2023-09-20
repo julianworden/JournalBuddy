@@ -25,6 +25,7 @@ final class GoalsTableViewDataSource: UITableViewDiffableDataSource<GoalsTableVi
                 return UITableViewCell()
             }
             
+            cell.viewModel = viewModel
             cell.configure(with: goal)
             return cell
         }
