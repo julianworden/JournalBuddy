@@ -10,6 +10,12 @@ import UIKit
 
 class GoalsView: UIView, MainView {
     private lazy var fetchingGoalsActivityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var goalTypeSelectorStack = UIStackView(arrangedSubviews: [
+        incompleteButton,
+        completeButton
+    ])
+    private lazy var completeButton = PrimaryButton(title: "Complete")
+    private lazy var incompleteButton = PrimaryButton(title: "Incomplete")
     private lazy var goalsTableView = MainTableView()
 
     private lazy var goalsTableViewDataSource = GoalsTableViewDataSource(viewModel: viewModel, tableView: goalsTableView)
@@ -49,16 +55,34 @@ class GoalsView: UIView, MainView {
                 }
             }
             .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
+            .sink { [weak self] notification in
+                let newContentSizeCategory = notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as! UIContentSizeCategory
+                self?.adjustLayoutForNewPreferredContentSizeCategory(newContentSizeCategory)
+            }
+            .store(in: &cancellables)
     }
     
     func constrain() {
-        addConstrainedSubviews(fetchingGoalsActivityIndicator, goalsTableView)
+        addConstrainedSubviews(fetchingGoalsActivityIndicator, goalTypeSelectorStack, goalsTableView)
 
         NSLayoutConstraint.activate([
             fetchingGoalsActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingGoalsActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            goalsTableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            goalTypeSelectorStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            goalTypeSelectorStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            goalTypeSelectorStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
+            goalTypeSelectorStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            
+            incompleteButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            incompleteButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 150),
+            
+            completeButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            completeButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 140),
+            
+            goalsTableView.topAnchor.constraint(equalTo: goalTypeSelectorStack.bottomAnchor, constant: 5),
             goalsTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             goalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             goalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
@@ -68,6 +92,7 @@ class GoalsView: UIView, MainView {
     func configureFetchingGoalsUI() {
         backgroundColor = .background
         
+        goalTypeSelectorStack.isHidden = true
         goalsTableView.isHidden = true
         
         fetchingGoalsActivityIndicator.hidesWhenStopped = true
@@ -76,11 +101,30 @@ class GoalsView: UIView, MainView {
     }
     
     func configureFetchedGoalsUI() {
+        goalTypeSelectorStack.spacing = 12
+        goalTypeSelectorStack.isHidden = false
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityExtraLarge {
+            goalTypeSelectorStack.axis = .vertical
+        }
+        
+        incompleteButton.titleLabel?.numberOfLines = 1
+        
+        completeButton.titleLabel?.numberOfLines = 1
+        completeButton.backgroundColor = .disabled
+        
         goalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
         goalsTableView.dataSource = goalsTableViewDataSource
         goalsTableView.delegate = self
         goalsTableView.estimatedRowHeight = 44
         goalsTableView.isHidden = false
+    }
+    
+    func adjustLayoutForNewPreferredContentSizeCategory(_ newContentSizeCategory: UIContentSizeCategory) {
+        if newContentSizeCategory >= .accessibilityExtraLarge {
+            goalTypeSelectorStack.axis = .vertical
+        } else {
+            goalTypeSelectorStack.axis = .horizontal
+        }
     }
 }
 
