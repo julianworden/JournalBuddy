@@ -205,7 +205,7 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
             name: .goalWasSaved
         )
         
-        sut.postGoalSavedNotification()
+        sut.postGoalSavedNotification(for: Goal.example)
         
         wait(for: [notificationExpectation], timeout: 3)
     }

@@ -289,6 +289,19 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    func deleteGoal(_ goalToDelete: Goal) async throws {
+        do {
+            try await usersCollection
+                .document(goalToDelete.creatorUID)
+                .collection(FBConstants.goals)
+                .document(goalToDelete.id)
+                .delete()
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.deleteDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
     // MARK: - Firebase Storage
     
     /// Uploads a video entry to Firebase Storage.

@@ -55,6 +55,31 @@ final class GoalsViewModel: MainViewModel {
         try await databaseService.completeGoal(completedGoal)
     }
     
+    func deleteGoal(_ goal: Goal) async {
+        do {
+            if goal.isComplete {
+                guard let goalToDeleteIndex = completeGoals.firstIndex(of: goal) else {
+                    print("❌ incompleteGoals array does not contain selected goal.")
+                    return
+                }
+                
+                completeGoals.remove(at: goalToDeleteIndex)
+            } else {
+                guard let goalToDeleteIndex = incompleteGoals.firstIndex(of: goal) else {
+                    print("❌ incompleteGoals array does not contain selected goal.")
+                    return
+                }
+                
+                incompleteGoals.remove(at: goalToDeleteIndex)
+            }
+            
+            try await databaseService.deleteGoal(goal)
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: .goalWasSaved)
             .sink { [weak self] notification in
@@ -66,6 +91,30 @@ final class GoalsViewModel: MainViewModel {
                     self?.completeGoals.append(newGoal)
                 } else {
                     self?.incompleteGoals.append(newGoal)
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .goalWasDeleted)
+            .sink { [weak self] notification in
+                guard let deletedGoal = notification.userInfo?[NotificationConstants.deletedGoal] as? Goal else {
+                    return
+                }
+                
+                if deletedGoal.isComplete {
+                    guard let deletedGoalIndex = self?.completeGoals.firstIndex(of: deletedGoal) else{
+                        print("❌ incompleteGoals array does not contain selected goal.")
+                        return
+                    }
+                    
+                    self?.completeGoals.remove(at: deletedGoalIndex)
+                } else {
+                    guard let goalToDeleteIndex = self?.incompleteGoals.firstIndex(of: deletedGoal) else {
+                        print("❌ incompleteGoals array does not contain selected goal.")
+                        return
+                    }
+                    
+                    self?.incompleteGoals.remove(at: goalToDeleteIndex)
                 }
             }
             .store(in: &cancellables)

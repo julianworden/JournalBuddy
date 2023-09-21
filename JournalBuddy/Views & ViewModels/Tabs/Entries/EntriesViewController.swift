@@ -83,7 +83,6 @@ class EntriesViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.title = "Entries"
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.rightBarButtonItem = createEntryButton
         hidesBottomBarWhenPushed = false
     }
 
@@ -105,6 +104,8 @@ class EntriesViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
+                case .fetchedEntries:
+                    self?.navigationItem.rightBarButtonItem = self?.createEntryButton
                 case .error(let errorMessage):
                     self?.showError(errorMessage)
                 default:

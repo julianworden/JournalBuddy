@@ -830,6 +830,9 @@
 				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
 				AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */,
 				AB41680B2A8D096F001B9AA1 /* EntriesTableView */,
+				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
+				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
+				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
 			);
 			path = Entries;
 			sourceTree = "<group>";
@@ -909,9 +912,6 @@
 				ABD974012A77FFAB00BD9C8F /* StartupViewController.swift */,
 				ABFEF27B2A6585FD004C40A8 /* Onboarding */,
 				ABB24E3E2A66D127001A76E0 /* Tabs */,
-				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
-				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
-				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
 				AB7CC9142A643D1B0054B1A4 /* Custom UIViews */,
 			);
 			path = "Views & ViewModels";

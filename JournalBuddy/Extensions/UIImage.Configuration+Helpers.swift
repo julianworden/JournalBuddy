@@ -20,12 +20,37 @@ extension UIImage.Configuration {
         ).applying(largeScale)
     }
 
-    static var destructiveColor: UIImage.SymbolConfiguration {
-        return UIImage.SymbolConfiguration(paletteColors: [.background, .destructive])
+    static var destructiveColorWithBackground: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(
+            paletteColors: [
+                .background,
+                .destructive
+            ]
+        ).applying(UIImage.SymbolConfiguration(textStyle: .body))
+    }
+    
+    static var destructiveColorWithoutBackground: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(
+            paletteColors: [.destructive]
+        ).applying(UIImage.SymbolConfiguration(textStyle: .body))
+    }
+    
+    static var destructiveDisabledColorWithBackground: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(
+            paletteColors: [
+                .background,
+                .destructiveDisabled
+            ]
+        ).applying(UIImage.SymbolConfiguration(textStyle: .body))
     }
 
     static var primaryElementColor: UIImage.SymbolConfiguration {
         return UIImage.SymbolConfiguration(paletteColors: [.primaryElement])
+    }
+    
+    static var backgroundColor: UIImage.SymbolConfiguration {
+        return UIImage.SymbolConfiguration(paletteColors: [.background]
+        ).applying(UIImage.SymbolConfiguration(textStyle: .body))
     }
     
     static var disabledElementColor: UIImage.SymbolConfiguration {

@@ -9,6 +9,11 @@ import Combine
 import UIKit
 
 class GoalsView: UIView, MainView {
+    enum TableViewType: Int {
+        case incomplete = 0
+        case complete
+    }
+    
     private lazy var fetchingGoalsActivityIndicator = UIActivityIndicatorView(style: .large)
     private lazy var goalTypeSelectorStack = UIStackView(arrangedSubviews: [
         incompleteButton,
@@ -65,12 +70,14 @@ class GoalsView: UIView, MainView {
         completeGoalsTableView.delegate = self
         completeGoalsTableView.estimatedRowHeight = 44
         completeGoalsTableView.showsVerticalScrollIndicator = false
+        completeGoalsTableView.tag = TableViewType.complete.rawValue
         
         incompleteGoalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
         incompleteGoalsTableView.dataSource = incompleteGoalsTableViewDataSource
         incompleteGoalsTableView.delegate = self
         incompleteGoalsTableView.estimatedRowHeight = 44
         incompleteGoalsTableView.showsVerticalScrollIndicator = false
+        incompleteGoalsTableView.tag = TableViewType.incomplete.rawValue
     }
     
     func makeAccessible() {
@@ -186,14 +193,42 @@ class GoalsView: UIView, MainView {
 extension GoalsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let selectedGoal = switch viewModel.currentlyDisplayingGoalType {
-        case .complete:
-            viewModel.completeGoals[indexPath.row]
-        case .incomplete:
-            viewModel.incompleteGoals[indexPath.row]
+
+        guard let selectedGoal = getSelectedGoal(in: tableView, at: indexPath) else {
+            print("❌ Failed to determine which goal was selected.")
+            return
         }
         
         delegate?.goalsViewDidSelect(goalToEdit: selectedGoal)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
+            Task {
+                guard let selectedGoal = self?.getSelectedGoal(in: tableView, at: indexPath) else {
+                    print("❌ Failed to determine which goal was selected.")
+                    return
+                }
+                
+                await self?.viewModel.deleteGoal(selectedGoal)
+            }
+        }
+        
+        action.backgroundColor = .destructive
+        action.image = UIImage(systemName: "trash", withConfiguration: .backgroundColor)
+        let swipeActionsConfiguration = UISwipeActionsConfiguration(actions: [action])
+        return swipeActionsConfiguration
+    }
+    
+    func getSelectedGoal(in tableView: UITableView, at indexPath: IndexPath) -> Goal? {
+        switch tableView.tag {
+        case TableViewType.incomplete.rawValue:
+            return self.viewModel.incompleteGoals[indexPath.row]
+        case TableViewType.complete.rawValue:
+            return self.viewModel.completeGoals[indexPath.row]
+        default:
+            print("❌ Delete received unknown table view tag: \(tableView.tag).")
+            return nil
+        }
     }
 }

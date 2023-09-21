@@ -11,5 +11,5 @@ enum SFSymbolConstants {
     static let trash = UIImage(
         systemName: "trash.circle.fill",
         withConfiguration: .largeScale
-    )?.applyingSymbolConfiguration(.destructiveColor)
+    )?.applyingSymbolConfiguration(.destructiveColorWithBackground)
 }

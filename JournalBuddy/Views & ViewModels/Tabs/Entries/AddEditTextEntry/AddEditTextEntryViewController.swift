@@ -99,11 +99,16 @@ class AddEditTextEntryViewController: UIViewController, MainViewController {
     func disableButtons() {
         saveButton.isEnabled = false
         deleteButton.isEnabled = false
+        deleteButton.image = UIImage(
+            systemName: "trash.circle.fill",
+            withConfiguration: .destructiveDisabledColorWithBackground
+        )
     }
 
     func enableButtons() {
         saveButton.isEnabled = true
         deleteButton.isEnabled = false
+        deleteButton.image = SFSymbolConstants.trash
     }
 
     func deleteEntryConfirmed() async {

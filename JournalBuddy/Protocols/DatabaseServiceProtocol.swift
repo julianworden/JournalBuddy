@@ -30,4 +30,5 @@ protocol DatabaseServiceProtocol {
     /// to firestore. This goal should already have its `isComplete` property
     /// set to `true` before its passed into this method.
     func completeGoal(_ completedGoal: Goal) async throws
+    func deleteGoal(_ goalToDelete: Goal) async throws
 }

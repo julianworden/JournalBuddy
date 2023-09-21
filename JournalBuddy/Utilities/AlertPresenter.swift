@@ -41,12 +41,10 @@ struct AlertPresenter {
     ///   - message: The message that is to be shown in the alert.
     ///   - confirmedWork: The work to perform if the user confirms that they want to perform the destruction action in question.
     static func presentDestructiveConfirmationAlert(
+        onViewController viewController: UIViewController? = nil,
         message: String,
         confirmedWork: @escaping () async -> Void
     ) {
-        guard let currentUIWindow = UIApplication.shared.currentUIWindow(),
-              let currentRootView = currentUIWindow.rootViewController?.view else { return }
-        
         let alertToDisplay = CustomAlert(
             title: "Are You Sure?",
             message: message,
@@ -56,7 +54,12 @@ struct AlertPresenter {
             primaryAction: confirmedWork
         )
 
-        present(alertToDisplay, on: currentRootView)
+        if let viewController {
+            present(alertToDisplay, on: viewController.view)
+        } else if let currentUIWindow = UIApplication.shared.currentUIWindow(),
+                  let currentRootView = currentUIWindow.rootViewController?.view {
+            present(alertToDisplay, on: currentRootView)
+        }
     }
     
     static func presentInadequatePermissionsAlert(

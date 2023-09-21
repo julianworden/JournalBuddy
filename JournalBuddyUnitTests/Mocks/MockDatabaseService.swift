@@ -84,7 +84,15 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func saveNewGoal(_ newGoal: Goal) async throws {
+    func saveNewGoal(_ newGoal: Goal) async throws -> Goal {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+        
+        return newGoal
+    }
+    
+    func completeGoal(_ completedGoal: JournalBuddy.Goal) async throws {
         if let errorToThrow {
             throw errorToThrow
         }
@@ -95,4 +103,12 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             throw errorToThrow
         }
     }
+    
+    func deleteGoal(_ goalToDelete: JournalBuddy.Goal) async throws {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+    }
+    
+    
 }

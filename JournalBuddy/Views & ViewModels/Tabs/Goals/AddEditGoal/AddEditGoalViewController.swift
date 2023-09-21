@@ -15,6 +15,12 @@ class AddEditGoalViewController: UIViewController, MainViewController {
         target: self,
         action: #selector(cancelButtonTapped)
     )
+    private lazy var deleteButton = UIBarButtonItem(
+        title: "Delete Text Entry",
+        image: SFSymbolConstants.trash,
+        target: self,
+        action: #selector(deleteButtonTapped)
+    )
     
     weak var coordinator: GoalsCoordinator?
     let viewModel: AddEditGoalViewModel
@@ -49,6 +55,10 @@ class AddEditGoalViewController: UIViewController, MainViewController {
         navigationItem.title = viewModel.navigationTitle
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.leftBarButtonItem = cancelButton
+        
+        if viewModel.goalToEdit != nil {
+            navigationItem.rightBarButtonItem = deleteButton
+        }
     }
     
     func subscribeToPublishers() {
@@ -57,14 +67,21 @@ class AddEditGoalViewController: UIViewController, MainViewController {
                 guard let self else { return }
                 
                 switch viewState {
-                case .goalIsSaving, .goalIsUpdating:
+                case .goalIsSaving, .goalIsUpdating, .goalIsDeleting:
                     self.cancelButton.isEnabled = false
+                    self.deleteButton.isEnabled = false
+                    self.deleteButton.image = UIImage(
+                        systemName: "trash.circle.fill",
+                        withConfiguration: .destructiveDisabledColorWithBackground
+                    )
                     self.isModalInPresentation = true
-                case .goalWasSaved, .goalWasUpdated:
+                case .goalWasSaved, .goalWasUpdated, .goalWasDeleted:
                     self.coordinator?.dismissAddEditGoalViewController(self)
                 case .error(let message):
                     self.showError(message)
                     self.cancelButton.isEnabled = true
+                    self.deleteButton.isEnabled = true
+                    self.deleteButton.image = SFSymbolConstants.trash
                     self.isModalInPresentation = false
                 default:
                     break
@@ -80,7 +97,31 @@ class AddEditGoalViewController: UIViewController, MainViewController {
         )
     }
     
+    func deleteGoalConfirmed() {
+        guard let goalToEdit = viewModel.goalToEdit else {
+            print("❌ Deleting shouldn't be available for new goals.")
+            return
+        }
+        
+        Task {
+            await viewModel.deleteGoal(goalToEdit)
+        }
+    }
+    
     @objc func cancelButtonTapped() {
         coordinator?.dismissAddEditGoalViewController(self)
+    }
+    
+    @objc func deleteButtonTapped() {
+        guard let navigationController else {
+            print("❌ The current view is not being presented within a navigation controller.")
+            return
+        }
+        
+        AlertPresenter.presentDestructiveConfirmationAlert(
+            onViewController: navigationController,
+            message: "You are about to permanently delete this goal. This is irreversible.",
+            confirmedWork: deleteGoalConfirmed
+        )
     }
 }

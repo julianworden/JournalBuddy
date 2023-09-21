@@ -29,7 +29,7 @@ class AddEditTextEntryView: UIView, MainView {
 
     func configureDefaultViewState() {
         backgroundColor = .background
-
+        
         entryTextView.delegate = self
         entryTextView.text = viewModel.entryTextViewDefaultText
         entryTextView.font = UIFontMetrics.avenirNextRegularBody
@@ -37,14 +37,6 @@ class AddEditTextEntryView: UIView, MainView {
         entryTextView.showsVerticalScrollIndicator = false
         entryTextView.keyboardDismissMode = .interactive
         entryTextView.backgroundColor = .background
-    }
-
-    func disableTextView() {
-        entryTextView.isEditable = false
-    }
-
-    func enableTextView() {
-        entryTextView.isEditable = true
     }
 
     func constrain() {
@@ -69,9 +61,9 @@ class AddEditTextEntryView: UIView, MainView {
                 case .displayingView:
                     self?.configureDefaultViewState()
                 case .savingTextEntry, .updatingTextEntry:
-                    self?.disableTextView()
+                    self?.entryTextView.isEditable = false
                 case .error(_):
-                    self?.enableTextView()
+                    self?.entryTextView.isEditable = true
                 default:
                     break
                 }

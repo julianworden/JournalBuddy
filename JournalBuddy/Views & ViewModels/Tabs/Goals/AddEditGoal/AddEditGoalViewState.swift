@@ -13,5 +13,7 @@ enum AddEditGoalViewState: ViewState {
     case goalWasSaved
     case goalIsUpdating
     case goalWasUpdated
+    case goalIsDeleting
+    case goalWasDeleted
     case error(message: String)
 }

@@ -105,4 +105,24 @@ final class AddEditGoalViewModel: MainViewModel {
             userInfo: [NotificationConstants.savedGoal: newGoal]
         )
     }
+    
+    func deleteGoal(_ goal: Goal) async {
+        do {
+            viewState = .goalIsDeleting
+            try await databaseService.deleteGoal(goal)
+            postDeletedGoalNotification(for: goal)
+            viewState = .goalWasDeleted
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func postDeletedGoalNotification(for goal: Goal) {
+        NotificationCenter.default.post(
+            name: .goalWasDeleted,
+            object: nil,
+            userInfo: [NotificationConstants.deletedGoal: goal]
+        )
+    }
 }
