@@ -1,5 +1,5 @@
 //
-//  EntriesViewTableViewCell.swift
+//  TextEntryTableViewCell.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 8/13/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EntriesViewTableViewCell: UITableViewCell {
+class TextEntryTableViewCell: UITableViewCell {
     static let reuseID = "entriesViewTableViewCell"
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

@@ -1,5 +1,5 @@
 //
-//  EntriesViewTableViewDataSource.swift
+//  TextEntryTableViewDataSource.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 7/27/23.
@@ -13,7 +13,7 @@ enum EntriesViewTextEntryTableViewSection {
 }
 
 @MainActor
-final class EntriesViewTableViewDataSource: UITableViewDiffableDataSource<EntriesViewTextEntryTableViewSection, TextEntry> {
+final class TextEntryTableViewDataSource: UITableViewDiffableDataSource<EntriesViewTextEntryTableViewSection, TextEntry> {
     let viewModel: EntriesViewModel
     var cancellables = Set<AnyCancellable>()
 
@@ -21,7 +21,7 @@ final class EntriesViewTableViewDataSource: UITableViewDiffableDataSource<Entrie
         self.viewModel = viewModel
 
         super.init(tableView: tableView) { tableView, indexPath, textEntry in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: EntriesViewTableViewCell.reuseID) as? EntriesViewTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TextEntryTableViewCell.reuseID) as? TextEntryTableViewCell else {
                 return UITableViewCell()
             }
 

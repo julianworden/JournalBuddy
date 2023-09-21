@@ -9,10 +9,18 @@ import Combine
 import UIKit
 
 class EntriesView: UIView, MainView {
-    private lazy var entryTypeCollectionView = UICollectionView(frame: .zero, collectionViewLayout: getEntryTypeSelectorFlowLayout())
-    private lazy var entryTypeCollectionViewDataSourceAndDelegate = EntryTypeCollectionViewDataSourceAndDelegate(entryTypeSelector: entryTypeCollectionView)
+    private lazy var entryTypeStack = UIStackView(
+        arrangedSubviews: [
+            textEntryButton,
+            videoEntryButton,
+            voiceEntryButton
+        ]
+    )
+    private lazy var textEntryButton = PrimaryButton(title: "Text")
+    private lazy var videoEntryButton = PrimaryButton(title: "Video")
+    private lazy var voiceEntryButton = PrimaryButton(title: "Voice")
     private lazy var tableView = MainTableView()
-    private lazy var tableViewDataSource = EntriesViewTableViewDataSource(
+    private lazy var tableViewDataSource = TextEntryTableViewDataSource(
         viewModel: viewModel,
         tableView: tableView
     )
@@ -21,7 +29,6 @@ class EntriesView: UIView, MainView {
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
     var cancellables = Set<AnyCancellable>()
-    var entryTypeCollectionViewHeightAnchor: NSLayoutConstraint!
 
     init(viewModel: EntriesViewModel, delegate: EntriesViewDelegate) {
         self.viewModel = viewModel
@@ -29,12 +36,31 @@ class EntriesView: UIView, MainView {
 
         super.init(frame: .zero)
 
+        configure()
         subscribeToPublishers()
         constrain()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure() {
+        entryTypeStack.spacing = 12
+        if UIApplication.shared.preferredContentSizeCategory > .accessibilityLarge {
+            entryTypeStack.axis = .horizontal
+        }
+        
+        textEntryButton.titleLabel?.numberOfLines = 1
+        textEntryButton.addTarget(self, action: #selector(textEntryButtonTapped), for: .touchUpInside)
+        
+        videoEntryButton.backgroundColor = .disabled
+        videoEntryButton.titleLabel?.numberOfLines = 1
+        videoEntryButton.addTarget(self, action: #selector(videoEntryButtonTapped), for: .touchUpInside)
+        
+        voiceEntryButton.backgroundColor = .disabled
+        voiceEntryButton.titleLabel?.numberOfLines = 1
+        voiceEntryButton.addTarget(self, action: #selector(voiceEntryButtonTapped), for: .touchUpInside)
     }
 
     func subscribeToPublishers() {
@@ -53,12 +79,13 @@ class EntriesView: UIView, MainView {
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
-            .sink { [weak self] _ in
-                guard let self else { return }
-
-                let entryTypeCellTextHeight = EntryType.video.pluralRawValue.size(withAttributes: [.font: UIFontMetrics.avenirNextBoldBody])
-                let entryTypeCellHeight = entryTypeCellTextHeight.height + 10
-                self.entryTypeCollectionViewHeightAnchor.constant = entryTypeCellHeight
+            .sink { [weak self] notification in
+                let newContentSizeCategory = notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as! UIContentSizeCategory
+                if newContentSizeCategory > .accessibilityLarge {
+                    self?.entryTypeStack.axis = .vertical
+                } else {
+                    self?.entryTypeStack.axis = .horizontal
+                }
             }
             .store(in: &cancellables)
     }
@@ -66,18 +93,24 @@ class EntriesView: UIView, MainView {
     func makeAccessible() { }
 
     func constrain() {
-        addConstrainedSubviews(entryTypeCollectionView, tableView, fetchingEntriesActivityIndicator)
-
-        let entryTypeCellTextHeight = EntryType.video.pluralRawValue.size(withAttributes: [.font: UIFontMetrics.avenirNextBoldBody])
-        entryTypeCollectionViewHeightAnchor = entryTypeCollectionView.heightAnchor.constraint(equalToConstant: entryTypeCellTextHeight.height + 10)
+        addConstrainedSubviews(fetchingEntriesActivityIndicator, entryTypeStack, tableView)
 
         NSLayoutConstraint.activate([
-            entryTypeCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            entryTypeCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            entryTypeCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            entryTypeCollectionViewHeightAnchor,
+            entryTypeStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            entryTypeStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            entryTypeStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
+            entryTypeStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            
+            textEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            textEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
+            
+            videoEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            videoEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
+            
+            voiceEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            voiceEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
 
-            tableView.topAnchor.constraint(equalTo: entryTypeCollectionView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -92,9 +125,7 @@ class EntriesView: UIView, MainView {
 
         tableView.isHidden = true
 
-        entryTypeCollectionView.backgroundColor = .background
-        entryTypeCollectionView.showsHorizontalScrollIndicator = false
-        entryTypeCollectionView.isHidden = true
+        entryTypeStack.isHidden = true
 
         fetchingEntriesActivityIndicator.color = .primaryElement
         fetchingEntriesActivityIndicator.hidesWhenStopped = true
@@ -103,26 +134,35 @@ class EntriesView: UIView, MainView {
 
     func configureTableView() {
         tableView.register(
-            EntriesViewTableViewCell.self,
-            forCellReuseIdentifier: EntriesViewTableViewCell.reuseID
+            TextEntryTableViewCell.self,
+            forCellReuseIdentifier: TextEntryTableViewCell.reuseID
         )
         tableView.delegate = self
         tableView.dataSource = tableViewDataSource
     }
 
     func configureFetchedEntriesUI() {
-        entryTypeCollectionView.dataSource = entryTypeCollectionViewDataSourceAndDelegate
-        entryTypeCollectionView.delegate = entryTypeCollectionViewDataSourceAndDelegate
-
         fetchingEntriesActivityIndicator.stopAnimating()
-        entryTypeCollectionView.isHidden = false
+        entryTypeStack.isHidden = false
         tableView.isHidden = false
     }
-
-    func getEntryTypeSelectorFlowLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        return layout
+    
+    @objc func textEntryButtonTapped() {
+        textEntryButton.backgroundColor = .primaryElement
+        videoEntryButton.backgroundColor = .disabled
+        voiceEntryButton.backgroundColor = .disabled
+    }
+    
+    @objc func videoEntryButtonTapped() {
+        textEntryButton.backgroundColor = .disabled
+        videoEntryButton.backgroundColor = .primaryElement
+        voiceEntryButton.backgroundColor = .disabled
+    }
+    
+    @objc func voiceEntryButtonTapped() {
+        textEntryButton.backgroundColor = .disabled
+        videoEntryButton.backgroundColor = .disabled
+        voiceEntryButton.backgroundColor = .primaryElement
     }
 }
 
