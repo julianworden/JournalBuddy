@@ -15,7 +15,6 @@
 		AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */; };
 		AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */; };
 		AB07D2EA2AB1FE7000927D6C /* VoiceEntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */; };
-		AB0A532A2ABB28AC001129C6 /* GoalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0A53292ABB28AC001129C6 /* GoalType.swift */; };
 		AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButton.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
@@ -197,7 +196,6 @@
 		AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModel.swift; sourceTree = "<group>"; };
 		AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewState.swift; sourceTree = "<group>"; };
 		AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryError.swift; sourceTree = "<group>"; };
-		AB0A53292ABB28AC001129C6 /* GoalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalType.swift; sourceTree = "<group>"; };
 		AB0D85062AA6712B00E4C9D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
@@ -493,7 +491,6 @@
 				AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */,
 				AB6E5FA02AB61CB100BB8FD1 /* VoiceEntry.swift */,
 				AB0E971F2A858F55005F77A5 /* Goal.swift */,
-				AB0A53292ABB28AC001129C6 /* GoalType.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 				ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */,
@@ -1081,7 +1078,6 @@
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
-				AB0A532A2ABB28AC001129C6 /* GoalType.swift in Sources */,
 				AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */,
 				AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,

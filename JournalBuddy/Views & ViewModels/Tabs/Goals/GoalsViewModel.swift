@@ -10,6 +10,11 @@ import Combine
 
 @MainActor
 final class GoalsViewModel: MainViewModel {
+    enum GoalType: String {
+        case incomplete
+        case complete
+    }
+    
     @Published var viewState = GoalsViewState.fetchingGoals
     @Published var goals = [Goal]()
     @Published var completeGoals = [Goal]()

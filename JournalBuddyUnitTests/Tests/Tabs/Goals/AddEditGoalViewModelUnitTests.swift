@@ -18,6 +18,8 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
     var savedGoalExpectation: XCTestExpectation!
     var updatingGoalExpectation: XCTestExpectation!
     var updatedGoalExpectation: XCTestExpectation!
+    var deletingGoalExpectation: XCTestExpectation!
+    var deletedGoalExpectation: XCTestExpectation!
     
     override func setUp() {
         cancellables = Set<AnyCancellable>()
@@ -35,6 +37,12 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
         )
         updatedGoalExpectation = XCTestExpectation(
             description: ".goalWasUpdated view state set."
+        )
+        deletingGoalExpectation = XCTestExpectation(
+            description: ".goalIsDeleting view state set."
+        )
+        deletedGoalExpectation = XCTestExpectation(
+            description: ".goalWasDeleted view state set."
         )
     }
     
@@ -199,15 +207,58 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.viewState, .error(message: FormError.goalNameIsEmpty.localizedDescription))
     }
     
+    func test_OnSaveButtonTapped_ErrorViewStateIsSetWhenNetworkCallFails() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil, addGoalToEdit: true)
+        sut.goalName = "Buy a new car"
+        
+        await sut.saveButtonTapped()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnDeleteGoalSuccessfully_ViewStateIsUpdatedAndNotificationIsPosted() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil, addGoalToEdit: true)
+        subscribeToViewStateUpdates()
+        
+        await sut.deleteGoal(Goal.example)
+        
+        await fulfillment(
+            of: [
+                deletingGoalExpectation,
+                deletedGoalExpectation
+            ],
+            timeout: 3
+        )
+    }
+    
+    func test_OnDeleteGoalUnsuccessfully_ViewStateIsUpdated() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil, addGoalToEdit: true)
+        
+        await sut.deleteGoal(Goal.example)
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
     func test_OnPostGoalSavedNotification_NotificationIsPosted() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil, addGoalToEdit: false)
-        let notificationExpectation = XCTNSNotificationExpectation(
+        let expectation = XCTNSNotificationExpectation(
             name: .goalWasSaved
         )
         
         sut.postGoalSavedNotification(for: Goal.example)
         
-        wait(for: [notificationExpectation], timeout: 3)
+        wait(for: [expectation], timeout: 3)
+    }
+    
+    func test_OnPostGoalDeletedNotification_NotificationIsPosted() {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil, addGoalToEdit: true)
+        let expectation = XCTNSNotificationExpectation(
+            name: .goalWasDeleted
+        )
+        
+        sut.postDeletedGoalNotification(for: Goal.example)
+        
+        wait(for: [expectation], timeout: 3)
     }
     
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?, addGoalToEdit: Bool) {
@@ -231,6 +282,10 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
                     self.updatingGoalExpectation.fulfill()
                 case .goalWasUpdated:
                     self.updatedGoalExpectation.fulfill()
+                case .goalIsDeleting:
+                    self.deletingGoalExpectation.fulfill()
+                case .goalWasDeleted:
+                    self.deletedGoalExpectation.fulfill()
                 default:
                     break
                 }

@@ -98,14 +98,6 @@ final class AddEditGoalViewModel: MainViewModel {
         postGoalSavedNotification(for: newGoalWithID)
     }
     
-    func postGoalSavedNotification(for newGoal: Goal) {
-        NotificationCenter.default.post(
-            name: .goalWasSaved,
-            object: nil,
-            userInfo: [NotificationConstants.savedGoal: newGoal]
-        )
-    }
-    
     func deleteGoal(_ goal: Goal) async {
         do {
             viewState = .goalIsDeleting
@@ -116,6 +108,14 @@ final class AddEditGoalViewModel: MainViewModel {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
+    }
+    
+    func postGoalSavedNotification(for newGoal: Goal) {
+        NotificationCenter.default.post(
+            name: .goalWasSaved,
+            object: nil,
+            userInfo: [NotificationConstants.savedGoal: newGoal]
+        )
     }
     
     func postDeletedGoalNotification(for goal: Goal) {

@@ -80,7 +80,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return []
+            return TestData.goalsArray
         }
     }
     

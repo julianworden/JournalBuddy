@@ -16,7 +16,6 @@ enum IncompleteGoalsTableViewSection {
 final class IncompleteGoalsTableViewDataSource: UITableViewDiffableDataSource<IncompleteGoalsTableViewSection, Goal> {
     let viewModel: GoalsViewModel
     var cancellables = Set<AnyCancellable>()
-    var displayingGoalType = GoalType.incomplete
     
     init(viewModel: GoalsViewModel, tableView: UITableView) {
         self.viewModel = viewModel
