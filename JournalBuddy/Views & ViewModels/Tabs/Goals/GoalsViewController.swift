@@ -69,6 +69,7 @@ class GoalsViewController: UIViewController, MainViewController {
     func configure() {
         navigationItem.title = "Goals"
         navigationItem.largeTitleDisplayMode = .always
+        UINotificationFeedbackGenerator().prepare()
     }
     
     func configureFetchedGoalsUI() {

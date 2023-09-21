@@ -8,7 +8,7 @@
 import Foundation
 
 struct Goal: Codable, Hashable {
-    let id: String
+    var id: String
     let creatorUID: String
     var name: String
     var isComplete: Bool

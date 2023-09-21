@@ -7,8 +7,6 @@
 
 import FirebaseAuth
 
-#warning("Remove methods that are only called from within DatabaseService from this Protocol and make those methods private in DatabaseService.")
-
 protocol DatabaseServiceProtocol {
     func getUser(withUID uid: String) async throws -> User
     func createUser(_ user: User) async throws
@@ -21,7 +19,7 @@ protocol DatabaseServiceProtocol {
     func fetchTextEntries(forUID uid: String) async throws -> [TextEntry]
     
     func fetchGoals() async throws -> [Goal]
-    func saveNewGoal(_ newGoal: Goal) async throws
+    func saveNewGoal(_ newGoal: Goal) async throws -> Goal
     /// Updates a given goal in Firestore.
     /// - Parameter updatedGoal: The updated goal that is to be saved to
     /// Firestore. This goal should contain the new, updated info before it's passed

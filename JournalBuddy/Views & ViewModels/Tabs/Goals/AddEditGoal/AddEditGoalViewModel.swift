@@ -77,7 +77,7 @@ final class AddEditGoalViewModel: MainViewModel {
         viewState = .goalIsUpdating
         try await databaseService.updateGoal(updatedGoal)
         viewState = .goalWasUpdated
-        postGoalSavedNotification()
+        postGoalSavedNotification(for: updatedGoal)
     }
     
     private func saveNewGoal() async throws {
@@ -93,12 +93,16 @@ final class AddEditGoalViewModel: MainViewModel {
         )
         
         viewState = .goalIsSaving
-        try await databaseService.saveNewGoal(newGoal)
+        let newGoalWithID = try await databaseService.saveNewGoal(newGoal)
         viewState = .goalWasSaved
-        postGoalSavedNotification()
+        postGoalSavedNotification(for: newGoalWithID)
     }
     
-    func postGoalSavedNotification() {
-        NotificationCenter.default.post(name: .goalWasSaved, object: nil)
+    func postGoalSavedNotification(for newGoal: Goal) {
+        NotificationCenter.default.post(
+            name: .goalWasSaved,
+            object: nil,
+            userInfo: [NotificationConstants.savedGoal: newGoal]
+        )
     }
 }

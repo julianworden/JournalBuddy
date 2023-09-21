@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB039E112ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB039E102ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift */; };
 		AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */; };
 		AB07D2E02AB1F19F00927D6C /* CreateVoiceEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */; };
 		AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */; };
@@ -14,6 +15,7 @@
 		AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */; };
 		AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */; };
 		AB07D2EA2AB1FE7000927D6C /* VoiceEntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */; };
+		AB0A532A2ABB28AC001129C6 /* GoalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0A53292ABB28AC001129C6 /* GoalType.swift */; };
 		AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D85062AA6712B00E4C9D6 /* BackButton.swift */; };
 		AB0E97202A858F55005F77A5 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E971F2A858F55005F77A5 /* Goal.swift */; };
 		AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0E97212A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift */; };
@@ -45,7 +47,7 @@
 		AB1E02942A69E14B006F42F8 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02932A69E14B006F42F8 /* ViewState.swift */; };
 		AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */; };
 		AB1E170F2AB0B3AE008EA954 /* TestVideo.mov in Resources */ = {isa = PBXBuildFile; fileRef = AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */; };
-		AB258EA52AB8782700F8BBA3 /* GoalsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */; };
+		AB258EA52AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA42AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift */; };
 		AB258EA72AB878BF00F8BBA3 /* GoalsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */; };
 		AB258EAA2AB887CF00F8BBA3 /* AddEditGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EA92AB887CF00F8BBA3 /* AddEditGoalViewController.swift */; };
 		AB258EAC2AB887E100F8BBA3 /* AddEditGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB258EAB2AB887E100F8BBA3 /* AddEditGoalView.swift */; };
@@ -187,6 +189,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB039E102ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteGoalsTableViewDataSource.swift; sourceTree = "<group>"; };
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
 		AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewController.swift; sourceTree = "<group>"; };
 		AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryView.swift; sourceTree = "<group>"; };
@@ -194,6 +197,7 @@
 		AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModel.swift; sourceTree = "<group>"; };
 		AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewState.swift; sourceTree = "<group>"; };
 		AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryError.swift; sourceTree = "<group>"; };
+		AB0A53292ABB28AC001129C6 /* GoalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalType.swift; sourceTree = "<group>"; };
 		AB0D85062AA6712B00E4C9D6 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		AB0E3D002A721C8D004DD606 /* AllTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		AB0E971F2A858F55005F77A5 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
@@ -228,7 +232,7 @@
 		AB1E02932A69E14B006F42F8 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		AB1E02952A69E5AE006F42F8 /* HomeViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewState.swift; sourceTree = "<group>"; };
 		AB1E170E2AB0B3AE008EA954 /* TestVideo.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = TestVideo.mov; sourceTree = "<group>"; };
-		AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewDataSource.swift; sourceTree = "<group>"; };
+		AB258EA42AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteGoalsTableViewDataSource.swift; sourceTree = "<group>"; };
 		AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsTableViewCell.swift; sourceTree = "<group>"; };
 		AB258EA92AB887CF00F8BBA3 /* AddEditGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalViewController.swift; sourceTree = "<group>"; };
 		AB258EAB2AB887E100F8BBA3 /* AddEditGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalView.swift; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 				AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */,
 				AB6E5FA02AB61CB100BB8FD1 /* VoiceEntry.swift */,
 				AB0E971F2A858F55005F77A5 /* Goal.swift */,
+				AB0A53292ABB28AC001129C6 /* GoalType.swift */,
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 				ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */,
@@ -501,7 +506,8 @@
 		AB258EA32AB8780800F8BBA3 /* GoalsTableView */ = {
 			isa = PBXGroup;
 			children = (
-				AB258EA42AB8782700F8BBA3 /* GoalsTableViewDataSource.swift */,
+				AB258EA42AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift */,
+				AB039E102ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift */,
 				AB258EA62AB878BF00F8BBA3 /* GoalsTableViewCell.swift */,
 			);
 			path = GoalsTableView;
@@ -1075,6 +1081,7 @@
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
+				AB0A532A2ABB28AC001129C6 /* GoalType.swift in Sources */,
 				AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */,
 				AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
@@ -1145,8 +1152,9 @@
 				AB58B8F52AA7E28F00FAA4D7 /* FBStorageError.swift in Sources */,
 				ABF2B0DC2A700E6A007A93DB /* AlertPresenter.swift in Sources */,
 				AB181C4B2A5B1B7500560299 /* SceneDelegate.swift in Sources */,
-				AB258EA52AB8782700F8BBA3 /* GoalsTableViewDataSource.swift in Sources */,
+				AB258EA52AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift in Sources */,
 				AB8E9B842A8912B700A99C3A /* GoalsCoordinator.swift in Sources */,
+				AB039E112ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift in Sources */,
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,

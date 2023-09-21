@@ -1,5 +1,5 @@
 //
-//  GoalsTableViewDataSource.swift
+//  CompleteGoalsTableViewDataSource.swift
 //  JournalBuddy
 //
 //  Created by Julian Worden on 9/18/23.
@@ -8,12 +8,12 @@
 import Combine
 import UIKit
 
-enum GoalsTableViewSection {
+enum CompleteGoalsTableViewSection {
     case main
 }
 
 @MainActor
-final class GoalsTableViewDataSource: UITableViewDiffableDataSource<GoalsTableViewSection, Goal> {
+final class CompleteGoalsTableViewDataSource: UITableViewDiffableDataSource<CompleteGoalsTableViewSection, Goal> {
     let viewModel: GoalsViewModel
     var cancellables = Set<AnyCancellable>()
     
@@ -34,15 +34,17 @@ final class GoalsTableViewDataSource: UITableViewDiffableDataSource<GoalsTableVi
     }
     
     func subscribeToPublishers() {
-        viewModel.$goals
-            .sink { [weak self] goals in
-                self?.updateDataSource(with: goals)
+        viewModel.$completeGoals
+            .sink { [weak self] completeGoals in
+                if self?.viewModel.currentlyDisplayingGoalType == .complete {
+                    self?.updateDataSource(with: completeGoals)
+                }
             }
             .store(in: &cancellables)
     }
     
     func updateDataSource(with goals: [Goal]) {
-        var snapshot = NSDiffableDataSourceSnapshot<GoalsTableViewSection, Goal>()
+        var snapshot = NSDiffableDataSourceSnapshot<CompleteGoalsTableViewSection, Goal>()
         snapshot.appendSections([.main])
         snapshot.appendItems(goals)
         apply(snapshot)

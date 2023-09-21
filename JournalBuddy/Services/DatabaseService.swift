@@ -243,7 +243,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func saveNewGoal(_ newGoal: Goal) async throws {
+    @discardableResult func saveNewGoal(_ newGoal: Goal) async throws -> Goal {
         do {
             let newGoalRef = try usersCollection
                 .document(newGoal.creatorUID)
@@ -253,6 +253,10 @@ final class DatabaseService: DatabaseServiceProtocol {
             try await newGoalRef.updateData(
                 [FBConstants.id: newGoalRef.documentID]
             )
+            
+            var newGoalWithID = newGoal
+            newGoalWithID.id = newGoalRef.documentID
+            return newGoalWithID
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)

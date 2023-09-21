@@ -9,4 +9,5 @@ import Foundation
 
 enum NotificationConstants {
     static let uploadingProgress = "uploadingProgress"
+    static let savedGoal = "savedGoal"
 }

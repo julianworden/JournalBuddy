@@ -19,10 +19,12 @@ class GoalsTableViewCell: UITableViewCell {
     
     private lazy var contentStack = UIStackView(arrangedSubviews: [
         goalNameLabel,
-        completeGoalButton
+        completeGoalButton,
+        completingGoalActivityIndicator
     ])
     private lazy var goalNameLabel = UILabel()
-    private lazy var completeGoalButton = SFSymbolButton(symbol: completeGoalButtonImage)
+    private var completeGoalButton: SFSymbolButton!
+    private lazy var completingGoalActivityIndicator = UIActivityIndicatorView(style: .medium)
     
     static let reuseIdentifier = "GoalsTableViewCell"
     var viewModel: GoalsViewModel!
@@ -52,13 +54,13 @@ class GoalsTableViewCell: UITableViewCell {
         backgroundColor = .background
         self.goal = goal
         
-        contentStack.distribution = .equalCentering
-        
         goalNameLabel.text = goal.name
         goalNameLabel.font = UIFontMetrics.avenirNextRegularBody
         goalNameLabel.textColor = .primaryElement
         goalNameLabel.numberOfLines = 0
+        goalNameLabel.lineBreakMode = .byCharWrapping
         
+        completeGoalButton = SFSymbolButton(symbol: completeGoalButtonImage)
         if !goal.isComplete {
             completeGoalButton.addTarget(
                 self,
@@ -66,6 +68,12 @@ class GoalsTableViewCell: UITableViewCell {
                 for: .touchUpInside
             )
         }
+        completeGoalButton.setContentCompressionResistancePriority(UILayoutPriority(999), for: .vertical)
+        
+        completingGoalActivityIndicator.hidesWhenStopped = true
+        completingGoalActivityIndicator.isHidden = true
+        
+        contentStack.distribution = .equalCentering
         
         makeAccessible()
         constrain()
@@ -86,25 +94,58 @@ class GoalsTableViewCell: UITableViewCell {
         ])
     }
     
+    private func shrinkCompleteGoalButton(completion: @escaping () -> Void) {
+        UIView.animate(
+            withDuration: 0.25,
+            animations: { [weak self] in
+                self?.completeGoalButton.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
+            },
+            completion: { _ in completion() }
+        )
+    }
+    
+    private func enlargeCompleteGoalButton(completion: @escaping () -> Void) {
+        UIView.animate(
+            withDuration: 0.8,
+            delay: 0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 1,
+            animations: { [weak self] in
+                self?.completeGoalButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            },
+            completion: { _ in completion() }
+        )
+    }
+    
+    private func completeGoal() async {
+        do {
+            try await self.viewModel.completeGoal(self.goal)
+        } catch {
+            print(error.emojiMessage)
+            // Reset button if anything goes wrong
+            self.completeGoalButton.setImage(self.circleImage, for: .normal)
+            self.completeGoalButton.addTarget(
+                self,
+                action: #selector(self.completeGoalButtonTapped),
+                for: .touchUpInside
+            )
+        }
+    }
+    
     @objc func completeGoalButtonTapped() {
-        Task {
-            do {
-                completeGoalButton.setImage(checkmarkImage, for: .normal)
-                completeGoalButton.removeTarget(
-                    self,
-                    action: #selector(completeGoalButtonTapped),
-                    for: .touchUpInside
-                )
-                try await viewModel.completeGoal(goal)
-            } catch {
-                print(error.emojiMessage)
-                // Reset button if anything goes wrong
-                completeGoalButton.setImage(circleImage, for: .normal)
-                completeGoalButton.addTarget(
-                    self,
-                    action: #selector(completeGoalButtonTapped),
-                    for: .touchUpInside
-                )
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        
+        shrinkCompleteGoalButton { [weak self] in
+            guard let self else { return }
+            
+            self.completeGoalButton.setImage(self.checkmarkImage, for: .normal)
+            
+            self.enlargeCompleteGoalButton {
+                Task {
+                    await self.completeGoal()
+                    // Without this, checkmark image will still appear after completing the last incomplete goal and then completing a new one
+                    self.completeGoalButton.setImage(self.circleImage, for: .normal)
+                }
             }
         }
     }

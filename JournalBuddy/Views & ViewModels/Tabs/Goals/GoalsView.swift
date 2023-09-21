@@ -16,9 +16,17 @@ class GoalsView: UIView, MainView {
     ])
     private lazy var completeButton = PrimaryButton(title: "Complete")
     private lazy var incompleteButton = PrimaryButton(title: "Incomplete")
-    private lazy var goalsTableView = MainTableView()
+    private lazy var completeGoalsTableView = MainTableView()
+    private lazy var incompleteGoalsTableView = MainTableView()
 
-    private lazy var goalsTableViewDataSource = GoalsTableViewDataSource(viewModel: viewModel, tableView: goalsTableView)
+    private lazy var completeGoalsTableViewDataSource = CompleteGoalsTableViewDataSource(
+        viewModel: viewModel,
+        tableView: completeGoalsTableView
+    )
+    private lazy var incompleteGoalsTableViewDataSource = IncompleteGoalsTableViewDataSource(
+        viewModel: viewModel,
+        tableView: incompleteGoalsTableView
+    )
     
     weak var delegate: GoalsViewDelegate?
     let viewModel: GoalsViewModel
@@ -30,12 +38,39 @@ class GoalsView: UIView, MainView {
 
         super.init(frame: .zero)
 
+        configure()
         subscribeToPublishers()
         constrain()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure() {
+        goalTypeSelectorStack.spacing = 12
+        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityExtraLarge {
+            goalTypeSelectorStack.axis = .vertical
+        }
+        
+        incompleteButton.titleLabel?.numberOfLines = 1
+        incompleteButton.addTarget(self, action: #selector(incompleteButtonTapped), for: .touchUpInside)
+        
+        completeButton.titleLabel?.numberOfLines = 1
+        completeButton.backgroundColor = .disabled
+        completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
+        
+        completeGoalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
+        completeGoalsTableView.dataSource = completeGoalsTableViewDataSource
+        completeGoalsTableView.delegate = self
+        completeGoalsTableView.estimatedRowHeight = 44
+        completeGoalsTableView.showsVerticalScrollIndicator = false
+        
+        incompleteGoalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
+        incompleteGoalsTableView.dataSource = incompleteGoalsTableViewDataSource
+        incompleteGoalsTableView.delegate = self
+        incompleteGoalsTableView.estimatedRowHeight = 44
+        incompleteGoalsTableView.showsVerticalScrollIndicator = false
     }
     
     func makeAccessible() {
@@ -65,7 +100,12 @@ class GoalsView: UIView, MainView {
     }
     
     func constrain() {
-        addConstrainedSubviews(fetchingGoalsActivityIndicator, goalTypeSelectorStack, goalsTableView)
+        addConstrainedSubviews(
+            fetchingGoalsActivityIndicator,
+            goalTypeSelectorStack,
+            incompleteGoalsTableView,
+            completeGoalsTableView
+        )
 
         NSLayoutConstraint.activate([
             fetchingGoalsActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -82,10 +122,15 @@ class GoalsView: UIView, MainView {
             completeButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             completeButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 140),
             
-            goalsTableView.topAnchor.constraint(equalTo: goalTypeSelectorStack.bottomAnchor, constant: 5),
-            goalsTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            goalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            goalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            incompleteGoalsTableView.topAnchor.constraint(equalTo: goalTypeSelectorStack.bottomAnchor, constant: 5),
+            incompleteGoalsTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            incompleteGoalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            incompleteGoalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            completeGoalsTableView.topAnchor.constraint(equalTo: goalTypeSelectorStack.bottomAnchor, constant: 5),
+            completeGoalsTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            completeGoalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            completeGoalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
     
@@ -93,7 +138,8 @@ class GoalsView: UIView, MainView {
         backgroundColor = .background
         
         goalTypeSelectorStack.isHidden = true
-        goalsTableView.isHidden = true
+        completeGoalsTableView.isHidden = true
+        incompleteGoalsTableView.isHidden = true
         
         fetchingGoalsActivityIndicator.hidesWhenStopped = true
         fetchingGoalsActivityIndicator.startAnimating()
@@ -101,22 +147,8 @@ class GoalsView: UIView, MainView {
     }
     
     func configureFetchedGoalsUI() {
-        goalTypeSelectorStack.spacing = 12
         goalTypeSelectorStack.isHidden = false
-        if UIApplication.shared.preferredContentSizeCategory >= .accessibilityExtraLarge {
-            goalTypeSelectorStack.axis = .vertical
-        }
-        
-        incompleteButton.titleLabel?.numberOfLines = 1
-        
-        completeButton.titleLabel?.numberOfLines = 1
-        completeButton.backgroundColor = .disabled
-        
-        goalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
-        goalsTableView.dataSource = goalsTableViewDataSource
-        goalsTableView.delegate = self
-        goalsTableView.estimatedRowHeight = 44
-        goalsTableView.isHidden = false
+        incompleteGoalsTableView.isHidden = false
     }
     
     func adjustLayoutForNewPreferredContentSizeCategory(_ newContentSizeCategory: UIContentSizeCategory) {
@@ -126,12 +158,42 @@ class GoalsView: UIView, MainView {
             goalTypeSelectorStack.axis = .horizontal
         }
     }
+    
+    @objc func incompleteButtonTapped() {
+        if viewModel.currentlyDisplayingGoalType == .complete {
+            completeGoalsTableView.isHidden = true
+            incompleteGoalsTableView.isHidden = false
+            viewModel.currentlyDisplayingGoalType = .incomplete
+            completeButton.backgroundColor = .disabled
+            incompleteButton.backgroundColor = .primaryElement
+            incompleteGoalsTableViewDataSource.updateDataSource(with: viewModel.incompleteGoals)
+        }
+    }
+    
+    @objc func completeButtonTapped() {
+        if viewModel.currentlyDisplayingGoalType == .incomplete {
+            UINotificationFeedbackGenerator().prepare()
+            completeGoalsTableView.isHidden = false
+            incompleteGoalsTableView.isHidden = true
+            viewModel.currentlyDisplayingGoalType = .complete
+            incompleteButton.backgroundColor = .disabled
+            completeButton.backgroundColor = .primaryElement
+            completeGoalsTableViewDataSource.updateDataSource(with: viewModel.completeGoals)
+        }
+    }
 }
 
 extension GoalsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        delegate?.goalsViewDidSelect(goalToEdit: viewModel.goals[indexPath.row])
+        let selectedGoal = switch viewModel.currentlyDisplayingGoalType {
+        case .complete:
+            viewModel.completeGoals[indexPath.row]
+        case .incomplete:
+            viewModel.incompleteGoals[indexPath.row]
+        }
+        
+        delegate?.goalsViewDidSelect(goalToEdit: selectedGoal)
     }
 }
