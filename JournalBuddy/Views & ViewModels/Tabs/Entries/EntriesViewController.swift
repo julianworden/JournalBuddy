@@ -67,6 +67,7 @@ class EntriesViewController: UIViewController, MainViewController {
 
         configure()
         subscribeToPublishers()
+        viewModel.subscribeToPublishers()
         constrain()
     }
 
@@ -183,7 +184,11 @@ class EntriesViewController: UIViewController, MainViewController {
 }
 
 extension EntriesViewController: EntriesViewDelegate {
-    func entriesViewDidSelectTextEntry(_ textEntry: TextEntry) {
-        coordinator?.presentAddEditTextEntryViewController(withTextEntryToEdit: textEntry)
+    func entriesViewDidSelectTextEntry(_ entry: TextEntry) {
+        coordinator?.presentAddEditTextEntryViewController(withTextEntryToEdit: entry)
+    }
+    
+    func entriesViewDidSelectVideoEntry(_ entry: VideoEntry) {
+        coordinator?.presentWatchVideoEntryViewController(withVideoEntry: entry)
     }
 }

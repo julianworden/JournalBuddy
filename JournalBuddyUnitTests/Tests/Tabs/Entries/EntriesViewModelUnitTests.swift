@@ -92,6 +92,24 @@ final class EntriesViewModelUnitTests: XCTestCase {
         
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
+    
+    func test_OnReceiveVideoEntryWasDeletedNotification_VideoEntriesArrayIsUpdated() {
+        initializeSUT(
+            databaseServiceError: nil,
+            authServiceError: nil
+        )
+        sut.videoEntries = TestData.videoEntryArray + [VideoEntry.example]
+        sut.subscribeToPublishers()
+        
+        NotificationCenter.default.post(
+            name: .videoEntryWasDeleted,
+            object: nil,
+            userInfo: [NotificationConstants.deletedVideoEntry: VideoEntry.example]
+        )
+        
+        XCTAssertFalse(sut.videoEntries.contains(VideoEntry.example))
+        XCTAssertEqual(sut.videoEntries, TestData.videoEntryArray)
+    }
 
     func initializeSUT(databaseServiceError: Error?, authServiceError: Error?) {
         sut = EntriesViewModel(

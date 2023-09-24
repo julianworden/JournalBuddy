@@ -61,6 +61,8 @@ final class EntriesCoordinator: NSObject, Coordinator {
     ) {
         AlertPresenter.presentBasicErrorAlert(errorMessage: errorMessage)
     }
+    
+    // MARK: - VideoEntry
 
     func presentAddEditTextEntryViewController(withTextEntryToEdit textEntryToEdit: TextEntry?) {
         let addEditTextEntryCoordinator = AddEditTextEntryCoordinator(
@@ -88,6 +90,26 @@ final class EntriesCoordinator: NSObject, Coordinator {
         childCoordinators.append(createVideoEntryCoordinator)
         createVideoEntryCoordinator.start()
     }
+    
+    func presentWatchVideoEntryViewController(withVideoEntry videoEntry: VideoEntry) {
+        let watchVideoEntryViewModel = WatchVideoEntryViewModel(
+            databaseService: databaseService,
+            authService: authService,
+            videoEntry: videoEntry
+        )
+        let watchVideoEntryViewController = WatchVideoEntryViewController(
+            coordinator: self,
+            viewModel: watchVideoEntryViewModel
+        )
+        
+        navigationController.pushViewController(watchVideoEntryViewController, animated: true)
+    }
+    
+    func dismissWatchVideoEntryViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    // MARK: - VoiceEntry
     
     func presentCreateVoiceEntryViewController() {
         let createVoiceEntryCoordinator = CreateVoiceEntryCoordinator(

@@ -118,6 +118,13 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.entries)
                 .document(entry.id)
                 .delete()
+            
+            switch entry.type {
+            case .video:
+                try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
+            default:
+                break
+            }
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.deleteDataFailed(systemError: error.localizedDescription)
@@ -417,6 +424,19 @@ final class DatabaseService: DatabaseServiceProtocol {
         } catch {
             print(error.emojiMessage)
             throw VoiceEntryError.uploadingFailed
+        }
+    }
+    
+    private func deleteVideoEntryFromFBStorage(_ videoEntry: VideoEntry) async throws {
+        do {
+            let videoEntryReference = storage.reference(forURL: videoEntry.downloadURL)
+            let videoEntryThumbnailReference = storage.reference(forURL: videoEntry.thumbnailDownloadURL)
+            
+            try await videoEntryReference.delete()
+            try await videoEntryThumbnailReference.delete()
+        } catch {
+            print(error.emojiMessage)
+            throw FBStorageError.deleteDataFailed(systemError: error.localizedDescription)
         }
     }
 }

@@ -29,7 +29,7 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         collectionView: videoEntryCollectionView
     )
-    private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .large)
 
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
@@ -71,7 +71,7 @@ class EntriesView: UIView, MainView {
         videoEntryCollectionView.backgroundColor = .background
         videoEntryCollectionView.showsVerticalScrollIndicator = false
         videoEntryCollectionView.dataSource = videoEntryCollectionViewDataSource
-        videoEntryCollectionView.delegate = videoEntryCollectionViewDataSource
+        videoEntryCollectionView.delegate = self
     }
 
     func subscribeToPublishers() {
@@ -211,5 +211,24 @@ extension EntriesView: UITableViewDelegate {
 
         let tappedEntry = viewModel.textEntries[indexPath.row]
         delegate?.entriesViewDidSelectTextEntry(tappedEntry)
+    }
+}
+
+extension EntriesView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (collectionView.bounds.width / 3) - 10, height: 192)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedVideoEntry = viewModel.videoEntries[indexPath.item]
+        delegate?.entriesViewDidSelectVideoEntry(selectedVideoEntry)
     }
 }

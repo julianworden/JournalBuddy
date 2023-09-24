@@ -89,6 +89,7 @@ final class GoalsViewModel: MainViewModel {
         NotificationCenter.default.publisher(for: .goalWasSaved)
             .sink { [weak self] notification in
                 guard let newGoal = notification.userInfo?[NotificationConstants.savedGoal] as? Goal else {
+                    print("❌ goalWasSaved notification posted without entry info.")
                     return
                 }
                 
@@ -103,6 +104,7 @@ final class GoalsViewModel: MainViewModel {
         NotificationCenter.default.publisher(for: .goalWasDeleted)
             .sink { [weak self] notification in
                 guard let deletedGoal = notification.userInfo?[NotificationConstants.deletedGoal] as? Goal else {
+                    print("❌ goalWasDeleted notification posted without entry info.")
                     return
                 }
                 

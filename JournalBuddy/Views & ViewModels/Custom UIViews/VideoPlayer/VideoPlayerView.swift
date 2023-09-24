@@ -24,6 +24,7 @@ class VideoPlayerView: UIView {
         action: #selector(dismissMediaControls)
     )
     
+    @Published var playerIsReadyToPlay = false
     var cancellables = Set<AnyCancellable>()
     /// The periodic time observer for the video player. This is created in in `UploadVideoView` and then removed
     /// after `UploadVideoViewController` disappears.
@@ -118,6 +119,7 @@ class VideoPlayerView: UIView {
                       let self else { return }
                 
                 self.timelineSlider.maximumValue = Float(self.playerCurrentItemLengthInSeconds)
+                self.playerIsReadyToPlay = true
             }
             .store(in: &cancellables)
     }

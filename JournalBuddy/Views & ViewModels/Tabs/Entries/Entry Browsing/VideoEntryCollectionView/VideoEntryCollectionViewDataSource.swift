@@ -13,7 +13,7 @@ enum VideoEntryCollectionViewSection {
     case main
 }
 
-final class VideoEntryCollectionViewDataSource: UICollectionViewDiffableDataSource<VideoEntryCollectionViewSection, VideoEntry>, UICollectionViewDelegateFlowLayout {
+final class VideoEntryCollectionViewDataSource: UICollectionViewDiffableDataSource<VideoEntryCollectionViewSection, VideoEntry> {
     let viewModel: EntriesViewModel
     var cancellables = Set<AnyCancellable>()
     let cellRegistration = UICollectionView.CellRegistration<VideoEntryCollectionViewCell, VideoEntry> { cell, indexPath, videoEntry in
@@ -39,18 +39,6 @@ final class VideoEntryCollectionViewDataSource: UICollectionViewDiffableDataSour
                 self?.updateDataSource(with: videoEntries)
             }
             .store(in: &cancellables)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width / 3) - 10, height: 192)
     }
     
     func updateDataSource(with videoEntries: [VideoEntry]) {

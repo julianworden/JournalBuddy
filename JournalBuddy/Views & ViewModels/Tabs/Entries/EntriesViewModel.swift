@@ -5,6 +5,7 @@
 //  Created by Julian Worden on  7/21/23.
 //
 
+import Combine
 import Foundation
 
 @MainActor
@@ -19,6 +20,7 @@ final class EntriesViewModel: MainViewModel {
     @Published var viewState = EntriesViewState.fetchingTextEntries
     var selectedEntryType = SelectedEntryType.text
 
+    var cancellables = Set<AnyCancellable>()
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     let currentUser: User
@@ -52,5 +54,23 @@ final class EntriesViewModel: MainViewModel {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
+    }
+    
+    func subscribeToPublishers() {
+        NotificationCenter.default.publisher(for: .videoEntryWasDeleted)
+            .sink { [weak self] notification in
+                guard let deletedVideoEntry = notification.userInfo?[NotificationConstants.deletedVideoEntry] as? VideoEntry else {
+                    print("❌ videoEntryWasDeleted notification posted without entry info.")
+                    return
+                }
+                
+                guard let deletedVideoEntryIndex = self?.videoEntries.firstIndex(of: deletedVideoEntry) else {
+                    print("❌ deleted video entry not found in videoEntries array.")
+                    return
+                }
+                
+                self?.videoEntries.remove(at: deletedVideoEntryIndex)
+            }
+            .store(in: &cancellables)
     }
 }
