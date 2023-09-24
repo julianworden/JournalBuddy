@@ -58,10 +58,6 @@ class CreateVideoEntryViewController: UIViewController, MainViewController {
         view.backButton.isEnabled = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     func configure() {
         navigationController?.isNavigationBarHidden = true
         // Allows the camera view finder to go into the safe area

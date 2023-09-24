@@ -500,7 +500,6 @@
 				AB7677322A6C20D50050149E /* EntryType.swift */,
 				AB72DCA12A6F5BE000B4D4AF /* MainTextFieldType.swift */,
 				ABAB18A12A8EBB4000E22FB3 /* CustomAlertType.swift */,
-				AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */,
 				ABA4EEC12AB3B698005ADC48 /* VoiceEntryControlButtonType.swift */,
 			);
 			path = Model;
@@ -550,7 +549,6 @@
 				AB413EAD2A96B76A00916054 /* UploadVideoEntryView.swift */,
 				AB413EAF2A96B77300916054 /* UploadVideoEntryViewModel.swift */,
 				AB413EB12A96B7C000916054 /* UploadVideoEntryViewState.swift */,
-				AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */,
 			);
 			path = UploadVideo;
 			sourceTree = "<group>";
@@ -723,6 +721,7 @@
 				ABF8BFC12AB5117A001D49F8 /* TimerView.swift */,
 				AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */,
 				AB2779142ABDCE5A0081DDA9 /* AsyncImageView.swift */,
+				ABCE87262AC09176005F7DE2 /* VideoPlayer */,
 				AB5E7B0F2A8FA854004A9051 /* Buttons */,
 				AB5E7B0C2A8FA265004A9051 /* Password Text Field */,
 				ABAB18A02A8EB35300E22FB3 /* Custom Alert */,
@@ -952,6 +951,15 @@
 				AB5CB57D2A843C43005F6016 /* Reusable UIViews */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		ABCE87262AC09176005F7DE2 /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */,
+				AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */,
+			);
+			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 		ABD426FE2A81A18A00783DE4 /* Old and Unused */ = {

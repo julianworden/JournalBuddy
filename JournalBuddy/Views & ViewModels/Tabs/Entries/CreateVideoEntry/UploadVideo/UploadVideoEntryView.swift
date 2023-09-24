@@ -17,11 +17,7 @@ class UploadVideoEntryView: UIView, MainView {
             underVideoPlayerStack
         ]
     )
-    private lazy var videoPlayerView = VideoPlayerView(player: viewModel.videoPlayer)
-    /// The button in the middle of the video player. This button's appearance and target depends on what the video player is currently doing. It
-    /// alternates between a play button, pause button, and restart button.
-    private lazy var videoPlayerCenterMediaButton = SFSymbolButton(symbol: VideoPlayerMediaButtonType.play.image)
-    private lazy var videoPlayerTimelineSlider = TimelineSlider()
+    lazy var videoPlayerView = VideoPlayerView(videoPlayerURL: viewModel.recordedVideoURL)
     private lazy var underVideoPlayerStack = UIStackView(
         arrangedSubviews: [
             saveToDeviceToggleStack,
@@ -43,17 +39,6 @@ class UploadVideoEntryView: UIView, MainView {
     private lazy var uploadButton = PrimaryButton(title: "Upload")
     private lazy var savingStack = ProgressViewStack()
     private lazy var uploadingStack = ProgressViewStack()
-    
-    private lazy var presentMediaControlsTapGestureRecognizer = UITapGestureRecognizer(
-        target: self,
-        action: #selector(presentMediaControls)
-    )
-    private lazy var dismissMediaControlsTapGestureRecognizer = UITapGestureRecognizer(
-        target: self,
-        action: #selector(dismissMediaControls)
-    )
-    /// The timer that controls when the media controls are automatically hidden after they're shown.
-    var hideMediaControlsTimer: Timer?
     
     var viewModel: UploadVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
@@ -84,13 +69,6 @@ class UploadVideoEntryView: UIView, MainView {
         mainScrollViewContentStack.isLayoutMarginsRelativeArrangement = true
         mainScrollViewContentStack.alignment = .center
         
-        videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
-        videoPlayerTimelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
-        
-        videoPlayerCenterMediaButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-        videoPlayerCenterMediaButton.contentHorizontalAlignment = .fill
-        videoPlayerCenterMediaButton.contentVerticalAlignment = .fill
-        
         underVideoPlayerStack.axis = .vertical
         underVideoPlayerStack.spacing = 15
         
@@ -116,14 +94,12 @@ class UploadVideoEntryView: UIView, MainView {
     func subscribeToPublishers() {
         subscribeToViewStateUpdates()
         subscribeToVideoUploadingProgress()
-        subscribeToVideoTimelineUpdates()
-        subscribeToVideoPlayerStatusUpdates()
     }
     
     func constrain() {
         addConstrainedSubviews(mainScrollView)
         mainScrollView.addConstrainedSubviews(mainScrollViewContentStack)
-        videoPlayerView.addConstrainedSubviews(videoPlayerCenterMediaButton, videoPlayerTimelineSlider)
+        
         
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -139,15 +115,6 @@ class UploadVideoEntryView: UIView, MainView {
             videoPlayerView.heightAnchor.constraint(equalToConstant: 480),
             videoPlayerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             videoPlayerView.widthAnchor.constraint(equalToConstant: 270),
-            
-            videoPlayerCenterMediaButton.centerYAnchor.constraint(equalTo: videoPlayerView.centerYAnchor),
-            videoPlayerCenterMediaButton.heightAnchor.constraint(equalToConstant: 80),
-            videoPlayerCenterMediaButton.centerXAnchor.constraint(equalTo: videoPlayerView.centerXAnchor),
-            videoPlayerCenterMediaButton.widthAnchor.constraint(equalToConstant: 80),
-            
-            videoPlayerTimelineSlider.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor, constant: 10),
-            videoPlayerTimelineSlider.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor, constant: -10),
-            videoPlayerTimelineSlider.bottomAnchor.constraint(equalTo: videoPlayerView.bottomAnchor, constant: -10),
             
             underVideoPlayerStack.leadingAnchor.constraint(equalTo: videoPlayerView.leadingAnchor),
             underVideoPlayerStack.trailingAnchor.constraint(equalTo: videoPlayerView.trailingAnchor),
@@ -208,32 +175,6 @@ class UploadVideoEntryView: UIView, MainView {
             .store(in: &cancellables)
     }
     
-    func subscribeToVideoTimelineUpdates() {
-        viewModel.videoPlayerPeriodicTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(
-            forInterval: CMTime(value: 1, timescale: 1),
-            queue: .main
-        ) { [weak self] time in
-            self?.videoPlayerTimelineSlider.setValue(Float(time.seconds), animated: true)
-            
-            if time.seconds == self?.viewModel.videoPlayerCurrentItemLengthInSeconds {
-                self?.videoPlayerCurrentItemIsFinished()
-            }
-        }
-    }
-    
-    /// Creates a subscriber that sets the video player's timeline's maximum value once the video player's `AVPlayerItem.Status`  is `.readyToPlay`.
-    /// This is necessary because the video player will not return the correct length of its `currentItem` unless it's ready to play.
-    func subscribeToVideoPlayerStatusUpdates() {
-        viewModel.videoPlayer.publisher(for: \.currentItem?.status)
-            .sink { [weak self] status in
-                guard status == .readyToPlay,
-                      let self else { return }
-                
-                self.videoPlayerTimelineSlider.maximumValue = Float(self.viewModel.videoPlayerCurrentItemLengthInSeconds)
-            }
-            .store(in: &cancellables)
-    }
-    
     func configureSaveToDeviceToggleUI() {
         saveToDeviceToggleStack.distribution = .equalCentering
         saveToDeviceToggleStack.alignment = .center
@@ -270,27 +211,21 @@ class UploadVideoEntryView: UIView, MainView {
     }
     
     func configureSavingToDeviceProgressViewUI() {
-        videoPlayerTimelineSlider.isEnabled = false
-        videoPlayerCenterMediaButton.isEnabled = false
-        videoPlayerView.isUserInteractionEnabled = false
+        videoPlayerView.disable()
         savingStack.updateLabelText(to: "Saving...")
         uploadingStack.updateLabelText(to: "Waiting...")
     }
     
     func configureUploadingProgressViewUI() {
-        videoPlayerTimelineSlider.isEnabled = false
-        videoPlayerCenterMediaButton.isEnabled = false
-        videoPlayerView.isUserInteractionEnabled = false
+        videoPlayerView.disable()
     }
     
     func configureErrorUI() {
-        videoPlayerCenterMediaButton.isEnabled = true
-        videoPlayerTimelineSlider.isEnabled = true
+        videoPlayerView.enable()
         saveToDeviceToggleStack.isHidden = false
         savingStack.isHidden = true
         uploadingStack.isHidden = true
         uploadButton.isHidden = false
-        videoPlayerView.isUserInteractionEnabled = true
         
         if !viewModel.videoWasSelectedFromLibrary {
             saveToDeviceToggleStack.isHidden = false
@@ -312,112 +247,13 @@ class UploadVideoEntryView: UIView, MainView {
         uploadButton.isHidden = true
     }
     
-    /// Configures `videoPlayerCenterMediaButton` every time the user interacts with it. For example, whent the user presses play, this method ensures that
-    /// `videoPlayerCenterMediaButton` changes to a pause button.
-    /// - Parameters:
-    ///   - selectorToRemove: The `Selector` to remove from `videoPlayerCenterMediaButton` so that `selectorToAdd` gets triggered when the button is tapped.
-    ///   - selectorToAdd: The `Selector` to add to `videoPlayerCenterMediaButton`. Replaces `selectorToRemove`.
-    ///   - newMediaButtonType: The type of button that `videoPlayerCenterMediaButton` is to become.
-    func configureMediaButton(
-        remove selectorToRemove: Selector,
-        add selectorToAdd: Selector,
-        newMediaButtonType: VideoPlayerMediaButtonType
-    ) {
-        videoPlayerCenterMediaButton.setImage(newMediaButtonType.image, for: .normal)
-        videoPlayerCenterMediaButton.removeTarget(self, action: selectorToRemove, for: .touchUpInside)
-        videoPlayerCenterMediaButton.addTarget(self, action: selectorToAdd, for: .touchUpInside)
-    }
-    
-    /// Configures the restart button when the video player's video reaches the end of its duration.
-    func videoPlayerCurrentItemIsFinished() {
-        hideMediaControlsTimer?.invalidate()
-        hideMediaControlsTimer = nil
-        configureMediaButton(remove: #selector(playButtonTapped), add: #selector(restartButtonTapped), newMediaButtonType: .restart)
-        videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
-
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.videoPlayerCenterMediaButton.alpha = 1
-            self?.videoPlayerTimelineSlider.alpha = 1
-        }
-    }
-    
-    /// Starts a timer that fires every 1 second to determine when the media controls should automatically be hidden after the user has shown them. Hides media controls
-    /// after 2 seconds.
-    func startHideMediaControlsTimer() {
-        var timerDuration = 0
-        
-        hideMediaControlsTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
-            timerDuration += 1
-            
-            if timerDuration == 2 {
-                self?.dismissMediaControls()
-                self?.hideMediaControlsTimer?.invalidate()
-                self?.hideMediaControlsTimer = nil
-            }
-        })
-    }
-    
-    @objc func playButtonTapped() {
-        viewModel.videoPlayerPlayButtonTapped()
-        configureMediaButton(remove: #selector(playButtonTapped), add: #selector(pauseButtonTapped), newMediaButtonType: .pause)
-        dismissMediaControls()
-    }
-    
-    @objc func pauseButtonTapped() {
-        viewModel.videoPlayerPauseButtonTapped()
-        configureMediaButton(remove: #selector(pauseButtonTapped), add: #selector(playButtonTapped), newMediaButtonType: .play)
-        presentMediaControls()
-    }
-    
-    @objc func restartButtonTapped() {
-        viewModel.videoPlayerRestartButtonTapped()
-        configureMediaButton(remove: #selector(restartButtonTapped), add: #selector(pauseButtonTapped), newMediaButtonType: .pause)
-        dismissMediaControls()
-    }
-    
-    @objc func presentMediaControls() {
-        videoPlayerView.removeGestureRecognizer(presentMediaControlsTapGestureRecognizer)
-        videoPlayerView.addGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
-        startHideMediaControlsTimer()
-        
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.videoPlayerCenterMediaButton.alpha = 1
-            self?.videoPlayerTimelineSlider.alpha = 1
-        }
-    }
-    
-    @objc func dismissMediaControls() {
-        videoPlayerView.removeGestureRecognizer(dismissMediaControlsTapGestureRecognizer)
-        videoPlayerView.addGestureRecognizer(presentMediaControlsTapGestureRecognizer)
-        hideMediaControlsTimer?.invalidate()
-        hideMediaControlsTimer = nil
-        
-        UIView.animate(withDuration: 0.25) { [weak self] in
-            self?.videoPlayerCenterMediaButton.alpha = 0
-            self?.videoPlayerTimelineSlider.alpha = 0
-        }
-    }
-    
-    @objc func userDidTouchDownTimelineSlider() {
-        hideMediaControlsTimer?.invalidate()
-        hideMediaControlsTimer = nil
-        viewModel.videoPlayer.pause()
-    }
-    
-    @objc func userDidMoveTimelineSlider(_ sender: UISlider) {
-        Task {
-            await viewModel.seekVideoPlayer(to: Double(sender.value))
-            playButtonTapped()
-        }
-    }
-    
     @objc func saveToDeviceSwitchTapped(_ sender: UISwitch) {
         viewModel.saveVideoToDevice = sender.isOn
     }
     
     @objc func uploadButtonTapped() {
         Task {
-            pauseButtonTapped()
+            videoPlayerView.pauseButtonTapped()
             await viewModel.uploadButtonTapped()
         }
     }

@@ -11,11 +11,6 @@ import Photos
 
 @MainActor
 final class UploadVideoEntryViewModel: MainViewModel {
-    lazy var videoPlayer = AVPlayer(url: recordedVideoURL)
-    /// The periodic time observer for the video player. This is created in in `UploadVideoView` and then removed
-    /// after `UploadVideoViewController` disappears.
-    var videoPlayerPeriodicTimeObserver: Any?
-    
     @Published var viewState = UploadVideoEntryViewState.displayingView
     var saveVideoToDevice = false
 
@@ -25,14 +20,6 @@ final class UploadVideoEntryViewModel: MainViewModel {
     let videoWasSelectedFromLibrary: Bool
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
-
-    var videoPlayerCurrentItemLengthInSeconds: Double {
-        guard let currentItem = videoPlayer.currentItem else {
-            return 0
-        }
-
-        return currentItem.duration.seconds
-    }
 
     init(
         isTesting: Bool = false,
@@ -46,31 +33,6 @@ final class UploadVideoEntryViewModel: MainViewModel {
         self.videoWasSelectedFromLibrary = videoWasSelectedFromLibrary
         self.databaseService = databaseService
         self.authService = authService
-    }
-
-    func videoPlayerPlayButtonTapped() {
-        videoPlayer.play()
-    }
-
-    func videoPlayerPauseButtonTapped() {
-        videoPlayer.pause()
-    }
-
-    func videoPlayerRestartButtonTapped() {
-        videoPlayer.seek(
-            to: CMTime(value: 0, timescale: 1),
-            toleranceBefore: .zero,
-            toleranceAfter: .zero
-        )
-        videoPlayer.play()
-    }
-
-    func seekVideoPlayer(to newTimestamp: Double) async {
-        await videoPlayer.seek(
-            to: CMTime(value: CMTimeValue(newTimestamp), timescale: 1),
-            toleranceBefore: CMTime(value: 1, timescale: 2),
-            toleranceAfter: CMTime(value: 1, timescale: 2)
-        )
     }
     
     func uploadButtonTapped(photoLibrary: PHPhotoLibraryProtocol = PHPhotoLibrary.shared()) async {

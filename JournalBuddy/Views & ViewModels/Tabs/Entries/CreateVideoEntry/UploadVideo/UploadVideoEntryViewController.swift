@@ -38,9 +38,14 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        if let videoPlayerPeriodicTimeObserver = viewModel.videoPlayerPeriodicTimeObserver {
-            viewModel.videoPlayer.removeTimeObserver(videoPlayerPeriodicTimeObserver)
-            viewModel.videoPlayerPeriodicTimeObserver = nil
+        guard let view = view as? UploadVideoEntryView else {
+            print("❌ Incorrect view set for UploadVideoEntryViewController.")
+            return
+        }
+        
+        if let videoPlayerPeriodicTimeObserver = view.videoPlayerView.playerPeriodicTimeObserver {
+            view.videoPlayerView.player?.removeTimeObserver(videoPlayerPeriodicTimeObserver)
+            view.videoPlayerView.playerPeriodicTimeObserver = nil
         }
         
         viewModel.deleteLocalRecording()
