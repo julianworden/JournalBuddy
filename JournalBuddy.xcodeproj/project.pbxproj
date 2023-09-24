@@ -156,9 +156,11 @@
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
 		ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */; };
-		ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */; };
-		ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
+		ABCE87292AC09790005F7DE2 /* WatchVideoEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */; };
+		ABCE872B2AC09799005F7DE2 /* WatchVideoEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE872A2AC09799005F7DE2 /* WatchVideoEntryView.swift */; };
+		ABCE872D2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE872C2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift */; };
+		ABCE872F2AC0980F005F7DE2 /* WatchVideoEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE872E2AC0980F005F7DE2 /* WatchVideoEntryViewModel.swift */; };
 		ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */; };
 		ABD427032A81A6D600783DE4 /* HomeActivityStreakSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */; };
 		ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD819E72A85C9BC0078604A /* CustomDivider.swift */; };
@@ -337,9 +339,11 @@
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+back.swift"; sourceTree = "<group>"; };
-		ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewDataSourceAndDelegate.swift; sourceTree = "<group>"; };
-		ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
+		ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewController.swift; sourceTree = "<group>"; };
+		ABCE872A2AC09799005F7DE2 /* WatchVideoEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryView.swift; sourceTree = "<group>"; };
+		ABCE872C2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewState.swift; sourceTree = "<group>"; };
+		ABCE872E2AC0980F005F7DE2 /* WatchVideoEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewModel.swift; sourceTree = "<group>"; };
 		ABD01AF12A8276E50066B2FE /* UIFontMetrics+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFontMetrics+Helpers.swift"; sourceTree = "<group>"; };
 		ABD427022A81A6D600783DE4 /* HomeActivityStreakSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityStreakSection.swift; sourceTree = "<group>"; };
 		ABD819E72A85C9BC0078604A /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
@@ -553,15 +557,6 @@
 			path = UploadVideo;
 			sourceTree = "<group>";
 		};
-		AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				ABB832822A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift */,
-				ABB832802A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift */,
-			);
-			path = EntryTypeCollectionView;
-			sourceTree = "<group>";
-		};
 		AB41680B2A8D096F001B9AA1 /* TextEntryTableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -730,13 +725,13 @@
 			path = "Custom UIViews";
 			sourceTree = "<group>";
 		};
-		AB84A97D2ABCEFE7009D5FD9 /* Entry Table Views */ = {
+		AB84A97D2ABCEFE7009D5FD9 /* Entry Browsing */ = {
 			isa = PBXGroup;
 			children = (
 				AB41680B2A8D096F001B9AA1 /* TextEntryTableView */,
 				AB84A97E2ABCEFFB009D5FD9 /* VideoEntryCollectionView */,
 			);
-			path = "Entry Table Views";
+			path = "Entry Browsing";
 			sourceTree = "<group>";
 		};
 		AB84A97E2ABCEFFB009D5FD9 /* VideoEntryCollectionView */ = {
@@ -849,10 +844,10 @@
 				ABB348372A6AC2C90050A9AC /* EntriesCoordinator.swift */,
 				AB8E77582A76AF0A00EAF49D /* EntriesViewDelegate.swift */,
 				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
-				AB41680A2A8D094C001B9AA1 /* EntryTypeCollectionView */,
-				AB84A97D2ABCEFE7009D5FD9 /* Entry Table Views */,
+				AB84A97D2ABCEFE7009D5FD9 /* Entry Browsing */,
 				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
 				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
+				ABCE87272AC0972B005F7DE2 /* WatchVideoEntry */,
 				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
 			);
 			path = Entries;
@@ -960,6 +955,17 @@
 				AB1617892A98F05E001CDC53 /* VideoPlayerMediaButtonType.swift */,
 			);
 			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
+		ABCE87272AC0972B005F7DE2 /* WatchVideoEntry */ = {
+			isa = PBXGroup;
+			children = (
+				ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */,
+				ABCE872A2AC09799005F7DE2 /* WatchVideoEntryView.swift */,
+				ABCE872E2AC0980F005F7DE2 /* WatchVideoEntryViewModel.swift */,
+				ABCE872C2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift */,
+			);
+			path = WatchVideoEntry;
 			sourceTree = "<group>";
 		};
 		ABD426FE2A81A18A00783DE4 /* Old and Unused */ = {
@@ -1108,7 +1114,6 @@
 				AB1D33C02A5EE14E0068939C /* TextEntry.swift in Sources */,
 				AB84A9822ABCF0B4009D5FD9 /* VideoEntryCollectionViewDataSource.swift in Sources */,
 				ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */,
-				ABB832832A8C14F200E8C247 /* EntryTypeCollectionViewCell.swift in Sources */,
 				ABB24E442A66D87C001A76E0 /* TabBarCoordinator.swift in Sources */,
 				AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */,
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
@@ -1143,6 +1148,7 @@
 				AB2988B22A5D9D6900303262 /* UIFont+Helpers.swift in Sources */,
 				AB258EAE2AB8880700F8BBA3 /* AddEditGoalViewState.swift in Sources */,
 				AB8E9B912A894E5500A99C3A /* CustomMenuRow.swift in Sources */,
+				ABCE87292AC09790005F7DE2 /* WatchVideoEntryViewController.swift in Sources */,
 				AB58B8F32AA7DC2800FAA4D7 /* VideoEntry.swift in Sources */,
 				AB76772F2A6C1BF00050149E /* Entry.swift in Sources */,
 				ABFEF2792A658546004C40A8 /* Coordinator.swift in Sources */,
@@ -1186,6 +1192,7 @@
 				AB258EA52AB8782700F8BBA3 /* CompleteGoalsTableViewDataSource.swift in Sources */,
 				AB8E9B842A8912B700A99C3A /* GoalsCoordinator.swift in Sources */,
 				AB039E112ABBA9D600F754A1 /* IncompleteGoalsTableViewDataSource.swift in Sources */,
+				ABCE872D2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift in Sources */,
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
@@ -1223,7 +1230,6 @@
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
-				ABB832812A8C14A900E8C247 /* EntryTypeCollectionViewDataSourceAndDelegate.swift in Sources */,
 				AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */,
 				AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */,
 				AB7239C82A5BA08E00A0392D /* MainViewModel.swift in Sources */,
@@ -1246,6 +1252,8 @@
 				AB1BB0D42A94E19F0051EB66 /* CreateVideoEntryViewModel.swift in Sources */,
 				ABB348442A6ACE700050A9AC /* AddEditTextEntryViewModel.swift in Sources */,
 				AB56A4632A979BB000DA2875 /* VideoPlayerView.swift in Sources */,
+				ABCE872B2AC09799005F7DE2 /* WatchVideoEntryView.swift in Sources */,
+				ABCE872F2AC0980F005F7DE2 /* WatchVideoEntryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
