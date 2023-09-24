@@ -17,6 +17,77 @@ enum TestData {
         TextEntry(id: "4", creatorUID: "uiop1234", unixDate: 30927456, text: "What a fantastic day!")
     ]
     
+    static let videoEntryArray = [
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        )
+    ]
+    
+    static let voiceEntryArray = [
+        VoiceEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString
+        ),
+        VoiceEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString
+        ),
+        VoiceEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString
+        ),
+        VoiceEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString
+        ),
+        VoiceEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: Date.now.timeIntervalSince1970,
+            downloadURL: UUID().uuidString
+        )
+    ]
+    
     static let goalsArray = [
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Pay off loan", isComplete: true),
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Go back to school", isComplete: true),

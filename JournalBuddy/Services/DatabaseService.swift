@@ -59,6 +59,8 @@ final class DatabaseService: DatabaseServiceProtocol {
             switch entryType {
             case .text:
                 return try await fetchTextEntries(forUID: uid) as! [T]
+            case .video:
+                return try await fetchVideoEntries(forUID: uid) as! [T]
             default:
                 fatalError("No other types of entries have been implemented yet.")
             }
@@ -170,6 +172,21 @@ final class DatabaseService: DatabaseServiceProtocol {
     }
     
     // MARK: - VideoEntry
+    
+    func fetchVideoEntries(forUID uid: String) async throws -> [VideoEntry] {
+        do {
+            let query = try await usersCollection
+                .document(uid)
+                .collection(FBConstants.entries)
+                .whereField(FBConstants.type, isEqualTo: EntryType.video.rawValue)
+                .getDocuments()
+
+            return try query.documents.map { try $0.data(as: VideoEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
     
     /// Uploads a given video entry to Firestore and then saves that video entry's info in Firestore.
     /// - Parameters:

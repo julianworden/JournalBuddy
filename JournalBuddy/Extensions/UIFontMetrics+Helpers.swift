@@ -32,6 +32,14 @@ extension UIFontMetrics {
         UIFontMetrics(forTextStyle: .body).scaledFont(for: .avenirNextRegularBody)
     }
     
+    static var avenirNextBoldCallout: UIFont {
+        UIFontMetrics(forTextStyle: .callout).scaledFont(for: .avenirNextBoldCallout)
+    }
+    
+    static var avenirNextRegularCallout: UIFont {
+        UIFontMetrics(forTextStyle: .callout).scaledFont(for: .avenirNextRegularCallout)
+    }
+    
     static var avenirNextBoldFootnote: UIFont {
         UIFontMetrics(forTextStyle: .footnote).scaledFont(for: .avenirNextBoldFootnote)
     }

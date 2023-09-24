@@ -19,10 +19,15 @@ class EntriesView: UIView, MainView {
     private lazy var textEntryButton = PrimaryButton(title: "Text")
     private lazy var videoEntryButton = PrimaryButton(title: "Video")
     private lazy var voiceEntryButton = PrimaryButton(title: "Voice")
-    private lazy var tableView = MainTableView()
-    private lazy var tableViewDataSource = TextEntryTableViewDataSource(
+    private lazy var textEntryTableView = MainTableView()
+    private lazy var textEntryTableViewDataSource = TextEntryTableViewDataSource(
         viewModel: viewModel,
-        tableView: tableView
+        tableView: textEntryTableView
+    )
+    private lazy var videoEntryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var videoEntryCollectionViewDataSource = VideoEntryCollectionViewDataSource(
+        viewModel: viewModel,
+        collectionView: videoEntryCollectionView
     )
     private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .medium)
 
@@ -61,17 +66,23 @@ class EntriesView: UIView, MainView {
         voiceEntryButton.backgroundColor = .disabled
         voiceEntryButton.titleLabel?.numberOfLines = 1
         voiceEntryButton.addTarget(self, action: #selector(voiceEntryButtonTapped), for: .touchUpInside)
+        
+        videoEntryCollectionView.isHidden = true
+        videoEntryCollectionView.backgroundColor = .background
+        videoEntryCollectionView.showsVerticalScrollIndicator = false
+        videoEntryCollectionView.dataSource = videoEntryCollectionViewDataSource
+        videoEntryCollectionView.delegate = videoEntryCollectionViewDataSource
     }
 
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchingEntries:
-                    self?.configureFetchingEntriesUI()
-                case .fetchedEntries:
-                    self?.configureTableView()
-                    self?.configureFetchedEntriesUI()
+                case .fetchingTextEntries:
+                    self?.configureFetchingTextEntriesUI()
+                case .fetchedTextEntries:
+                    self?.configureTextEntryTableView()
+                    self?.configureFetchedTextEntriesUI()
                 default:
                     break
                 }
@@ -93,7 +104,12 @@ class EntriesView: UIView, MainView {
     func makeAccessible() { }
 
     func constrain() {
-        addConstrainedSubviews(fetchingEntriesActivityIndicator, entryTypeStack, tableView)
+        addConstrainedSubviews(
+            fetchingEntriesActivityIndicator,
+            entryTypeStack,
+            textEntryTableView,
+            videoEntryCollectionView
+        )
 
         NSLayoutConstraint.activate([
             entryTypeStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -110,20 +126,25 @@ class EntriesView: UIView, MainView {
             voiceEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             voiceEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
 
-            tableView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textEntryTableView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor),
+            textEntryTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            textEntryTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textEntryTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            videoEntryCollectionView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor, constant: 15),
+            videoEntryCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            videoEntryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            videoEntryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
 
             fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     
-    func configureFetchingEntriesUI() {
+    func configureFetchingTextEntriesUI() {
         backgroundColor = .background
 
-        tableView.isHidden = true
+        textEntryTableView.isHidden = true
 
         entryTypeStack.isHidden = true
 
@@ -132,37 +153,55 @@ class EntriesView: UIView, MainView {
         fetchingEntriesActivityIndicator.startAnimating()
     }
 
-    func configureTableView() {
-        tableView.register(
+    func configureTextEntryTableView() {
+        textEntryTableView.register(
             TextEntryTableViewCell.self,
             forCellReuseIdentifier: TextEntryTableViewCell.reuseID
         )
-        tableView.delegate = self
-        tableView.dataSource = tableViewDataSource
+        textEntryTableView.delegate = self
+        textEntryTableView.dataSource = textEntryTableViewDataSource
     }
 
-    func configureFetchedEntriesUI() {
+    func configureFetchedTextEntriesUI() {
         fetchingEntriesActivityIndicator.stopAnimating()
         entryTypeStack.isHidden = false
-        tableView.isHidden = false
+        textEntryTableView.isHidden = false
     }
     
     @objc func textEntryButtonTapped() {
-        textEntryButton.backgroundColor = .primaryElement
-        videoEntryButton.backgroundColor = .disabled
-        voiceEntryButton.backgroundColor = .disabled
+        if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.text {
+            textEntryButton.backgroundColor = .primaryElement
+            videoEntryButton.backgroundColor = .disabled
+            voiceEntryButton.backgroundColor = .disabled
+            videoEntryCollectionView.isHidden = true
+            textEntryTableView.isHidden = false
+            viewModel.selectedEntryType = .text
+        }
     }
     
     @objc func videoEntryButtonTapped() {
-        textEntryButton.backgroundColor = .disabled
-        videoEntryButton.backgroundColor = .primaryElement
-        voiceEntryButton.backgroundColor = .disabled
+        if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.video {
+            Task {
+                textEntryButton.backgroundColor = .disabled
+                videoEntryButton.backgroundColor = .primaryElement
+                voiceEntryButton.backgroundColor = .disabled
+                textEntryTableView.isHidden = true
+                videoEntryCollectionView.isHidden = false
+                viewModel.selectedEntryType = .video
+                await viewModel.fetchVideoEntries()
+            }
+        }
     }
     
     @objc func voiceEntryButtonTapped() {
-        textEntryButton.backgroundColor = .disabled
-        videoEntryButton.backgroundColor = .disabled
-        voiceEntryButton.backgroundColor = .primaryElement
+        if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.voice {
+            textEntryButton.backgroundColor = .disabled
+            videoEntryButton.backgroundColor = .disabled
+            voiceEntryButton.backgroundColor = .primaryElement
+            videoEntryCollectionView.isHidden = true
+            textEntryTableView.isHidden = true
+            viewModel.selectedEntryType = .voice
+        }
     }
 }
 

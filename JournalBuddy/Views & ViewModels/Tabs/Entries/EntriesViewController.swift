@@ -104,7 +104,7 @@ class EntriesViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchedEntries:
+                case .fetchedTextEntries:
                     self?.navigationItem.rightBarButtonItem = self?.createEntryButton
                 case .error(let errorMessage):
                     self?.showError(errorMessage)

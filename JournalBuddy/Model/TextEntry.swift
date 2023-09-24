@@ -5,7 +5,7 @@
 //  Created by Julian Worden on 7/12/23.
 //
 
-struct TextEntry: Entry, Hashable {
+struct TextEntry: Entry {
     var id: String
     let creatorUID: String
     let unixDate: Double

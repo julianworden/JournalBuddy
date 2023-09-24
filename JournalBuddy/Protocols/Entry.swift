@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Entry: Codable, Identifiable {
+protocol Entry: Codable, Hashable, Identifiable {
     var id: String { get }
     var creatorUID: String { get }
     var unixDate: Double { get }

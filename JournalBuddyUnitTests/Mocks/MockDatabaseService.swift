@@ -37,7 +37,14 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.textEntryArray as! [T]
+            switch entryType {
+            case .text:
+                return TestData.textEntryArray as! [T]
+            case .video:
+                return TestData.videoEntryArray as! [T]
+            case .voice:
+                return TestData.voiceEntryArray as! [T]
+            }
         }
     }
 

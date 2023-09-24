@@ -8,5 +8,10 @@
 import Foundation
 
 enum EntriesViewState: ViewState {
-    case displayingView, fetchingEntries, refreshingEntries, fetchedEntries, error(String)
+    case displayingView
+    case fetchingTextEntries
+    case fetchedTextEntries
+    case fetchingVideoEntries
+    case fetchedVideoEntries
+    case error(message: String)
 }

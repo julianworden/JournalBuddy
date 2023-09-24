@@ -28,6 +28,14 @@ extension UIFont {
         systemFont(ofSize: UIFont.labelFontSize)
     }
     
+    static var boldCallout: UIFont {
+        boldSystemFont(ofSize: UIConstants.calloutSize)
+    }
+    
+    static var regularCallout: UIFont {
+        systemFont(ofSize: UIConstants.calloutSize)
+    }
+    
     static var boldFootnote: UIFont {
         boldSystemFont(ofSize: UIConstants.footnoteSize)
     }
@@ -58,6 +66,14 @@ extension UIFont {
 
     static var avenirNextRegularBody: UIFont {
         UIFont(name: FontConstants.avenirNextRegular, size: UIFont.labelFontSize) ?? regularBody
+    }
+    
+    static var avenirNextBoldCallout: UIFont {
+        UIFont(name: FontConstants.avenirNextBold, size: UIConstants.calloutSize) ?? boldCallout
+    }
+    
+    static var avenirNextRegularCallout: UIFont {
+        UIFont(name: FontConstants.avenirNextRegular, size: UIConstants.calloutSize) ?? regularCallout
     }
     
     static var avenirNextBoldFootnote: UIFont {
