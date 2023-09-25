@@ -29,6 +29,10 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         collectionView: videoEntryCollectionView
     )
+    private lazy var noEntriesFoundView = NoContentFoundView(
+        title: "No Text Entries Found",
+        message: "You can use the plus button to create a text entry."
+    )
     private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .large)
 
     let viewModel: EntriesViewModel
@@ -51,11 +55,17 @@ class EntriesView: UIView, MainView {
     }
     
     func configure() {
+        backgroundColor = .background
         entryTypeStack.spacing = 12
         if UIApplication.shared.preferredContentSizeCategory > .accessibilityLarge {
             entryTypeStack.axis = .horizontal
         }
-        
+        entryTypeStack.isHidden = true
+
+        fetchingEntriesActivityIndicator.color = .primaryElement
+        fetchingEntriesActivityIndicator.hidesWhenStopped = true
+        fetchingEntriesActivityIndicator.startAnimating()
+                
         textEntryButton.titleLabel?.numberOfLines = 1
         textEntryButton.addTarget(self, action: #selector(textEntryButtonTapped), for: .touchUpInside)
         
@@ -66,6 +76,14 @@ class EntriesView: UIView, MainView {
         voiceEntryButton.backgroundColor = .disabled
         voiceEntryButton.titleLabel?.numberOfLines = 1
         voiceEntryButton.addTarget(self, action: #selector(voiceEntryButtonTapped), for: .touchUpInside)
+        
+        textEntryTableView.isHidden = true
+        textEntryTableView.register(
+            TextEntryTableViewCell.self,
+            forCellReuseIdentifier: TextEntryTableViewCell.reuseID
+        )
+        textEntryTableView.delegate = self
+        textEntryTableView.dataSource = textEntryTableViewDataSource
         
         videoEntryCollectionView.isHidden = true
         videoEntryCollectionView.backgroundColor = .background
@@ -78,11 +96,16 @@ class EntriesView: UIView, MainView {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchingTextEntries:
-                    self?.configureFetchingTextEntriesUI()
+                case .fetchingTextEntries, .fetchingVideoEntries:
+                    self?.presentLoadingUI()
                 case .fetchedTextEntries:
-                    self?.configureTextEntryTableView()
-                    self?.configureFetchedTextEntriesUI()
+                    self?.presentFetchedTextEntriesUI()
+                case .noTextEntriesFound:
+                    self?.presentNoTextEntriesFoundUI()
+                case .fetchedVideoEntries:
+                    self?.presentFetchedVideoEntriesUI()
+                case .noVideoEntriesFound:
+                    self?.presentNoVideoEntriesFoundUI()
                 default:
                     break
                 }
@@ -107,6 +130,7 @@ class EntriesView: UIView, MainView {
         addConstrainedSubviews(
             fetchingEntriesActivityIndicator,
             entryTypeStack,
+            noEntriesFoundView,
             textEntryTableView,
             videoEntryCollectionView
         )
@@ -116,6 +140,11 @@ class EntriesView: UIView, MainView {
             entryTypeStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             entryTypeStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
             entryTypeStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            
+            noEntriesFoundView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noEntriesFoundView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
+            noEntriesFoundView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            noEntriesFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
             
             textEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             textEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
@@ -141,41 +170,62 @@ class EntriesView: UIView, MainView {
         ])
     }
     
-    func configureFetchingTextEntriesUI() {
-        backgroundColor = .background
-
+    func presentLoadingUI() {
         textEntryTableView.isHidden = true
-
-        entryTypeStack.isHidden = true
-
-        fetchingEntriesActivityIndicator.color = .primaryElement
-        fetchingEntriesActivityIndicator.hidesWhenStopped = true
+        videoEntryCollectionView.isHidden = true
+        noEntriesFoundView.isHidden = true
+        fetchingEntriesActivityIndicator.isHidden = false
         fetchingEntriesActivityIndicator.startAnimating()
     }
-
-    func configureTextEntryTableView() {
-        textEntryTableView.register(
-            TextEntryTableViewCell.self,
-            forCellReuseIdentifier: TextEntryTableViewCell.reuseID
-        )
-        textEntryTableView.delegate = self
-        textEntryTableView.dataSource = textEntryTableViewDataSource
-    }
-
-    func configureFetchedTextEntriesUI() {
+    
+    func presentFetchedTextEntriesUI() {
         fetchingEntriesActivityIndicator.stopAnimating()
         entryTypeStack.isHidden = false
         textEntryTableView.isHidden = false
+        videoEntryCollectionView.isHidden = true
+    }
+    
+    func presentNoTextEntriesFoundUI() {
+        fetchingEntriesActivityIndicator.stopAnimating()
+        entryTypeStack.isHidden = false
+        textEntryTableView.isHidden = true
+        videoEntryCollectionView.isHidden = true
+        noEntriesFoundView.updateTitle(to: "No Text Entries Found")
+        noEntriesFoundView.updateSubtitle(to: "You can use the plus button to create a new text entry.")
+        noEntriesFoundView.isHidden = false
+    }
+    
+    func presentFetchedVideoEntriesUI() {
+        fetchingEntriesActivityIndicator.stopAnimating()
+        textEntryTableView.isHidden = true
+        videoEntryCollectionView.isHidden = false
+    }
+    
+    func presentNoVideoEntriesFoundUI() {
+        fetchingEntriesActivityIndicator.stopAnimating()
+        textEntryTableView.isHidden = true
+        videoEntryCollectionView.isHidden = true
+        noEntriesFoundView.updateTitle(to: "No Video Entries Found")
+        noEntriesFoundView.updateSubtitle(to: "You can use the plus button to create a video entry.")
+        noEntriesFoundView.isHidden = false
     }
     
     @objc func textEntryButtonTapped() {
         if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.text {
-            textEntryButton.backgroundColor = .primaryElement
-            videoEntryButton.backgroundColor = .disabled
-            voiceEntryButton.backgroundColor = .disabled
-            videoEntryCollectionView.isHidden = true
-            textEntryTableView.isHidden = false
-            viewModel.selectedEntryType = .text
+            Task {
+                textEntryButton.backgroundColor = .primaryElement
+                videoEntryButton.backgroundColor = .disabled
+                voiceEntryButton.backgroundColor = .disabled
+                viewModel.selectedEntryType = .text
+                
+                if !viewModel.textEntriesQueryPerformed {
+                    await viewModel.fetchTextEntries()
+                } else if viewModel.textEntries.isEmpty {
+                    presentNoTextEntriesFoundUI()
+                } else if !viewModel.textEntries.isEmpty {
+                    presentFetchedTextEntriesUI()
+                }
+            }
         }
     }
     
@@ -185,10 +235,15 @@ class EntriesView: UIView, MainView {
                 textEntryButton.backgroundColor = .disabled
                 videoEntryButton.backgroundColor = .primaryElement
                 voiceEntryButton.backgroundColor = .disabled
-                textEntryTableView.isHidden = true
-                videoEntryCollectionView.isHidden = false
                 viewModel.selectedEntryType = .video
-                await viewModel.fetchVideoEntries()
+                
+                if !viewModel.videoEntriesQueryPerformed {
+                    await viewModel.fetchVideoEntries()
+                } else if viewModel.videoEntries.isEmpty {
+                    presentNoVideoEntriesFoundUI()
+                } else if !viewModel.videoEntries.isEmpty {
+                    presentFetchedVideoEntriesUI()
+                }
             }
         }
     }
@@ -198,8 +253,6 @@ class EntriesView: UIView, MainView {
             textEntryButton.backgroundColor = .disabled
             videoEntryButton.backgroundColor = .disabled
             voiceEntryButton.backgroundColor = .primaryElement
-            videoEntryCollectionView.isHidden = true
-            textEntryTableView.isHidden = true
             viewModel.selectedEntryType = .voice
         }
     }

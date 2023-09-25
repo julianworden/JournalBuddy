@@ -77,7 +77,14 @@ class EntriesViewController: UIViewController, MainViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
 
         Task {
-            await viewModel.fetchTextEntries()
+            switch viewModel.selectedEntryType {
+            case .text:
+                await viewModel.fetchTextEntries()
+            case .video:
+                await viewModel.fetchVideoEntries()
+            default:
+                break
+            }
         }
     }
 
@@ -105,7 +112,7 @@ class EntriesViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchedTextEntries:
+                case .fetchedTextEntries, .noTextEntriesFound:
                     self?.navigationItem.rightBarButtonItem = self?.createEntryButton
                 case .error(let errorMessage):
                     self?.showError(errorMessage)

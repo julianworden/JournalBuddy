@@ -15,8 +15,10 @@ final class EntriesViewModelUnitTests: XCTestCase {
     var cancellables: Set<AnyCancellable>!
     var fetchingTextEntriesExpectation: XCTestExpectation!
     var fetchedTextEntriesExpectation: XCTestExpectation!
+    var noTextEntriesFoundExpectation: XCTestExpectation!
     var fetchingVideoEntriesExpectation: XCTestExpectation!
     var fetchedVideoEntriesExpectation: XCTestExpectation!
+    var noVideoEntriesFoundExpectation: XCTestExpectation!
     
     override func setUp() {
         cancellables = Set<AnyCancellable>()
@@ -26,11 +28,17 @@ final class EntriesViewModelUnitTests: XCTestCase {
         fetchedTextEntriesExpectation = XCTestExpectation(
             description: ".fetchedTextEntries view state set."
         )
+        noTextEntriesFoundExpectation = XCTestExpectation(
+            description: ".noTextEntriesFound view state set"
+        )
         fetchingVideoEntriesExpectation = XCTestExpectation(
             description: ".fetchingVideoEntries view state set."
         )
         fetchedVideoEntriesExpectation = XCTestExpectation(
             description: ".fetchedVideoEntries view state set."
+        )
+        noVideoEntriesFoundExpectation = XCTestExpectation(
+            description: ".noVideoEntriesFound view state set."
         )
     }
 
@@ -39,8 +47,10 @@ final class EntriesViewModelUnitTests: XCTestCase {
         cancellables = nil
         fetchingTextEntriesExpectation = nil
         fetchedTextEntriesExpectation = nil
+        noTextEntriesFoundExpectation = nil
         fetchingVideoEntriesExpectation = nil
         fetchedVideoEntriesExpectation = nil
+        noVideoEntriesFoundExpectation = nil
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
@@ -50,15 +60,29 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertTrue(sut.videoEntries.isEmpty)
         XCTAssertFalse(sut.customMenuIsShowing)
         XCTAssertEqual(sut.viewState, .fetchingTextEntries)
+        XCTAssertFalse(sut.textEntriesQueryPerformed)
+        XCTAssertFalse(sut.videoEntriesQueryPerformed)
     }
 
     func test_OnFetchTextEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        subscribeToViewStateUpdates()
 
         await sut.fetchTextEntries()
 
         XCTAssertEqual(sut.textEntries, TestData.textEntryArray)
-        XCTAssertEqual(sut.viewState, .fetchedTextEntries)
+        await fulfillment(of: [fetchingTextEntriesExpectation, fetchedTextEntriesExpectation], timeout: 3)
+    }
+    
+    func test_OnFetchTextEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        subscribeToViewStateUpdates()
+        
+        await sut.fetchTextEntries(performEntryQuery: false)
+        
+        XCTAssertTrue(sut.textEntries.isEmpty)
+        XCTAssertTrue(sut.textEntriesQueryPerformed)
+        await fulfillment(of: [noTextEntriesFoundExpectation])
     }
 
     func test_OnFetchTextEntriesUnsuccessfully_ErrorIsThrown() async {
@@ -83,6 +107,15 @@ final class EntriesViewModelUnitTests: XCTestCase {
             ],
             timeout: 3
         )
+    }
+    
+    func test_OnFetchVideoEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        subscribeToViewStateUpdates()
+        
+        await sut.fetchVideoEntries(performEntryQuery: false)
+        
+        await fulfillment(of: [noVideoEntriesFoundExpectation], timeout: 3)
     }
     
     func test_OnFetchVideoEntriesUnsuccessfully_ErrorViewStateIsSet() async {
@@ -127,10 +160,14 @@ final class EntriesViewModelUnitTests: XCTestCase {
                     self.fetchingTextEntriesExpectation.fulfill()
                 case .fetchedTextEntries:
                     self.fetchedTextEntriesExpectation.fulfill()
+                case .noTextEntriesFound:
+                    self.noTextEntriesFoundExpectation.fulfill()
                 case .fetchingVideoEntries:
                     self.fetchingVideoEntriesExpectation.fulfill()
                 case .fetchedVideoEntries:
                     self.fetchedVideoEntriesExpectation.fulfill()
+                case .noVideoEntriesFound:
+                    self.noVideoEntriesFoundExpectation.fulfill()
                 default:
                     break
                 }
