@@ -131,10 +131,12 @@ class GoalsView: UIView, MainView {
             completeGoalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             completeGoalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
+            noGoalsFoundView.topAnchor.constraint(greaterThanOrEqualTo: goalTypeSelectorStack.bottomAnchor, constant: 12),
+            noGoalsFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            noGoalsFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
             noGoalsFoundView.centerXAnchor.constraint(equalTo: centerXAnchor),
             noGoalsFoundView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
             noGoalsFoundView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
-            noGoalsFoundView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

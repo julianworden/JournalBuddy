@@ -58,7 +58,7 @@ class EntriesView: UIView, MainView {
         backgroundColor = .background
         entryTypeStack.spacing = 12
         if UIApplication.shared.preferredContentSizeCategory > .accessibilityLarge {
-            entryTypeStack.axis = .horizontal
+            entryTypeStack.axis = .vertical
         }
         entryTypeStack.isHidden = true
 
@@ -141,10 +141,12 @@ class EntriesView: UIView, MainView {
             entryTypeStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
             entryTypeStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
             
-            noEntriesFoundView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noEntriesFoundView.topAnchor.constraint(greaterThanOrEqualTo: entryTypeStack.bottomAnchor, constant: 12),
+            noEntriesFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            noEntriesFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
             noEntriesFoundView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
             noEntriesFoundView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
-            noEntriesFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            noEntriesFoundView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             textEntryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
             textEntryButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 75),
