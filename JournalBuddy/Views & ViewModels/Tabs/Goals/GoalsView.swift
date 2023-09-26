@@ -23,6 +23,10 @@ class GoalsView: UIView, MainView {
     private lazy var incompleteButton = PrimaryButton(title: "Incomplete")
     private lazy var completeGoalsTableView = MainTableView()
     private lazy var incompleteGoalsTableView = MainTableView()
+    private lazy var noGoalsFoundView = NoContentFoundView(
+        title: "No Goals Found",
+        message: "You can use the plus button to create a goal."
+    )
 
     private lazy var completeGoalsTableViewDataSource = CompleteGoalsTableViewDataSource(
         viewModel: viewModel,
@@ -53,6 +57,10 @@ class GoalsView: UIView, MainView {
     }
     
     func configure() {
+        backgroundColor = .background
+        
+        noGoalsFoundView.isHidden = true
+        
         goalTypeSelectorStack.spacing = 12
         if UIApplication.shared.preferredContentSizeCategory >= .accessibilityExtraLarge {
             goalTypeSelectorStack.axis = .vertical
@@ -85,25 +93,8 @@ class GoalsView: UIView, MainView {
     }
     
     func subscribeToPublishers() {
-        viewModel.$viewState
-            .sink { [weak self] viewState in
-                switch viewState {
-                case .fetchingGoals:
-                    self?.configureFetchingGoalsUI()
-                case .fetchedGoals:
-                    self?.configureFetchedGoalsUI()
-                default:
-                    break
-                }
-            }
-            .store(in: &cancellables)
-        
-        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
-            .sink { [weak self] notification in
-                let newContentSizeCategory = notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as! UIContentSizeCategory
-                self?.adjustLayoutForNewPreferredContentSizeCategory(newContentSizeCategory)
-            }
-            .store(in: &cancellables)
+        subscribeToViewStateUpdates()
+        subscribeToDynamicTypeChangeUpdates()
     }
     
     func constrain() {
@@ -111,7 +102,8 @@ class GoalsView: UIView, MainView {
             fetchingGoalsActivityIndicator,
             goalTypeSelectorStack,
             incompleteGoalsTableView,
-            completeGoalsTableView
+            completeGoalsTableView,
+            noGoalsFoundView
         )
 
         NSLayoutConstraint.activate([
@@ -137,25 +129,138 @@ class GoalsView: UIView, MainView {
             completeGoalsTableView.topAnchor.constraint(equalTo: goalTypeSelectorStack.bottomAnchor, constant: 5),
             completeGoalsTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             completeGoalsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            completeGoalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            completeGoalsTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            noGoalsFoundView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noGoalsFoundView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
+            noGoalsFoundView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            noGoalsFoundView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
-    func configureFetchingGoalsUI() {
-        backgroundColor = .background
-        
+    func subscribeToViewStateUpdates() {
+        viewModel.$viewState
+            .sink { [weak self] viewState in
+                switch viewState {
+                case .fetchingGoals:
+                    self?.presentFetchingGoalsUI()
+                case .fetchedGoals:
+                    self?.presentFetchedGoalsUI()
+                case .noGoalsFound:
+                    self?.presentNoGoalsFoundUI()
+                case .noCompleteGoalsFound:
+                    if self?.viewModel.currentlyDisplayingGoalType == .complete {
+                        self?.presentNoCompleteGoalsFoundUI()
+                    } else {
+                        self?.presentIncompleteGoalsUI()
+                    }
+                case .noIncompleteGoalsFound:
+                    if self?.viewModel.currentlyDisplayingGoalType == .incomplete {
+                        self?.presentNoIncompleteGoalsFoundUI()
+                    } else {
+                        self?.presentCompleteGoalsUI()
+                    }
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToDynamicTypeChangeUpdates() {
+        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
+            .sink { [weak self] notification in
+                let newContentSizeCategory = notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as! UIContentSizeCategory
+                self?.adjustLayoutForNewPreferredContentSizeCategory(newContentSizeCategory)
+            }
+            .store(in: &cancellables)
+    }
+    
+    /// Presents UI elements to show the user that goals are being fetched.
+    func presentFetchingGoalsUI() {
         goalTypeSelectorStack.isHidden = true
         completeGoalsTableView.isHidden = true
         incompleteGoalsTableView.isHidden = true
+        noGoalsFoundView.isHidden = true
         
         fetchingGoalsActivityIndicator.hidesWhenStopped = true
         fetchingGoalsActivityIndicator.startAnimating()
         fetchingGoalsActivityIndicator.color = .primaryElement
     }
     
-    func configureFetchedGoalsUI() {
+    /// Called when both incomplete goals and complete goals have been found.
+    func presentFetchedGoalsUI() {
+        goalTypeSelectorStack.isHidden = false
+        fetchingGoalsActivityIndicator.stopAnimating()
+        
+        if viewModel.currentlyDisplayingGoalType == .incomplete {
+            if viewModel.incompleteGoals.isEmpty {
+                presentNoIncompleteGoalsFoundUI()
+            } else {
+                presentIncompleteGoalsUI()
+            }
+        } else if viewModel.currentlyDisplayingGoalType == .complete {
+            if viewModel.completeGoals.isEmpty {
+                presentNoCompleteGoalsFoundUI()
+            } else {
+                presentCompleteGoalsUI()
+            }
+        }
+    }
+    
+    /// Presents the user's complete goals.
+    func presentCompleteGoalsUI() {
+        fetchingGoalsActivityIndicator.stopAnimating()
+        goalTypeSelectorStack.isHidden = false
+        incompleteGoalsTableView.isHidden = true
+        completeGoalsTableView.isHidden = false
+        noGoalsFoundView.isHidden = true
+        goalTypeSelectorStack.isHidden = false
+    }
+    
+    /// Presents the user's incomplete goals.
+    func presentIncompleteGoalsUI() {
+        fetchingGoalsActivityIndicator.stopAnimating()
         goalTypeSelectorStack.isHidden = false
         incompleteGoalsTableView.isHidden = false
+        completeGoalsTableView.isHidden = true
+        noGoalsFoundView.isHidden = true
+        goalTypeSelectorStack.isHidden = false
+    }
+    
+    /// Shows the user that no incomplete goals have been found. This method is only called when
+    /// complete goals have been found. Otherwise, `presentNoGoalsFoundUI` should be called.
+    func presentNoIncompleteGoalsFoundUI() {
+        fetchingGoalsActivityIndicator.stopAnimating()
+        noGoalsFoundView.updateTitle(to: "No Incomplete Goals Found")
+        noGoalsFoundView.updateSubtitle(to: "You can use the plus button to create a goal.")
+        noGoalsFoundView.isHidden = false
+        completeGoalsTableView.isHidden = true
+        incompleteGoalsTableView.isHidden = true
+        goalTypeSelectorStack.isHidden = false
+    }
+    
+    /// Shows the user that no complete goals have been found. This method is only called when
+    /// incomplete goals have been found. Otherwise, `presentNoGoalsFoundUI` should be called.
+    func presentNoCompleteGoalsFoundUI() {
+        fetchingGoalsActivityIndicator.stopAnimating()
+        noGoalsFoundView.updateTitle(to: "No Complete Goals Found")
+        noGoalsFoundView.updateSubtitle(to: "When you complete goals, they will appear here.")
+        noGoalsFoundView.isHidden = false
+        completeGoalsTableView.isHidden = true
+        incompleteGoalsTableView.isHidden = true
+        goalTypeSelectorStack.isHidden = false
+    }
+    
+    /// Shows the user that no complete or incomplete goals have been found.
+    func presentNoGoalsFoundUI() {
+        fetchingGoalsActivityIndicator.stopAnimating()
+        noGoalsFoundView.updateTitle(to: "No Goals Found")
+        noGoalsFoundView.updateSubtitle(to: "You can use the plus button to create a goal.")
+        completeGoalsTableView.isHidden = true
+        incompleteGoalsTableView.isHidden = true
+        noGoalsFoundView.isHidden = false
+        goalTypeSelectorStack.isHidden = true
     }
     
     func adjustLayoutForNewPreferredContentSizeCategory(_ newContentSizeCategory: UIContentSizeCategory) {
@@ -168,24 +273,46 @@ class GoalsView: UIView, MainView {
     
     @objc func incompleteButtonTapped() {
         if viewModel.currentlyDisplayingGoalType == .complete {
-            completeGoalsTableView.isHidden = true
-            incompleteGoalsTableView.isHidden = false
-            viewModel.currentlyDisplayingGoalType = .incomplete
-            completeButton.backgroundColor = .disabled
-            incompleteButton.backgroundColor = .primaryElement
-            incompleteGoalsTableViewDataSource.updateDataSource(with: viewModel.incompleteGoals)
+            Task {
+                completeGoalsTableView.isHidden = true
+                incompleteGoalsTableView.isHidden = false
+                viewModel.currentlyDisplayingGoalType = .incomplete
+                completeButton.backgroundColor = .disabled
+                incompleteButton.backgroundColor = .primaryElement
+                
+                if !viewModel.goalsQueryWasPerformed {
+                    await viewModel.fetchGoals()
+                } else if viewModel.viewState == .noIncompleteGoalsFound {
+                    presentNoIncompleteGoalsFoundUI()
+                } else if viewModel.viewState == .noGoalsFound {
+                    presentNoGoalsFoundUI()
+                } else if !viewModel.incompleteGoals.isEmpty {
+                    presentIncompleteGoalsUI()
+                }
+            }
         }
     }
     
     @objc func completeButtonTapped() {
         if viewModel.currentlyDisplayingGoalType == .incomplete {
-            UINotificationFeedbackGenerator().prepare()
-            completeGoalsTableView.isHidden = false
-            incompleteGoalsTableView.isHidden = true
-            viewModel.currentlyDisplayingGoalType = .complete
-            incompleteButton.backgroundColor = .disabled
-            completeButton.backgroundColor = .primaryElement
-            completeGoalsTableViewDataSource.updateDataSource(with: viewModel.completeGoals)
+            Task {
+                UINotificationFeedbackGenerator().prepare()
+                completeGoalsTableView.isHidden = false
+                incompleteGoalsTableView.isHidden = true
+                viewModel.currentlyDisplayingGoalType = .complete
+                incompleteButton.backgroundColor = .disabled
+                completeButton.backgroundColor = .primaryElement
+                
+                if !viewModel.goalsQueryWasPerformed {
+                    await viewModel.fetchGoals()
+                } else if viewModel.viewState == .noCompleteGoalsFound {
+                    presentNoCompleteGoalsFoundUI()
+                } else if viewModel.viewState == .noGoalsFound {
+                    presentNoGoalsFoundUI()
+                } else if viewModel.viewState == .noIncompleteGoalsFound {
+                    presentCompleteGoalsUI()
+                }
+            }
         }
     }
 }

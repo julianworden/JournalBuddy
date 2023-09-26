@@ -754,10 +754,10 @@
 			children = (
 				AB8E9B7D2A89126300A99C3A /* GoalsViewController.swift */,
 				AB8E9B852A89172400A99C3A /* GoalsView.swift */,
-				AB258EB12AB88B5F00F8BBA3 /* GoalsViewDelegate.swift */,
 				AB8E9B7F2A89127F00A99C3A /* GoalsViewModel.swift */,
 				AB8E9B812A89129A00A99C3A /* GoalsViewState.swift */,
 				AB8E9B832A8912B700A99C3A /* GoalsCoordinator.swift */,
+				AB258EB12AB88B5F00F8BBA3 /* GoalsViewDelegate.swift */,
 				AB258EA32AB8780800F8BBA3 /* GoalsTableView */,
 				AB258EA82AB887BF00F8BBA3 /* AddEditGoal */,
 			);

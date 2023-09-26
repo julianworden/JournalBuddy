@@ -7,6 +7,8 @@
 
 import UIKit
 
+#warning("Improve Dynamic Type Support")
+
 class NoContentFoundView: UIView {
     private lazy var contentStack = UIStackView(arrangedSubviews: [imageView, titleLabel, messageLabel])
     private lazy var imageView = UIImageView()
@@ -19,7 +21,7 @@ class NoContentFoundView: UIView {
             withConfiguration: .primaryElementColor
         )!.applyingSymbolConfiguration(
             UIImage.SymbolConfiguration(
-                textStyle: .title3
+                textStyle: .title2
             )
         )!,
         title: String,
@@ -32,6 +34,7 @@ class NoContentFoundView: UIView {
         messageLabel.text = message
         
         configure()
+        makeAccessible()
         constrain()
     }
     
@@ -56,6 +59,12 @@ class NoContentFoundView: UIView {
         messageLabel.numberOfLines = 0
     }
     
+    func makeAccessible() {
+        titleLabel.adjustsFontForContentSizeCategory = true
+        messageLabel.adjustsFontForContentSizeCategory = true
+        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
+    }
+    
     func constrain() {
         addConstrainedSubview(contentStack)
         
@@ -63,9 +72,7 @@ class NoContentFoundView: UIView {
             contentStack.topAnchor.constraint(equalTo: topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             contentStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            imageView.heightAnchor.constraint(equalToConstant: 50)
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
     

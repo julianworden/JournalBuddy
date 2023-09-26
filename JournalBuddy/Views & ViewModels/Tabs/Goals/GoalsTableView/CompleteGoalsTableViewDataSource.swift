@@ -36,9 +36,7 @@ final class CompleteGoalsTableViewDataSource: UITableViewDiffableDataSource<Comp
     func subscribeToPublishers() {
         viewModel.$completeGoals
             .sink { [weak self] completeGoals in
-                if self?.viewModel.currentlyDisplayingGoalType == .complete {
-                    self?.updateDataSource(with: completeGoals)
-                }
+                self?.updateDataSource(with: completeGoals)
             }
             .store(in: &cancellables)
     }

@@ -42,8 +42,10 @@ class GoalsViewController: UIViewController, MainViewController {
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        Task {
-            await viewModel.fetchGoals()
+        if !viewModel.goalsQueryWasPerformed {
+            Task {
+                await viewModel.fetchGoals()
+            }
         }
     }
     
@@ -51,12 +53,13 @@ class GoalsViewController: UIViewController, MainViewController {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchedGoals:
-                    self?.configureFetchedGoalsUI()
+                case .fetchingGoals:
+                    break
                 case .error(let message):
+                    self?.presentCreateGoalButton()
                     self?.showError(message)
                 default:
-                    break
+                    self?.presentCreateGoalButton()
                 }
             }
             .store(in: &cancellables)
@@ -72,7 +75,7 @@ class GoalsViewController: UIViewController, MainViewController {
         UINotificationFeedbackGenerator().prepare()
     }
     
-    func configureFetchedGoalsUI() {
+    func presentCreateGoalButton() {
         navigationItem.rightBarButtonItem = createGoalButton
     }
     
