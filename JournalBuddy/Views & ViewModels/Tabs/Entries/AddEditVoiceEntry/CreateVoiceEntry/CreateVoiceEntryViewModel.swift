@@ -71,6 +71,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
                     return
                 }
                 
+                #warning("Get rid of this set up, it's already been set up in AppDelegate.")
                 try self.audioSession.setCategory(.playAndRecord)
                 try self.audioSession.setActive(true)
                 try self.audioSession.overrideOutputAudioPort(.speaker)

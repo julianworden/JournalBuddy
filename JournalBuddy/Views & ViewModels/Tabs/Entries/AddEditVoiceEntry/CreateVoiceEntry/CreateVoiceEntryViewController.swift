@@ -11,11 +11,11 @@ import UIKit
 class CreateVoiceEntryViewController: UIViewController, MainViewController {
     private lazy var backButton = BackButton(configuration: .back)
     
-    weak var coordinator: CreateVoiceEntryCoordinator?
+    weak var coordinator: VoiceEntryCoordinator?
     var viewModel: CreateVoiceEntryViewModel
     var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: CreateVoiceEntryCoordinator?, viewModel: CreateVoiceEntryViewModel) {
+    init(coordinator: VoiceEntryCoordinator?, viewModel: CreateVoiceEntryViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel
         
@@ -86,7 +86,7 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
     
     @objc func backButtonTapped() {
         if viewModel.voiceEntryHasBeenRecorded {
-            coordinator?.presentCreateViewEntryViewControllerDismissConfirmation()
+            coordinator?.presentCreateVoiceEntryViewControllerDismissConfirmation()
         } else {
             coordinator?.dismissCreateVoiceEntryViewController()
         }

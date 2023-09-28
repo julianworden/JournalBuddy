@@ -112,16 +112,31 @@ final class EntriesCoordinator: NSObject, Coordinator {
     // MARK: - VoiceEntry
     
     func presentCreateVoiceEntryViewController() {
-        let createVoiceEntryCoordinator = CreateVoiceEntryCoordinator(
+        let voiceEntryCoordinator = VoiceEntryCoordinator(
             parentCoordinator: self,
             databaseService: databaseService,
             authService: authService,
             navigationController: navigationController,
-            currentUser: currentUser
+            currentUser: currentUser,
+            viewPurpose: .create
         )
         
-        childCoordinators.append(createVoiceEntryCoordinator)
-        createVoiceEntryCoordinator.start()
+        childCoordinators.append(voiceEntryCoordinator)
+        voiceEntryCoordinator.start()
+    }
+    
+    func presentListenToVoiceEntryViewController(for voiceEntry: VoiceEntry) {
+        let voiceEntryCoordinator = VoiceEntryCoordinator(
+            parentCoordinator: self,
+            databaseService: databaseService,
+            authService: authService,
+            navigationController: navigationController,
+            currentUser: currentUser,
+            viewPurpose: .listen(to: voiceEntry)
+        )
+        
+        childCoordinators.append(voiceEntryCoordinator)
+        voiceEntryCoordinator.start()
     }
 }
 

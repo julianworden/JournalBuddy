@@ -76,14 +76,15 @@ class EntriesViewController: UIViewController, MainViewController {
 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
 
+        #warning("only call these methods if they've never been called since the app has initialized the view controller")
         Task {
             switch viewModel.selectedEntryType {
             case .text:
                 await viewModel.fetchTextEntries()
             case .video:
                 await viewModel.fetchVideoEntries()
-            default:
-                break
+            case .voice:
+                await viewModel.fetchVoiceEntries()
             }
         }
     }
@@ -197,5 +198,9 @@ extension EntriesViewController: EntriesViewDelegate {
     
     func entriesViewDidSelectVideoEntry(_ entry: VideoEntry) {
         coordinator?.presentWatchVideoEntryViewController(withVideoEntry: entry)
+    }
+    
+    func entriesViewDidSelectVoiceEntry(_ entry: VoiceEntry) {
+        coordinator?.presentListenToVoiceEntryViewController(for: entry)
     }
 }

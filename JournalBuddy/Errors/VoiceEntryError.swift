@@ -17,6 +17,8 @@ enum VoiceEntryError: LocalizedError {
     case failedToFetchDownloadURL
     case uploadingFailed
     case insufficientPermissions
+    case noURLFound
+    case failedToFetchAudio
     
     var errorDescription: String? {
         switch self {
@@ -38,6 +40,10 @@ enum VoiceEntryError: LocalizedError {
             return "We were unable to upload your voice entry. Please try again."
         case .insufficientPermissions:
             return "We do not have permission to access the file you selected. Please try again."
+        case .noURLFound:
+            return "Failed to determine the URL for your voice entry. Please try again."
+        case .failedToFetchAudio:
+            return "Failed to fetch voice entry's audio. Please check your internet connection and try again."
         }
     }
 }

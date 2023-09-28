@@ -15,5 +15,8 @@ enum EntriesViewState: ViewState {
     case fetchingVideoEntries
     case fetchedVideoEntries
     case noVideoEntriesFound
+    case fetchingVoiceEntries
+    case fetchedVoiceEntries
+    case noVoiceEntriesFound
     case error(message: String)
 }

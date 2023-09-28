@@ -8,4 +8,5 @@
 protocol EntriesViewDelegate: AnyObject {
     func entriesViewDidSelectTextEntry(_ entry: TextEntry)
     func entriesViewDidSelectVideoEntry(_ entry: VideoEntry)
+    func entriesViewDidSelectVoiceEntry(_ entry: VoiceEntry)
 }

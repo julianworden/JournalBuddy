@@ -63,6 +63,8 @@ class VideoPlayerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    #warning("Activate audio session when play button is tapped")
+    
     func configure() {
         timelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
         timelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)

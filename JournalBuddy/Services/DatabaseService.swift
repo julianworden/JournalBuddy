@@ -61,8 +61,8 @@ final class DatabaseService: DatabaseServiceProtocol {
                 return try await fetchTextEntries(forUID: uid) as! [T]
             case .video:
                 return try await fetchVideoEntries(forUID: uid) as! [T]
-            default:
-                fatalError("No other types of entries have been implemented yet.")
+            case .voice:
+                return try await fetchVoiceEntries(forUID: uid) as! [T]
             }
         } catch {
             print(error.emojiMessage)
@@ -122,6 +122,8 @@ final class DatabaseService: DatabaseServiceProtocol {
             switch entry.type {
             case .video:
                 try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
+            case .voice:
+                try await deleteVoiceEntryFromFBStorage(entry as! VoiceEntry)
             default:
                 break
             }
@@ -133,7 +135,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - TextEntry
 
-    func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
+    private func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
         do {
             let query = try await usersCollection
                 .document(uid)
@@ -226,6 +228,21 @@ final class DatabaseService: DatabaseServiceProtocol {
     }
     
     // MARK: - VoiceEntry
+    
+    func fetchVoiceEntries(forUID uid: String) async throws -> [VoiceEntry] {
+        do {
+            let query = try await usersCollection
+                .document(uid)
+                .collection(FBConstants.entries)
+                .whereField(FBConstants.type, isEqualTo: EntryType.voice.rawValue)
+                .getDocuments()
+
+            return try query.documents.map { try $0.data(as: VoiceEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
     
     private func saveVoiceEntry(_ voiceEntry: VoiceEntry, at url: URL) async throws -> VoiceEntry {
         let voiceEntryDownloadURL = try await uploadVoiceEntryToFBStorage(upload: voiceEntry, at: url)
@@ -434,6 +451,17 @@ final class DatabaseService: DatabaseServiceProtocol {
             
             try await videoEntryReference.delete()
             try await videoEntryThumbnailReference.delete()
+        } catch {
+            print(error.emojiMessage)
+            throw FBStorageError.deleteDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    private func deleteVoiceEntryFromFBStorage(_ voiceEntry: VoiceEntry) async throws {
+        do {
+            let voiceEntryReference = storage.reference(forURL: voiceEntry.downloadURL)
+            
+            try await voiceEntryReference.delete()
         } catch {
             print(error.emojiMessage)
             throw FBStorageError.deleteDataFailed(systemError: error.localizedDescription)

@@ -9,6 +9,11 @@ import Combine
 import UIKit
 
 class EntriesView: UIView, MainView {
+    enum CollectionViewType: Int {
+        case video = 0
+        case voice
+    }
+    
     private lazy var entryTypeStack = UIStackView(
         arrangedSubviews: [
             textEntryButton,
@@ -24,10 +29,21 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         tableView: textEntryTableView
     )
-    private lazy var videoEntryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private lazy var videoEntryCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
     private lazy var videoEntryCollectionViewDataSource = VideoEntryCollectionViewDataSource(
         viewModel: viewModel,
         collectionView: videoEntryCollectionView
+    )
+    private lazy var voiceEntryCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
+    private lazy var voiceEntryCollectionViewDataSource = VoiceEntryCollectionViewDataSource(
+        collectionView: voiceEntryCollectionView,
+        viewModel: viewModel
     )
     private lazy var noEntriesFoundView = NoContentFoundView(
         title: "No Text Entries Found",
@@ -90,13 +106,22 @@ class EntriesView: UIView, MainView {
         videoEntryCollectionView.showsVerticalScrollIndicator = false
         videoEntryCollectionView.dataSource = videoEntryCollectionViewDataSource
         videoEntryCollectionView.delegate = self
+        videoEntryCollectionView.tag = CollectionViewType.video.rawValue
+        
+        voiceEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.backgroundColor = .background
+        voiceEntryCollectionView.showsVerticalScrollIndicator = false
+        voiceEntryCollectionView.dataSource = voiceEntryCollectionViewDataSource
+        voiceEntryCollectionView.delegate = self
+        voiceEntryCollectionView.tag = CollectionViewType.voice.rawValue
+
     }
 
     func subscribeToPublishers() {
         viewModel.$viewState
             .sink { [weak self] viewState in
                 switch viewState {
-                case .fetchingTextEntries, .fetchingVideoEntries:
+                case .fetchingTextEntries, .fetchingVideoEntries, .fetchingVoiceEntries:
                     self?.presentLoadingUI()
                 case .fetchedTextEntries:
                     self?.presentFetchedTextEntriesUI()
@@ -106,6 +131,10 @@ class EntriesView: UIView, MainView {
                     self?.presentFetchedVideoEntriesUI()
                 case .noVideoEntriesFound:
                     self?.presentNoVideoEntriesFoundUI()
+                case .fetchedVoiceEntries:
+                    self?.presentFetchedVoiceEntriesUI()
+                case .noVoiceEntriesFound:
+                    self?.presentNoVoiceEntriesFoundUI()
                 default:
                     break
                 }
@@ -132,7 +161,8 @@ class EntriesView: UIView, MainView {
             entryTypeStack,
             noEntriesFoundView,
             textEntryTableView,
-            videoEntryCollectionView
+            videoEntryCollectionView,
+            voiceEntryCollectionView
         )
 
         NSLayoutConstraint.activate([
@@ -140,6 +170,9 @@ class EntriesView: UIView, MainView {
             entryTypeStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             entryTypeStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15),
             entryTypeStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -15),
+            
+            fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             noEntriesFoundView.topAnchor.constraint(greaterThanOrEqualTo: entryTypeStack.bottomAnchor, constant: 12),
             noEntriesFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
@@ -166,15 +199,18 @@ class EntriesView: UIView, MainView {
             videoEntryCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             videoEntryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             videoEntryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-
-            fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor)
+            
+            voiceEntryCollectionView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor, constant: 15),
+            voiceEntryCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            voiceEntryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            voiceEntryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
     }
     
     func presentLoadingUI() {
         textEntryTableView.isHidden = true
         videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = true
         noEntriesFoundView.isHidden = true
         fetchingEntriesActivityIndicator.isHidden = false
         fetchingEntriesActivityIndicator.startAnimating()
@@ -185,6 +221,7 @@ class EntriesView: UIView, MainView {
         entryTypeStack.isHidden = false
         textEntryTableView.isHidden = false
         videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = true
     }
     
     func presentNoTextEntriesFoundUI() {
@@ -192,6 +229,7 @@ class EntriesView: UIView, MainView {
         entryTypeStack.isHidden = false
         textEntryTableView.isHidden = true
         videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = true
         noEntriesFoundView.updateTitle(to: "No Text Entries Found")
         noEntriesFoundView.updateSubtitle(to: "You can use the plus button to create a new text entry.")
         noEntriesFoundView.isHidden = false
@@ -201,14 +239,34 @@ class EntriesView: UIView, MainView {
         fetchingEntriesActivityIndicator.stopAnimating()
         textEntryTableView.isHidden = true
         videoEntryCollectionView.isHidden = false
+        voiceEntryCollectionView.isHidden = true
     }
     
     func presentNoVideoEntriesFoundUI() {
         fetchingEntriesActivityIndicator.stopAnimating()
         textEntryTableView.isHidden = true
         videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = true
         noEntriesFoundView.updateTitle(to: "No Video Entries Found")
         noEntriesFoundView.updateSubtitle(to: "You can use the plus button to create a video entry.")
+        noEntriesFoundView.isHidden = false
+    }
+    
+    func presentFetchedVoiceEntriesUI () {
+        fetchingEntriesActivityIndicator.stopAnimating()
+        textEntryTableView.isHidden = true
+        videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = false
+        noEntriesFoundView.isHidden = true
+    }
+    
+    func presentNoVoiceEntriesFoundUI() {
+        fetchingEntriesActivityIndicator.stopAnimating()
+        textEntryTableView.isHidden = true
+        videoEntryCollectionView.isHidden = true
+        voiceEntryCollectionView.isHidden = true
+        noEntriesFoundView.updateTitle(to: "No Voice Entries Found")
+        noEntriesFoundView.updateSubtitle(to: "You can use the plus button to create a voice entry.")
         noEntriesFoundView.isHidden = false
     }
     
@@ -252,10 +310,20 @@ class EntriesView: UIView, MainView {
     
     @objc func voiceEntryButtonTapped() {
         if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.voice {
-            textEntryButton.backgroundColor = .disabled
-            videoEntryButton.backgroundColor = .disabled
-            voiceEntryButton.backgroundColor = .primaryElement
-            viewModel.selectedEntryType = .voice
+            Task {
+                textEntryButton.backgroundColor = .disabled
+                videoEntryButton.backgroundColor = .disabled
+                voiceEntryButton.backgroundColor = .primaryElement
+                viewModel.selectedEntryType = .voice
+                
+                if !viewModel.voiceEntriesQueryPerformed {
+                    await viewModel.fetchVoiceEntries()
+                } else if viewModel.voiceEntries.isEmpty {
+                    presentNoVoiceEntriesFoundUI()
+                } else if !viewModel.voiceEntries.isEmpty {
+                    presentFetchedVoiceEntriesUI()
+                }
+            }
         }
     }
 }
@@ -279,11 +347,27 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width / 3) - 10, height: 192)
+        switch collectionView.tag {
+        case CollectionViewType.video.rawValue:
+            return CGSize(width: (collectionView.bounds.width / 3) - 10, height: 192)
+        case CollectionViewType.voice.rawValue:
+            return CGSize(width: (collectionView.bounds.width / 3) - 10, height: 100)
+        default:
+            print("❌ Unknown collection view tag sent to delegate method.")
+            return .zero
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedVideoEntry = viewModel.videoEntries[indexPath.item]
-        delegate?.entriesViewDidSelectVideoEntry(selectedVideoEntry)
+        switch collectionView.tag {
+        case CollectionViewType.video.rawValue:
+            let selectedVideoEntry = viewModel.videoEntries[indexPath.item]
+            delegate?.entriesViewDidSelectVideoEntry(selectedVideoEntry)
+        case CollectionViewType.voice.rawValue:
+            let selectedVoiceEntry = viewModel.voiceEntries[indexPath.item]
+            delegate?.entriesViewDidSelectVoiceEntry(selectedVoiceEntry)
+        default:
+            print("❌ Unknown collection view tag sent to delegate method.")
+        }
     }
 }

@@ -17,6 +17,7 @@ class AsyncImageView: UIImageView {
             do {
                 presentActivityIndicator()
                 
+                #warning("put this label in the cell instead")
                 dateLabel.text = videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
                 dateLabel.font = UIFontMetrics.avenirNextBoldFootnote
                 

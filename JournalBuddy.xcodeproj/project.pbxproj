@@ -11,7 +11,7 @@
 		AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */; };
 		AB07D2E02AB1F19F00927D6C /* CreateVoiceEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */; };
 		AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */; };
-		AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */; };
+		AB07D2E42AB1F1D100927D6C /* VoiceEntryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E32AB1F1D100927D6C /* VoiceEntryCoordinator.swift */; };
 		AB07D2E62AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */; };
 		AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */; };
 		AB07D2EA2AB1FE7000927D6C /* VoiceEntryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */; };
@@ -63,6 +63,7 @@
 		AB413EB02A96B77300916054 /* UploadVideoEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EAF2A96B77300916054 /* UploadVideoEntryViewModel.swift */; };
 		AB413EB22A96B7C000916054 /* UploadVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EB12A96B7C000916054 /* UploadVideoEntryViewState.swift */; };
 		AB42A13D2A8D78DC0040430E /* HomeActivityOverviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */; };
+		AB4B81502AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4B814F2AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift */; };
 		AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */; };
 		AB56A4632A979BB000DA2875 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */; };
 		AB58B8F32AA7DC2800FAA4D7 /* VideoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */; };
@@ -96,6 +97,11 @@
 		AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7677352A6C64AB0050149E /* FBConstants.swift */; };
 		AB7677702A6C6C9E0050149E /* DatabaseServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */; };
 		AB7688BF2AB672A400EFC56B /* ProgressViewStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7688BE2AB672A400EFC56B /* ProgressViewStack.swift */; };
+		AB7B98772AC4698600AB32F3 /* ListenToVoiceEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7B98762AC4698600AB32F3 /* ListenToVoiceEntryViewController.swift */; };
+		AB7B98792AC4698F00AB32F3 /* ListenToVoiceEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7B98782AC4698F00AB32F3 /* ListenToVoiceEntryView.swift */; };
+		AB7B987B2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7B987A2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift */; };
+		AB7B987D2AC469CD00AB32F3 /* ListenToVoiceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7B987C2AC469CD00AB32F3 /* ListenToVoiceEntryViewModel.swift */; };
+		AB7B987F2AC46C7300AB32F3 /* VoiceEntryViewPurpose.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7B987E2AC46C7300AB32F3 /* VoiceEntryViewPurpose.swift */; };
 		AB7CC9132A643C9C0054B1A4 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */; };
 		AB7CC9162A643D310054B1A4 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */; };
 		AB7CC9182A64463E0054B1A4 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */; };
@@ -156,6 +162,8 @@
 		ABB348482A6AD2610050A9AC /* HomeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */; };
 		ABB4B9672A635EAD00E63018 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9662A635EAD00E63018 /* LoginViewController.swift */; };
 		ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */; };
+		ABB6F3702AC3CF340081EE3B /* VoiceEntryCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB6F36F2AC3CF340081EE3B /* VoiceEntryCollectionViewDataSource.swift */; };
+		ABB6F3722AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB6F3712AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift */; };
 		ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
 		ABCE87292AC09790005F7DE2 /* WatchVideoEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */; };
@@ -199,7 +207,7 @@
 		AB07B62A2A696B8A0096BE25 /* FBAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBAuthError.swift; sourceTree = "<group>"; };
 		AB07D2DF2AB1F19F00927D6C /* CreateVoiceEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewController.swift; sourceTree = "<group>"; };
 		AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryView.swift; sourceTree = "<group>"; };
-		AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryCoordinator.swift; sourceTree = "<group>"; };
+		AB07D2E32AB1F1D100927D6C /* VoiceEntryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryCoordinator.swift; sourceTree = "<group>"; };
 		AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewModel.swift; sourceTree = "<group>"; };
 		AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVoiceEntryViewState.swift; sourceTree = "<group>"; };
 		AB07D2E92AB1FE7000927D6C /* VoiceEntryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryError.swift; sourceTree = "<group>"; };
@@ -254,6 +262,7 @@
 		AB413EAF2A96B77300916054 /* UploadVideoEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoEntryViewModel.swift; sourceTree = "<group>"; };
 		AB413EB12A96B7C000916054 /* UploadVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoEntryViewState.swift; sourceTree = "<group>"; };
 		AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityOverviewSection.swift; sourceTree = "<group>"; };
+		AB4B814F2AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEntry.swift; sourceTree = "<group>"; };
@@ -280,6 +289,11 @@
 		AB7677352A6C64AB0050149E /* FBConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBConstants.swift; sourceTree = "<group>"; };
 		AB76776F2A6C6C9E0050149E /* DatabaseServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseServiceProtocol.swift; sourceTree = "<group>"; };
 		AB7688BE2AB672A400EFC56B /* ProgressViewStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewStack.swift; sourceTree = "<group>"; };
+		AB7B98762AC4698600AB32F3 /* ListenToVoiceEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryViewController.swift; sourceTree = "<group>"; };
+		AB7B98782AC4698F00AB32F3 /* ListenToVoiceEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryView.swift; sourceTree = "<group>"; };
+		AB7B987A2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryViewState.swift; sourceTree = "<group>"; };
+		AB7B987C2AC469CD00AB32F3 /* ListenToVoiceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryViewModel.swift; sourceTree = "<group>"; };
+		AB7B987E2AC46C7300AB32F3 /* VoiceEntryViewPurpose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryViewPurpose.swift; sourceTree = "<group>"; };
 		AB7CC9122A643C9C0054B1A4 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		AB7CC9152A643D310054B1A4 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		AB7CC9172A64463E0054B1A4 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
@@ -341,6 +355,8 @@
 		ABB348472A6AD2610050A9AC /* HomeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewDelegate.swift; sourceTree = "<group>"; };
 		ABB4B9662A635EAD00E63018 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		ABB4B9682A635EBA00E63018 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		ABB6F36F2AC3CF340081EE3B /* VoiceEntryCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		ABB6F3712AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+back.swift"; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
 		ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewController.swift; sourceTree = "<group>"; };
@@ -401,7 +417,6 @@
 				AB07D2E12AB1F1B900927D6C /* CreateVoiceEntryView.swift */,
 				AB07D2E52AB1F1DB00927D6C /* CreateVoiceEntryViewModel.swift */,
 				AB07D2E72AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift */,
-				AB07D2E32AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift */,
 			);
 			path = CreateVoiceEntry;
 			sourceTree = "<group>";
@@ -641,8 +656,9 @@
 				AB948B5E2A6D7D9800430E61 /* AddEditTextEntryViewModelUnitTests.swift */,
 				AB16178B2A98F7A2001CDC53 /* UploadVideoEntryViewModelUnitTests.swift */,
 				AB16178D2A98F8AE001CDC53 /* CreateVideoEntryViewModelUnitTests.swift */,
-				ABE30EFF2AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift */,
 				ABCE87302AC0A723005F7DE2 /* WatchVideoEntryViewModelUnitTests.swift */,
+				ABE30EFF2AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift */,
+				AB4B814F2AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift */,
 			);
 			path = Entries;
 			sourceTree = "<group>";
@@ -693,6 +709,37 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AB7B98732AC4688400AB32F3 /* AddEditVideoEntry */ = {
+			isa = PBXGroup;
+			children = (
+				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
+				ABCE87272AC0972B005F7DE2 /* WatchVideoEntry */,
+			);
+			path = AddEditVideoEntry;
+			sourceTree = "<group>";
+		};
+		AB7B98742AC4689700AB32F3 /* AddEditVoiceEntry */ = {
+			isa = PBXGroup;
+			children = (
+				AB07D2E32AB1F1D100927D6C /* VoiceEntryCoordinator.swift */,
+				AB7B987E2AC46C7300AB32F3 /* VoiceEntryViewPurpose.swift */,
+				AB7B98752AC4689F00AB32F3 /* ListenToVoiceEntry */,
+				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
+			);
+			path = AddEditVoiceEntry;
+			sourceTree = "<group>";
+		};
+		AB7B98752AC4689F00AB32F3 /* ListenToVoiceEntry */ = {
+			isa = PBXGroup;
+			children = (
+				AB7B98762AC4698600AB32F3 /* ListenToVoiceEntryViewController.swift */,
+				AB7B98782AC4698F00AB32F3 /* ListenToVoiceEntryView.swift */,
+				AB7B987C2AC469CD00AB32F3 /* ListenToVoiceEntryViewModel.swift */,
+				AB7B987A2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift */,
+			);
+			path = ListenToVoiceEntry;
+			sourceTree = "<group>";
+		};
 		AB7CC9112A643C8E0054B1A4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +783,7 @@
 			children = (
 				AB41680B2A8D096F001B9AA1 /* TextEntryTableView */,
 				AB84A97E2ABCEFFB009D5FD9 /* VideoEntryCollectionView */,
+				ABB6F36E2AC3CF1E0081EE3B /* VoiceEntryCollectionView */,
 			);
 			path = "Entry Browsing";
 			sourceTree = "<group>";
@@ -852,9 +900,8 @@
 				ABB3483B2A6AC3350050A9AC /* EntriesViewState.swift */,
 				AB84A97D2ABCEFE7009D5FD9 /* Entry Browsing */,
 				ABB3483E2A6ACE010050A9AC /* AddEditTextEntry */,
-				AB1BB0CA2A94E00F0051EB66 /* CreateVideoEntry */,
-				ABCE87272AC0972B005F7DE2 /* WatchVideoEntry */,
-				AB07D2DE2AB1F17500927D6C /* CreateVoiceEntry */,
+				AB7B98732AC4688400AB32F3 /* AddEditVideoEntry */,
+				AB7B98742AC4689700AB32F3 /* AddEditVoiceEntry */,
 			);
 			path = Entries;
 			sourceTree = "<group>";
@@ -926,6 +973,15 @@
 				AB95E3002A6EB4D5001FDDD8 /* LoginViewDelegate.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		ABB6F36E2AC3CF1E0081EE3B /* VoiceEntryCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				ABB6F36F2AC3CF340081EE3B /* VoiceEntryCollectionViewDataSource.swift */,
+				ABB6F3712AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift */,
+			);
+			path = VoiceEntryCollectionView;
 			sourceTree = "<group>";
 		};
 		ABC9354B2A5E01CA0094F4E0 /* Views & ViewModels */ = {
@@ -1135,6 +1191,7 @@
 				AB8E9B932A8A580500A99C3A /* UIApplication+currentUIWindow.swift in Sources */,
 				ABAA249A2AAFC49800C82367 /* PHPhotoLibraryProtocol.swift in Sources */,
 				ABACE7E92A603A1C00981098 /* HomeSquareCard.swift in Sources */,
+				ABB6F3722AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift in Sources */,
 				AB8E9B8A2A8935F700A99C3A /* TextEntryTableViewCell.swift in Sources */,
 				AB12E2462AA93097007DFAE4 /* NotificationConstants.swift in Sources */,
 				ABB348422A6ACE660050A9AC /* AddEditTextEntryView.swift in Sources */,
@@ -1175,6 +1232,7 @@
 				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
 				AB2779152ABDCE5B0081DDA9 /* AsyncImageView.swift in Sources */,
 				AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */,
+				AB7B987B2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift in Sources */,
 				AB1BB0D22A94E1620051EB66 /* CreateVideoEntryViewState.swift in Sources */,
 				ABD01AF22A8276E50066B2FE /* UIFontMetrics+Helpers.swift in Sources */,
 				AB5CB57F2A843C73005F6016 /* HomeSectionSecondaryBox.swift in Sources */,
@@ -1202,11 +1260,13 @@
 				AB95E3052A6EC6B4001FDDD8 /* PasswordTextFieldStack.swift in Sources */,
 				AB1AC7AE2A707FC100FE7A7E /* AuthServiceProtocol.swift in Sources */,
 				AB7677332A6C20D50050149E /* EntryType.swift in Sources */,
+				AB7B98792AC4698F00AB32F3 /* ListenToVoiceEntryView.swift in Sources */,
 				AB1E02962A69E5AE006F42F8 /* HomeViewState.swift in Sources */,
 				AB258EAA2AB887CF00F8BBA3 /* AddEditGoalViewController.swift in Sources */,
 				ABA4EEC22AB3B698005ADC48 /* VoiceEntryControlButtonType.swift in Sources */,
 				AB0E97222A859619005F77A5 /* HomeAccomplishmentsStackViewRow.swift in Sources */,
 				AB8E9B802A89127F00A99C3A /* GoalsViewModel.swift in Sources */,
+				AB7B98772AC4698600AB32F3 /* ListenToVoiceEntryViewController.swift in Sources */,
 				ABD819E82A85C9BC0078604A /* CustomDivider.swift in Sources */,
 				AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */,
 				ABA946622A733AD4002A96D3 /* ReuseIDConstants.swift in Sources */,
@@ -1214,7 +1274,7 @@
 				ABA69B5A2A9CDD7F0049B3BB /* VideoEntryError.swift in Sources */,
 				AB84A9802ABCF09E009D5FD9 /* VideoEntryCollectionViewCell.swift in Sources */,
 				AB258EAC2AB887E100F8BBA3 /* AddEditGoalView.swift in Sources */,
-				AB07D2E42AB1F1D100927D6C /* CreateVoiceEntryCoordinator.swift in Sources */,
+				AB07D2E42AB1F1D100927D6C /* VoiceEntryCoordinator.swift in Sources */,
 				ABFA28DB2A964A63004700C8 /* CreateVideoEntryViewDelegate.swift in Sources */,
 				AB95E2FD2A6EAB21001FDDD8 /* SignUpView.swift in Sources */,
 				AB8E77772A770E6900EAF49D /* User.swift in Sources */,
@@ -1227,6 +1287,7 @@
 				ABB348402A6ACE5C0050A9AC /* AddEditTextEntryViewController.swift in Sources */,
 				AB28CD422A847CE100E0C08C /* HomeAccomplishmentsSection.swift in Sources */,
 				AB5BE2A22A64762B00803E16 /* MainTextField.swift in Sources */,
+				AB7B987F2AC46C7300AB32F3 /* VoiceEntryViewPurpose.swift in Sources */,
 				ABD974022A77FFAB00BD9C8F /* StartupViewController.swift in Sources */,
 				AB413EB02A96B77300916054 /* UploadVideoEntryViewModel.swift in Sources */,
 				AB8A49552A9BD7EE00791695 /* Int+Helpers.swift in Sources */,
@@ -1235,6 +1296,7 @@
 				ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */,
 				ABFEF27F2A658DA4004C40A8 /* MainCoordinator.swift in Sources */,
 				AB8E77592A76AF0A00EAF49D /* EntriesViewDelegate.swift in Sources */,
+				ABB6F3702AC3CF340081EE3B /* VoiceEntryCollectionViewDataSource.swift in Sources */,
 				AB90FF0E2A71FFB100D23017 /* FBFirestoreError.swift in Sources */,
 				AB07D2E82AB1F1FE00927D6C /* CreateVoiceEntryViewState.swift in Sources */,
 				AB7076862A8E606300E7E4DB /* CustomAlert.swift in Sources */,
@@ -1242,6 +1304,7 @@
 				AB7677312A6C1F0C0050149E /* DatabaseService.swift in Sources */,
 				AB7677362A6C64AB0050149E /* FBConstants.swift in Sources */,
 				AB7239C92A5BA08E00A0392D /* MainView.swift in Sources */,
+				AB7B987D2AC469CD00AB32F3 /* ListenToVoiceEntryViewModel.swift in Sources */,
 				AB8E9B862A89172400A99C3A /* GoalsView.swift in Sources */,
 				AB90AA1D2A806FB3003F94D7 /* UIImage.Configuration+Helpers.swift in Sources */,
 				AB258EB22AB88B5F00F8BBA3 /* GoalsViewDelegate.swift in Sources */,
@@ -1284,6 +1347,7 @@
 				AB16178C2A98F7A2001CDC53 /* UploadVideoEntryViewModelUnitTests.swift in Sources */,
 				ABF8FD5F2A72ABE40065B8D9 /* HomeViewModelUnitTests.swift in Sources */,
 				AB1AC7B02A70837900FE7A7E /* MockAuthService.swift in Sources */,
+				AB4B81502AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

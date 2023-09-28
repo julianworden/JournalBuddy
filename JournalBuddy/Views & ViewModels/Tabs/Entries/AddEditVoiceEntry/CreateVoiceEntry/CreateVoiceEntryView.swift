@@ -13,10 +13,6 @@ class CreateVoiceEntryView: UIView, MainView {
         systemName: "mic.circle.fill",
         withConfiguration: .createVideoViewButton
     )!
-    private lazy var stopImage = UIImage(
-        systemName: "stop.circle.fill",
-        withConfiguration: .createVideoViewButton
-    )!
     
     private lazy var contentStack = UIStackView(
         arrangedSubviews: [

@@ -17,6 +17,7 @@ final class EntriesViewModel: MainViewModel {
     @Published var customMenuIsShowing = false
     @Published var textEntries = [TextEntry]()
     @Published var videoEntries = [VideoEntry]()
+    @Published var voiceEntries = [VoiceEntry]()
     @Published var viewState = EntriesViewState.fetchingTextEntries
     var selectedEntryType = SelectedEntryType.text
     /// Establishes whether or not the view model has ever queried Firestore for text entries. This property is used
@@ -25,6 +26,9 @@ final class EntriesViewModel: MainViewModel {
     /// Establishes whether or not the view model has ever queried Firestore for video entries. This property is used
     /// in the view to determine the behavior of the view when navigating between entry types.
     var videoEntriesQueryPerformed = false
+    /// Establishes whether or not the view model has ever queried Firestore for voice entries. This property is used
+    /// in the view to determine the behavior of the view when navigating between entry types.
+    var voiceEntriesQueryPerformed = false
 
     var cancellables = Set<AnyCancellable>()
     let databaseService: DatabaseServiceProtocol
@@ -87,6 +91,29 @@ final class EntriesViewModel: MainViewModel {
         }
     }
     
+    /// Fetches all of the logged in user's voice entries.
+    /// - Parameter performEntryQuery: Makes it possible to test case where no voice entries are found. Defaults to true
+    /// because this property should never be used in production.
+    func fetchVoiceEntries(performEntryQuery: Bool = true) async {
+        do {
+            viewState = .fetchingVoiceEntries
+            if performEntryQuery {
+                voiceEntries = try await databaseService.fetchEntries(.voice, forUID: currentUser.uid)
+            }
+            
+            if voiceEntries.isEmpty {
+                viewState = .noVoiceEntriesFound
+            } else {
+                viewState = .fetchedVoiceEntries
+            }
+            
+            voiceEntriesQueryPerformed = true
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
     func subscribeToPublishers() {
         NotificationCenter.default.publisher(for: .videoEntryWasDeleted)
             .sink { [weak self] notification in
@@ -106,6 +133,28 @@ final class EntriesViewModel: MainViewModel {
                 
                 if self.videoEntries.isEmpty {
                     self.viewState = .noVideoEntriesFound
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .voiceEntryWasDeleted)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let deletedVoiceEntry = notification.userInfo?[NotificationConstants.deletedVoiceEntry] as? VoiceEntry else {
+                    print("❌ voiceEntryWasDeleted notification posted without entry info.")
+                    return
+                }
+                
+                guard let deletedVoiceEntryIndex = self.voiceEntries.firstIndex(of: deletedVoiceEntry) else {
+                    print("❌ deleted voice entry not found in videoEntries array.")
+                    return
+                }
+                
+                self.voiceEntries.remove(at: deletedVoiceEntryIndex)
+                
+                if self.voiceEntries.isEmpty {
+                    self.viewState = .noVoiceEntriesFound
                 }
             }
             .store(in: &cancellables)
