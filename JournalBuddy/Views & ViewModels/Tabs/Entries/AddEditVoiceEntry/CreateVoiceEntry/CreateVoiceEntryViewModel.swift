@@ -22,6 +22,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     /// and stops when playback does.
     var playbackTimer: Timer?
     var voiceEntryHasBeenRecorded = false
+    var audioSessionHasBeenActivated = false
     
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
@@ -70,12 +71,8 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
                     self?.viewState = .inadequatePermissions
                     return
                 }
-                
-                #warning("Get rid of this set up, it's already been set up in AppDelegate.")
-                try self.audioSession.setCategory(.playAndRecord)
-                try self.audioSession.setActive(true)
-                try self.audioSession.overrideOutputAudioPort(.speaker)
-                try self.prepareAudioRecorderForRecording()
+
+                try self.initializeAudioRecorder()
             } catch {
                 print(error.emojiMessage)
                 self?.viewState = .error(message: VoiceEntryError.audioSessionSetupFailed.localizedDescription)
@@ -83,10 +80,39 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    func startRecording() {
-        audioRecorder.record()
+    func activateAudioSession() {
+        guard !audioSessionHasBeenActivated else {
+            return
+        }
         
+        do {
+            try audioSession.setActive(true)
+            audioSessionHasBeenActivated = true
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func deactivateAudioSession() {
+        guard audioSessionHasBeenActivated else { return }
+        
+        do {
+            try self.audioSession.setActive(false)
+            audioSessionHasBeenActivated = false
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func startRecording() {
+        activateAudioSession()
+        audioRecorder.record()
         recordingTimerStartDate = Date.now
+
     }
     
     func stopRecording() {
@@ -164,7 +190,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         }
     }
     
-    private func prepareAudioRecorderForRecording() throws {
+    private func initializeAudioRecorder() throws {
         deleteLocalRecording()
         
         audioRecorder = try AVAudioRecorder(
@@ -177,7 +203,8 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             ]
         )
         audioRecorder.delegate = self
-        audioRecorder.prepareToRecord()
+        // Not calling prepareForRecord() here because it causes the UI to lock up when
+        // audio session's active status changes.
     }
   
     #warning("Try this later.")

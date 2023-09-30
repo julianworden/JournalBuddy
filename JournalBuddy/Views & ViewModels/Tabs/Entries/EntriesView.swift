@@ -8,6 +8,8 @@
 import Combine
 import UIKit
 
+#warning("Make no content found view scrollable for dynamic type sizes.")
+
 class EntriesView: UIView, MainView {
     enum CollectionViewType: Int {
         case video = 0

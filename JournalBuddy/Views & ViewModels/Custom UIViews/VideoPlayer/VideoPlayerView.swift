@@ -25,6 +25,8 @@ class VideoPlayerView: UIView {
     )
     
     @Published var playerIsReadyToPlay = false
+    var audioSessionHasBeenActivated = false
+    let audioSession = AVAudioSession.sharedInstance()
     var cancellables = Set<AnyCancellable>()
     /// The periodic time observer for the video player. This is created in in `UploadVideoView` and then removed
     /// after `UploadVideoViewController` disappears.
@@ -62,9 +64,7 @@ class VideoPlayerView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    #warning("Activate audio session when play button is tapped")
-    
+
     func configure() {
         timelineSlider.addTarget(self, action: #selector(userDidTouchDownTimelineSlider), for: .touchDown)
         timelineSlider.addTarget(self, action: #selector(userDidMoveTimelineSlider), for: .valueChanged)
@@ -92,6 +92,32 @@ class VideoPlayerView: UIView {
             timelineSlider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             timelineSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
         ])
+    }
+    
+    func activateAudioSession() {
+        guard !audioSessionHasBeenActivated else {
+            return
+        }
+        
+        do {
+            try audioSession.setActive(true)
+            audioSessionHasBeenActivated = true
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+        }
+    }
+    
+    func deactivateAudioSession() {
+        guard audioSessionHasBeenActivated else { return }
+        
+        do {
+            try self.audioSession.setActive(false)
+            audioSessionHasBeenActivated = false
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+        }
     }
     
     private func subscribeToVideoProgressUpdates() {
@@ -184,6 +210,7 @@ class VideoPlayerView: UIView {
     }
     
     @objc func playButtonTapped() {
+        activateAudioSession()
         player?.play()
         configureMediaButton(remove: #selector(playButtonTapped), add: #selector(pauseButtonTapped), newMediaButtonType: .pause)
         dismissMediaControls()

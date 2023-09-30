@@ -36,6 +36,17 @@ class UploadVideoEntryViewController: UIViewController, MainViewController {
         configure()
         subscribeToPublishers()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let view = view as? UploadVideoEntryView else {
+            print("❌ Incorrect view set for UploadVideoEntryViewController.")
+            return
+        }
+        
+        view.videoPlayerView.deactivateAudioSession()
+    }
 
     override func viewDidDisappear(_ animated: Bool) {
         guard let view = view as? UploadVideoEntryView else {

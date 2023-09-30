@@ -27,6 +27,17 @@ final class WatchVideoEntryViewController: UIViewController, MainViewController 
         subscribeToPublishers()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let view = view as? WatchVideoEntryView else {
+            print("❌ Incorrect view set for UploadVideoEntryViewController.")
+            return
+        }
+        
+        view.videoPlayer.deactivateAudioSession()
+    }
+    
     init(coordinator: EntriesCoordinator?, viewModel: WatchVideoEntryViewModel) {
         self.coordinator = coordinator
         self.viewModel = viewModel

@@ -10,7 +10,7 @@ import UIKit
 
 final class WatchVideoEntryView: UIView, MainView {
     private lazy var fetchingVideoActivityIndicator = UIActivityIndicatorView(style: .large)
-    private lazy var videoPlayer = VideoPlayerView(
+    lazy var videoPlayer = VideoPlayerView(
         videoPlayerURL: URL(
             string: viewModel.videoEntry.downloadURL
         )!

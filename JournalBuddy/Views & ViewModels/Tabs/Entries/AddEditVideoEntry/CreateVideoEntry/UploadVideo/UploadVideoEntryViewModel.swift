@@ -13,7 +13,7 @@ import Photos
 final class UploadVideoEntryViewModel: MainViewModel {
     @Published var viewState = UploadVideoEntryViewState.displayingView
     var saveVideoToDevice = false
-
+    
     let isTesting: Bool
     let recordedVideoURL: URL
     /// Indicates whether or not the user is uploading a video entry directly from their photo library or not.

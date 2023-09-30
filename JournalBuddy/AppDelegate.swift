@@ -27,8 +27,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             let audioSession = AVAudioSession.sharedInstance()
             
-            try audioSession.setCategory(.playAndRecord)
-            try audioSession.overrideOutputAudioPort(.speaker)
+            try audioSession.setCategory(
+                .playAndRecord,
+                options: [
+                    .allowAirPlay,
+                    .allowBluetooth,
+                    .allowBluetoothA2DP,
+                    .defaultToSpeaker,
+                    .mixWithOthers
+                ]
+            )
         } catch {
             print("❌ Failed to set up audio session.")
             print(error.emojiMessage)

@@ -13,11 +13,13 @@ import Photos
 final class CreateVideoEntryViewModel: NSObject, MainViewModel {
     @Published var viewState = CreateVideoEntryViewState.displayingView
     
+    let audioSession = AVAudioSession.sharedInstance()
     let captureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     let videoOutput = AVCaptureMovieFileOutput()
     var recordingTimerStartDate: Date?
     var recordingTimer: Timer?
+    var audioSessionHasBeenActivated = false
     
     var recordingTimerDurationAsInt: Int {
         guard let recordingTimerStartDate else { return 0 }
@@ -62,6 +64,34 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
         }
     }
     
+    func activateAudioSession() {
+        guard !audioSessionHasBeenActivated else {
+            return
+        }
+        
+        do {
+            try audioSession.setActive(true)
+            audioSessionHasBeenActivated = true
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func deactivateAudioSession() {
+        guard audioSessionHasBeenActivated else { return }
+        
+        do {
+            try self.audioSession.setActive(false)
+            audioSessionHasBeenActivated = false
+        } catch {
+            print("❌ Failed to activate audio session.")
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
     func startRecording() {
         let outputFilePath = (NSTemporaryDirectory() as NSString)
                                 .appendingPathComponent(("recordedvideo" as NSString)
@@ -72,6 +102,7 @@ final class CreateVideoEntryViewModel: NSObject, MainViewModel {
                 try FileManager.default.removeItem(atPath: outputFilePath)
             }
             
+            activateAudioSession()
             videoOutput.startRecording(to: URL(filePath: outputFilePath), recordingDelegate: self)
             recordingTimerStartDate = Date.now
         } catch {

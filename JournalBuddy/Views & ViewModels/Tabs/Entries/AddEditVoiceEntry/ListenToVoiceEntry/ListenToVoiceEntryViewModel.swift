@@ -42,7 +42,6 @@ final class ListenToVoiceEntryViewModel: NSObject, MainViewModel {
         do {
             guard !audioSessionHasBeenActivated else { return }
             
-            let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setActive(true)
             audioSessionHasBeenActivated = true
         } catch {
@@ -55,7 +54,6 @@ final class ListenToVoiceEntryViewModel: NSObject, MainViewModel {
         do {
             guard audioSessionHasBeenActivated else { return }
             
-            let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setActive(false)
             audioSessionHasBeenActivated = false
             audioPlayerPeriodicTimeObserver = nil
