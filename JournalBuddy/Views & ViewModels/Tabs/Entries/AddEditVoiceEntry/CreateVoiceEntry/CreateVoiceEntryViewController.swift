@@ -67,6 +67,10 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
                 guard let self else { return }
                 
                 switch viewState {
+                case .recording:
+                    self.backButton.isEnabled = false
+                case .displayingView:
+                    self.backButton.isEnabled = true
                 case .inadequatePermissions:
                     self.coordinator?.presentMicInadequatePermissionsAlert(on: self)
                 case .uploadedVoiceEntry:

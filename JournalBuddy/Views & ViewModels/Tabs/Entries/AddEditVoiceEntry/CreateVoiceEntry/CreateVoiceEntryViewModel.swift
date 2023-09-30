@@ -112,7 +112,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
         activateAudioSession()
         audioRecorder.record()
         recordingTimerStartDate = Date.now
-
+        viewState = .recording
     }
     
     func stopRecording() {
@@ -126,6 +126,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             audioPlayer.volume = 1
             audioPlayer.prepareToPlay()
             audioPlayer.delegate = self
+            viewState = .displayingView
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VoiceEntryError.failedToStopRecording.localizedDescription)
