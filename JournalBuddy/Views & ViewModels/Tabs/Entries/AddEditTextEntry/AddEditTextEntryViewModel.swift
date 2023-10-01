@@ -88,8 +88,9 @@ final class AddEditTextEntryViewModel: MainViewModel {
                 text: entryText
             )
 
-            try await databaseService.saveEntry(textEntry, at: nil)
+            let createdTextEntry = try await databaseService.saveEntry(textEntry, at: nil)
             viewState = .textEntrySaved
+            postTextEntryWasCreatedNotification(for: createdTextEntry)
         } catch {
             print(error.emojiMessage)
             viewState = .error(error.localizedDescription)
@@ -115,6 +116,7 @@ final class AddEditTextEntryViewModel: MainViewModel {
 
             try await databaseService.updateEntry(updatedTextEntry)
             viewState = .updatedTextEntry
+            postTextEntryWasUpdatedNotification(for: updatedTextEntry)
         } catch {
             print(error.emojiMessage)
             viewState = .error(error.localizedDescription)
@@ -131,9 +133,34 @@ final class AddEditTextEntryViewModel: MainViewModel {
             viewState = .deletingTextEntry
             try await databaseService.deleteEntry(textEntryToEdit)
             viewState = .deletedTextEntry
+            postTextEntryWasDeletedNotification(for: textEntryToEdit)
         } catch {
             print(error.emojiMessage)
             viewState = .error(error.localizedDescription)
         }
+    }
+    
+    func postTextEntryWasCreatedNotification(for createdTextEntry: TextEntry) {
+        NotificationCenter.default.post(
+            name: .textEntryWasCreated,
+            object: nil,
+            userInfo: [NotificationConstants.createdTextEntry: createdTextEntry]
+        )
+    }
+    
+    func postTextEntryWasUpdatedNotification(for updatedTextEntry: TextEntry) {
+        NotificationCenter.default.post(
+            name: .textEntryWasUpdated,
+            object: nil,
+            userInfo: [NotificationConstants.updatedTextEntry: updatedTextEntry]
+        )
+    }
+    
+    func postTextEntryWasDeletedNotification(for deletedTextEntry: TextEntry) {
+        NotificationCenter.default.post(
+            name: .textEntryWasDeleted,
+            object: nil,
+            userInfo: [NotificationConstants.deletedTextEntry: deletedTextEntry]
+        )
     }
 }

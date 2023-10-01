@@ -52,7 +52,8 @@ final class WatchVideoEntryViewModelUnitTests: XCTestCase {
                 deletingVideoEntryExpectation,
                 deletedVideoEntryExpectation
             ],
-            timeout: 3
+            timeout: 3,
+            enforceOrder: true
         )
     }
     

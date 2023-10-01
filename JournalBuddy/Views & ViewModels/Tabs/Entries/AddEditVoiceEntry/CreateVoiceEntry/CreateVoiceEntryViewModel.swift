@@ -162,14 +162,23 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
                 downloadURL: ""
             )
             
-            try await databaseService.saveEntry(newVoiceEntry, at: voiceEntryURL)
+            let savedVoiceEntry = try await databaseService.saveEntry(newVoiceEntry, at: voiceEntryURL)
             
             viewState = .uploadedVoiceEntry
+            postCreatedVoiceEntryNotification(for: savedVoiceEntry)
             deleteLocalRecording()
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: VoiceEntryError.uploadingFailed.localizedDescription)
         }
+    }
+    
+    func postCreatedVoiceEntryNotification(for newVoiceEntry: VoiceEntry) {
+        NotificationCenter.default.post(
+            name: .voiceEntryWasCreated,
+            object: nil,
+            userInfo: [NotificationConstants.createdVoiceEntry: newVoiceEntry]
+        )
     }
     
     /// Deletes the recorded voice entry from local storage to avoid taking up

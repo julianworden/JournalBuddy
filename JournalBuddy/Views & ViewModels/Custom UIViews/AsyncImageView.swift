@@ -17,10 +17,6 @@ class AsyncImageView: UIImageView {
             do {
                 presentActivityIndicator()
                 
-                #warning("put this label in the cell instead")
-                dateLabel.text = videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
-                dateLabel.font = UIFontMetrics.avenirNextBoldFootnote
-                
                 let (data, response) = try await URLSession.shared.data(from: URL(string: videoEntry.thumbnailDownloadURL)!)
                 
                 guard let httpResponse = response as? HTTPURLResponse,
@@ -50,6 +46,8 @@ class AsyncImageView: UIImageView {
     func configure(with image: UIImage, and videoEntry: VideoEntry) {
         self.image = image
         
+        dateLabel.text = videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        dateLabel.font = UIFontMetrics.avenirNextBoldFootnote
         dateLabel.textColor = .background
         
         addConstrainedSubview(dateLabel)

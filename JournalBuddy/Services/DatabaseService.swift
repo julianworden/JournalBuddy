@@ -103,7 +103,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 let textEntry = entry as! TextEntry
                 try await updateTextEntry(textEntry)
             default:
-                fatalError("No other types of entries have been implemented yet")
+                fatalError("No other types of entries have been implemented yet.")
             }
         } catch {
             print(error.emojiMessage)

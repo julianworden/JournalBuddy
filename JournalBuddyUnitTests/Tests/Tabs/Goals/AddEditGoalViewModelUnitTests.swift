@@ -125,7 +125,8 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
                 savedGoalExpectation,
                 goalWasSavedNotificationExpectation
             ],
-            timeout: 3
+            timeout: 3,
+            enforceOrder: true
         )
     }
     
@@ -159,7 +160,8 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
                 updatedGoalExpectation,
                 goalWasSavedNotificationExpectation
             ],
-            timeout: 3
+            timeout: 3,
+            enforceOrder: true
         )
     }
     
@@ -227,7 +229,8 @@ final class AddEditGoalViewModelUnitTests: XCTestCase {
                 deletingGoalExpectation,
                 deletedGoalExpectation
             ],
-            timeout: 3
+            timeout: 3,
+            enforceOrder: true
         )
     }
     

@@ -59,10 +59,19 @@ final class UploadVideoEntryViewModel: MainViewModel {
             thumbnailDownloadURL: ""
         )
         
-        try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
+        let savedVideoEntry = try await databaseService.saveEntry(newVideoEntry, at: recordedVideoURL)
         
         viewState = .videoEntryWasUploaded
+        postVideoEntryCreatedNotification(for: savedVideoEntry)
         deleteLocalRecording()
+    }
+    
+    func postVideoEntryCreatedNotification(for newVideoEntry: VideoEntry) {
+        NotificationCenter.default.post(
+            name: .videoEntryWasCreated,
+            object: nil,
+            userInfo: [NotificationConstants.createdVideoEntry: newVideoEntry]
+        )
     }
     
     private func saveVideoToDevice(

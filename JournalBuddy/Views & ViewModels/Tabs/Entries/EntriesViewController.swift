@@ -76,17 +76,25 @@ class EntriesViewController: UIViewController, MainViewController {
 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
 
-        #warning("only call these methods if they've never been called since the app has initialized the view controller")
-        Task {
-            switch viewModel.selectedEntryType {
-            case .text:
-                await viewModel.fetchTextEntries()
-            case .video:
-                await viewModel.fetchVideoEntries()
-            case .voice:
-                await viewModel.fetchVoiceEntries()
+        if !viewModel.entryQueryHasBeenPerformed {
+            Task {
+                switch viewModel.selectedEntryType {
+                case .text:
+                    await viewModel.fetchTextEntries()
+                case .video:
+                    await viewModel.fetchVideoEntries()
+                case .voice:
+                    await viewModel.fetchVoiceEntries()
+                }
             }
         }
+        
+        guard let view = view as? EntriesView else {
+            print("❌ Incorrect view set as EntriesViewController's view.")
+            return
+        }
+        
+        view.updateTextEntryTableViewIfNeeded()
     }
 
     func configure() {

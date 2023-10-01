@@ -117,13 +117,15 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.entryHasBeenEdited)
     }
 
-    func test_OnSuccessfullySaveNewTextEntry_ViewStateIsUpdated() async {
+    func test_OnSuccessfullySaveNewTextEntry_ViewStateIsUpdatedAndNotificationIsPosted() async {
         initializeSUTWithNoTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+        let notificationExpectation = XCTNSNotificationExpectation(name: .textEntryWasCreated)
         sut.entryText = "What a great day!"
 
         await sut.saveTextEntry()
 
         XCTAssertEqual(sut.viewState, .textEntrySaved)
+        await fulfillment(of: [notificationExpectation], timeout: 3)
     }
 
     func test_OnUnsuccessfullySaveNewTextEntry_ViewStateIsUpdated() async {
@@ -143,13 +145,15 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.viewState, .error(FormError.textEntryIsEmpty.localizedDescription))
     }
 
-    func test_OnSuccessfullyUpdateTextEntry_ViewStateIsUpdated() async {
+    func test_OnSuccessfullyUpdateTextEntry_ViewStateIsUpdatedAndNotificationIsPosted() async {
         initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+        let notificationExpectation = XCTNSNotificationExpectation(name: .textEntryWasUpdated)
         sut.entryText = "What a terrible day!"
 
         await sut.saveTextEntry()
 
         XCTAssertEqual(sut.viewState, .updatedTextEntry)
+        await fulfillment(of: [notificationExpectation], timeout: 3)
     }
 
     func test_OnUnsuccessfullyUpdateTextEntry_ViewStateIsUpdated() async {
@@ -178,12 +182,14 @@ final class AddEditTextEntryViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.viewState, .error(FormError.textEntryIsEmpty.localizedDescription))
     }
 
-    func test_OnSuccessfullyDeleteTextEntry_ViewStateIsUpdated() async {
+    func test_OnSuccessfullyDeleteTextEntry_ViewStateIsUpdatedAndNotificationIsPosted() async {
         initializeSUTWithTextEntryToEdit(databaseServiceError: nil, authServiceError: nil)
+        let notificationExpectation = XCTNSNotificationExpectation(name: .textEntryWasDeleted)
 
         await sut.deleteTextEntry()
 
         XCTAssertEqual(sut.viewState, .deletedTextEntry)
+        await fulfillment(of: [notificationExpectation], timeout: 3)
     }
 
     func test_OnDeleteTextEntryWithNoTextEntryToEdit_CorrectErrorIsThrown() async {

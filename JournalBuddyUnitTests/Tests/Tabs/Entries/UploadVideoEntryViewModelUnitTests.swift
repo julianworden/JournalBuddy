@@ -20,6 +20,7 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
     var videoEntryWasSavedExpectation: XCTestExpectation!
     var videoEntryIsUploadingExpectation: XCTestExpectation!
     var videoEntryWasUploadedExpectation: XCTestExpectation!
+    var videoEntryWasCreatedNotificationExpectation: XCTNSNotificationExpectation!
     
     override func setUp() {
         videoEntryIsSavingExpectation = XCTestExpectation(
@@ -34,6 +35,9 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
         videoEntryWasUploadedExpectation = XCTestExpectation(
             description: "viewState updated to .videoEntryWasUploaded."
         )
+        videoEntryWasCreatedNotificationExpectation = XCTNSNotificationExpectation(
+            name: .videoEntryWasCreated
+        )
     }
 
     override func tearDown() {
@@ -43,6 +47,7 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
         videoEntryWasSavedExpectation = nil
         videoEntryIsUploadingExpectation = nil
         videoEntryWasUploadedExpectation = nil
+        videoEntryWasCreatedNotificationExpectation = nil
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
@@ -160,7 +165,8 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
                 videoEntryIsSavingExpectation,
                 videoEntryWasSavedExpectation,
                 videoEntryIsUploadingExpectation,
-                videoEntryWasUploadedExpectation
+                videoEntryWasUploadedExpectation,
+                videoEntryWasCreatedNotificationExpectation
             ],
             timeout: 3,
             enforceOrder: true
@@ -211,7 +217,8 @@ final class UploadVideoEntryViewModelUnitTests: XCTestCase {
         await fulfillment(
             of: [
                 videoEntryIsUploadingExpectation,
-                videoEntryWasUploadedExpectation
+                videoEntryWasUploadedExpectation,
+                videoEntryWasCreatedNotificationExpectation
             ],
             timeout: 3,
             enforceOrder: true

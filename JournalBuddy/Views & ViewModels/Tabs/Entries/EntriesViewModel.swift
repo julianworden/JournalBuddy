@@ -34,6 +34,12 @@ final class EntriesViewModel: MainViewModel {
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
     let currentUser: User
+    
+    var entryQueryHasBeenPerformed: Bool {
+        return textEntriesQueryPerformed ||
+               videoEntriesQueryPerformed ||
+               voiceEntriesQueryPerformed
+    }
 
     init(
         databaseService: DatabaseServiceProtocol,
@@ -115,6 +121,100 @@ final class EntriesViewModel: MainViewModel {
     }
     
     func subscribeToPublishers() {
+        subscribeToTextEntryCreatedNotification()
+        subscribeToTextEntryUpdatedNotification()
+        subscribeToTextEntryDeletedNotification()
+        subscribeToVideoEntryCreatedNotification()
+        subscribeToVideoEntryDeletedNotification()
+        subscribeToVoiceEntryWasCreatedNotification()
+        subscribeToVoiceEntryDeletedNotification()
+    }
+    
+    func subscribeToTextEntryCreatedNotification() {
+        NotificationCenter.default.publisher(for: .textEntryWasCreated)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let createdTextEntry = notification.userInfo?[NotificationConstants.createdTextEntry] as? TextEntry else {
+                    print("❌ createdTextEntry notification posted without entry info.")
+                    return
+                }
+                
+                self.textEntries.append(createdTextEntry)
+                
+                if selectedEntryType == .text && self.viewState != .fetchedTextEntries {
+                    self.viewState = .fetchedTextEntries
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToTextEntryUpdatedNotification() {
+        NotificationCenter.default.publisher(for: .textEntryWasUpdated)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let updatedTextEntry = notification.userInfo?[NotificationConstants.updatedTextEntry] as? TextEntry else {
+                    print("❌ updatedTextEntry notification posted without entry info.")
+                    return
+                }
+                
+                guard let updatedTextEntryIndex = self.textEntries.firstIndex(where: {
+                    $0.id == updatedTextEntry.id
+                }) else {
+                    print("❌ updated text entry not found in textEntries array.")
+                    return
+                }
+                
+                self.textEntries[updatedTextEntryIndex] = updatedTextEntry
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToTextEntryDeletedNotification() {
+        NotificationCenter.default.publisher(for: .textEntryWasDeleted)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let deletedTextEntry = notification.userInfo?[NotificationConstants.deletedTextEntry] as? TextEntry else {
+                    print("❌ deletedTextEntry notification posted without entry info.")
+                    return
+                }
+                
+                guard let deletedTextEntryIndex = self.textEntries.firstIndex(of: deletedTextEntry) else {
+                    print("❌ deleted text entry not found in textEntries array.")
+                    return
+                }
+                
+                self.textEntries.remove(at: deletedTextEntryIndex)
+                
+                if self.textEntries.isEmpty {
+                    self.viewState = .noTextEntriesFound
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVideoEntryCreatedNotification() {
+        NotificationCenter.default.publisher(for: .videoEntryWasCreated)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let createdVideoEntry = notification.userInfo?[NotificationConstants.createdVideoEntry] as? VideoEntry else {
+                    print("❌ videoEntryWasCreated notification posted without entry info.")
+                    return
+                }
+                
+                videoEntries.append(createdVideoEntry)
+                
+                if selectedEntryType == .video && self.viewState != .fetchedVideoEntries {
+                    self.viewState = .fetchedVideoEntries
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVideoEntryDeletedNotification() {
         NotificationCenter.default.publisher(for: .videoEntryWasDeleted)
             .sink { [weak self] notification in
                 guard let self else { return }
@@ -136,7 +236,28 @@ final class EntriesViewModel: MainViewModel {
                 }
             }
             .store(in: &cancellables)
-        
+    }
+    
+    func subscribeToVoiceEntryWasCreatedNotification() {
+        NotificationCenter.default.publisher(for: .voiceEntryWasCreated)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let createdVoiceEntry = notification.userInfo?[NotificationConstants.createdVoiceEntry] as? VoiceEntry else {
+                    print("❌ voiceEntryWasCreated notification posted without entry info.")
+                    return
+                }
+                
+                voiceEntries.append(createdVoiceEntry)
+                
+                if selectedEntryType == .voice && self.viewState != .fetchedVoiceEntries {
+                    self.viewState = .fetchedVoiceEntries
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVoiceEntryDeletedNotification() {
         NotificationCenter.default.publisher(for: .voiceEntryWasDeleted)
             .sink { [weak self] notification in
                 guard let self else { return }

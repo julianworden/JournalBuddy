@@ -14,6 +14,9 @@ import XCTest
 final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
     var sut: CreateVoiceEntryViewModel!
     var testAudioPlayer: AVAudioPlayer!
+    var uploadingVoiceEntryExpectation: XCTestExpectation!
+    var uploadedVoiceEntryExpectation: XCTestExpectation!
+    var createdVoiceEntryNotificationExpectation: XCTNSNotificationExpectation!
     var cancellables: Set<AnyCancellable>!
     let testAudioPlayerURL = Bundle.main.url(
         forResource: "TestAudio",
@@ -23,12 +26,23 @@ final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
     override func setUpWithError() throws {
         testAudioPlayer = try AVAudioPlayer(contentsOf: testAudioPlayerURL)
         cancellables = Set<AnyCancellable>()
+        uploadingVoiceEntryExpectation = XCTestExpectation(
+            description: ".uploadingVoiceEntry view state set."
+        )
+        uploadedVoiceEntryExpectation = XCTestExpectation(
+            description: ".uploadedVoiceEntry view state set."
+        )
+        createdVoiceEntryNotificationExpectation = XCTNSNotificationExpectation(
+            name: .voiceEntryWasCreated
+        )
     }
     
     override func tearDown() {
         sut = nil
         testAudioPlayer = nil
         cancellables = nil
+        uploadingVoiceEntryExpectation = nil
+        uploadedVoiceEntryExpectation = nil
     }
     
     func test_OnInit_DefaultValuesAreCorrect() {
@@ -85,21 +99,19 @@ final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.voiceEntryHasBeenRecorded)
     }
     
-    func test_OnUploadVoiceEntrySuccessfully_ViewStateChanges() async {
+    func test_OnUploadVoiceEntrySuccessfully_ViewStateChangesAndNotificationIsPosted() async {
         initializeSUT(
             databaseServiceError: nil,
             authServiceError: nil
         )
-        let expectation1 = XCTestExpectation(description: ".uploadingVoiceEntry view state set.")
-        let expectation2 = XCTestExpectation(description: ".uploadedVoiceEntry view state set.")
         
         sut.$viewState
             .sink { viewState in
                 switch viewState {
                 case .uploadingVoiceEntry:
-                    expectation1.fulfill()
+                    self.uploadingVoiceEntryExpectation.fulfill()
                 case .uploadedVoiceEntry:
-                    expectation2.fulfill()
+                    self.uploadedVoiceEntryExpectation.fulfill()
                 default:
                     break
                 }
@@ -110,10 +122,12 @@ final class CreateVoiceEntryViewModelUnitTests: XCTestCase {
         
         await fulfillment(
             of: [
-                expectation1,
-                expectation2
+                uploadingVoiceEntryExpectation,
+                uploadedVoiceEntryExpectation,
+                createdVoiceEntryNotificationExpectation
             ],
-            timeout: 3
+            timeout: 3,
+            enforceOrder: true
         )
     }
     

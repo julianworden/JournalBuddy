@@ -33,8 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     .allowAirPlay,
                     .allowBluetooth,
                     .allowBluetoothA2DP,
-                    .defaultToSpeaker,
-                    .mixWithOthers
+                    .defaultToSpeaker
                 ]
             )
         } catch {

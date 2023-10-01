@@ -9,7 +9,6 @@ import Combine
 import UIKit
 
 class CreateVoiceEntryViewController: UIViewController, MainViewController {
-    #warning("Disable back button while recording is happening.")
     private lazy var backButton = BackButton(configuration: .back)
     
     weak var coordinator: VoiceEntryCoordinator?

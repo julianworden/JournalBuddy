@@ -272,6 +272,10 @@ class EntriesView: UIView, MainView {
         noEntriesFoundView.isHidden = false
     }
     
+    func updateTextEntryTableViewIfNeeded() {
+        textEntryTableViewDataSource.updateDataSourceIfNeeded()
+    }
+    
     @objc func textEntryButtonTapped() {
         if viewModel.selectedEntryType != EntriesViewModel.SelectedEntryType.text {
             Task {
