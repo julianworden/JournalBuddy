@@ -80,7 +80,7 @@ class EntriesViewController: UIViewController, MainViewController {
             Task {
                 switch viewModel.selectedEntryType {
                 case .text:
-                    await viewModel.fetchTextEntries()
+                    await viewModel.fetchFirstTwelveTextEntries()
                 case .video:
                     await viewModel.fetchVideoEntries()
                 case .voice:

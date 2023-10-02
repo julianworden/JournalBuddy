@@ -54,11 +54,31 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+    func fetchFirstTwelveEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         do {
             switch entryType {
             case .text:
-                return try await fetchTextEntries(forUID: uid) as! [T]
+                return try await fetchFirstTwelveTextEntries(forUID: uid) as! [T]
+            case .video:
+                return try await fetchVideoEntries(forUID: uid) as! [T]
+            case .voice:
+                return try await fetchVoiceEntries(forUID: uid) as! [T]
+            }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    func fetchNextTwelveEntries<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+        do {
+            switch oldestFetchedEntry.type {
+            case .text:
+                let oldestFetchedTextEntry = oldestFetchedEntry as! TextEntry
+                return try await fetchNextTenTextEntries(
+                    before: oldestFetchedTextEntry,
+                    forUID: uid
+                ) as! [T]
             case .video:
                 return try await fetchVideoEntries(forUID: uid) as! [T]
             case .voice:
@@ -135,12 +155,33 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - TextEntry
 
-    private func fetchTextEntries(forUID uid: String) async throws -> [TextEntry] {
+    private func fetchFirstTwelveTextEntries(forUID uid: String) async throws -> [TextEntry] {
         do {
             let query = try await usersCollection
                 .document(uid)
-                .collection(FBConstants.entries)
-                .whereField(FBConstants.type, isEqualTo: EntryType.text.rawValue)
+                .collection(FBConstants.textEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .limit(to: 12)
+                .getDocuments()
+
+            return try query.documents.map { try $0.data(as: TextEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    private func fetchNextTenTextEntries(
+        before oldestFetchedEntry: TextEntry,
+        forUID uid: String
+    ) async throws -> [TextEntry] {
+        do {
+            let query = try await usersCollection
+                .document(uid)
+                .collection(FBConstants.textEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .limit(to: 12)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: TextEntry.self) }
@@ -154,7 +195,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let newDocument = try usersCollection
                 .document(textEntry.creatorUID)
-                .collection(FBConstants.entries)
+                .collection(FBConstants.textEntries)
                 .addDocument(from: textEntry)
 
             try await newDocument.updateData([FBConstants.id: newDocument.documentID])
@@ -171,7 +212,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             try await usersCollection
                 .document(textEntry.creatorUID)
-                .collection(FBConstants.entries)
+                .collection(FBConstants.textEntries)
                 .document(textEntry.id)
                 .updateData([FBConstants.text: textEntry.text])
         } catch {
@@ -186,8 +227,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let query = try await usersCollection
                 .document(uid)
-                .collection(FBConstants.entries)
-                .whereField(FBConstants.type, isEqualTo: EntryType.video.rawValue)
+                .collection(FBConstants.videoEntries)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: VideoEntry.self) }
@@ -214,7 +254,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let newVideoEntryDocumentReference = try usersCollection
                 .document(newVideoEntry.creatorUID)
-                .collection(FBConstants.entries)
+                .collection(FBConstants.videoEntries)
                 .addDocument(from: newVideoEntry)
             try await newVideoEntryDocumentReference
                 .updateData([FBConstants.id: newVideoEntryDocumentReference.documentID])
@@ -233,8 +273,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let query = try await usersCollection
                 .document(uid)
-                .collection(FBConstants.entries)
-                .whereField(FBConstants.type, isEqualTo: EntryType.voice.rawValue)
+                .collection(FBConstants.voiceEntries)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: VoiceEntry.self) }
@@ -252,7 +291,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             let newVoiceEntryDocumentReference = try usersCollection
                 .document(newVoiceEntry.creatorUID)
-                .collection(FBConstants.entries)
+                .collection(FBConstants.voiceEntries)
                 .addDocument(from: newVoiceEntry)
             try await newVoiceEntryDocumentReference
                 .updateData([FBConstants.id: newVoiceEntryDocumentReference.documentID])

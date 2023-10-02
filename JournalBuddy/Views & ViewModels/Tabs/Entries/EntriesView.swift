@@ -28,8 +28,12 @@ class EntriesView: UIView, MainView {
     private lazy var voiceEntryButton = PrimaryButton(title: "Voice")
     private lazy var textEntryTableView = MainTableView()
     private lazy var textEntryTableViewDataSource = TextEntryTableViewDataSource(
+        delegate: self,
         viewModel: viewModel,
         tableView: textEntryTableView
+    )
+    private lazy var loadingNextTenTextEntriesActivityIndicator = UIActivityIndicatorView(
+        style: .medium
     )
     private lazy var videoEntryCollectionView = UICollectionView(
         frame: .zero,
@@ -94,6 +98,9 @@ class EntriesView: UIView, MainView {
         voiceEntryButton.backgroundColor = .disabled
         voiceEntryButton.titleLabel?.numberOfLines = 1
         voiceEntryButton.addTarget(self, action: #selector(voiceEntryButtonTapped), for: .touchUpInside)
+        
+        loadingNextTenTextEntriesActivityIndicator.color = .primaryElement
+        loadingNextTenTextEntriesActivityIndicator.hidesWhenStopped = true
         
         textEntryTableView.isHidden = true
         textEntryTableView.register(
@@ -175,7 +182,7 @@ class EntriesView: UIView, MainView {
             
             fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
+    
             noEntriesFoundView.topAnchor.constraint(greaterThanOrEqualTo: entryTypeStack.bottomAnchor, constant: 12),
             noEntriesFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             noEntriesFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -285,7 +292,7 @@ class EntriesView: UIView, MainView {
                 viewModel.selectedEntryType = .text
                 
                 if !viewModel.textEntriesQueryPerformed {
-                    await viewModel.fetchTextEntries()
+                    await viewModel.fetchFirstTwelveTextEntries()
                 } else if viewModel.textEntries.isEmpty {
                     presentNoTextEntriesFoundUI()
                 } else if !viewModel.textEntries.isEmpty {
@@ -334,12 +341,43 @@ class EntriesView: UIView, MainView {
     }
 }
 
+#warning("Change color of table view scroll indicator")
+
 extension EntriesView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let tappedEntry = viewModel.textEntries[indexPath.row]
         delegate?.entriesViewDidSelectTextEntry(tappedEntry)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.textEntries.count - 1 &&
+            viewModel.textEntries.count % 12 == 0 {
+            Task {
+                presentLoadingNextTwelveTextEntriesUI()
+                await viewModel.fetchNextTwelveTextEntries()
+                presentLoadedNextTwelveTextEntriesUI(for: tableView)
+            }
+        }
+    }
+    
+    func presentLoadingNextTwelveTextEntriesUI() {
+        loadingNextTenTextEntriesActivityIndicator.startAnimating()
+        loadingNextTenTextEntriesActivityIndicator.frame = CGRect(x: 0, y: 0, width: 0, height: 44)
+        textEntryTableView.tableFooterView = loadingNextTenTextEntriesActivityIndicator
+        textEntryTableView.tableFooterView?.isHidden = false
+    }
+    
+    func presentLoadedNextTwelveTextEntriesUI(for tableView: UITableView) {
+        textEntryTableView.tableFooterView?.isHidden = true
+        textEntryTableView.tableFooterView = nil
+        loadingNextTenTextEntriesActivityIndicator.stopAnimating()
+        tableView.scrollToRow(
+            at: IndexPath(row: viewModel.textEntries.count - 1, section: 0),
+            at: .bottom,
+            animated: true
+        )
     }
 }
 
@@ -375,5 +413,13 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
         default:
             print("❌ Unknown collection view tag sent to delegate method.")
         }
+    }
+}
+
+extension EntriesView: TextEntryTableViewDataSourceDelegate {
+    func scrollTableViewToTop() {
+        guard !viewModel.textEntries.isEmpty else { return }
+        
+        textEntryTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
     }
 }

@@ -166,6 +166,7 @@
 		ABB6F3722AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB6F3712AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift */; };
 		ABB73B992AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */; };
 		ABC9354E2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */; };
+		ABCDC9122ACA586A00DA42E9 /* TextEntryTableViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDC9112ACA586A00DA42E9 /* TextEntryTableViewDataSourceDelegate.swift */; };
 		ABCE87292AC09790005F7DE2 /* WatchVideoEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */; };
 		ABCE872B2AC09799005F7DE2 /* WatchVideoEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE872A2AC09799005F7DE2 /* WatchVideoEntryView.swift */; };
 		ABCE872D2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCE872C2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift */; };
@@ -359,6 +360,7 @@
 		ABB6F3712AC3CFE10081EE3B /* VoiceEntryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntryCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton.Configuration+back.swift"; sourceTree = "<group>"; };
 		ABC9354D2A5E04AB0094F4E0 /* HomeYourLatestEntriesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeYourLatestEntriesCard.swift; sourceTree = "<group>"; };
+		ABCDC9112ACA586A00DA42E9 /* TextEntryTableViewDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEntryTableViewDataSourceDelegate.swift; sourceTree = "<group>"; };
 		ABCE87282AC09790005F7DE2 /* WatchVideoEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewController.swift; sourceTree = "<group>"; };
 		ABCE872A2AC09799005F7DE2 /* WatchVideoEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryView.swift; sourceTree = "<group>"; };
 		ABCE872C2AC097AC005F7DE2 /* WatchVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoEntryViewState.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 			children = (
 				ABA9465F2A7333F7002A96D3 /* TextEntryTableViewDataSource.swift */,
 				AB8E9B892A8935F700A99C3A /* TextEntryTableViewCell.swift */,
+				ABCDC9112ACA586A00DA42E9 /* TextEntryTableViewDataSourceDelegate.swift */,
 			);
 			path = TextEntryTableView;
 			sourceTree = "<group>";
@@ -1230,6 +1233,7 @@
 				AB6E5F9F2AB6107800BB8FD1 /* TimelineSlider.swift in Sources */,
 				ABB4B9692A635EBA00E63018 /* LoginViewModel.swift in Sources */,
 				AB8E9B822A89129A00A99C3A /* GoalsViewState.swift in Sources */,
+				ABCDC9122ACA586A00DA42E9 /* TextEntryTableViewDataSourceDelegate.swift in Sources */,
 				AB2779152ABDCE5B0081DDA9 /* AsyncImageView.swift in Sources */,
 				AB0D85072AA6712B00E4C9D6 /* BackButton.swift in Sources */,
 				AB7B987B2AC4699E00AB32F3 /* ListenToVoiceEntryViewState.swift in Sources */,

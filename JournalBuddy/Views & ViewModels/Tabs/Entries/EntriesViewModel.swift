@@ -54,11 +54,11 @@ final class EntriesViewModel: MainViewModel {
     /// Fetches all of the logged in user's text entries.
     /// - Parameter performEntryQuery: Makes it possible to test case where no text entries are found. Defaults to true
     /// because this property should never be used in production.
-    func fetchTextEntries(performEntryQuery: Bool = true) async {
+    func fetchFirstTwelveTextEntries(performEntryQuery: Bool = true) async {
         do {
             viewState = .fetchingTextEntries
             if performEntryQuery {
-                textEntries = try await databaseService.fetchEntries(.text, forUID: currentUser.uid)
+                textEntries = try await databaseService.fetchFirstTwelveEntries(.text, forUID: currentUser.uid)
             }
 
             if textEntries.isEmpty {
@@ -74,6 +74,24 @@ final class EntriesViewModel: MainViewModel {
         }
     }
     
+    func fetchNextTwelveTextEntries() async {
+        do {
+            guard let oldestTextEntry = textEntries.last else {
+                print("❌ Attempted to fetch next twelve text entries while textEntries array is empty.")
+                return
+            }
+            
+            let nextTwelveTextEntries = try await databaseService.fetchNextTwelveEntries(
+                after: oldestTextEntry,
+                forUID: currentUser.uid
+            )
+            textEntries.append(contentsOf: nextTwelveTextEntries)
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
     /// Fetches all of the logged in user's video entries.
     /// - Parameter performEntryQuery: Makes it possible to test case where no video entries are found. Defaults to true
     /// because this property should never be used in production.
@@ -81,7 +99,7 @@ final class EntriesViewModel: MainViewModel {
         do {
             viewState = .fetchingVideoEntries
             if performEntryQuery {
-                videoEntries = try await databaseService.fetchEntries(.video, forUID: currentUser.uid)
+                videoEntries = try await databaseService.fetchFirstTwelveEntries(.video, forUID: currentUser.uid)
             }
             
             if videoEntries.isEmpty {
@@ -104,7 +122,7 @@ final class EntriesViewModel: MainViewModel {
         do {
             viewState = .fetchingVoiceEntries
             if performEntryQuery {
-                voiceEntries = try await databaseService.fetchEntries(.voice, forUID: currentUser.uid)
+                voiceEntries = try await databaseService.fetchFirstTwelveEntries(.voice, forUID: currentUser.uid)
             }
             
             if voiceEntries.isEmpty {
@@ -140,7 +158,7 @@ final class EntriesViewModel: MainViewModel {
                     return
                 }
                 
-                self.textEntries.append(createdTextEntry)
+                self.textEntries.insert(createdTextEntry, at: 0)
                 
                 if selectedEntryType == .text && self.viewState != .fetchedTextEntries {
                     self.viewState = .fetchedTextEntries

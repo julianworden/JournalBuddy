@@ -33,13 +33,28 @@ final class MockDatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+    func fetchFirstTwelveEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {
             switch entryType {
             case .text:
-                return TestData.textEntryArray as! [T]
+                return Array(TestData.textEntryArray.prefix(12)) as! [T]
+            case .video:
+                return TestData.videoEntryArray as! [T]
+            case .voice:
+                return TestData.voiceEntryArray as! [T]
+            }
+        }
+    }
+    
+    func fetchNextTwelveEntries<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            switch oldestFetchedEntry.type {
+            case .text:
+                return TestData.textEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
             case .video:
                 return TestData.videoEntryArray as! [T]
             case .voice:

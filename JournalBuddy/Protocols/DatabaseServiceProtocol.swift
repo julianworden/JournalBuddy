@@ -11,7 +11,8 @@ protocol DatabaseServiceProtocol {
     func getUser(withUID uid: String) async throws -> User
     func createUser(_ user: User) async throws
 
-    func fetchEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T]
+    func fetchFirstTwelveEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T]
+    func fetchNextTwelveEntries<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T]
     @discardableResult func saveEntry<T: Entry>(_ entry: T, at url: URL?) async throws -> T
     func updateEntry<T: Entry>(_ entry: T) async throws
     func deleteEntry<T: Entry>(_ entry: T) async throws

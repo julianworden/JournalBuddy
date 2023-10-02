@@ -10,6 +10,7 @@ import Foundation
 enum EntriesViewState: ViewState {
     case displayingView
     case fetchingTextEntries
+    case fetchingNextTenTextEntries
     case fetchedTextEntries
     case noTextEntriesFound
     case fetchingVideoEntries

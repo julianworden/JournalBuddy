@@ -24,11 +24,17 @@ final class TextEntryTableViewDataSource: UITableViewDiffableDataSource<EntriesV
     /// empty again.
     var updatedTextEntries = [TextEntry]()
     
+    weak var delegate: TextEntryTableViewDataSourceDelegate?
     let viewModel: EntriesViewModel
     let tableView: UITableView
     var cancellables = Set<AnyCancellable>()
 
-    init(viewModel: EntriesViewModel, tableView: UITableView) {
+    init(
+        delegate: TextEntryTableViewDataSourceDelegate?,
+        viewModel: EntriesViewModel,
+        tableView: UITableView
+    ) {
+        self.delegate = delegate
         self.viewModel = viewModel
         self.tableView = tableView
 
@@ -80,5 +86,6 @@ final class TextEntryTableViewDataSource: UITableViewDiffableDataSource<EntriesV
         
         tableViewNeedsUpdate = false
         updatedTextEntries = []
+        delegate?.scrollTableViewToTop()
     }
 }

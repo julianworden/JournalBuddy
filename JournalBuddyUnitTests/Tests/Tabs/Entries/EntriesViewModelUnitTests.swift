@@ -92,36 +92,46 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.textEntriesQueryPerformed)
     }
 
-    func test_OnFetchTextEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
+    func test_OnFetchFirstTwelveTextEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
 
-        await sut.fetchTextEntries()
+        await sut.fetchFirstTwelveTextEntries()
 
-        XCTAssertEqual(sut.textEntries, TestData.textEntryArray)
+        XCTAssertEqual(sut.textEntries, Array(TestData.textEntryArray.prefix(12)))
+        XCTAssertTrue(sut.textEntriesQueryPerformed)
         await fulfillment(of: [fetchingTextEntriesExpectation, fetchedTextEntriesExpectation], timeout: 3)
     }
     
-    func test_OnFetchTextEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
+    func test_OnFetchFirstTwelveTextEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchTextEntries(performEntryQuery: false)
+        await sut.fetchFirstTwelveTextEntries(performEntryQuery: false)
         
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertTrue(sut.textEntriesQueryPerformed)
         await fulfillment(of: [noTextEntriesFoundExpectation])
     }
 
-    func test_OnFetchTextEntriesUnsuccessfully_ErrorIsThrown() async {
+    func test_OnFetchFirstTwelveTextEntriesUnsuccessfully_ErrorIsThrown() async {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchTextEntries()
+        await sut.fetchFirstTwelveTextEntries()
 
         await fulfillment(of: [fetchingTextEntriesExpectation], timeout: 3)
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnFetchNextTwelveTextEntriesSuccessfully_EntriesAreAssigned() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        sut.textEntries.append(contentsOf: Array(TestData.textEntryArray.prefix(12)))
+        
+        await sut.fetchNextTwelveTextEntries()
+        
+        XCTAssertEqual(sut.textEntries, TestData.textEntryArray)
     }
     
     func test_OnFetchVideoEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
