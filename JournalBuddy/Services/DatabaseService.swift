@@ -54,7 +54,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchFirstTwelveEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+    func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         do {
             switch entryType {
             case .text:
@@ -70,7 +70,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchNextTwelveEntries<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
         do {
             switch oldestFetchedEntry.type {
             case .text:
@@ -133,19 +133,27 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     func deleteEntry<T: Entry>(_ entry: T) async throws {
         do {
-            try await usersCollection
-                .document(entry.creatorUID)
-                .collection(FBConstants.entries)
-                .document(entry.id)
-                .delete()
-            
             switch entry.type {
+            case .text:
+                try await usersCollection
+                    .document(entry.creatorUID)
+                    .collection(FBConstants.textEntries)
+                    .document(entry.id)
+                    .delete()
             case .video:
+                try await usersCollection
+                    .document(entry.creatorUID)
+                    .collection(FBConstants.videoEntries)
+                    .document(entry.id)
+                    .delete()
                 try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
             case .voice:
+                try await usersCollection
+                    .document(entry.creatorUID)
+                    .collection(FBConstants.voiceEntries)
+                    .document(entry.id)
+                    .delete()
                 try await deleteVoiceEntryFromFBStorage(entry as! VoiceEntry)
-            default:
-                break
             }
         } catch {
             print(error.emojiMessage)

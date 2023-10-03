@@ -55,7 +55,7 @@ class EntriesView: UIView, MainView {
         title: "No Text Entries Found",
         message: "You can use the plus button to create a text entry."
     )
-    private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .medium)
 
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
@@ -292,7 +292,7 @@ class EntriesView: UIView, MainView {
                 viewModel.selectedEntryType = .text
                 
                 if !viewModel.textEntriesQueryPerformed {
-                    await viewModel.fetchFirstTwelveTextEntries()
+                    await viewModel.fetchFirstTextEntriesBatch()
                 } else if viewModel.textEntries.isEmpty {
                     presentNoTextEntriesFoundUI()
                 } else if !viewModel.textEntries.isEmpty {
@@ -355,26 +355,40 @@ extension EntriesView: UITableViewDelegate {
         if indexPath.row == viewModel.textEntries.count - 1 &&
             viewModel.textEntries.count % 12 == 0 {
             Task {
-                presentLoadingNextTwelveTextEntriesUI()
-                await viewModel.fetchNextTwelveTextEntries()
-                presentLoadedNextTwelveTextEntriesUI(for: tableView)
+                let textEntriesCountBeforeUpdate = viewModel.textEntries.count
+                
+                presentLoadingNextTextEntriesBatchUI()
+                await viewModel.fetchNextTextEntriesBatch()
+                
+                let textEntriesCountAfterUpdate = viewModel.textEntries.count
+                // Get the index to which the table view should scroll after fetching new entries
+                let amountOfNewTextEntries = textEntriesCountAfterUpdate - textEntriesCountBeforeUpdate
+                
+                presentLoadedNextTextEntriesBatchUI(for: tableView, amountOfNewTextEntries: amountOfNewTextEntries)
             }
         }
     }
     
-    func presentLoadingNextTwelveTextEntriesUI() {
+    func presentLoadingNextTextEntriesBatchUI() {
         loadingNextTenTextEntriesActivityIndicator.startAnimating()
         loadingNextTenTextEntriesActivityIndicator.frame = CGRect(x: 0, y: 0, width: 0, height: 44)
         textEntryTableView.tableFooterView = loadingNextTenTextEntriesActivityIndicator
         textEntryTableView.tableFooterView?.isHidden = false
     }
     
-    func presentLoadedNextTwelveTextEntriesUI(for tableView: UITableView) {
+    /// Presents the user with a given table view after its been updated with new text entries by scrolling to the
+    /// most recent of the newly fetched data.
+    /// - Parameters:
+    ///   - tableView: The table view receiving the update.
+    ///   - amountOfNewTextEntries: The amount of new text entries that are being added to the table view's data source.
+    ///   This property is used to determine where the scroll view should scroll.
+    func presentLoadedNextTextEntriesBatchUI(for tableView: UITableView, amountOfNewTextEntries: Int) {
         textEntryTableView.tableFooterView?.isHidden = true
         textEntryTableView.tableFooterView = nil
         loadingNextTenTextEntriesActivityIndicator.stopAnimating()
+        print(viewModel.textEntries.count)
         tableView.scrollToRow(
-            at: IndexPath(row: viewModel.textEntries.count - 1, section: 0),
+            at: IndexPath(row: viewModel.textEntries.count - amountOfNewTextEntries, section: 0),
             at: .bottom,
             animated: true
         )

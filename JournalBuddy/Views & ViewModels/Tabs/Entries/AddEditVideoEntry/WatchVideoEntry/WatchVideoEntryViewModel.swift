@@ -37,7 +37,6 @@ final class WatchVideoEntryViewModel: MainViewModel {
         }
     }
     
-    #warning("Do this for text entries too")
     func postDeletedVideoEntryNotification() {
         NotificationCenter.default.post(
             name: .videoEntryWasDeleted,

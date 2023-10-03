@@ -14,7 +14,7 @@ class GoalsView: UIView, MainView {
         case complete
     }
     
-    private lazy var fetchingGoalsActivityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var fetchingGoalsActivityIndicator = UIActivityIndicatorView(style: .medium)
     private lazy var goalTypeSelectorStack = UIStackView(arrangedSubviews: [
         incompleteButton,
         completeButton

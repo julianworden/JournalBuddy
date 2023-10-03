@@ -33,7 +33,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchFirstTwelveEntries<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+    func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {
@@ -48,7 +48,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchNextTwelveEntries<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {

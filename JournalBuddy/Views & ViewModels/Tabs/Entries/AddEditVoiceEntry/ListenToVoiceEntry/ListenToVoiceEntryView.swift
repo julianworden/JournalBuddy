@@ -15,7 +15,7 @@ class ListenToVoiceEntryView: UIView, MainView {
         withConfiguration: .createVideoViewButton
     )!
     
-    private lazy var fetchingVoiceEntryActivityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var fetchingVoiceEntryActivityIndicator = UIActivityIndicatorView(style: .medium)
     private lazy var contentStack = UIStackView(
         arrangedSubviews: [
             audioControlButton,
