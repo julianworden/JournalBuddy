@@ -447,7 +447,15 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
             if indexPath.item == viewModel.voiceEntries.count - 1 &&
                 viewModel.voiceEntries.count % FBConstants.voiceEntryBatchSize == 0 {
                 Task {
+                    let voiceEntriesCountBeforeUpdate = viewModel.voiceEntries.count
                     await viewModel.fetchNextVoiceEntryBatch()
+                    let voiceEntriesCountAfterUpdate = viewModel.voiceEntries.count
+                    let totalNewVoiceEntries = voiceEntriesCountAfterUpdate - voiceEntriesCountBeforeUpdate
+                    collectionView.scrollToItem(
+                        at: IndexPath(row: viewModel.voiceEntries.count - totalNewVoiceEntries, section: 0),
+                        at: .bottom,
+                        animated: true
+                    )
                 }
             }
         default:

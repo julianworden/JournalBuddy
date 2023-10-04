@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 class CreateVideoEntryViewController: UIViewController, MainViewController {
+    #warning("coordinator being unallocated earlier than expected")
     weak var coordinator: CreateVideoEntryCoordinator?
     var viewModel: CreateVideoEntryViewModel
     var cancellables = Set<AnyCancellable>()
