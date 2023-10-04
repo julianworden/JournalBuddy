@@ -32,9 +32,10 @@ class EntriesView: UIView, MainView {
         viewModel: viewModel,
         tableView: textEntryTableView
     )
-    private lazy var loadingNextTenTextEntriesActivityIndicator = UIActivityIndicatorView(
+    private lazy var fetchingNextTextEntryBatchActivityIndicator = UIActivityIndicatorView(
         style: .medium
     )
+    private lazy var fetchingNextVoiceEntryBatchActivityIndicator = UIActivityIndicatorView(style: .medium)
     private lazy var videoEntryCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -56,6 +57,8 @@ class EntriesView: UIView, MainView {
         message: "You can use the plus button to create a text entry."
     )
     private lazy var fetchingEntriesActivityIndicator = UIActivityIndicatorView(style: .medium)
+    
+    var voiceEntryCollectionViewBottomConstraint: NSLayoutConstraint!
 
     let viewModel: EntriesViewModel
     weak var delegate: EntriesViewDelegate?
@@ -87,6 +90,10 @@ class EntriesView: UIView, MainView {
         fetchingEntriesActivityIndicator.color = .primaryElement
         fetchingEntriesActivityIndicator.hidesWhenStopped = true
         fetchingEntriesActivityIndicator.startAnimating()
+        
+        fetchingNextVoiceEntryBatchActivityIndicator.color = .primaryElement
+        fetchingNextVoiceEntryBatchActivityIndicator.hidesWhenStopped = true
+        fetchingNextVoiceEntryBatchActivityIndicator.isHidden = true
                 
         textEntryButton.titleLabel?.numberOfLines = 1
         textEntryButton.addTarget(self, action: #selector(textEntryButtonTapped), for: .touchUpInside)
@@ -99,8 +106,8 @@ class EntriesView: UIView, MainView {
         voiceEntryButton.titleLabel?.numberOfLines = 1
         voiceEntryButton.addTarget(self, action: #selector(voiceEntryButtonTapped), for: .touchUpInside)
         
-        loadingNextTenTextEntriesActivityIndicator.color = .primaryElement
-        loadingNextTenTextEntriesActivityIndicator.hidesWhenStopped = true
+        fetchingNextTextEntryBatchActivityIndicator.color = .primaryElement
+        fetchingNextTextEntryBatchActivityIndicator.hidesWhenStopped = true
         
         textEntryTableView.isHidden = true
         textEntryTableView.register(
@@ -109,6 +116,7 @@ class EntriesView: UIView, MainView {
         )
         textEntryTableView.delegate = self
         textEntryTableView.dataSource = textEntryTableViewDataSource
+        textEntryTableView.showsVerticalScrollIndicator = false
         
         videoEntryCollectionView.isHidden = true
         videoEntryCollectionView.backgroundColor = .background
@@ -123,7 +131,6 @@ class EntriesView: UIView, MainView {
         voiceEntryCollectionView.dataSource = voiceEntryCollectionViewDataSource
         voiceEntryCollectionView.delegate = self
         voiceEntryCollectionView.tag = CollectionViewType.voice.rawValue
-
     }
 
     func subscribeToPublishers() {
@@ -167,12 +174,15 @@ class EntriesView: UIView, MainView {
     func constrain() {
         addConstrainedSubviews(
             fetchingEntriesActivityIndicator,
+            fetchingNextVoiceEntryBatchActivityIndicator,
             entryTypeStack,
             noEntriesFoundView,
             textEntryTableView,
             videoEntryCollectionView,
             voiceEntryCollectionView
         )
+        
+        voiceEntryCollectionViewBottomConstraint = voiceEntryCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
 
         NSLayoutConstraint.activate([
             entryTypeStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -182,7 +192,10 @@ class EntriesView: UIView, MainView {
             
             fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-    
+            
+            fetchingNextVoiceEntryBatchActivityIndicator.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            fetchingNextVoiceEntryBatchActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+                
             noEntriesFoundView.topAnchor.constraint(greaterThanOrEqualTo: entryTypeStack.bottomAnchor, constant: 12),
             noEntriesFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             noEntriesFoundView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -210,7 +223,7 @@ class EntriesView: UIView, MainView {
             videoEntryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             
             voiceEntryCollectionView.topAnchor.constraint(equalTo: entryTypeStack.bottomAnchor, constant: 15),
-            voiceEntryCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            voiceEntryCollectionViewBottomConstraint,
             voiceEntryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             voiceEntryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
@@ -292,7 +305,7 @@ class EntriesView: UIView, MainView {
                 viewModel.selectedEntryType = .text
                 
                 if !viewModel.textEntriesQueryPerformed {
-                    await viewModel.fetchFirstTextEntriesBatch()
+                    await viewModel.fetchFirstTextEntryBatch()
                 } else if viewModel.textEntries.isEmpty {
                     presentNoTextEntriesFoundUI()
                 } else if !viewModel.textEntries.isEmpty {
@@ -330,7 +343,7 @@ class EntriesView: UIView, MainView {
                 viewModel.selectedEntryType = .voice
                 
                 if !viewModel.voiceEntriesQueryPerformed {
-                    await viewModel.fetchVoiceEntries()
+                    await viewModel.fetchFirstVoiceEntryBatch()
                 } else if viewModel.voiceEntries.isEmpty {
                     presentNoVoiceEntriesFoundUI()
                 } else if !viewModel.voiceEntries.isEmpty {
@@ -340,8 +353,6 @@ class EntriesView: UIView, MainView {
         }
     }
 }
-
-#warning("Change color of table view scroll indicator")
 
 extension EntriesView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -353,26 +364,26 @@ extension EntriesView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.textEntries.count - 1 &&
-            viewModel.textEntries.count % 12 == 0 {
+            viewModel.textEntries.count % FBConstants.textEntryBatchSize == 0 {
             Task {
                 let textEntriesCountBeforeUpdate = viewModel.textEntries.count
                 
-                presentLoadingNextTextEntriesBatchUI()
-                await viewModel.fetchNextTextEntriesBatch()
+                presentLoadingNextTextEntryBatchUI()
+                await viewModel.fetchNextTextEntryBatch()
                 
                 let textEntriesCountAfterUpdate = viewModel.textEntries.count
                 // Get the index to which the table view should scroll after fetching new entries
                 let amountOfNewTextEntries = textEntriesCountAfterUpdate - textEntriesCountBeforeUpdate
                 
-                presentLoadedNextTextEntriesBatchUI(for: tableView, amountOfNewTextEntries: amountOfNewTextEntries)
+                presentLoadedNextTextEntryBatchUI(for: tableView, amountOfNewTextEntries: amountOfNewTextEntries)
             }
         }
     }
     
-    func presentLoadingNextTextEntriesBatchUI() {
-        loadingNextTenTextEntriesActivityIndicator.startAnimating()
-        loadingNextTenTextEntriesActivityIndicator.frame = CGRect(x: 0, y: 0, width: 0, height: 44)
-        textEntryTableView.tableFooterView = loadingNextTenTextEntriesActivityIndicator
+    func presentLoadingNextTextEntryBatchUI() {
+        fetchingNextTextEntryBatchActivityIndicator.frame = CGRect(x: 0, y: 0, width: 0, height: 44)
+        fetchingNextTextEntryBatchActivityIndicator.startAnimating()
+        textEntryTableView.tableFooterView = fetchingNextTextEntryBatchActivityIndicator
         textEntryTableView.tableFooterView?.isHidden = false
     }
     
@@ -382,11 +393,9 @@ extension EntriesView: UITableViewDelegate {
     ///   - tableView: The table view receiving the update.
     ///   - amountOfNewTextEntries: The amount of new text entries that are being added to the table view's data source.
     ///   This property is used to determine where the scroll view should scroll.
-    func presentLoadedNextTextEntriesBatchUI(for tableView: UITableView, amountOfNewTextEntries: Int) {
-        textEntryTableView.tableFooterView?.isHidden = true
+    func presentLoadedNextTextEntryBatchUI(for tableView: UITableView, amountOfNewTextEntries: Int) {
+        fetchingNextTextEntryBatchActivityIndicator.stopAnimating()
         textEntryTableView.tableFooterView = nil
-        loadingNextTenTextEntriesActivityIndicator.stopAnimating()
-        print(viewModel.textEntries.count)
         tableView.scrollToRow(
             at: IndexPath(row: viewModel.textEntries.count - amountOfNewTextEntries, section: 0),
             at: .bottom,
@@ -424,6 +433,23 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
         case CollectionViewType.voice.rawValue:
             let selectedVoiceEntry = viewModel.voiceEntries[indexPath.item]
             delegate?.entriesViewDidSelectVoiceEntry(selectedVoiceEntry)
+        default:
+            print("❌ Unknown collection view tag sent to delegate method.")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        switch collectionView.tag {
+        case CollectionViewType.video.rawValue:
+            #warning("Implement this")
+            break
+        case CollectionViewType.voice.rawValue:
+            if indexPath.item == viewModel.voiceEntries.count - 1 &&
+                viewModel.voiceEntries.count % FBConstants.voiceEntryBatchSize == 0 {
+                Task {
+                    await viewModel.fetchNextVoiceEntryBatch()
+                }
+            }
         default:
             print("❌ Unknown collection view tag sent to delegate method.")
         }

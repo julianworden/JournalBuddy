@@ -39,11 +39,11 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         } else {
             switch entryType {
             case .text:
-                return Array(TestData.textEntryArray.prefix(12)) as! [T]
+                return Array(TestData.textEntryArray.prefix(FBConstants.textEntryBatchSize)) as! [T]
             case .video:
                 return TestData.videoEntryArray as! [T]
             case .voice:
-                return TestData.voiceEntryArray as! [T]
+                return Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)) as! [T]
             }
         }
     }
@@ -58,7 +58,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             case .video:
                 return TestData.videoEntryArray as! [T]
             case .voice:
-                return TestData.voiceEntryArray as! [T]
+                return TestData.voiceEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
             }
         }
     }

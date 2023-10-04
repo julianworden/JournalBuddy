@@ -58,11 +58,11 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             switch entryType {
             case .text:
-                return try await fetchFirstTwelveTextEntries(forUID: uid) as! [T]
+                return try await fetchFirstTextEntryBatch(forUID: uid) as! [T]
             case .video:
                 return try await fetchVideoEntries(forUID: uid) as! [T]
             case .voice:
-                return try await fetchVoiceEntries(forUID: uid) as! [T]
+                return try await fetchFirstVoiceEntryBatch(forUID: uid) as! [T]
             }
         } catch {
             print(error.emojiMessage)
@@ -75,14 +75,18 @@ final class DatabaseService: DatabaseServiceProtocol {
             switch oldestFetchedEntry.type {
             case .text:
                 let oldestFetchedTextEntry = oldestFetchedEntry as! TextEntry
-                return try await fetchNextTenTextEntries(
+                return try await fetchNextTextEntryBatch(
                     before: oldestFetchedTextEntry,
                     forUID: uid
                 ) as! [T]
             case .video:
                 return try await fetchVideoEntries(forUID: uid) as! [T]
             case .voice:
-                return try await fetchVoiceEntries(forUID: uid) as! [T]
+                let oldestFetchedVoiceEntry = oldestFetchedEntry as! VoiceEntry
+                return try await fetchNextVoiceEntryBatch(
+                    before: oldestFetchedVoiceEntry,
+                    forUID: uid
+                ) as! [T]
             }
         } catch {
             print(error.emojiMessage)
@@ -163,13 +167,13 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - TextEntry
 
-    private func fetchFirstTwelveTextEntries(forUID uid: String) async throws -> [TextEntry] {
+    private func fetchFirstTextEntryBatch(forUID uid: String) async throws -> [TextEntry] {
         do {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.textEntries)
                 .order(by: FBConstants.unixDate, descending: true)
-                .limit(to: 12)
+                .limit(to: FBConstants.textEntryBatchSize)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: TextEntry.self) }
@@ -179,7 +183,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    private func fetchNextTenTextEntries(
+    private func fetchNextTextEntryBatch(
         before oldestFetchedEntry: TextEntry,
         forUID uid: String
     ) async throws -> [TextEntry] {
@@ -189,7 +193,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.textEntries)
                 .order(by: FBConstants.unixDate, descending: true)
                 .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
-                .limit(to: 12)
+                .limit(to: FBConstants.textEntryBatchSize)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: TextEntry.self) }
@@ -277,11 +281,33 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - VoiceEntry
     
-    func fetchVoiceEntries(forUID uid: String) async throws -> [VoiceEntry] {
+    func fetchFirstVoiceEntryBatch(forUID uid: String) async throws -> [VoiceEntry] {
         do {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.voiceEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .limit(to: FBConstants.voiceEntryBatchSize)
+                .getDocuments()
+
+            return try query.documents.map { try $0.data(as: VoiceEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    private func fetchNextVoiceEntryBatch(
+        before oldestFetchedEntry: VoiceEntry,
+        forUID uid: String
+    ) async throws -> [VoiceEntry] {
+        do {
+            let query = try await usersCollection
+                .document(uid)
+                .collection(FBConstants.voiceEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .limit(to: FBConstants.voiceEntryBatchSize)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: VoiceEntry.self) }

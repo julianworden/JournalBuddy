@@ -79,7 +79,7 @@ final class WatchVideoEntryViewController: UIViewController, MainViewController 
     }
     
     func showError(_ errorMessage: String) {
-        
+        coordinator?.presentErrorMessage(errorMessage: errorMessage)
     }
     
     func enableButtons() {

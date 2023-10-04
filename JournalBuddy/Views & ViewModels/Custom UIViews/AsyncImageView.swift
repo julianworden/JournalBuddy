@@ -72,6 +72,8 @@ class AsyncImageView: UIImageView {
         
         cameraImageView.contentMode = .scaleAspectFit
         
+        dateLabel.text = videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        dateLabel.font = UIFontMetrics.avenirNextBoldFootnote
         dateLabel.textColor = .primaryElement
         
         addConstrainedSubview(imageLoadingFailedView)

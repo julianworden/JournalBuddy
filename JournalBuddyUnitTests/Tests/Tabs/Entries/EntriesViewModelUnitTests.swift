@@ -92,44 +92,44 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertFalse(sut.textEntriesQueryPerformed)
     }
 
-    func test_OnFetchFirstTextEntriesBatchSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
+    func test_OnFetchFirstTextEntryBatchSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
 
-        await sut.fetchFirstTextEntriesBatch()
+        await sut.fetchFirstTextEntryBatch()
 
-        XCTAssertEqual(sut.textEntries, Array(TestData.textEntryArray.prefix(12)))
+        XCTAssertEqual(sut.textEntries, Array(TestData.textEntryArray.prefix(FBConstants.textEntryBatchSize)))
         XCTAssertTrue(sut.textEntriesQueryPerformed)
         await fulfillment(of: [fetchingTextEntriesExpectation, fetchedTextEntriesExpectation], timeout: 3)
     }
     
-    func test_OnFetchFirstTextEntriesBatchSuccessfullyWithNoResults_ViewStateIsSet() async {
+    func test_OnFetchFirstTextEntryBatchSuccessfullyWithNoResults_ViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchFirstTextEntriesBatch(performEntryQuery: false)
+        await sut.fetchFirstTextEntryBatch(performEntryQuery: false)
         
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertTrue(sut.textEntriesQueryPerformed)
         await fulfillment(of: [noTextEntriesFoundExpectation])
     }
 
-    func test_OnFetchFirstTextEntriesBatchUnsuccessfully_ErrorIsThrown() async {
+    func test_OnFetchFirstTextEntryBatchUnsuccessfully_ErrorIsThrown() async {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchFirstTextEntriesBatch()
+        await sut.fetchFirstTextEntryBatch()
 
         await fulfillment(of: [fetchingTextEntriesExpectation], timeout: 3)
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
     
-    func test_OnFetchNextTextEntriesBatchSuccessfully_EntriesAreAssigned() async {
+    func test_OnFetchNextTextEntryBatchSuccessfully_EntriesAreAssigned() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.textEntries.append(contentsOf: Array(TestData.textEntryArray.prefix(12)))
+        sut.textEntries.append(contentsOf: Array(TestData.textEntryArray.prefix(FBConstants.textEntryBatchSize)))
         
-        await sut.fetchNextTextEntriesBatch()
+        await sut.fetchNextTextEntryBatch()
         
         XCTAssertEqual(sut.textEntries, TestData.textEntryArray)
     }
@@ -169,11 +169,11 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
     
-    func test_OnFetchVoiceEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
+    func test_OnFetchFirstVoiceEntryBatchSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVoiceEntries(performEntryQuery: true)
+        await sut.fetchFirstVoiceEntryBatch(performEntryQuery: true)
         
         await fulfillment(
             of: [
@@ -183,15 +183,15 @@ final class EntriesViewModelUnitTests: XCTestCase {
             timeout: 3,
             enforceOrder: true
         )
-        XCTAssertEqual(sut.voiceEntries, TestData.voiceEntryArray)
+        XCTAssertEqual(sut.voiceEntries, Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)))
         XCTAssertTrue(sut.voiceEntriesQueryPerformed)
     }
     
-    func test_OnFetchVoiceEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
+    func test_OnFetchFirstVoiceEntryBatchSuccessfullyWithNoResults_ViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVoiceEntries(performEntryQuery: false)
+        await sut.fetchFirstVoiceEntryBatch(performEntryQuery: false)
         
         await fulfillment(
             of: [
@@ -205,13 +205,31 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertTrue(sut.voiceEntriesQueryPerformed)
     }
     
-    func test_OnFetchVoiceEntriesUnsuccessfully_ViewStateIsSet() async {
+    func test_OnFetchFirstVoiceEntryBatchUnsuccessfully_ViewStateIsSet() async {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVoiceEntries()
+        await sut.fetchFirstVoiceEntryBatch()
         
         await fulfillment(of: [fetchingVoiceEntriesExpectation], timeout: 3)
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnFetchNextVoiceEntryBatchSucessfully_EntriesAreAssigned() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        sut.voiceEntries.append(contentsOf: Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)))
+        
+        await sut.fetchNextVoiceEntryBatch()
+        
+        XCTAssertEqual(sut.voiceEntries, TestData.voiceEntryArray)
+    }
+    
+    func test_OnFetchNextVoiceEntryBatchUnsuccessfully_ViewStateIsSet() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
+        sut.voiceEntries.append(contentsOf: Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)))
+        
+        await sut.fetchNextVoiceEntryBatch()
+        
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
     

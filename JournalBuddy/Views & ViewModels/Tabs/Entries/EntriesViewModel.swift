@@ -51,10 +51,11 @@ final class EntriesViewModel: MainViewModel {
         self.currentUser = currentUser
     }
 
-    /// Fetches all of the logged in user's text entries.
+    /// Fetches the first batch of the user's text entries. The amount of entries fetched is set in
+    /// `FBConstants.textEntryBatchSize`.
     /// - Parameter performEntryQuery: Makes it possible to test case where no text entries are found. Defaults to true
     /// because this property should never be used in production.
-    func fetchFirstTextEntriesBatch(performEntryQuery: Bool = true) async {
+    func fetchFirstTextEntryBatch(performEntryQuery: Bool = true) async {
         do {
             viewState = .fetchingTextEntries
             if performEntryQuery {
@@ -74,18 +75,21 @@ final class EntriesViewModel: MainViewModel {
         }
     }
     
-    func fetchNextTextEntriesBatch() async {
+    /// Fetches the next batch of the user's text entries. The amount of entries fetched is set in
+    /// `FBConstants.textEntryBatchSize`. This should only be called after an initial batch
+    /// has already been fetched.
+    func fetchNextTextEntryBatch() async {
         do {
             guard let oldestTextEntry = textEntries.last else {
                 print("❌ Attempted to fetch next text entries batch while textEntries array is empty.")
                 return
             }
             
-            let nextTextEntriesBatch = try await databaseService.fetchNextEntriesBatch(
+            let nextTextEntryBatch = try await databaseService.fetchNextEntriesBatch(
                 after: oldestTextEntry,
                 forUID: currentUser.uid
             )
-            textEntries.append(contentsOf: nextTextEntriesBatch)
+            textEntries.append(contentsOf: nextTextEntryBatch)
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
@@ -115,10 +119,11 @@ final class EntriesViewModel: MainViewModel {
         }
     }
     
-    /// Fetches all of the logged in user's voice entries.
+    /// Fetches the first batch of the user's voice entries. The amount of entries fetched is set in
+    /// `FBConstants.voiceEntryBatchSize`.
     /// - Parameter performEntryQuery: Makes it possible to test case where no voice entries are found. Defaults to true
     /// because this property should never be used in production.
-    func fetchVoiceEntries(performEntryQuery: Bool = true) async {
+    func fetchFirstVoiceEntryBatch(performEntryQuery: Bool = true) async {
         do {
             viewState = .fetchingVoiceEntries
             if performEntryQuery {
@@ -132,6 +137,27 @@ final class EntriesViewModel: MainViewModel {
             }
             
             voiceEntriesQueryPerformed = true
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    /// Fetches the next batch of the user's voice entries. The amount of entries fetched is set in
+    /// `FBConstants.voiceEntryBatchSize`. This should only be called after an initial batch
+    /// has already been fetched.
+    func fetchNextVoiceEntryBatch() async {
+        do {
+            guard let oldestVoiceEntry = voiceEntries.last else {
+                print("❌ Attempted to fetch next voice entries batch while voiceEntries array is empty.")
+                return
+            }
+            
+            let nextVoiceEntryBatch = try await databaseService.fetchNextEntriesBatch(
+                after: oldestVoiceEntry,
+                forUID: currentUser.uid
+            )
+            voiceEntries.append(contentsOf: nextVoiceEntryBatch)
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
@@ -266,7 +292,7 @@ final class EntriesViewModel: MainViewModel {
                     return
                 }
                 
-                voiceEntries.append(createdVoiceEntry)
+                voiceEntries.insert(createdVoiceEntry, at: 0)
                 
                 if selectedEntryType == .voice && self.viewState != .fetchedVoiceEntries {
                     self.viewState = .fetchedVoiceEntries

@@ -12,7 +12,8 @@ enum VoiceEntryCollectionViewDataSourceSection {
     case main
 }
 
-final class VoiceEntryCollectionViewDataSource: UICollectionViewDiffableDataSource<VoiceEntryCollectionViewDataSourceSection, VoiceEntry> {    
+@MainActor
+final class VoiceEntryCollectionViewDataSource: UICollectionViewDiffableDataSource<VoiceEntryCollectionViewDataSourceSection, VoiceEntry> {
     let viewModel: EntriesViewModel
     var cancellables = Set<AnyCancellable>()
     
@@ -43,6 +44,7 @@ final class VoiceEntryCollectionViewDataSource: UICollectionViewDiffableDataSour
         var snapshot = NSDiffableDataSourceSnapshot<VoiceEntryCollectionViewDataSourceSection, VoiceEntry>()
         snapshot.appendSections([.main])
         snapshot.appendItems(voiceEntries)
+        
         apply(snapshot)
     }
 }
