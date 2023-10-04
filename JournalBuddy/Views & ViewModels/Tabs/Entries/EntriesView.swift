@@ -324,7 +324,7 @@ class EntriesView: UIView, MainView {
                 viewModel.selectedEntryType = .video
                 
                 if !viewModel.videoEntriesQueryPerformed {
-                    await viewModel.fetchVideoEntries()
+                    await viewModel.fetchFirstVideoEntryBatch()
                 } else if viewModel.videoEntries.isEmpty {
                     presentNoVideoEntriesFoundUI()
                 } else if !viewModel.videoEntries.isEmpty {
@@ -441,8 +441,12 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case CollectionViewType.video.rawValue:
-            #warning("Implement this")
-            break
+            if indexPath.item == viewModel.videoEntries.count - 1 &&
+                viewModel.videoEntries.count % FBConstants.videoEntryBatchSize == 0 {
+                Task {
+                    await viewModel.fetchNextVideoEntryBatch()
+                }
+            }
         case CollectionViewType.voice.rawValue:
             if indexPath.item == viewModel.voiceEntries.count - 1 &&
                 viewModel.voiceEntries.count % FBConstants.voiceEntryBatchSize == 0 {

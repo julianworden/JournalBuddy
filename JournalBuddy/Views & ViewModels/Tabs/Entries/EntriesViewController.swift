@@ -82,7 +82,7 @@ class EntriesViewController: UIViewController, MainViewController {
                 case .text:
                     await viewModel.fetchFirstTextEntryBatch()
                 case .video:
-                    await viewModel.fetchVideoEntries()
+                    await viewModel.fetchFirstVideoEntryBatch()
                 case .voice:
                     await viewModel.fetchFirstVoiceEntryBatch()
                 }

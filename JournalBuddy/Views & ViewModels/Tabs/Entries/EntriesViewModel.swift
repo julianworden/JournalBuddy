@@ -96,10 +96,11 @@ final class EntriesViewModel: MainViewModel {
         }
     }
     
-    /// Fetches all of the logged in user's video entries.
+    /// Fetches the first batch of the user's video entries. The amount of entries fetched is set in
+    /// `FBConstants.videoEntryBatchSize`.
     /// - Parameter performEntryQuery: Makes it possible to test case where no video entries are found. Defaults to true
     /// because this property should never be used in production.
-    func fetchVideoEntries(performEntryQuery: Bool = true) async {
+    func fetchFirstVideoEntryBatch(performEntryQuery: Bool = true) async {
         do {
             viewState = .fetchingVideoEntries
             if performEntryQuery {
@@ -113,6 +114,27 @@ final class EntriesViewModel: MainViewModel {
             }
             
             videoEntriesQueryPerformed = true
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    /// Fetches the next batch of the user's video entries. The amount of entries fetched is set in
+    /// `FBConstants.videoEntryBatchSize`. This should only be called after an initial batch
+    /// has already been fetched.
+    func fetchNextVideoEntryBatch() async {
+        do {
+            guard let oldestVideoEntry = videoEntries.last else {
+                print("❌ Attempted to fetch next video entries batch while videoEntries array is empty.")
+                return
+            }
+            
+            let nextVideoEntryBatch = try await databaseService.fetchNextEntriesBatch(
+                after: oldestVideoEntry,
+                forUID: currentUser.uid
+            )
+            videoEntries.append(contentsOf: nextVideoEntryBatch)
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
@@ -249,7 +271,7 @@ final class EntriesViewModel: MainViewModel {
                     return
                 }
                 
-                videoEntries.append(createdVideoEntry)
+                videoEntries.insert(createdVideoEntry, at: 0)
                 
                 if selectedEntryType == .video && self.viewState != .fetchedVideoEntries {
                     self.viewState = .fetchedVideoEntries

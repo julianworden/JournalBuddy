@@ -138,7 +138,7 @@ final class EntriesViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVideoEntries()
+        await sut.fetchFirstVideoEntryBatch()
         
         await fulfillment(
             of: [
@@ -154,7 +154,7 @@ final class EntriesViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVideoEntries(performEntryQuery: false)
+        await sut.fetchFirstVideoEntryBatch(performEntryQuery: false)
         
         await fulfillment(of: [noVideoEntriesFoundExpectation], timeout: 3)
     }
@@ -163,7 +163,7 @@ final class EntriesViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchVideoEntries()
+        await sut.fetchFirstVideoEntryBatch()
         
         await fulfillment(of: [fetchingVideoEntriesExpectation], timeout: 3)
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))

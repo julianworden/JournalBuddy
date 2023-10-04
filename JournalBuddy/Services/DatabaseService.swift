@@ -54,13 +54,14 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
+    #warning("Remove parameter.")
     func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         do {
             switch entryType {
             case .text:
                 return try await fetchFirstTextEntryBatch(forUID: uid) as! [T]
             case .video:
-                return try await fetchVideoEntries(forUID: uid) as! [T]
+                return try await fetchFirstVideoEntryBatch(forUID: uid) as! [T]
             case .voice:
                 return try await fetchFirstVoiceEntryBatch(forUID: uid) as! [T]
             }
@@ -80,7 +81,11 @@ final class DatabaseService: DatabaseServiceProtocol {
                     forUID: uid
                 ) as! [T]
             case .video:
-                return try await fetchVideoEntries(forUID: uid) as! [T]
+                let oldestFetchedVideoEntry = oldestFetchedEntry as! VideoEntry
+                return try await fetchNextVideoEntryBatch(
+                    before: oldestFetchedVideoEntry,
+                    forUID: uid
+                ) as! [T]
             case .voice:
                 let oldestFetchedVoiceEntry = oldestFetchedEntry as! VoiceEntry
                 return try await fetchNextVoiceEntryBatch(
@@ -235,11 +240,33 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - VideoEntry
     
-    func fetchVideoEntries(forUID uid: String) async throws -> [VideoEntry] {
+    func fetchFirstVideoEntryBatch(forUID uid: String) async throws -> [VideoEntry] {
         do {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.videoEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .limit(to: FBConstants.videoEntryBatchSize)
+                .getDocuments()
+
+            return try query.documents.map { try $0.data(as: VideoEntry.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    private func fetchNextVideoEntryBatch(
+        before oldestFetchedEntry: VideoEntry,
+        forUID uid: String
+    ) async throws -> [VideoEntry] {
+        do {
+            let query = try await usersCollection
+                .document(uid)
+                .collection(FBConstants.videoEntries)
+                .order(by: FBConstants.unixDate, descending: true)
+                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .limit(to: FBConstants.videoEntryBatchSize)
                 .getDocuments()
 
             return try query.documents.map { try $0.data(as: VideoEntry.self) }
