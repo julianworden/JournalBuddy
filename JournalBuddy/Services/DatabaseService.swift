@@ -78,6 +78,30 @@ final class DatabaseService: DatabaseServiceProtocol {
             throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
         }
     }
+    
+    func incrementUserCompleteGoalsCount() async throws {
+        do {
+            try await usersCollection
+                .document(authService.currentUserUID)
+                .updateData([FBConstants.numberOfCompleteGoals: FieldValue.increment(1.0)])
+        } catch {
+            print("❌ Failed to increment user's complete goals counter.")
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    func decrementUserCompleteGoalsCount() async throws {
+        do {
+            try await usersCollection
+                .document(authService.currentUserUID)
+                .updateData([FBConstants.numberOfCompleteGoals: FieldValue.increment(-1.0)])
+        } catch {
+            print("❌ Failed to decrement user's complete goals counter.")
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
+        }
+    }
 
     // MARK: - Generic Entry CRUD
 
@@ -445,6 +469,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.goals)
                 .document(completedGoal.id)
                 .updateData([FBConstants.isComplete: true])
+            try await incrementUserCompleteGoalsCount()
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
@@ -471,6 +496,10 @@ final class DatabaseService: DatabaseServiceProtocol {
                 .collection(FBConstants.goals)
                 .document(goalToDelete.id)
                 .delete()
+            
+            if goalToDelete.isComplete {
+                try await decrementUserCompleteGoalsCount()
+            }
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.deleteDataFailed(systemError: error.localizedDescription)

@@ -25,6 +25,7 @@ enum FBConstants {
     static let numberOfTextEntries = "numberOfTextEntries"
     static let numberOfVideoEntries = "numberOfVideoEntries"
     static let numberOfVoiceEntries = "numberOfVoiceEntries"
+    static let numberOfCompleteGoals = "numberOfCompleteGoals"
     
     // MARK: - Batch Sizes
     static let textEntryBatchSize = 12

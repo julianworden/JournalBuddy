@@ -17,6 +17,7 @@ final class GoalsViewModelUnitTests: XCTestCase {
     var noGoalsFoundExpectation: XCTestExpectation!
     var noIncompleteGoalsFoundExpectation: XCTestExpectation!
     var noCompleteGoalsFoundExpectation: XCTestExpectation!
+    var goalWasDeletedNotificationExpectation: XCTNSNotificationExpectation!
     var cancellables: Set<AnyCancellable>!
     
     override func setUp() {
@@ -26,6 +27,7 @@ final class GoalsViewModelUnitTests: XCTestCase {
         noGoalsFoundExpectation = XCTestExpectation(description: ".noGoalsFound view state set.")
         noIncompleteGoalsFoundExpectation = XCTestExpectation(description: ".noIncompleteGoalsFound view state set.")
         noCompleteGoalsFoundExpectation = XCTestExpectation(description: ".noCompleteGoalsFound view state set.")
+        goalWasDeletedNotificationExpectation = XCTNSNotificationExpectation(name: .goalWasDeleted)
     }
 
     override func tearDown() {
@@ -36,6 +38,7 @@ final class GoalsViewModelUnitTests: XCTestCase {
         noIncompleteGoalsFoundExpectation = nil
         noCompleteGoalsFoundExpectation = nil
         cancellables = nil
+        goalWasDeletedNotificationExpectation = nil
     }
 
     func test_OnInit_DefaultValuesAreCorrect() {
@@ -151,7 +154,14 @@ final class GoalsViewModelUnitTests: XCTestCase {
         await sut.deleteGoal(Goal.example)
         
         XCTAssertFalse(sut.incompleteGoals.contains(Goal.example))
-        await fulfillment(of: [noGoalsFoundExpectation], timeout: 3)
+        await fulfillment(
+            of: [
+                noGoalsFoundExpectation,
+                goalWasDeletedNotificationExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
     }
     
     func test_OnDeleteCompleteGoalSuccessfully_ArrayUpdates() async {
@@ -165,7 +175,14 @@ final class GoalsViewModelUnitTests: XCTestCase {
         await sut.deleteGoal(completedExampleGoal)
         
         XCTAssertFalse(sut.completeGoals.contains(completedExampleGoal))
-        await fulfillment(of: [noGoalsFoundExpectation], timeout: 3)
+        await fulfillment(
+            of: [
+                noGoalsFoundExpectation,
+                goalWasDeletedNotificationExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
     }
     
     func test_OnDeleteGoalUnsuccessfully_ViewStateUpdates() async {
@@ -175,6 +192,14 @@ final class GoalsViewModelUnitTests: XCTestCase {
         await sut.deleteGoal(Goal.example)
         
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnPostGoalWasDeletedNotification_NotificationIsPosted() {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        
+        sut.postGoalWasDeletedNotification(Goal.example)
+        
+        wait(for: [goalWasDeletedNotificationExpectation], timeout: 3)
     }
     
     func test_OnReceiveGoalWasSavedNotificationForIncompleteGoal_ViewStateIsUpdated() {

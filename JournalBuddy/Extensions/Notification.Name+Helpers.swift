@@ -50,6 +50,9 @@ extension Notification.Name {
     /// key to access the newly saved goal.
     static let goalWasSaved = Notification.Name("goalWasSaved")
     
+    /// Posted when a goal is completed.
+    static let goalWasCompleted = Notification.Name("goalWasCompleted")
+    
     /// Posted when a goal is deleted. Access the `NotificationConstants.deletedGoal userInfo`
     /// key to access the deleted goal.
     static let goalWasDeleted = Notification.Name("goalWasDeleted")

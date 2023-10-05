@@ -8,6 +8,8 @@
 import Combine
 import UIKit
 
+#warning("Make sections automatically adapt to plural/singular")
+
 class HomeView: UIView, MainView {
     private lazy var mainScrollView = UIScrollView()
     private lazy var mainScrollViewContentStack = UIStackView(

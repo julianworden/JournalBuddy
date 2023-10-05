@@ -13,7 +13,10 @@ class HomeAccomplishmentsSection: UIView {
     private lazy var titleLabel = UILabel()
     private lazy var primaryBoxContentStack = UIStackView(arrangedSubviews: [accomplishmentsStack, secondaryBox])
     private lazy var accomplishmentsStack = UIStackView()
-    private lazy var secondaryBox = HomeSectionSecondaryBox(iconName: "trophy", text: "12 Goals\nAchieved")
+    private lazy var secondaryBox = HomeSectionSecondaryBox(
+        iconName: "trophy",
+        text: "\(viewModel.currentUser.numberOfCompleteGoals)\nGoals Achieved"
+    )
 
     var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
         if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {
@@ -71,17 +74,9 @@ class HomeAccomplishmentsSection: UIView {
     }
 
     func subscribeToPublishers() {
-        viewModel.$userGoals
-            .sink { [weak self] goals in
-                self?.addGoalsToStackView(goals)
-            }
-            .store(in: &cancellables)
-
-        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
-            .sink { [weak self] _ in
-                self?.adjustLayoutForNewPreferredContentSizeCategory()
-            }
-            .store(in: &cancellables)
+        subscribeToGoalsArrayUpdates()
+        subscribeToDynamicTypeChanges()
+        subscribeToCompleteGoalCountUpdates()
     }
 
     func constrain() {
@@ -106,6 +101,51 @@ class HomeAccomplishmentsSection: UIView {
             accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 170),
             secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 110)
         ])
+    }
+    
+    func subscribeToGoalsArrayUpdates() {
+        viewModel.$userGoals
+            .sink { [weak self] goals in
+                self?.addGoalsToStackView(goals)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToDynamicTypeChanges() {
+        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
+            .sink { [weak self] _ in
+                self?.adjustLayoutForNewPreferredContentSizeCategory()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToCompleteGoalCountUpdates() {
+        NotificationCenter.default.publisher(for: .goalWasCompleted)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals + 1
+                self.viewModel.currentUser.incrementNumberOfCompleteGoals()
+                self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals Achieved")
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .goalWasDeleted)
+            .sink { [weak self] notification in
+                guard let self else { return }
+                
+                guard let deletedGoal = notification.userInfo?[NotificationConstants.deletedGoal] as? Goal else {
+                    print("❌ .goalWasDeleted notification posted without goal data.")
+                    return
+                }
+                                                               
+                if deletedGoal.isComplete {
+                    let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals - 1
+                    self.viewModel.currentUser.decrementNumberOfCompleteGoals()
+                    self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals Achieved")
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func adjustLayoutForNewPreferredContentSizeCategory() {

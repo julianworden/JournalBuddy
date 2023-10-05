@@ -112,6 +112,14 @@ final class GoalsViewModel: MainViewModel {
         setViewState()
         
         try await databaseService.completeGoal(completedGoal)
+        postGoalWasCompletedNotification(completedGoal)
+    }
+    
+    func postGoalWasCompletedNotification(_ completedGoal: Goal) {
+        NotificationCenter.default.post(
+            name: .goalWasCompleted,
+            object: nil
+        )
     }
     
     /// Deletes a given goal from the appropriate arrays and from Firestore.
@@ -121,10 +129,19 @@ final class GoalsViewModel: MainViewModel {
             removeGoalFromArrays(goal)
             setViewState()
             try await databaseService.deleteGoal(goal)
+            postGoalWasDeletedNotification(goal)
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
         }
+    }
+    
+    func postGoalWasDeletedNotification(_ deletedGoal: Goal) {
+        NotificationCenter.default.post(
+            name: .goalWasDeleted,
+            object: nil,
+            userInfo: [NotificationConstants.deletedGoal: deletedGoal]
+        )
     }
     
     /// Adds a given goal to the `goals` array. Also adds the given goal to the `incompleteGoals`

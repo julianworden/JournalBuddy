@@ -109,8 +109,12 @@ final class SignUpViewModelUnitTests: XCTestCase {
         fillInMatchingEmailAndPasswordFields()
 
         await sut.signUpButtonTapped()
-
-        XCTAssertEqual(sut.viewState, .accountCreatedSuccessfully(for: User.example))
+        
+        if case .accountCreatedSuccessfully(let newUser) = sut.viewState {
+            XCTAssertEqual(newUser.uid, User.example.uid)
+        } else {
+            XCTFail("Incorrect view state set: \(sut.viewState)")
+        }
     }
 
     func test_OnUnsuccessfullSignUpButtonTapped_ErrorIsThrown() async {

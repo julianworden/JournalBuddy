@@ -13,19 +13,22 @@ struct User: Codable, Equatable {
     var numberOfTextEntries: Int
     var numberOfVideoEntries: Int
     var numberOfVoiceEntries: Int
+    var numberOfCompleteGoals: Int
     
     init(
         uid: String,
         emailAddress: String,
         numberOfTextEntries: Int = 0,
         numberOfVideoEntries: Int = 0,
-        numberOfVoiceEntries: Int = 0
+        numberOfVoiceEntries: Int = 0,
+        numberOfCompletedGoals: Int = 0
     ) {
         self.uid = uid
         self.emailAddress = emailAddress
         self.numberOfTextEntries = numberOfTextEntries
         self.numberOfVideoEntries = numberOfVideoEntries
         self.numberOfVoiceEntries = numberOfVoiceEntries
+        self.numberOfCompleteGoals = numberOfCompletedGoals
     }
 
     static let example = User(
@@ -33,7 +36,8 @@ struct User: Codable, Equatable {
         emailAddress: "test@example.com",
         numberOfTextEntries: 24,
         numberOfVideoEntries: 11,
-        numberOfVoiceEntries: 17
+        numberOfVoiceEntries: 17,
+        numberOfCompletedGoals: 2
     )
     
     mutating func incrementNumberOfTextEntries() {
@@ -58,5 +62,13 @@ struct User: Codable, Equatable {
     
     mutating func decrementNumberOfVoiceEntries() {
         numberOfVoiceEntries -= 1
+    }
+    
+    mutating func incrementNumberOfCompleteGoals() {
+        numberOfCompleteGoals += 1
+    }
+    
+    mutating func decrementNumberOfCompleteGoals() {
+        numberOfCompleteGoals -= 1
     }
 }
