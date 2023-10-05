@@ -10,9 +10,9 @@ import Foundation
 struct User: Codable, Equatable {
     let uid: String
     let emailAddress: String
-    let numberOfTextEntries: Int
-    let numberOfVideoEntries: Int
-    let numberOfVoiceEntries: Int
+    var numberOfTextEntries: Int
+    var numberOfVideoEntries: Int
+    var numberOfVoiceEntries: Int
     
     init(
         uid: String,
@@ -35,4 +35,28 @@ struct User: Codable, Equatable {
         numberOfVideoEntries: 11,
         numberOfVoiceEntries: 17
     )
+    
+    mutating func incrementNumberOfTextEntries() {
+        numberOfTextEntries += 1
+    }
+    
+    mutating func decrementNumberOfTextEntries() {
+        numberOfTextEntries -= 1
+    }
+    
+    mutating func incrementNumberOfVideoEntries() {
+        numberOfVideoEntries += 1
+    }
+    
+    mutating func decrementNumberOfVideoEntries() {
+        numberOfVideoEntries -= 1
+    }
+    
+    mutating func incrementNumberOfVoiceEntries() {
+        numberOfVoiceEntries += 1
+    }
+    
+    mutating func decrementNumberOfVoiceEntries() {
+        numberOfVoiceEntries -= 1
+    }
 }

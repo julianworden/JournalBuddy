@@ -31,7 +31,7 @@ final class HomeViewModel: MainViewModel {
 
     let databaseService: DatabaseServiceProtocol
     let authService: AuthServiceProtocol
-    let currentUser: User
+    var currentUser: User
 
     init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, currentUser: User) {
         self.databaseService = databaseService

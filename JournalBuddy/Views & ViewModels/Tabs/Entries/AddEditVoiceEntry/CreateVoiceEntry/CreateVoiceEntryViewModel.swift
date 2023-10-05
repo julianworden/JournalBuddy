@@ -134,6 +134,7 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
     }
     
     func startPlaying() {
+        activateAudioSession()
         let audioPlayerDidStartPlaying = audioPlayer.play()
         
         if !audioPlayerDidStartPlaying {

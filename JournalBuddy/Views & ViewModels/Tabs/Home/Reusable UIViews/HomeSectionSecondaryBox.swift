@@ -66,4 +66,8 @@ class HomeSectionSecondaryBox: UIView {
             iconImageView.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)
         ])
     }
+    
+    func updateText(with newText: String) {
+        textLabel.text = newText
+    }
 }

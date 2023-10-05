@@ -84,11 +84,10 @@ class HomeActivityOverviewSection: UIView {
     }
 
     func subscribeToPublishers() {
-        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
-            .sink { [weak self] _ in
-                self?.adjustLayoutForNewPreferredContentSizeCategory()
-            }
-            .store(in: &cancellables)
+        subscribeToDynamicTypeSizeChanges()
+        subscribeToTextEntryCountChanges()
+        subscribeToVideoEntryCountChanges()
+        subscribeToVoiceEntryCountChanges()
     }
 
     func constrain() {
@@ -112,6 +111,80 @@ class HomeActivityOverviewSection: UIView {
 
             totalTextEntriesBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 75)
         ])
+    }
+    
+    func subscribeToDynamicTypeSizeChanges() {
+        NotificationCenter.default.publisher(for: UIContentSizeCategory.didChangeNotification)
+            .sink { [weak self] _ in
+                self?.adjustLayoutForNewPreferredContentSizeCategory()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToTextEntryCountChanges() {
+        NotificationCenter.default.publisher(for: .textEntryWasCreated)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfTextEntries = self.viewModel.currentUser.numberOfTextEntries + 1
+                self.viewModel.currentUser.incrementNumberOfTextEntries()
+                self.totalTextEntriesBox.updateText(with: "\(newNumberOfTextEntries) Entries")
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .textEntryWasDeleted)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfTextEntries = self.viewModel.currentUser.numberOfTextEntries - 1
+                self.viewModel.currentUser.decrementNumberOfTextEntries()
+                self.totalTextEntriesBox.updateText(with: "\(newNumberOfTextEntries) Entries")
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVideoEntryCountChanges() {
+        NotificationCenter.default.publisher(for: .videoEntryWasCreated)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfVideoEntries = self.viewModel.currentUser.numberOfVideoEntries + 1
+                self.viewModel.currentUser.incrementNumberOfVideoEntries()
+                self.totalVideoEntriesBox.updateText(with: "\(newNumberOfVideoEntries) Entries")
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .videoEntryWasDeleted)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfVideoEntries = self.viewModel.currentUser.numberOfVideoEntries - 1
+                self.viewModel.currentUser.decrementNumberOfVideoEntries()
+                self.totalVideoEntriesBox.updateText(with: "\(newNumberOfVideoEntries) Entries")
+            }
+            .store(in: &cancellables)
+    }
+    
+    func subscribeToVoiceEntryCountChanges() {
+        NotificationCenter.default.publisher(for: .voiceEntryWasCreated)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfVoiceEntries = self.viewModel.currentUser.numberOfVoiceEntries + 1
+                self.viewModel.currentUser.incrementNumberOfVoiceEntries()
+                self.totalVoiceEntriesBox.updateText(with: "\(newNumberOfVoiceEntries) Entries")
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: .voiceEntryWasDeleted)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                
+                let newNumberOfVoiceEntries = self.viewModel.currentUser.numberOfVoiceEntries - 1
+                self.viewModel.currentUser.decrementNumberOfVoiceEntries()
+                self.totalVoiceEntriesBox.updateText(with: "\(newNumberOfVoiceEntries) Entries")
+            }
+            .store(in: &cancellables)
     }
 
     func adjustLayoutForNewPreferredContentSizeCategory() {

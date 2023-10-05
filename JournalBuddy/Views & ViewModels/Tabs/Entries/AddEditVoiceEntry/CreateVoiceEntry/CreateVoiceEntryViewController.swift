@@ -42,7 +42,6 @@ class CreateVoiceEntryViewController: UIViewController, MainViewController {
         super.viewWillDisappear(animated)
         
         viewModel.deactivateAudioSession()
-        viewModel.deleteLocalRecording()
     }
     
     func configure() {
