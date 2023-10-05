@@ -443,35 +443,43 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
         case CollectionViewType.video.rawValue:
             if indexPath.item == viewModel.videoEntries.count - 1 &&
                 viewModel.videoEntries.count % FBConstants.videoEntryBatchSize == 0 {
-                Task {
-                    let videoEntriesCountBeforeUpdate = viewModel.videoEntries.count
-                    await viewModel.fetchNextVideoEntryBatch()
-                    let videoEntriesCountAfterUpdate = viewModel.videoEntries.count
-                    let totalNewVideoEntries = videoEntriesCountAfterUpdate - videoEntriesCountBeforeUpdate
-                    collectionView.scrollToItem(
-                        at: IndexPath(row: viewModel.videoEntries.count - totalNewVideoEntries, section: 0),
-                        at: .bottom,
-                        animated: true
-                    )
-                }
+                fetchNewVideoEntryBatch(for: collectionView)
             }
         case CollectionViewType.voice.rawValue:
             if indexPath.item == viewModel.voiceEntries.count - 1 &&
                 viewModel.voiceEntries.count % FBConstants.voiceEntryBatchSize == 0 {
-                Task {
-                    let voiceEntriesCountBeforeUpdate = viewModel.voiceEntries.count
-                    await viewModel.fetchNextVoiceEntryBatch()
-                    let voiceEntriesCountAfterUpdate = viewModel.voiceEntries.count
-                    let totalNewVoiceEntries = voiceEntriesCountAfterUpdate - voiceEntriesCountBeforeUpdate
-                    collectionView.scrollToItem(
-                        at: IndexPath(row: viewModel.voiceEntries.count - totalNewVoiceEntries, section: 0),
-                        at: .bottom,
-                        animated: true
-                    )
-                }
+                fetchNewVoiceEntryBatch(for: collectionView)
             }
         default:
             print("❌ Unknown collection view tag sent to delegate method.")
+        }
+    }
+    
+    func fetchNewVideoEntryBatch(for collectionView: UICollectionView) {
+        Task {
+            let videoEntriesCountBeforeUpdate = viewModel.videoEntries.count
+            await viewModel.fetchNextVideoEntryBatch()
+            let videoEntriesCountAfterUpdate = viewModel.videoEntries.count
+            let totalNewVideoEntries = videoEntriesCountAfterUpdate - videoEntriesCountBeforeUpdate
+            collectionView.scrollToItem(
+                at: IndexPath(row: viewModel.videoEntries.count - totalNewVideoEntries, section: 0),
+                at: .bottom,
+                animated: true
+            )
+        }
+    }
+    
+    func fetchNewVoiceEntryBatch(for collectionView: UICollectionView) {
+        Task {
+            let voiceEntriesCountBeforeUpdate = viewModel.voiceEntries.count
+            await viewModel.fetchNextVoiceEntryBatch()
+            let voiceEntriesCountAfterUpdate = viewModel.voiceEntries.count
+            let totalNewVoiceEntries = voiceEntriesCountAfterUpdate - voiceEntriesCountBeforeUpdate
+            collectionView.scrollToItem(
+                at: IndexPath(row: viewModel.voiceEntries.count - totalNewVoiceEntries, section: 0),
+                at: .bottom,
+                animated: true
+            )
         }
     }
 }
