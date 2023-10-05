@@ -60,7 +60,7 @@ class CustomMenu: UIView {
         isAnimating = true
 
         UIView.animate(
-            withDuration: 0.5,
+            withDuration: 0.25,
             delay: 0,
             usingSpringWithDamping: 0.65,
             initialSpringVelocity: 0.5,
@@ -81,7 +81,7 @@ class CustomMenu: UIView {
         isAnimating = true
 
         UIView.animate(
-            withDuration: 0.5,
+            withDuration: 0.25,
             delay: 0,
             usingSpringWithDamping: 0.65,
             initialSpringVelocity: 1,

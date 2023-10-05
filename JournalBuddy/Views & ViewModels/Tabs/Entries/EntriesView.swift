@@ -9,7 +9,6 @@ import Combine
 import UIKit
 
 #warning("Make no content found view scrollable for dynamic type sizes.")
-#warning("Make entry type selector disabled when custom menu is visible")
 
 class EntriesView: UIView, MainView {
     enum CollectionViewType: Int {
@@ -17,7 +16,7 @@ class EntriesView: UIView, MainView {
         case voice
     }
     
-    private lazy var entryTypeStack = UIStackView(
+    lazy var entryTypeStack = UIStackView(
         arrangedSubviews: [
             textEntryButton,
             videoEntryButton,

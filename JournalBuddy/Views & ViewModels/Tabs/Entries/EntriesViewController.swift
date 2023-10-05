@@ -164,12 +164,12 @@ class EntriesViewController: UIViewController, MainViewController {
     @objc func createEntryButtonTapped() {
         // Prevent visual bug that occurs if the user taps the menu button twice very quickly
         guard !createNewEntryMenu.isAnimating else { return }
+        
+        addCustomMenuDismissGestureRecognizer()
 
         if !viewModel.customMenuIsShowing {
-            createNewEntryMenu.present { [weak self] in
-                self?.addCustomMenuDismissGestureRecognizer()
-                self?.viewModel.customMenuIsShowing = true
-            }
+            viewModel.customMenuIsShowing = true
+            createNewEntryMenu.present { }
         } else {
             dismissCustomMenu()
         }
@@ -192,23 +192,32 @@ class EntriesViewController: UIViewController, MainViewController {
 
     @objc func dismissCustomMenu() {
         removeCustomMenuDismissGestureRecognizer()
+        
+        viewModel.customMenuIsShowing = false
 
-        createNewEntryMenu.dismiss { [weak self] in
-            self?.viewModel.customMenuIsShowing = false
-        }
+        createNewEntryMenu.dismiss { }
     }
 }
 
 extension EntriesViewController: EntriesViewDelegate {
     func entriesViewDidSelectTextEntry(_ entry: TextEntry) {
+        guard !createNewEntryMenu.isAnimating,
+              !viewModel.customMenuIsShowing else { return }
+        
         coordinator?.presentAddEditTextEntryViewController(withTextEntryToEdit: entry)
     }
     
     func entriesViewDidSelectVideoEntry(_ entry: VideoEntry) {
+        guard !createNewEntryMenu.isAnimating,
+              !viewModel.customMenuIsShowing else { return }
+        
         coordinator?.presentWatchVideoEntryViewController(withVideoEntry: entry)
     }
     
     func entriesViewDidSelectVoiceEntry(_ entry: VoiceEntry) {
+        guard !createNewEntryMenu.isAnimating,
+              !viewModel.customMenuIsShowing else { return }
+        
         coordinator?.presentListenToVoiceEntryViewController(for: entry)
     }
 }
