@@ -36,25 +36,52 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func createUser(_ user: User) async throws {
+    func createUser(_ user: User) throws {
         do {
-            try await usersCollection
+            try usersCollection
                 .document(user.uid)
-                .setData(
-                    [
-                        FBConstants.uid: user.uid,
-                        FBConstants.emailAddress: user.emailAddress
-                    ]
-                )
+                .setData(from: user)
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
         }
     }
+    
+    /// Increments one of the current user's entry counters: `numberOfTextEntries`, `numberOfVideoEntries`,
+    /// or `numberOfVoiceEntries`. Which one is incremented depends on the entry type that is passed into `entry`.
+    /// - Parameter entry: The new entry whose creation has prompted the incrementation. Used to determine which user
+    /// should be updated, and which property should be updated when the user is found.
+    func incrementUserEntryCount(forNewlyCreatedEntry entry: any Entry) async throws {
+        do {
+            try await usersCollection
+                .document(entry.creatorUID)
+                .updateData([entry.type.userCounterFieldName: FieldValue.increment(1.0)])
+        } catch {
+            print("❌ Failed to increment user's entry counter.")
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    /// Decrements one of the current user's entry counters: `numberOfTextEntries`, `numberOfVideoEntries`,
+    /// or `numberOfVoiceEntries`. Which one is decremented depends on the entry type that is passed into `entry`.
+    /// - Parameter entry: The entry whose deletion has prompted the decrementation. Used to determine which user
+    /// should be updated, and which property should be updated when the user is found.
+    func decrementUserEntryCount(forNewlyDeletedEntry entry: any Entry) async throws {
+        do {
+            try await usersCollection
+                .document(entry.creatorUID)
+                .updateData([entry.type.userCounterFieldName: FieldValue.increment(-1.0)])
+        } catch {
+            print("❌ Failed to decrement user's entry counter.")
+            print(error.emojiMessage)
+            throw FBFirestoreError.updateDataFailed(systemError: error.localizedDescription)
+        }
+    }
 
     // MARK: - Generic Entry CRUD
 
-    #warning("Remove parameter.")
+    #warning("Remove uid parameter.")
     func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
         do {
             switch entryType {
@@ -108,17 +135,22 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// - Returns: The `Entry` that was saved.
     @discardableResult func saveEntry<T: Entry>(_ entry: T, at url: URL?) async throws -> T {
         do {
+            var savedEntry: any Entry
+            
             switch entry.type {
             case .text:
                 let textEntry = entry as! TextEntry
-                return try await saveTextEntry(textEntry) as! T
+                savedEntry = try await saveTextEntry(textEntry)
             case .video:
                 let videoEntry = entry as! VideoEntry
-                return try await saveVideoEntry(videoEntry, at: url!) as! T
+                savedEntry = try await saveVideoEntry(videoEntry, at: url!)
             case .voice:
                 let voiceEntry = entry as! VoiceEntry
-                return try await saveVoiceEntry(voiceEntry, at: url!) as! T
+                savedEntry = try await saveVoiceEntry(voiceEntry, at: url!)
             }
+            
+            try await incrementUserEntryCount(forNewlyCreatedEntry: savedEntry)
+            return savedEntry as! T
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.saveDataFailed(systemError: error.localizedDescription)
@@ -150,20 +182,22 @@ final class DatabaseService: DatabaseServiceProtocol {
                     .document(entry.id)
                     .delete()
             case .video:
+                try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
                 try await usersCollection
                     .document(entry.creatorUID)
                     .collection(FBConstants.videoEntries)
                     .document(entry.id)
                     .delete()
-                try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
             case .voice:
+                try await deleteVoiceEntryFromFBStorage(entry as! VoiceEntry)
                 try await usersCollection
                     .document(entry.creatorUID)
                     .collection(FBConstants.voiceEntries)
                     .document(entry.id)
                     .delete()
-                try await deleteVoiceEntryFromFBStorage(entry as! VoiceEntry)
             }
+            
+            try await decrementUserEntryCount(forNewlyDeletedEntry: entry)
         } catch {
             print(error.emojiMessage)
             throw FBFirestoreError.deleteDataFailed(systemError: error.localizedDescription)

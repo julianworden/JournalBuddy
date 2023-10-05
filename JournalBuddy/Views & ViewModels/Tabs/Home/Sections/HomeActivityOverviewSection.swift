@@ -19,9 +19,18 @@ class HomeActivityOverviewSection: UIView {
                 totalVoiceEntriesBox
             ]
     )
-    private lazy var totalTextEntriesBox = HomeSectionSecondaryBox(iconName: "square.and.pencil", text: "24 Entries")
-    private lazy var totalVideoEntriesBox = HomeSectionSecondaryBox(iconName: "video", text: "17 Entries")
-    private lazy var totalVoiceEntriesBox = HomeSectionSecondaryBox(iconName: "mic", text: "10 Entries")
+    private lazy var totalTextEntriesBox = HomeSectionSecondaryBox(
+        iconName: "square.and.pencil",
+        text: "\(viewModel.currentUser.numberOfTextEntries) Entries"
+    )
+    private lazy var totalVideoEntriesBox = HomeSectionSecondaryBox(
+        iconName: "video",
+        text: "\(viewModel.currentUser.numberOfVideoEntries) Entries"
+    )
+    private lazy var totalVoiceEntriesBox = HomeSectionSecondaryBox(
+        iconName: "mic",
+        text: "\(viewModel.currentUser.numberOfVoiceEntries) Entries"
+    )
 
     var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
         if UIApplication.shared.preferredContentSizeCategory >= .accessibilityMedium {

@@ -32,7 +32,7 @@ class VideoEntryThumbnailView: UIImageView {
     }
     
     /// Starts the `Task` for fetching a given video entry's thumbnail.
-    /// - Parameter videoEntry: The video entry who's thumbnail should be fetched.
+    /// - Parameter videoEntry: The video entry whose thumbnail should be fetched.
     /// - Returns: The task that is responsible for fetching and validating the image, configuring the view, and caching the image.
     /// This `Task` is stored in the class so that it can be cancelled during dequeuing to avoid data races.
     private func getFetchImageTask(for videoEntry: VideoEntry) -> Task<Void, Never> {

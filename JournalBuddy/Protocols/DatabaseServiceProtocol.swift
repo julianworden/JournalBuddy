@@ -9,7 +9,7 @@ import FirebaseAuth
 
 protocol DatabaseServiceProtocol {
     func getUser(withUID uid: String) async throws -> User
-    func createUser(_ user: User) async throws
+    func createUser(_ user: User) throws
 
     func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T]
     func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T]

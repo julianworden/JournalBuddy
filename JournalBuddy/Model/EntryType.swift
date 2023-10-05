@@ -22,4 +22,18 @@ enum EntryType: String, CaseIterable, Codable {
             return "Video Entries"
         }
     }
+    
+    /// The name of the `User` field that holds the amount of entries
+    /// for an entry type. For example, the user's number of text entries
+    /// is stored in `numberOfTextEntries` field.
+    var userCounterFieldName: String {
+        switch self {
+        case .text:
+            return FBConstants.numberOfTextEntries
+        case .video:
+            return FBConstants.numberOfVideoEntries
+        case .voice:
+            return FBConstants.numberOfVoiceEntries
+        }
+    }
 }

@@ -44,7 +44,7 @@ final class SignUpViewModel: MainViewModel {
                 uid: authService.currentUserUID,
                 emailAddress: authService.currentUserEmailAddress
             )
-            try await databaseService.createUser(newUser)
+            try databaseService.createUser(newUser)
 
             viewState = .accountCreatedSuccessfully(for: newUser)
         } catch {

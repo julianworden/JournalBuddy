@@ -22,6 +22,9 @@ enum FBConstants {
     static let emailAddress = "emailAddress"
     static let isComplete = "isComplete"
     static let unixDate = "unixDate"
+    static let numberOfTextEntries = "numberOfTextEntries"
+    static let numberOfVideoEntries = "numberOfVideoEntries"
+    static let numberOfVoiceEntries = "numberOfVoiceEntries"
     
     // MARK: - Batch Sizes
     static let textEntryBatchSize = 12
