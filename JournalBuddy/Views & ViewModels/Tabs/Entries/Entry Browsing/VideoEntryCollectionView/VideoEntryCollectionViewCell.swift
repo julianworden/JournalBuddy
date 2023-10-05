@@ -8,7 +8,7 @@
 import UIKit
 
 final class VideoEntryCollectionViewCell: UICollectionViewCell {
-    private lazy var imageView = AsyncImageView()
+    private lazy var imageView = VideoEntryThumbnailView()
     
     func configure(with videoEntry: VideoEntry) {
         clipsToBounds = true
