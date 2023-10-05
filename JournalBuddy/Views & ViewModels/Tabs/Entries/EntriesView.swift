@@ -444,7 +444,15 @@ extension EntriesView: UICollectionViewDelegateFlowLayout {
             if indexPath.item == viewModel.videoEntries.count - 1 &&
                 viewModel.videoEntries.count % FBConstants.videoEntryBatchSize == 0 {
                 Task {
+                    let videoEntriesCountBeforeUpdate = viewModel.videoEntries.count
                     await viewModel.fetchNextVideoEntryBatch()
+                    let videoEntriesCountAfterUpdate = viewModel.videoEntries.count
+                    let totalNewVideoEntries = videoEntriesCountAfterUpdate - videoEntriesCountBeforeUpdate
+                    collectionView.scrollToItem(
+                        at: IndexPath(row: viewModel.videoEntries.count - totalNewVideoEntries, section: 0),
+                        at: .bottom,
+                        animated: true
+                    )
                 }
             }
         case CollectionViewType.voice.rawValue:
