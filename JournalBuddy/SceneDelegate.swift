@@ -24,16 +24,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let databaseService = DatabaseService(authService: authService)
 
             if let currentFirebaseAuthUser = authService.currentFirebaseAuthUser {
-                let currentUser = try await databaseService.getUser(withUID: currentFirebaseAuthUser.uid)
-
-                mainCoordinator = MainCoordinator(
-                    databaseService: databaseService,
-                    authService: authService,
-                    appWindow: window,
-                    currentUser: currentUser
-                )
-
-                mainCoordinator?.start()
+                do {
+                    let currentUser = try await databaseService.getUser(withUID: currentFirebaseAuthUser.uid)
+                    
+                    mainCoordinator = MainCoordinator(
+                        databaseService: databaseService,
+                        authService: authService,
+                        appWindow: window,
+                        currentUser: currentUser
+                    )
+                    
+                    mainCoordinator?.start()
+                } catch {
+                    print("❌ Failed to fetch current user's data.")
+                    print(error.emojiMessage)
+                }
             } else {
                 mainCoordinator = MainCoordinator(
                     databaseService: databaseService,

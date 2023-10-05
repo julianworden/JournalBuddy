@@ -111,7 +111,14 @@ final class EntriesViewModelUnitTests: XCTestCase {
         
         XCTAssertTrue(sut.textEntries.isEmpty)
         XCTAssertTrue(sut.textEntriesQueryPerformed)
-        await fulfillment(of: [noTextEntriesFoundExpectation])
+        await fulfillment(
+            of: [
+                fetchingTextEntriesExpectation,
+                noTextEntriesFoundExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
     }
 
     func test_OnFetchFirstTextEntryBatchUnsuccessfully_ErrorIsThrown() async {
@@ -134,12 +141,23 @@ final class EntriesViewModelUnitTests: XCTestCase {
         XCTAssertEqual(sut.textEntries, TestData.textEntryArray)
     }
     
-    func test_OnFetchVideoEntriesSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
+    func test_OnFetchNextTextEntryBatchUnsuccessfully_ViewStateIsSet() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
+        sut.textEntries.append(contentsOf: TestData.textEntryArray)
+        
+        await sut.fetchNextTextEntryBatch()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnFetchFirstVideoEntryBatchSuccessfully_EntriesAreAssignedAndViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
         await sut.fetchFirstVideoEntryBatch()
         
+        XCTAssertEqual(sut.videoEntries, Array(TestData.videoEntryArray.prefix(FBConstants.videoEntryBatchSize)))
+        XCTAssertTrue(sut.videoEntriesQueryPerformed)
         await fulfillment(
             of: [
                 fetchingVideoEntriesExpectation,
@@ -150,16 +168,25 @@ final class EntriesViewModelUnitTests: XCTestCase {
         )
     }
     
-    func test_OnFetchVideoEntriesSuccessfullyWithNoResults_ViewStateIsSet() async {
+    func test_OnFetchFirstVideoEntryBatchSuccessfullyWithNoResults_ViewStateIsSet() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
         await sut.fetchFirstVideoEntryBatch(performEntryQuery: false)
         
-        await fulfillment(of: [noVideoEntriesFoundExpectation], timeout: 3)
+        XCTAssertTrue(sut.videoEntries.isEmpty)
+        XCTAssertTrue(sut.videoEntriesQueryPerformed)
+        await fulfillment(
+            of: [
+                fetchingVideoEntriesExpectation,
+                noVideoEntriesFoundExpectation
+            ],
+            timeout: 3,
+            enforceOrder: true
+        )
     }
     
-    func test_OnFetchVideoEntriesUnsuccessfully_ErrorViewStateIsSet() async {
+    func test_OnFetchFirstVideoEntryBatchUnsuccessfully_ErrorViewStateIsSet() async {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
         subscribeToViewStateUpdates()
         
@@ -185,6 +212,27 @@ final class EntriesViewModelUnitTests: XCTestCase {
         )
         XCTAssertEqual(sut.voiceEntries, Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)))
         XCTAssertTrue(sut.voiceEntriesQueryPerformed)
+    }
+    
+    func test_OnFetchNextVideoEntryBatchSuccessfully_EntriesAreAssigned() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        sut.videoEntries.append(contentsOf: Array(TestData.videoEntryArray.prefix(FBConstants.videoEntryBatchSize)))
+        
+        await sut.fetchNextVideoEntryBatch()
+        
+        print(sut.videoEntries.count)
+        print(TestData.videoEntryArray.count)
+        
+        XCTAssertEqual(sut.videoEntries, TestData.videoEntryArray)
+    }
+    
+    func test_OnFetchNextVideoEntryBatchUnsuccessfully_ViewStateIsSet() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
+        sut.videoEntries.append(contentsOf: Array(TestData.videoEntryArray.prefix(FBConstants.videoEntryBatchSize)))
+        
+        await sut.fetchNextVideoEntryBatch()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
     
     func test_OnFetchFirstVoiceEntryBatchSuccessfullyWithNoResults_ViewStateIsSet() async {

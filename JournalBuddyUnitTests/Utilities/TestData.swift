@@ -160,35 +160,77 @@ enum TestData {
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: Date.now.timeIntervalSince1970,
+            unixDate: 1696282763,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: Date.now.timeIntervalSince1970,
+            unixDate: 1696196363,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: Date.now.timeIntervalSince1970,
+            unixDate: 1696109963,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: Date.now.timeIntervalSince1970,
+            unixDate: 1696023563,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: Date.now.timeIntervalSince1970,
+            unixDate: 1695937163,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695850763,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695764363,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695677963,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695591563,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695505163,
+            downloadURL: UUID().uuidString,
+            thumbnailDownloadURL: UUID().uuidString
+        ),
+        VideoEntry(
+            id: UUID().uuidString,
+            creatorUID: UUID().uuidString,
+            unixDate: 1695418763,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         )

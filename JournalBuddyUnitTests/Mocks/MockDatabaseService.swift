@@ -41,7 +41,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             case .text:
                 return Array(TestData.textEntryArray.prefix(FBConstants.textEntryBatchSize)) as! [T]
             case .video:
-                return TestData.videoEntryArray as! [T]
+                return Array(TestData.videoEntryArray.prefix(FBConstants.videoEntryBatchSize)) as! [T]
             case .voice:
                 return Array(TestData.voiceEntryArray.prefix(FBConstants.voiceEntryBatchSize)) as! [T]
             }
@@ -56,7 +56,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
             case .text:
                 return TestData.textEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
             case .video:
-                return TestData.videoEntryArray as! [T]
+                return TestData.videoEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
             case .voice:
                 return TestData.voiceEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
             }
