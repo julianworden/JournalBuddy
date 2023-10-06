@@ -235,7 +235,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.textEntries)
-                .order(by: FBConstants.unixDate, descending: true)
+                .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.textEntryBatchSize)
                 .getDocuments()
 
@@ -254,8 +254,8 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.textEntries)
-                .order(by: FBConstants.unixDate, descending: true)
-                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .order(by: FBConstants.unixDateCreated, descending: true)
+                .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
                 .limit(to: FBConstants.textEntryBatchSize)
                 .getDocuments()
 
@@ -303,7 +303,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.videoEntries)
-                .order(by: FBConstants.unixDate, descending: true)
+                .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.videoEntryBatchSize)
                 .getDocuments()
 
@@ -322,8 +322,8 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.videoEntries)
-                .order(by: FBConstants.unixDate, descending: true)
-                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .order(by: FBConstants.unixDateCreated, descending: true)
+                .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
                 .limit(to: FBConstants.videoEntryBatchSize)
                 .getDocuments()
 
@@ -371,7 +371,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.voiceEntries)
-                .order(by: FBConstants.unixDate, descending: true)
+                .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.voiceEntryBatchSize)
                 .getDocuments()
 
@@ -390,8 +390,8 @@ final class DatabaseService: DatabaseServiceProtocol {
             let query = try await usersCollection
                 .document(uid)
                 .collection(FBConstants.voiceEntries)
-                .order(by: FBConstants.unixDate, descending: true)
-                .whereField(FBConstants.unixDate, isLessThan: oldestFetchedEntry.unixDate)
+                .order(by: FBConstants.unixDateCreated, descending: true)
+                .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
                 .limit(to: FBConstants.voiceEntryBatchSize)
                 .getDocuments()
 
@@ -464,11 +464,21 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func completeGoal(_ completedGoal: Goal) async throws {
         do {
+            guard let unixDateCompleted = completedGoal.unixDateCompleted else {
+                print("❌ Completed goal does not have completed date.")
+                return
+            }
+            
             try await usersCollection
                 .document(completedGoal.creatorUID)
                 .collection(FBConstants.goals)
                 .document(completedGoal.id)
-                .updateData([FBConstants.isComplete: true])
+                .updateData(
+                    [
+                        FBConstants.isComplete: true,
+                        FBConstants.unixDateCompleted: unixDateCompleted
+                    ]
+                )
             try await incrementUserCompleteGoalsCount()
         } catch {
             print(error.emojiMessage)
@@ -517,7 +527,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     private func uploadVideoEntryToFBStorage(upload videoEntry: VideoEntry, at url: URL) async throws -> URL {
         do {
             let newVideoEntryLocationRef = storageRef.child(
-                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).mov"
+                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDateCreated)/\(videoEntry.unixDateCreated).mov"
             )
             
             let videoData = try Data(contentsOf: url)
@@ -546,7 +556,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     private func uploadVideoEntryThumbnailToFBStorage(videoEntry: VideoEntry, videoEntryLocalURL: URL) async throws -> URL {
         do {
             let newVideoEntryThumbnailRef = storageRef.child(
-                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDate)/\(videoEntry.unixDate).jpeg"
+                "Users/\(videoEntry.creatorUID)/Video Entries/\(videoEntry.unixDateCreated)/\(videoEntry.unixDateCreated).jpeg"
             )
             let videoAsset = AVAsset(url: videoEntryLocalURL)
             let videoThumbnailGenerator = AVAssetImageGenerator(asset: videoAsset)
@@ -580,7 +590,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     private func uploadVoiceEntryToFBStorage(upload voiceEntry: VoiceEntry, at url: URL) async throws -> URL {
         do {
             let newVoiceEntryRef = storageRef.child(
-                "Users/\(voiceEntry.creatorUID)/Voice Entries/\(voiceEntry.unixDate).m4a"
+                "Users/\(voiceEntry.creatorUID)/Voice Entries/\(voiceEntry.unixDateCreated).m4a"
             )
             let voiceEntryData = try Data(contentsOf: url)
             

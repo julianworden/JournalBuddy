@@ -30,7 +30,7 @@ class HomeYourLatestEntriesCollectionViewCell: UICollectionViewCell {
         textStack.alignment = .center
 //        textStack.distribution = .fill
 
-        entryNameLabel.text = entry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        entryNameLabel.text = entry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         entryNameLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .boldBody)
         entryNameLabel.textColor = .white
         entryNameLabel.textAlignment = .center

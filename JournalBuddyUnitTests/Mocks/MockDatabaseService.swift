@@ -54,11 +54,11 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         } else {
             switch oldestFetchedEntry.type {
             case .text:
-                return TestData.textEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
+                return TestData.textEntryArray.filter { $0.unixDateCreated < oldestFetchedEntry.unixDateCreated } as! [T]
             case .video:
-                return TestData.videoEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
+                return TestData.videoEntryArray.filter { $0.unixDateCreated < oldestFetchedEntry.unixDateCreated } as! [T]
             case .voice:
-                return TestData.voiceEntryArray.filter { $0.unixDate < oldestFetchedEntry.unixDate } as! [T]
+                return TestData.voiceEntryArray.filter { $0.unixDateCreated < oldestFetchedEntry.unixDateCreated } as! [T]
             }
         }
     }

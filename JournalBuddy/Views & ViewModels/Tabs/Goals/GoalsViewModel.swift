@@ -105,7 +105,7 @@ final class GoalsViewModel: MainViewModel {
         removeGoalFromArrays(goal)
         
         var completedGoal = goal
-        completedGoal.isComplete = true
+        completedGoal.complete()
         
         addGoalToArrays(completedGoal)
         

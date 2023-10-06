@@ -49,7 +49,7 @@ class ListenToVoiceEntryViewController: UIViewController, MainViewController {
     }
     
     func configure() {
-        navigationItem.title = viewModel.voiceEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        navigationItem.title = viewModel.voiceEntry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         navigationItem.largeTitleDisplayMode = .never
     }
     

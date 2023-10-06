@@ -84,7 +84,6 @@ final class AddEditTextEntryViewModel: MainViewModel {
             let textEntry = TextEntry(
                 id: "",
                 creatorUID: currentUser.uid,
-                unixDate: Date.now.timeIntervalSince1970,
                 text: entryText
             )
 

@@ -10,27 +10,26 @@ import Foundation
 struct VoiceEntry: Entry {
     var id: String
     let creatorUID: String
-    let unixDate: Double
+    let unixDateCreated: Double
     var downloadURL: String
     let type: EntryType
     
     static let example = VoiceEntry(
         id: UUID().uuidString,
         creatorUID: UUID().uuidString,
-        unixDate: Date.now.timeIntervalSince1970,
         downloadURL: UUID().uuidString
     )
     
     init(
         id: String,
         creatorUID: String,
-        unixDate: Double,
+        unixDateCreated: Double = Date.now.timeIntervalSince1970,
         downloadURL: String,
         type: EntryType = .voice
     ) {
         self.id = id
         self.creatorUID = creatorUID
-        self.unixDate = unixDate
+        self.unixDateCreated = unixDateCreated
         self.downloadURL = downloadURL
         self.type = type
     }

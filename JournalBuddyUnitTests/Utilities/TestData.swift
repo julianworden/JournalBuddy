@@ -13,145 +13,145 @@ enum TestData {
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696282763,
+            unixDateCreated: 1696282763,
             text: "What a great day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696196363,
+            unixDateCreated: 1696196363,
             text: "What a bad day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696109963,
+            unixDateCreated: 1696109963,
             text: "What a terrible day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696023563,
+            unixDateCreated: 1696023563,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695937163,
+            unixDateCreated: 1695937163,
             text: "What a fantastic day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695850763,
+            unixDateCreated: 1695850763,
             text: "What a great day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695764363,
+            unixDateCreated: 1695764363,
             text: "What a bad day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695677963,
+            unixDateCreated: 1695677963,
             text: "What a terrible day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695591563,
+            unixDateCreated: 1695591563,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695505163,
+            unixDateCreated: 1695505163,
             text: "What a fantastic day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695418763,
+            unixDateCreated: 1695418763,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695332363,
+            unixDateCreated: 1695332363,
             text: "What a fantastic day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695073521,
+            unixDateCreated: 1695073521,
             text: "What a great day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694987121,
+            unixDateCreated: 1694987121,
             text: "What a bad day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694900721,
+            unixDateCreated: 1694900721,
             text: "What a terrible day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694814321,
+            unixDateCreated: 1694814321,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694727921,
+            unixDateCreated: 1694727921,
             text: "What a fantastic day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694641521,
+            unixDateCreated: 1694641521,
             text: "What a great day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694555121,
+            unixDateCreated: 1694555121,
             text: "What a bad day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694468721,
+            unixDateCreated: 1694468721,
             text: "What a terrible day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694382321,
+            unixDateCreated: 1694382321,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694295921,
+            unixDateCreated: 1694295921,
             text: "What a fantastic day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694209521,
+            unixDateCreated: 1694209521,
             text: "What an amazing day!"
         ),
         TextEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694123121,
+            unixDateCreated: 1694123121,
             text: "What a fantastic day!"
         )
     ]
@@ -160,77 +160,77 @@ enum TestData {
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696282763,
+            unixDateCreated: 1696282763,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696196363,
+            unixDateCreated: 1696196363,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696109963,
+            unixDateCreated: 1696109963,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696023563,
+            unixDateCreated: 1696023563,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695937163,
+            unixDateCreated: 1695937163,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695850763,
+            unixDateCreated: 1695850763,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695764363,
+            unixDateCreated: 1695764363,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695677963,
+            unixDateCreated: 1695677963,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695591563,
+            unixDateCreated: 1695591563,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695505163,
+            unixDateCreated: 1695505163,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         ),
         VideoEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695418763,
+            unixDateCreated: 1695418763,
             downloadURL: UUID().uuidString,
             thumbnailDownloadURL: UUID().uuidString
         )
@@ -240,103 +240,103 @@ enum TestData {
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696282763,
+            unixDateCreated: 1696282763,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696196363,
+            unixDateCreated: 1696196363,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696109963,
+            unixDateCreated: 1696109963,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1696023563,
+            unixDateCreated: 1696023563,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695937163,
+            unixDateCreated: 1695937163,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695850763,
+            unixDateCreated: 1695850763,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695764363,
+            unixDateCreated: 1695764363,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695677963,
+            unixDateCreated: 1695677963,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695591563,
+            unixDateCreated: 1695591563,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695505163,
+            unixDateCreated: 1695505163,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695418763,
+            unixDateCreated: 1695418763,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695332363,
+            unixDateCreated: 1695332363,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1695073521,
+            unixDateCreated: 1695073521,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694987121,
+            unixDateCreated: 1694987121,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694900721,
+            unixDateCreated: 1694900721,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694814321,
+            unixDateCreated: 1694814321,
             downloadURL: UUID().uuidString
         ),
         VoiceEntry(
             id: UUID().uuidString,
             creatorUID: UUID().uuidString,
-            unixDate: 1694727921,
+            unixDateCreated: 1694727921,
             downloadURL: UUID().uuidString
         )
     ]

@@ -118,16 +118,16 @@ final class GoalsViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
-        var completedExampleGoal = Goal.example
-        completedExampleGoal.isComplete = true
         
         subscribeToViewStateUpdates()
         try await sut.completeGoal(Goal.example)
         
+        XCTAssertEqual(sut.completeGoals.count, 1)
+        XCTAssertNotNil(sut.completeGoals.first!.unixDateCompleted)
+        XCTAssertEqual(sut.goals.count, 1)
+        XCTAssertNotNil(sut.goals.first!.unixDateCompleted)
+        XCTAssertTrue(sut.completeGoals.first!.isComplete)
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
-        XCTAssertFalse(sut.goals.contains(Goal.example))
-        XCTAssertTrue(sut.completeGoals.contains(completedExampleGoal))
-        XCTAssertTrue(sut.goals.contains(completedExampleGoal))
         await fulfillment(of: [noIncompleteGoalsFoundExpectation], timeout: 3)
     }
     

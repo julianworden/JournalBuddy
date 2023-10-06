@@ -72,7 +72,7 @@ class VideoEntryThumbnailView: UIImageView {
     func configure(with image: UIImage, and videoEntry: VideoEntry) {
         self.image = image
         
-        dateLabel.text = videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        dateLabel.text = videoEntry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         dateLabel.font = UIFontMetrics.avenirNextBoldFootnote
         dateLabel.textColor = .background
         

@@ -10,6 +10,6 @@ import Foundation
 protocol Entry: Codable, Hashable, Identifiable {
     var id: String { get }
     var creatorUID: String { get }
-    var unixDate: Double { get }
+    var unixDateCreated: Double { get }
     var type: EntryType { get }
 }

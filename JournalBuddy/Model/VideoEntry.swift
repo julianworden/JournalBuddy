@@ -10,7 +10,7 @@ import Foundation
 struct VideoEntry: Entry {
     var id: String
     let creatorUID: String
-    let unixDate: Double
+    let unixDateCreated: Double
     /// The URL at which `self` can be downloaded.
     var downloadURL: String
     var thumbnailDownloadURL: String
@@ -19,7 +19,6 @@ struct VideoEntry: Entry {
     static let example = VideoEntry(
         id: UUID().uuidString,
         creatorUID: UUID().uuidString,
-        unixDate: Date.now.timeIntervalSince1970,
         downloadURL: UUID().uuidString,
         thumbnailDownloadURL: UUID().uuidString
     )
@@ -27,14 +26,14 @@ struct VideoEntry: Entry {
     init(
         id: String,
         creatorUID: String,
-        unixDate: Double,
+        unixDateCreated: Double = Date.now.timeIntervalSince1970,
         downloadURL: String,
         thumbnailDownloadURL: String,
         type: EntryType = .video
     ) {
         self.id = id
         self.creatorUID = creatorUID
-        self.unixDate = unixDate
+        self.unixDateCreated = unixDateCreated
         self.downloadURL = downloadURL
         self.thumbnailDownloadURL = thumbnailDownloadURL
         self.type = type

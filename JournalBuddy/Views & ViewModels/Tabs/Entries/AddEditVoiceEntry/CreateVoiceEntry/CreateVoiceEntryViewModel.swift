@@ -159,7 +159,6 @@ final class CreateVoiceEntryViewModel: NSObject, MainViewModel {
             let newVoiceEntry = VoiceEntry(
                 id: "",
                 creatorUID: currentUser.uid,
-                unixDate: Date.now.timeIntervalSince1970,
                 downloadURL: ""
             )
             

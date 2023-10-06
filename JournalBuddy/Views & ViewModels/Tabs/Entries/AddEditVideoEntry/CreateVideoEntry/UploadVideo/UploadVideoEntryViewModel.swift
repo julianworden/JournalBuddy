@@ -54,7 +54,6 @@ final class UploadVideoEntryViewModel: MainViewModel {
         let newVideoEntry = VideoEntry(
             id: "",
             creatorUID: authService.currentUserUID,
-            unixDate: Date.now.timeIntervalSince1970,
             downloadURL: "",
             thumbnailDownloadURL: ""
         )

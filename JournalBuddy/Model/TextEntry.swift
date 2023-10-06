@@ -5,19 +5,31 @@
 //  Created by Julian Worden on 7/12/23.
 //
 
+import Foundation
+
 struct TextEntry: Entry {
     var id: String
     let creatorUID: String
-    let unixDate: Double
+    let unixDateCreated: Double
     let type: EntryType
     var text: String
 
-    static let example = TextEntry(id: "asdf123", creatorUID: "qwer123", unixDate: 2871047, text: "What a great day!")
+    static let example = TextEntry(
+        id: "asdf123",
+        creatorUID: "qwer123",
+        text: "What a great day!"
+    )
 
-    init(id: String, creatorUID: String, unixDate: Double, type: EntryType = .text, text: String) {
+    init(
+        id: String,
+        creatorUID: String,
+        unixDateCreated: Double = Date.now.timeIntervalSince1970,
+        type: EntryType = .text,
+        text: String
+    ) {
         self.id = id
         self.creatorUID = creatorUID
-        self.unixDate = unixDate
+        self.unixDateCreated = unixDateCreated
         self.type = type
         self.text = text
     }

@@ -20,7 +20,7 @@ class TextEntryTableViewCell: UITableViewCell {
     
     func configure(with textEntry: TextEntry) {
         var contentConfiguration = defaultContentConfiguration()
-        contentConfiguration.text = textEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        contentConfiguration.text = textEntry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         contentConfiguration.textProperties.font = UIFontMetrics.avenirNextBoldBody
         contentConfiguration.textProperties.color = .primaryElement
         contentConfiguration.textProperties.numberOfLines = 0

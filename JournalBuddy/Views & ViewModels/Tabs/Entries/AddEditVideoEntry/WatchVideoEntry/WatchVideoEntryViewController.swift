@@ -54,7 +54,7 @@ final class WatchVideoEntryViewController: UIViewController, MainViewController 
     }
     
     func configure() {
-        navigationItem.title = viewModel.videoEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        navigationItem.title = viewModel.videoEntry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         navigationItem.largeTitleDisplayMode = .never
     }
     

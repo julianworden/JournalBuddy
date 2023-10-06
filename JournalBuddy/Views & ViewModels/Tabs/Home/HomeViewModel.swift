@@ -14,17 +14,20 @@ final class HomeViewModel: MainViewModel {
         Goal(
             id: "asdf123",
             creatorUID: UUID().uuidString,
+            unixDateCompleted: Date.now.timeIntervalSince1970,
             name: "Get a raise."
         ),
         Goal(
             id: "qwer123",
             creatorUID: UUID().uuidString,
+            unixDateCompleted: Date.now.timeIntervalSince1970,
             name: "Pay off student loans."
             
         ),
         Goal(
             id: "zxcv123",
             creatorUID: UUID().uuidString,
+            unixDateCompleted: Date.now.timeIntervalSince1970,
             name: "Rule the world."
         )
     ]

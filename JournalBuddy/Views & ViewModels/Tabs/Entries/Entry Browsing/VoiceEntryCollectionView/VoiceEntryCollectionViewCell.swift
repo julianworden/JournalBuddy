@@ -24,7 +24,7 @@ class VoiceEntryCollectionViewCell: UICollectionViewCell {
         
         microphoneImageView.contentMode = .scaleAspectFit
         
-        dateLabel.text = voiceEntry.unixDate.unixDateAsDate.timeOmittedNumericDateString
+        dateLabel.text = voiceEntry.unixDateCreated.unixDateAsDate.timeOmittedNumericDateString
         dateLabel.textColor = .primaryElement
         dateLabel.font = UIFontMetrics.avenirNextBoldBody
         dateLabel.textAlignment = .center
