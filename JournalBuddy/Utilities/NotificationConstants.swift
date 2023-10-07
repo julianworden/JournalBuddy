@@ -17,5 +17,6 @@ enum NotificationConstants {
     static let createdVoiceEntry = "createdVoiceEntry"
     static let deletedVoiceEntry = "deletedVoiceEntry"
     static let savedGoal = "savedGoal"
+    static let completedGoal = "completedGoal"
     static let deletedGoal = "deletedGoal"
 }

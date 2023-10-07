@@ -58,7 +58,6 @@ final class GoalsViewModel: MainViewModel {
         NotificationCenter.default.publisher(for: .goalWasDeleted)
             .sink { [weak self] notification in
                 guard let deletedGoal = notification.userInfo?[NotificationConstants.deletedGoal] as? Goal else {
-                    print("❌ Array does not contain selected goal.")
                     return
                 }
                 
@@ -67,6 +66,8 @@ final class GoalsViewModel: MainViewModel {
             }
             .store(in: &cancellables)
     }
+    
+    #warning("Fetch goals in batches.")
     
     /// Fetches all the user's goals from Firestore and assigns them to the appropriate arrays.
     /// - Parameter performGoalQuery: Makes it possible to test case where no goals are found. Defaults to true
@@ -118,7 +119,8 @@ final class GoalsViewModel: MainViewModel {
     func postGoalWasCompletedNotification(_ completedGoal: Goal) {
         NotificationCenter.default.post(
             name: .goalWasCompleted,
-            object: nil
+            object: nil,
+            userInfo: [NotificationConstants.completedGoal: completedGoal]
         )
     }
     
@@ -165,7 +167,6 @@ final class GoalsViewModel: MainViewModel {
         if goalToRemove.isComplete {
             guard let completeGoalsIndex = completeGoals.firstIndex(of: goalToRemove),
                   let goalsIndex = goals.firstIndex(of: goalToRemove) else {
-                print("❌ Array does not contain selected goal.")
                 return
             }
             
@@ -174,7 +175,6 @@ final class GoalsViewModel: MainViewModel {
         } else {
             guard let incompleteGoalsIndex = incompleteGoals.firstIndex(of: goalToRemove),
                   let goalsIndex = goals.firstIndex(of: goalToRemove) else {
-                print("❌ Array does not contain selected goal.")
                 return
             }
             

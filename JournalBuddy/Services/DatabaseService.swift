@@ -442,6 +442,22 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal] {
+        do {
+            let snapshot = try await usersCollection
+                .document(authService.currentUserUID)
+                .collection(FBConstants.goals)
+                .order(by: FBConstants.unixDateCompleted, descending: true)
+                .limit(to: 3)
+                .getDocuments()
+            
+            return try snapshot.documents.map { try $0.data(as: Goal.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
     @discardableResult func saveNewGoal(_ newGoal: Goal) async throws -> Goal {
         do {
             let newGoalRef = try usersCollection

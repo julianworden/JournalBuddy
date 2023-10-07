@@ -67,6 +67,7 @@
 		AB413EB22A96B7C000916054 /* UploadVideoEntryViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB413EB12A96B7C000916054 /* UploadVideoEntryViewState.swift */; };
 		AB42A13D2A8D78DC0040430E /* HomeActivityOverviewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */; };
 		AB4B81502AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4B814F2AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift */; };
+		AB4BA1422AD051680089406E /* Sequence+filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4BA1412AD051680089406E /* Sequence+filter.swift */; };
 		AB4D477F2A65F01600B8C368 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */; };
 		AB56A4632A979BB000DA2875 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */; };
 		AB58B8F32AA7DC2800FAA4D7 /* VideoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */; };
@@ -82,6 +83,7 @@
 		AB5E7B0E2A8FA59E004A9051 /* SFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */; };
 		AB6AB2002AB9D7EC004EF7E1 /* AddEditGoalViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6AB1FF2AB9D7EC004EF7E1 /* AddEditGoalViewModelUnitTests.swift */; };
 		AB6C8A0C2AB34249008F5455 /* TestAudio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */; };
+		AB6CFA2F2AD2213800BE2292 /* GoalUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6CFA2E2AD2213800BE2292 /* GoalUnitTests.swift */; };
 		AB6E5F9F2AB6107800BB8FD1 /* TimelineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */; };
 		AB6E5FA12AB61CB100BB8FD1 /* VoiceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E5FA02AB61CB100BB8FD1 /* VoiceEntry.swift */; };
 		AB7076842A8E4DCC00E7E4DB /* SFSymbolConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */; };
@@ -270,6 +272,7 @@
 		AB413EB12A96B7C000916054 /* UploadVideoEntryViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVideoEntryViewState.swift; sourceTree = "<group>"; };
 		AB42A13C2A8D78DC0040430E /* HomeActivityOverviewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeActivityOverviewSection.swift; sourceTree = "<group>"; };
 		AB4B814F2AC5AEB100EC4D0F /* ListenToVoiceEntryViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenToVoiceEntryViewModelUnitTests.swift; sourceTree = "<group>"; };
+		AB4BA1412AD051680089406E /* Sequence+filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+filter.swift"; sourceTree = "<group>"; };
 		AB4D477E2A65F01600B8C368 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		AB56A4622A979BB000DA2875 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		AB58B8F22AA7DC2800FAA4D7 /* VideoEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEntry.swift; sourceTree = "<group>"; };
@@ -279,6 +282,7 @@
 		AB5E7B0D2A8FA59E004A9051 /* SFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolButton.swift; sourceTree = "<group>"; };
 		AB6AB1FF2AB9D7EC004EF7E1 /* AddEditGoalViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditGoalViewModelUnitTests.swift; sourceTree = "<group>"; };
 		AB6C8A0B2AB34249008F5455 /* TestAudio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = TestAudio.m4a; sourceTree = "<group>"; };
+		AB6CFA2E2AD2213800BE2292 /* GoalUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalUnitTests.swift; sourceTree = "<group>"; };
 		AB6E5F9E2AB6107800BB8FD1 /* TimelineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineSlider.swift; sourceTree = "<group>"; };
 		AB6E5FA02AB61CB100BB8FD1 /* VoiceEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEntry.swift; sourceTree = "<group>"; };
 		AB7076832A8E4DCC00E7E4DB /* SFSymbolConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolConstants.swift; sourceTree = "<group>"; };
@@ -577,6 +581,7 @@
 				AB8A49542A9BD7EE00791695 /* Int+Helpers.swift */,
 				AB12E2432AA9302B007DFAE4 /* Notification.Name+Helpers.swift */,
 				ABB73B982AAAB9B1001B4DC5 /* UIButton.Configuration+back.swift */,
+				AB4BA1412AD051680089406E /* Sequence+filter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -818,6 +823,7 @@
 			isa = PBXGroup;
 			children = (
 				AB87B0AA2ACF7CD30086A8FC /* UserUnitTests.swift */,
+				AB6CFA2E2AD2213800BE2292 /* GoalUnitTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1209,6 +1215,7 @@
 				AB07B62B2A696B8A0096BE25 /* FBAuthError.swift in Sources */,
 				AB07D2E22AB1F1B900927D6C /* CreateVoiceEntryView.swift in Sources */,
 				AB70768A2A8E60BE00E7E4DB /* CustomAlertButton.swift in Sources */,
+				AB4BA1422AD051680089406E /* Sequence+filter.swift in Sources */,
 				AB72DCA22A6F5BE000B4D4AF /* MainTextFieldType.swift in Sources */,
 				ABD819EA2A866C510078604A /* HomeSectionPrimaryBox.swift in Sources */,
 				ABB24E462A66D903001A76E0 /* MainTabBarController.swift in Sources */,
@@ -1369,6 +1376,7 @@
 				AB294F092ACDA30200B605A3 /* FBConstantsUnitTests.swift in Sources */,
 				AB948B822A6D7EE700430E61 /* TestError.swift in Sources */,
 				AB948B812A6D7EE400430E61 /* MockDatabaseService.swift in Sources */,
+				AB6CFA2F2AD2213800BE2292 /* GoalUnitTests.swift in Sources */,
 				AB948B802A6D7EE100430E61 /* AddEditTextEntryViewModelUnitTests.swift in Sources */,
 				ABF8FD612A72B5230065B8D9 /* LoginViewModelUnitTests.swift in Sources */,
 				ABE30F002AB77A5A00B2A4F6 /* CreateVoiceEntryViewModelUnitTests.swift in Sources */,

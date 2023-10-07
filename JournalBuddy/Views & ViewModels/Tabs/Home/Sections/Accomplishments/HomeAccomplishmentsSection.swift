@@ -11,11 +11,15 @@ import UIKit
 class HomeAccomplishmentsSection: UIView {
     private lazy var primaryBackgroundBox = HomeSectionPrimaryBox()
     private lazy var titleLabel = UILabel()
-    private lazy var primaryBoxContentStack = UIStackView(arrangedSubviews: [accomplishmentsStack, secondaryBox])
+    private lazy var primaryBoxContentStack = UIStackView(arrangedSubviews: [accomplishmentsStack, noCompleteGoalsFoundView, secondaryBox])
     private lazy var accomplishmentsStack = UIStackView()
+    private lazy var noCompleteGoalsFoundView = NoContentFoundView(
+        title: "No Completed Goals Found",
+        message: "Your most recently completed goals will appear here."
+    )
     private lazy var secondaryBox = HomeSectionSecondaryBox(
         iconName: "trophy",
-        text: "\(viewModel.currentUser.numberOfCompleteGoals)\nGoals Achieved"
+        text: "\(viewModel.currentUser.numberOfCompleteGoals)\nGoals"
     )
 
     var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
@@ -67,6 +71,8 @@ class HomeAccomplishmentsSection: UIView {
 
         accomplishmentsStack.axis = .vertical
         accomplishmentsStack.spacing = 0
+        
+        noCompleteGoalsFoundView.isHidden = true
     }
 
     func makeAccessible() {
@@ -83,6 +89,7 @@ class HomeAccomplishmentsSection: UIView {
         addConstrainedSubviews(titleLabel, primaryBackgroundBox)
         primaryBackgroundBox.addConstrainedSubviews(primaryBoxContentStack)
 
+        #warning("Make constraints for primary box individual contents equal to a percentage of the primary box width. When type is very big, make them the full width.")
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: primaryBackgroundBox.leadingAnchor),
@@ -99,16 +106,37 @@ class HomeAccomplishmentsSection: UIView {
             primaryBoxContentStack.trailingAnchor.constraint(equalTo: primaryBackgroundBox.trailingAnchor, constant: -10),
 
             accomplishmentsStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 170),
-            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 110)
+            noCompleteGoalsFoundView.widthAnchor.constraint(greaterThanOrEqualToConstant: 200),
+            secondaryBox.widthAnchor.constraint(greaterThanOrEqualToConstant: 75)
         ])
     }
     
     func subscribeToGoalsArrayUpdates() {
-        viewModel.$userGoals
-            .sink { [weak self] goals in
-                self?.addGoalsToStackView(goals)
+        viewModel.$refreshGoalsList
+            .sink { [weak self] refresh in
+                guard let self,
+                      refresh else { return }
+                
+                if self.viewModel.threeMostRecentlyCompletedGoals.isEmpty {
+                    self.presentNoCompleteGoalsFoundUI()
+                } else {
+                    self.presentCompleteGoalsFoundUI()
+                    self.addGoalsToStackView(self.viewModel.threeMostRecentlyCompletedGoals)
+                } 
+                
+                self.viewModel.refreshGoalsList = false
             }
             .store(in: &cancellables)
+    }
+    
+    func presentNoCompleteGoalsFoundUI() {
+        accomplishmentsStack.isHidden = true
+        noCompleteGoalsFoundView.isHidden = false
+    }
+    
+    func presentCompleteGoalsFoundUI() {
+        accomplishmentsStack.isHidden = false
+        noCompleteGoalsFoundView.isHidden = true
     }
     
     func subscribeToDynamicTypeChanges() {
@@ -126,7 +154,7 @@ class HomeAccomplishmentsSection: UIView {
                 
                 let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals + 1
                 self.viewModel.currentUser.incrementNumberOfCompleteGoals()
-                self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals Achieved")
+                self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals")
             }
             .store(in: &cancellables)
         
@@ -138,11 +166,11 @@ class HomeAccomplishmentsSection: UIView {
                     print("❌ .goalWasDeleted notification posted without goal data.")
                     return
                 }
-                                                               
+
                 if deletedGoal.isComplete {
                     let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals - 1
                     self.viewModel.currentUser.decrementNumberOfCompleteGoals()
-                    self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals Achieved")
+                    self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals")
                 }
             }
             .store(in: &cancellables)
@@ -154,6 +182,12 @@ class HomeAccomplishmentsSection: UIView {
     }
 
     func addGoalsToStackView(_ goals: [Goal]) {
+        if !accomplishmentsStack.arrangedSubviews.isEmpty {
+            for view in accomplishmentsStack.arrangedSubviews {
+                view.removeFromSuperview()
+            }
+        }
+        
         for (index, goal) in goals.enumerated() {
             // Don't show divider at the bottom of last row
             let displayDividerInRow = index != goals.count - 1

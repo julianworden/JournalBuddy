@@ -18,6 +18,7 @@ protocol DatabaseServiceProtocol {
     func deleteEntry<T: Entry>(_ entry: T) async throws
     
     func fetchGoals() async throws -> [Goal]
+    func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal]
     func saveNewGoal(_ newGoal: Goal) async throws -> Goal
     /// Updates a given goal in Firestore.
     /// - Parameter updatedGoal: The updated goal that is to be saved to

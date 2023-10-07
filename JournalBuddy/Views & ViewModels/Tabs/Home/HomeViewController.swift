@@ -35,8 +35,11 @@ class HomeViewController: UIViewController, MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configure()
-        subscribeToPublishers()
+        Task {
+            configure()
+            subscribeToPublishers()
+            await viewModel.fetchThreeMostRecentlyCompletedGoals()
+        }
     }
 
     func configure() {
@@ -72,8 +75,3 @@ extension HomeViewController: HomeViewDelegate {
         coordinator?.presentNewTextEntryViewController()
     }
 }
-
-//#Preview {
-//    let navigationController = MainNavigationController(rootViewController: HomeViewController())
-//    return navigationController
-//}

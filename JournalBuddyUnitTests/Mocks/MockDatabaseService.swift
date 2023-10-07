@@ -100,6 +100,14 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
     
+    func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return TestData.goalsArray.filter(where: { $0.isComplete }, limit: 3)
+        }
+    }
+    
     func saveNewGoal(_ newGoal: Goal) async throws -> Goal {
         if let errorToThrow {
             throw errorToThrow

@@ -345,7 +345,9 @@ enum TestData {
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Pay off loan", isComplete: true),
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Go back to school", isComplete: true),
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Make $1,000,000", isComplete: false),
+        Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Retire", isComplete: true),
         Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Take a vacation", isComplete: false),
-        Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Get a new job", isComplete: false)
+        Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Get a new job", isComplete: false),
+        Goal(id: UUID().uuidString, creatorUID: UUID().uuidString, name: "Have fun", isComplete: true)
     ]
 }
