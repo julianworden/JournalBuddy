@@ -21,15 +21,15 @@ class HomeActivityOverviewSection: UIView {
     )
     private lazy var totalTextEntriesBox = HomeSectionSecondaryBox(
         iconName: "square.and.pencil",
-        text: "\(viewModel.currentUser.numberOfTextEntries) Entries"
+        text: AttributedString(localized: "\(viewModel.currentUser.numberOfTextEntries) Entry")
     )
     private lazy var totalVideoEntriesBox = HomeSectionSecondaryBox(
         iconName: "video",
-        text: "\(viewModel.currentUser.numberOfVideoEntries) Entries"
+        text: AttributedString(localized: "\(viewModel.currentUser.numberOfVideoEntries) Entry")
     )
     private lazy var totalVoiceEntriesBox = HomeSectionSecondaryBox(
         iconName: "mic",
-        text: "\(viewModel.currentUser.numberOfVoiceEntries) Entries"
+        text: AttributedString(localized: "\(viewModel.currentUser.numberOfVoiceEntries) Entry")
     )
 
     var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
@@ -128,7 +128,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfTextEntries = self.viewModel.currentUser.numberOfTextEntries + 1
                 self.viewModel.currentUser.incrementNumberOfTextEntries()
-                self.totalTextEntriesBox.updateText(with: "\(newNumberOfTextEntries) Entries")
+                self.totalTextEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfTextEntries) Entry"))
             }
             .store(in: &cancellables)
         
@@ -138,7 +138,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfTextEntries = self.viewModel.currentUser.numberOfTextEntries - 1
                 self.viewModel.currentUser.decrementNumberOfTextEntries()
-                self.totalTextEntriesBox.updateText(with: "\(newNumberOfTextEntries) Entries")
+                self.totalTextEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfTextEntries) Entry"))
             }
             .store(in: &cancellables)
     }
@@ -150,7 +150,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfVideoEntries = self.viewModel.currentUser.numberOfVideoEntries + 1
                 self.viewModel.currentUser.incrementNumberOfVideoEntries()
-                self.totalVideoEntriesBox.updateText(with: "\(newNumberOfVideoEntries) Entries")
+                self.totalVideoEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfVideoEntries) Entry"))
             }
             .store(in: &cancellables)
         
@@ -160,7 +160,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfVideoEntries = self.viewModel.currentUser.numberOfVideoEntries - 1
                 self.viewModel.currentUser.decrementNumberOfVideoEntries()
-                self.totalVideoEntriesBox.updateText(with: "\(newNumberOfVideoEntries) Entries")
+                self.totalVideoEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfVideoEntries) Entry"))
             }
             .store(in: &cancellables)
     }
@@ -172,7 +172,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfVoiceEntries = self.viewModel.currentUser.numberOfVoiceEntries + 1
                 self.viewModel.currentUser.incrementNumberOfVoiceEntries()
-                self.totalVoiceEntriesBox.updateText(with: "\(newNumberOfVoiceEntries) Entries")
+                self.totalVoiceEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfVoiceEntries) Entry"))
             }
             .store(in: &cancellables)
         
@@ -182,7 +182,7 @@ class HomeActivityOverviewSection: UIView {
                 
                 let newNumberOfVoiceEntries = self.viewModel.currentUser.numberOfVoiceEntries - 1
                 self.viewModel.currentUser.decrementNumberOfVoiceEntries()
-                self.totalVoiceEntriesBox.updateText(with: "\(newNumberOfVoiceEntries) Entries")
+                self.totalVoiceEntriesBox.updateText(with: AttributedString(localized: "\(newNumberOfVoiceEntries) Entry"))
             }
             .store(in: &cancellables)
     }

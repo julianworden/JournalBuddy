@@ -19,7 +19,7 @@ class HomeAccomplishmentsSection: UIView {
     )
     private lazy var secondaryBox = HomeSectionSecondaryBox(
         iconName: "trophy",
-        text: "\(viewModel.currentUser.numberOfCompleteGoals)\nGoals"
+        text: AttributedString(localized: "\(viewModel.currentUser.numberOfCompleteGoals) Goal")
     )
 
     var primaryBoxContentStackAxis: NSLayoutConstraint.Axis {
@@ -154,7 +154,7 @@ class HomeAccomplishmentsSection: UIView {
                 
                 let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals + 1
                 self.viewModel.currentUser.incrementNumberOfCompleteGoals()
-                self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals")
+                self.secondaryBox.updateText(with: AttributedString(localized: "\(newNumberOfCompleteGoals) Goal"))
             }
             .store(in: &cancellables)
         
@@ -170,7 +170,7 @@ class HomeAccomplishmentsSection: UIView {
                 if deletedGoal.isComplete {
                     let newNumberOfCompleteGoals = self.viewModel.currentUser.numberOfCompleteGoals - 1
                     self.viewModel.currentUser.decrementNumberOfCompleteGoals()
-                    self.secondaryBox.updateText(with: "\(newNumberOfCompleteGoals)\nGoals")
+                    self.secondaryBox.updateText(with: AttributedString(localized: "\(newNumberOfCompleteGoals) Goal"))
                 }
             }
             .store(in: &cancellables)

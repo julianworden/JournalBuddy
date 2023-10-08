@@ -14,9 +14,9 @@ class HomeSectionSecondaryBox: UIView {
     private lazy var textLabel = UILabel()
 
     let iconName: String
-    let text: String
+    let text: AttributedString
 
-    init(iconName: String, text: String) {
+    init(iconName: String, text: AttributedString) {
         self.iconName = iconName
         self.text = text
 
@@ -40,7 +40,7 @@ class HomeSectionSecondaryBox: UIView {
         contentStack.axis = .vertical
         contentStack.spacing = 3
 
-        textLabel.text = text
+        textLabel.attributedText = NSAttributedString(text)
         textLabel.font = UIFontMetrics.avenirNextRegularBody
         textLabel.textColor = .primaryElement
         textLabel.textAlignment = .center
@@ -67,7 +67,7 @@ class HomeSectionSecondaryBox: UIView {
         ])
     }
     
-    func updateText(with newText: String) {
-        textLabel.text = newText
+    func updateText(with newText: AttributedString) {
+        textLabel.attributedText = NSAttributedString(newText)
     }
 }

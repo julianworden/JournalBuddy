@@ -1,0 +1,26 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld Entry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld Entry](inflect: true)"
+          }
+        }
+      }
+    },
+    "%lld Goal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld Goal](inflect: true)"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
