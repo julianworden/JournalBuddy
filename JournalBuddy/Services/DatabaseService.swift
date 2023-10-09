@@ -12,7 +12,9 @@ import FirebaseStorage
 
 final class DatabaseService: DatabaseServiceProtocol {
     private let db = Firestore.firestore()
-    private lazy var usersCollection = db.collection(FBConstants.users)
+    private lazy var currentUser = db
+        .collection(FBConstants.users)
+        .document(authService.currentUserUID)
     
     private let storage = Storage.storage()
     private lazy var storageRef = storage.reference()
@@ -27,8 +29,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     func getUser(withUID uid: String) async throws -> User {
         do {
-            return try await usersCollection
-                .document(uid)
+            return try await currentUser
                 .getDocument(as: User.self)
         } catch {
             print(error.emojiMessage)
@@ -38,8 +39,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     func createUser(_ user: User) throws {
         do {
-            try usersCollection
-                .document(user.uid)
+            try currentUser
                 .setData(from: user)
         } catch {
             print(error.emojiMessage)
@@ -53,8 +53,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// should be updated, and which property should be updated when the user is found.
     func incrementUserEntryCount(forNewlyCreatedEntry entry: any Entry) async throws {
         do {
-            try await usersCollection
-                .document(entry.creatorUID)
+            try await currentUser
                 .updateData([entry.type.userCounterFieldName: FieldValue.increment(1.0)])
         } catch {
             print("❌ Failed to increment user's entry counter.")
@@ -69,8 +68,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     /// should be updated, and which property should be updated when the user is found.
     func decrementUserEntryCount(forNewlyDeletedEntry entry: any Entry) async throws {
         do {
-            try await usersCollection
-                .document(entry.creatorUID)
+            try await currentUser
                 .updateData([entry.type.userCounterFieldName: FieldValue.increment(-1.0)])
         } catch {
             print("❌ Failed to decrement user's entry counter.")
@@ -81,8 +79,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func incrementUserCompleteGoalsCount() async throws {
         do {
-            try await usersCollection
-                .document(authService.currentUserUID)
+            try await currentUser
                 .updateData([FBConstants.numberOfCompleteGoals: FieldValue.increment(1.0)])
         } catch {
             print("❌ Failed to increment user's complete goals counter.")
@@ -93,8 +90,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func decrementUserCompleteGoalsCount() async throws {
         do {
-            try await usersCollection
-                .document(authService.currentUserUID)
+            try await currentUser
                 .updateData([FBConstants.numberOfCompleteGoals: FieldValue.increment(-1.0)])
         } catch {
             print("❌ Failed to decrement user's complete goals counter.")
@@ -105,16 +101,15 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    #warning("Remove uid parameter.")
-    func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+     func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType) async throws -> [T] {
         do {
             switch entryType {
             case .text:
-                return try await fetchFirstTextEntryBatch(forUID: uid) as! [T]
+                return try await fetchFirstTextEntryBatch() as! [T]
             case .video:
-                return try await fetchFirstVideoEntryBatch(forUID: uid) as! [T]
+                return try await fetchFirstVideoEntryBatch() as! [T]
             case .voice:
-                return try await fetchFirstVoiceEntryBatch(forUID: uid) as! [T]
+                return try await fetchFirstVoiceEntryBatch() as! [T]
             }
         } catch {
             print(error.emojiMessage)
@@ -122,27 +117,18 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T) async throws -> [T] {
         do {
             switch oldestFetchedEntry.type {
             case .text:
                 let oldestFetchedTextEntry = oldestFetchedEntry as! TextEntry
-                return try await fetchNextTextEntryBatch(
-                    before: oldestFetchedTextEntry,
-                    forUID: uid
-                ) as! [T]
+                return try await fetchNextTextEntryBatch(before: oldestFetchedTextEntry) as! [T]
             case .video:
                 let oldestFetchedVideoEntry = oldestFetchedEntry as! VideoEntry
-                return try await fetchNextVideoEntryBatch(
-                    before: oldestFetchedVideoEntry,
-                    forUID: uid
-                ) as! [T]
+                return try await fetchNextVideoEntryBatch(before: oldestFetchedVideoEntry) as! [T]
             case .voice:
                 let oldestFetchedVoiceEntry = oldestFetchedEntry as! VoiceEntry
-                return try await fetchNextVoiceEntryBatch(
-                    before: oldestFetchedVoiceEntry,
-                    forUID: uid
-                ) as! [T]
+                return try await fetchNextVoiceEntryBatch(before: oldestFetchedVoiceEntry) as! [T]
             }
         } catch {
             print(error.emojiMessage)
@@ -200,22 +186,19 @@ final class DatabaseService: DatabaseServiceProtocol {
         do {
             switch entry.type {
             case .text:
-                try await usersCollection
-                    .document(entry.creatorUID)
+                try await currentUser
                     .collection(FBConstants.textEntries)
                     .document(entry.id)
                     .delete()
             case .video:
                 try await deleteVideoEntryFromFBStorage(entry as! VideoEntry)
-                try await usersCollection
-                    .document(entry.creatorUID)
+                try await currentUser
                     .collection(FBConstants.videoEntries)
                     .document(entry.id)
                     .delete()
             case .voice:
                 try await deleteVoiceEntryFromFBStorage(entry as! VoiceEntry)
-                try await usersCollection
-                    .document(entry.creatorUID)
+                try await currentUser
                     .collection(FBConstants.voiceEntries)
                     .document(entry.id)
                     .delete()
@@ -230,10 +213,9 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     // MARK: - TextEntry
 
-    private func fetchFirstTextEntryBatch(forUID uid: String) async throws -> [TextEntry] {
+    private func fetchFirstTextEntryBatch() async throws -> [TextEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.textEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.textEntryBatchSize)
@@ -246,13 +228,9 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    private func fetchNextTextEntryBatch(
-        before oldestFetchedEntry: TextEntry,
-        forUID uid: String
-    ) async throws -> [TextEntry] {
+    private func fetchNextTextEntryBatch(before oldestFetchedEntry: TextEntry) async throws -> [TextEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.textEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
@@ -268,8 +246,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     private func saveTextEntry(_ textEntry: TextEntry) async throws -> TextEntry {
         do {
-            let newDocument = try usersCollection
-                .document(textEntry.creatorUID)
+            let newDocument = try currentUser
                 .collection(FBConstants.textEntries)
                 .addDocument(from: textEntry)
 
@@ -285,8 +262,7 @@ final class DatabaseService: DatabaseServiceProtocol {
 
     private func updateTextEntry(_ textEntry: TextEntry) async throws {
         do {
-            try await usersCollection
-                .document(textEntry.creatorUID)
+            try await currentUser
                 .collection(FBConstants.textEntries)
                 .document(textEntry.id)
                 .updateData([FBConstants.text: textEntry.text])
@@ -298,10 +274,9 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - VideoEntry
     
-    func fetchFirstVideoEntryBatch(forUID uid: String) async throws -> [VideoEntry] {
+    func fetchFirstVideoEntryBatch() async throws -> [VideoEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.videoEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.videoEntryBatchSize)
@@ -314,13 +289,9 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    private func fetchNextVideoEntryBatch(
-        before oldestFetchedEntry: VideoEntry,
-        forUID uid: String
-    ) async throws -> [VideoEntry] {
+    private func fetchNextVideoEntryBatch(before oldestFetchedEntry: VideoEntry) async throws -> [VideoEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.videoEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
@@ -349,8 +320,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         newVideoEntry.thumbnailDownloadURL = videoEntryThumbnailDownloadURL.absoluteString
         
         do {
-            let newVideoEntryDocumentReference = try usersCollection
-                .document(newVideoEntry.creatorUID)
+            let newVideoEntryDocumentReference = try currentUser
                 .collection(FBConstants.videoEntries)
                 .addDocument(from: newVideoEntry)
             try await newVideoEntryDocumentReference
@@ -366,10 +336,9 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - VoiceEntry
     
-    func fetchFirstVoiceEntryBatch(forUID uid: String) async throws -> [VoiceEntry] {
+    func fetchFirstVoiceEntryBatch() async throws -> [VoiceEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.voiceEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .limit(to: FBConstants.voiceEntryBatchSize)
@@ -382,13 +351,9 @@ final class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    private func fetchNextVoiceEntryBatch(
-        before oldestFetchedEntry: VoiceEntry,
-        forUID uid: String
-    ) async throws -> [VoiceEntry] {
+    private func fetchNextVoiceEntryBatch(before oldestFetchedEntry: VoiceEntry) async throws -> [VoiceEntry] {
         do {
-            let query = try await usersCollection
-                .document(uid)
+            let query = try await currentUser
                 .collection(FBConstants.voiceEntries)
                 .order(by: FBConstants.unixDateCreated, descending: true)
                 .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedEntry.unixDateCreated)
@@ -408,8 +373,7 @@ final class DatabaseService: DatabaseServiceProtocol {
         newVoiceEntry.downloadURL = voiceEntryDownloadURL.absoluteString
         
         do {
-            let newVoiceEntryDocumentReference = try usersCollection
-                .document(newVoiceEntry.creatorUID)
+            let newVoiceEntryDocumentReference = try currentUser
                 .collection(FBConstants.voiceEntries)
                 .addDocument(from: newVoiceEntry)
             try await newVoiceEntryDocumentReference
@@ -428,8 +392,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func fetchFirstIncompleteGoalBatch() async throws -> [Goal] {
         do {
-            let snapshot = try await usersCollection
-                .document(authService.currentUserUID)
+            let snapshot = try await currentUser
                 .collection(FBConstants.goals)
                 .whereField(FBConstants.isComplete, isEqualTo: false)
                 .order(by: FBConstants.unixDateCreated, descending: true)
@@ -447,8 +410,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func fetchFirstCompleteGoalBatch() async throws -> [Goal] {
         do {
-            let snapshot = try await usersCollection
-                .document(authService.currentUserUID)
+            let snapshot = try await currentUser
                 .collection(FBConstants.goals)
                 .whereField(FBConstants.isComplete, isEqualTo: true)
                 .order(by: FBConstants.unixDateCompleted, descending: true)
@@ -465,8 +427,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     }
     
     func fetchNextIncompleteGoalBatch(before oldestFetchedGoal: Goal) async throws -> [Goal] {
-        let snapshot = try await usersCollection
-            .document(authService.currentUserUID)
+        let snapshot = try await currentUser
             .collection(FBConstants.goals)
             .whereField(FBConstants.isComplete, isEqualTo: false)
             .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedGoal.unixDateCreated)
@@ -485,8 +446,7 @@ final class DatabaseService: DatabaseServiceProtocol {
             return []
         }
         
-        let snapshot = try await usersCollection
-            .document(authService.currentUserUID)
+        let snapshot = try await currentUser
             .collection(FBConstants.goals)
             .whereField(FBConstants.isComplete, isEqualTo: true)
             .whereField(FBConstants.unixDateCompleted, isLessThan: unixDateCompleted)
@@ -501,8 +461,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal] {
         do {
-            let snapshot = try await usersCollection
-                .document(authService.currentUserUID)
+            let snapshot = try await currentUser
                 .collection(FBConstants.goals)
                 .order(by: FBConstants.unixDateCompleted, descending: true)
                 .limit(to: 3)
@@ -517,8 +476,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     @discardableResult func saveNewGoal(_ newGoal: Goal) async throws -> Goal {
         do {
-            let newGoalRef = try usersCollection
-                .document(newGoal.creatorUID)
+            let newGoalRef = try currentUser
                 .collection(FBConstants.goals)
                 .addDocument(from: newGoal)
             
@@ -542,8 +500,7 @@ final class DatabaseService: DatabaseServiceProtocol {
                 return
             }
             
-            try await usersCollection
-                .document(completedGoal.creatorUID)
+            try await currentUser
                 .collection(FBConstants.goals)
                 .document(completedGoal.id)
                 .updateData(
@@ -561,8 +518,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func updateGoal(_ updatedGoal: Goal) async throws {
         do {
-            try usersCollection
-                .document(updatedGoal.creatorUID)
+            try currentUser
                 .collection(FBConstants.goals)
                 .document(updatedGoal.id)
                 .setData(from: updatedGoal)
@@ -574,8 +530,7 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     func deleteGoal(_ goalToDelete: Goal) async throws {
         do {
-            try await usersCollection
-                .document(goalToDelete.creatorUID)
+            try await currentUser
                 .collection(FBConstants.goals)
                 .document(goalToDelete.id)
                 .delete()

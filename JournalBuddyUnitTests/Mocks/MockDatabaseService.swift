@@ -33,7 +33,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
 
     // MARK: - Generic Entry CRUD
 
-    func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType, forUID uid: String) async throws -> [T] {
+    func fetchFirstEntriesBatch<T: Entry>(_ entryType: EntryType) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {
@@ -48,7 +48,7 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T, forUID uid: String) async throws -> [T] {
+    func fetchNextEntriesBatch<T: Entry>(after oldestFetchedEntry: T) async throws -> [T] {
         if let errorToThrow {
             throw errorToThrow
         } else {
@@ -96,7 +96,9 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray.filter(where: { !$0.isComplete }, limit: FBConstants.goalBatchSize).sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
+            return TestData.goalsArray
+                .filter(where: { !$0.isComplete }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
         }
     }
     
@@ -104,7 +106,9 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray.filter(where: { $0.isComplete }, limit: FBConstants.goalBatchSize).sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+            return TestData.goalsArray
+                .filter(where: { $0.isComplete }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
         }
     }
     
@@ -112,12 +116,9 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray.filter(
-                where: {
-                    !$0.isComplete && $0.unixDateCreated < oldestFetchedGoal.unixDateCreated
-                },
-                limit: FBConstants.goalBatchSize
-            )
+            return TestData.goalsArray
+                .filter(where: { !$0.isComplete && $0.unixDateCreated < oldestFetchedGoal.unixDateCreated }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
         }
     }
     
@@ -125,13 +126,9 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray.filter(
-                where: {
-                    $0.isComplete && $0.unixDateCompleted! < leastRecentlyCompletedFetchedGoal.unixDateCompleted!
-                },
-                limit: FBConstants.goalBatchSize
-            )
-            .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+            return TestData.goalsArray
+                .filter(where: { $0.isComplete && $0.unixDateCompleted! < leastRecentlyCompletedFetchedGoal.unixDateCompleted! }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
         }
     }
     
@@ -139,7 +136,10 @@ final class MockDatabaseService: DatabaseServiceProtocol {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray.filter(where: { $0.isComplete }, limit: 3)
+            return Array(TestData.goalsArray
+                .filter { $0.isComplete }
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+                .prefix(3))
         }
     }
     

@@ -52,12 +52,10 @@ final class HomeViewModelUnitTests: XCTestCase {
         
         XCTAssertEqual(
             sut.threeMostRecentlyCompletedGoals,
-            TestData.goalsArray.filter(
-                where: {
-                    $0.isComplete
-                },
-                limit: 3
-            )
+            Array(TestData.goalsArray
+                .filter { $0.isComplete }
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+                .prefix(3))
         )
         XCTAssertTrue(sut.refreshGoalsList)
     }
@@ -124,7 +122,7 @@ final class HomeViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         sut.threeMostRecentlyCompletedGoals = [Goal.example]
         sut.threeMostRecentlyCompletedGoals.append(contentsOf: TestData.goalsArray.filter(where: { $0.isComplete }, limit: 2))
-        var expectation = XCTestExpectation(
+        let expectation = XCTestExpectation(
             description: "threeMostRecentlyCompletedGoals array should be refilled with new data if its count was 3 before the deletion."
         )
         

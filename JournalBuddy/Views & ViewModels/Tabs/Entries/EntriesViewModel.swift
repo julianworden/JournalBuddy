@@ -59,7 +59,7 @@ final class EntriesViewModel: MainViewModel {
         do {
             viewState = .fetchingTextEntries
             if performEntryQuery {
-                textEntries = try await databaseService.fetchFirstEntriesBatch(.text, forUID: currentUser.uid)
+                textEntries = try await databaseService.fetchFirstEntriesBatch(.text)
             }
 
             if textEntries.isEmpty {
@@ -85,10 +85,7 @@ final class EntriesViewModel: MainViewModel {
                 return
             }
             
-            let nextTextEntryBatch = try await databaseService.fetchNextEntriesBatch(
-                after: oldestTextEntry,
-                forUID: currentUser.uid
-            )
+            let nextTextEntryBatch = try await databaseService.fetchNextEntriesBatch(after: oldestTextEntry)
             textEntries.append(contentsOf: nextTextEntryBatch)
         } catch {
             print(error.emojiMessage)
@@ -104,7 +101,7 @@ final class EntriesViewModel: MainViewModel {
         do {
             viewState = .fetchingVideoEntries
             if performEntryQuery {
-                videoEntries = try await databaseService.fetchFirstEntriesBatch(.video, forUID: currentUser.uid)
+                videoEntries = try await databaseService.fetchFirstEntriesBatch(.video)
             }
             
             if videoEntries.isEmpty {
@@ -130,10 +127,7 @@ final class EntriesViewModel: MainViewModel {
                 return
             }
             
-            let nextVideoEntryBatch = try await databaseService.fetchNextEntriesBatch(
-                after: oldestVideoEntry,
-                forUID: currentUser.uid
-            )
+            let nextVideoEntryBatch = try await databaseService.fetchNextEntriesBatch(after: oldestVideoEntry)
             videoEntries.append(contentsOf: nextVideoEntryBatch)
         } catch {
             print(error.emojiMessage)
@@ -149,7 +143,7 @@ final class EntriesViewModel: MainViewModel {
         do {
             viewState = .fetchingVoiceEntries
             if performEntryQuery {
-                voiceEntries = try await databaseService.fetchFirstEntriesBatch(.voice, forUID: currentUser.uid)
+                voiceEntries = try await databaseService.fetchFirstEntriesBatch(.voice)
             }
             
             if voiceEntries.isEmpty {
@@ -175,10 +169,7 @@ final class EntriesViewModel: MainViewModel {
                 return
             }
             
-            let nextVoiceEntryBatch = try await databaseService.fetchNextEntriesBatch(
-                after: oldestVoiceEntry,
-                forUID: currentUser.uid
-            )
+            let nextVoiceEntryBatch = try await databaseService.fetchNextEntriesBatch(after: oldestVoiceEntry)
             voiceEntries.append(contentsOf: nextVoiceEntryBatch)
         } catch {
             print(error.emojiMessage)
