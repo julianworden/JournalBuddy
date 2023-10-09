@@ -44,7 +44,7 @@ class GoalsViewController: UIViewController, MainViewController {
         
         if !viewModel.goalsQueryWasPerformed {
             Task {
-                await viewModel.fetchGoals()
+                await viewModel.fetchFirstGoalBatch()
             }
         }
     }

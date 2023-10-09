@@ -48,37 +48,45 @@ final class GoalsViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         
         XCTAssertEqual(sut.viewState, .fetchingGoals)
-        XCTAssertTrue(sut.goals.isEmpty)
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
         XCTAssertTrue(sut.completeGoals.isEmpty)
         XCTAssertEqual(sut.currentlyDisplayingGoalType, GoalsViewModel.GoalType.incomplete)
         XCTAssert(sut.cancellables.isEmpty)
     }
     
-    func test_OnFetchGoalsSuccessfully_PropertiesUpdate() async {
+    func test_OnFetchFirstGoalBatchSuccessfully_PropertiesUpdate() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         subscribeToViewStateUpdates()
         
-        await sut.fetchGoals()
+        await sut.fetchFirstGoalBatch()
         
-        XCTAssertEqual(sut.goals, TestData.goalsArray)
-        XCTAssertEqual(sut.incompleteGoals.count, 3)
-        XCTAssertEqual(sut.completeGoals.count, 4)
+        XCTAssertEqual(
+            sut.incompleteGoals,
+            TestData.goalsArray
+                .filter(where: { !$0.isComplete }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
+        )
+        XCTAssertEqual(
+            sut.completeGoals,
+            TestData.goalsArray
+                .filter(where: { $0.isComplete }, limit: FBConstants.goalBatchSize)
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+        )
         await fulfillment(of: [fetchingGoalsExpectation, fetchedGoalsExpectation], timeout: 3)
     }
     
-    func test_OnFetchGoalsSuccessfully_ViewStateIsUpdatedWhenNoGoalsAreFound() async {
+    func test_OnFetchFirstGoalBatchSuccessfully_ViewStateIsUpdatedWhenNoGoalsAreFound() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         
-        await sut.fetchGoals(performGoalQuery: false)
+        await sut.fetchFirstGoalBatch(performGoalQuery: false)
         
         XCTAssertEqual(sut.viewState, .noGoalsFound)
     }
     
-    func test_OnFetchGoalsSuccessfully_CompleteGoalsAreComplete() async {
+    func test_OnFetchFirstGoalBatchSuccessfully_CompleteGoalsAreComplete() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         
-        await sut.fetchGoals()
+        await sut.fetchFirstGoalBatch()
         
         guard !sut.completeGoals.isEmpty else {
             XCTFail("Complete goals should've been fetched.")
@@ -92,10 +100,10 @@ final class GoalsViewModelUnitTests: XCTestCase {
         XCTAssertTrue(sut.goalsQueryWasPerformed)
     }
     
-    func test_OnFetchGoalsSuccessfully_IncompleteGoalsAreComplete() async {
+    func test_OnFetchFirstGoalBatchSuccessfully_IncompleteGoalsAreIncomplete() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         
-        await sut.fetchGoals()
+        await sut.fetchFirstGoalBatch()
         
         guard !sut.incompleteGoals.isEmpty else {
             XCTFail("Incomplete goals should've been fetched.")
@@ -109,17 +117,64 @@ final class GoalsViewModelUnitTests: XCTestCase {
         XCTAssertTrue(sut.goalsQueryWasPerformed)
     }
     
-    func test_OnFetchGoalsUnsuccessfully_ViewStateChanges() async {
+    func test_OnFetchFirstGoalBatchUnsuccessfully_ViewStateChanges() async {
         initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
 
-        await sut.fetchGoals()
+        await sut.fetchFirstGoalBatch()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnFetchNextIncompleteGoalBatchSuccessfully_ArrayUpdates() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        addFirstGoalBatchToIncompleteGoalsArray()
+        
+        await sut.fetchNextIncompleteGoalBatch()
+        
+        XCTAssertEqual(
+            sut.incompleteGoals,
+            TestData.goalsArray
+                .filter { !$0.isComplete }
+                .sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
+        )
+    }
+    
+    func test_OnFetchNextIncompleteGoalBatchUnsuccessfully_ArrayUpdates() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
+        addFirstGoalBatchToIncompleteGoalsArray()
+        
+        await sut.fetchNextIncompleteGoalBatch()
+        
+        XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
+    }
+    
+    func test_OnFetchNextCompleteGoalBatchSuccessfully_ArrayUpdates() async {
+        initializeSUT(databaseServiceError: nil, authServiceError: nil)
+        addFirstGoalBatchToCompleteGoalsArray()
+        
+        await sut.fetchNextCompleteGoalBatch()
+        
+        XCTAssertEqual(
+            sut.completeGoals,
+            TestData.goalsArray
+                .filter { $0.isComplete }
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+               
+        )
+        
+    }
+    
+    func test_OnFetchNextCompleteGoalBatchUnsuccessfully_ArrayUpdates() async {
+        initializeSUT(databaseServiceError: TestError.general, authServiceError: nil)
+        addFirstGoalBatchToCompleteGoalsArray()
+        
+        await sut.fetchNextCompleteGoalBatch()
         
         XCTAssertEqual(sut.viewState, .error(message: TestError.general.localizedDescription))
     }
     
     func test_OnCompleteGoal_ArraysUpdate() async throws {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
         
         subscribeToViewStateUpdates()
@@ -127,8 +182,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
         
         XCTAssertEqual(sut.completeGoals.count, 1)
         XCTAssertNotNil(sut.completeGoals.first!.unixDateCompleted)
-        XCTAssertEqual(sut.goals.count, 1)
-        XCTAssertNotNil(sut.goals.first!.unixDateCompleted)
         XCTAssertTrue(sut.completeGoals.first!.isComplete)
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
         await fulfillment(
@@ -145,12 +198,10 @@ final class GoalsViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         var completedExampleGoal = Goal.example
         completedExampleGoal.isComplete = true
-        sut.goals.append(completedExampleGoal)
         sut.completeGoals.append(completedExampleGoal)
         
         try await sut.completeGoal(completedExampleGoal)
         
-        XCTAssertTrue(sut.goals.contains(completedExampleGoal))
         XCTAssertTrue(sut.completeGoals.contains(completedExampleGoal))
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
     }
@@ -165,7 +216,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
     
     func test_OnDeleteIncompleteGoalSuccessfully_ArrayUpdates() async {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
         
         subscribeToViewStateUpdates()
@@ -186,7 +236,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         var completedExampleGoal = Goal.example
         completedExampleGoal.isComplete = true
-        sut.goals.append(completedExampleGoal)
         sut.completeGoals.append(completedExampleGoal)
         
         subscribeToViewStateUpdates()
@@ -254,7 +303,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
     
     func test_OnReceiveGoalWasDeletedNotificationForIncompleteGoal_ViewStateIsUpdated() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
         
         subscribeToViewStateUpdates()
@@ -273,7 +321,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         var completedExampleGoal = Goal.example
         completedExampleGoal.isComplete = true
-        sut.goals.append(completedExampleGoal)
         sut.completeGoals.append(completedExampleGoal)
         
         subscribeToViewStateUpdates()
@@ -288,17 +335,16 @@ final class GoalsViewModelUnitTests: XCTestCase {
         wait(for: [noGoalsFoundExpectation], timeout: 3)
     }
     
-    func test_OnAddGoalToArraysWithIncompleteGoal_ArraysAreUpdated() {
+    func test_OnAddGoalToArraysWithIncompleteGoal_ArrayUpdates() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         
         sut.addGoalToArrays(Goal.example)
         
         XCTAssertTrue(sut.incompleteGoals.contains(Goal.example))
-        XCTAssertTrue(sut.goals.contains(Goal.example))
         XCTAssertTrue(sut.completeGoals.isEmpty)
     }
     
-    func test_OnAddGoalToArraysWithCompleteGoal_ArraysAreUpdated() {
+    func test_OnAddGoalToArraysWithCompleteGoal_ArrayUpdates() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         var completedExampleGoal = Goal.example
         completedExampleGoal.isComplete = true
@@ -306,33 +352,28 @@ final class GoalsViewModelUnitTests: XCTestCase {
         sut.addGoalToArrays(completedExampleGoal)
         
         XCTAssertTrue(sut.completeGoals.contains(completedExampleGoal))
-        XCTAssertTrue(sut.goals.contains(completedExampleGoal))
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
     }
     
-    func test_OnRemoveGoalFromArraysWithIncompleteGoal_ArraysAreUpdated() {
+    func test_OnRemoveGoalFromArrayWithIncompleteGoal_ArrayUpdates() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         sut.incompleteGoals.append(Goal.example)
-        sut.goals.append(Goal.example)
         
-        sut.removeGoalFromArrays(Goal.example)
+        sut.removeGoalFromArray(Goal.example)
 
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
-        XCTAssertTrue(sut.goals.isEmpty)
         XCTAssertTrue(sut.completeGoals.isEmpty)
     }
     
-    func test_OnRemoveGoalFromArraysWithCompleteGoal_ArraysAreUpdated() {
+    func test_OnRemoveGoalFromArrayWithCompleteGoal_ArrayUpdates() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
         var completedExampleGoal = Goal.example
         completedExampleGoal.isComplete = true
         sut.completeGoals.append(completedExampleGoal)
-        sut.goals.append(completedExampleGoal)
         
-        sut.removeGoalFromArrays(completedExampleGoal)
+        sut.removeGoalFromArray(completedExampleGoal)
         
         XCTAssertTrue(sut.incompleteGoals.isEmpty)
-        XCTAssertTrue(sut.goals.isEmpty)
         XCTAssertTrue(sut.completeGoals.isEmpty)
     }
     
@@ -346,7 +387,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
     
     func test_OnSetViewStateWithEmptyCompleteGoalsArray_ViewStateIsSet() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
         
         sut.setViewState()
@@ -356,7 +396,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
     
     func test_OnSetViewStateWithEmptyIncompleteGoalsArray_ViewStateIsSet() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.completeGoals.append(Goal.example)
         
         sut.setViewState()
@@ -366,7 +405,6 @@ final class GoalsViewModelUnitTests: XCTestCase {
     
     func test_OnSetViewStateWithAllArraysFilled_ViewStateIsSet() {
         initializeSUT(databaseServiceError: nil, authServiceError: nil)
-        sut.goals.append(Goal.example)
         sut.incompleteGoals.append(Goal.example)
         sut.completeGoals.append(Goal.example)
         
@@ -380,6 +418,24 @@ final class GoalsViewModelUnitTests: XCTestCase {
             databaseService: MockDatabaseService(errorToThrow: databaseServiceError),
             authService: MockAuthService(errorToThrow: authServiceError),
             currentUser: User.example
+        )
+    }
+    
+    func addFirstGoalBatchToIncompleteGoalsArray() {
+        sut.incompleteGoals = Array(
+            TestData.goalsArray
+                .filter({ !$0.isComplete })
+                .sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
+                .prefix(FBConstants.goalBatchSize)
+        )
+    }
+    
+    func addFirstGoalBatchToCompleteGoalsArray() {
+        sut.completeGoals = Array(
+            TestData.goalsArray
+                .filter({ $0.isComplete })
+                .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+                .prefix(FBConstants.goalBatchSize)
         )
     }
     

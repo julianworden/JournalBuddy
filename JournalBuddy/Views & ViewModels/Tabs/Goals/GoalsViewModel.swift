@@ -16,7 +16,6 @@ final class GoalsViewModel: MainViewModel {
     }
     
     @Published var viewState = GoalsViewState.fetchingGoals
-    @Published var goals = [Goal]()
     @Published var completeGoals = [Goal]()
     @Published var incompleteGoals = [Goal]()
     var currentlyDisplayingGoalType = GoalType.incomplete
@@ -26,6 +25,11 @@ final class GoalsViewModel: MainViewModel {
     let authService: AuthServiceProtocol
     let currentUser: User
     var cancellables = Set<AnyCancellable>()
+    
+    var userHasNoGoals: Bool {
+        completeGoals.isEmpty &&
+        incompleteGoals.isEmpty
+    }
 
     init(databaseService: DatabaseServiceProtocol, authService: AuthServiceProtocol, currentUser: User) {
         self.databaseService = databaseService
@@ -61,34 +65,62 @@ final class GoalsViewModel: MainViewModel {
                     return
                 }
                 
-                self?.removeGoalFromArrays(deletedGoal)
+                self?.removeGoalFromArray(deletedGoal)
                 self?.setViewState()
             }
             .store(in: &cancellables)
     }
     
-    #warning("Fetch goals in batches.")
-    
-    /// Fetches all the user's goals from Firestore and assigns them to the appropriate arrays.
+    /// Fetches the first batch of the user's most recently completed goals and most recently created incomplete goals from Firestore and
+    /// assigns them to the appropriate arrays. The amount of each type of goals that are fetched is set in `FBConstants.goalBatchSize`.
     /// - Parameter performGoalQuery: Makes it possible to test case where no goals are found. Defaults to true
     /// because this property should never be used in production.
-    func fetchGoals(performGoalQuery: Bool = true) async {
+    func fetchFirstGoalBatch(performGoalQuery: Bool = true) async {
         do {
             viewState = .fetchingGoals
             if performGoalQuery {
-                goals = try await databaseService.fetchGoals()
+                async let incompleteGoals = try await databaseService.fetchFirstIncompleteGoalBatch()
+                async let completeGoals = try await databaseService.fetchFirstCompleteGoalBatch()
+                self.incompleteGoals = try await incompleteGoals
+                self.completeGoals = try await completeGoals
             }
             
-            if goals.isEmpty {
-                viewState = .noGoalsFound
-            } else {
-                completeGoals = goals.filter { $0.isComplete }
-                incompleteGoals = goals.filter { !$0.isComplete }
-                
-                setViewState()
-            }
-            
+            setViewState()
             goalsQueryWasPerformed = true
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func fetchNextIncompleteGoalBatch() async {
+        do {
+            guard let leastRecentlyCreatedFetchedIncompleteGoal = incompleteGoals.last else {
+                print("❌ Attempted to fetch next incomplete goal batch before any incomplete goals have been fetched.")
+                return
+            }
+            
+            let nextIncompleteGoalsBatch = try await databaseService.fetchNextIncompleteGoalBatch(
+                before: leastRecentlyCreatedFetchedIncompleteGoal
+            )
+            incompleteGoals.append(contentsOf: nextIncompleteGoalsBatch)
+        } catch {
+            print(error.emojiMessage)
+            viewState = .error(message: error.localizedDescription)
+        }
+    }
+    
+    func fetchNextCompleteGoalBatch() async {
+        do {
+            guard let leastRecentlyCompletedFetchedCompleteGoal = completeGoals.last else {
+                print("❌ Attempted to fetch next complete goal batch before any complete goals have been fetched.")
+                return
+            }
+            
+            let nextCompleteGoalsBatch = try await databaseService.fetchNextCompleteGoalBatch(
+                before: leastRecentlyCompletedFetchedCompleteGoal
+            )
+            completeGoals.append(contentsOf: nextCompleteGoalsBatch)
         } catch {
             print(error.emojiMessage)
             viewState = .error(message: error.localizedDescription)
@@ -103,7 +135,7 @@ final class GoalsViewModel: MainViewModel {
             return
         }
         
-        removeGoalFromArrays(goal)
+        removeGoalFromArray(goal)
         
         var completedGoal = goal
         completedGoal.complete()
@@ -128,7 +160,7 @@ final class GoalsViewModel: MainViewModel {
     /// - Parameter goal: The goal to delete.
     func deleteGoal(_ goal: Goal) async {
         do {
-            removeGoalFromArrays(goal)
+            removeGoalFromArray(goal)
             setViewState()
             try await databaseService.deleteGoal(goal)
             postGoalWasDeletedNotification(goal)
@@ -150,12 +182,10 @@ final class GoalsViewModel: MainViewModel {
     /// or `completeGoals` arrays depending on whether or not the goal is complete.
     /// - Parameter goalToRemove: The goal to add to the arrays.
     func addGoalToArrays(_ goalToAdd: Goal) {
-        goals.append(goalToAdd)
-        
         if goalToAdd.isComplete {
-            completeGoals.append(goalToAdd)
+            completeGoals.insert(goalToAdd, at: 0)
         } else {
-            incompleteGoals.append(goalToAdd)
+            incompleteGoals.insert(goalToAdd, at: 0)
         }
     }
     
@@ -163,23 +193,19 @@ final class GoalsViewModel: MainViewModel {
     /// or `completeGoals` arrays depending on whether or not the goal is complete. Call `setViewState()` after
     /// this method to update the UI accordingly.
     /// - Parameter goalToRemove: The goal to remove from the arrays.
-    func removeGoalFromArrays(_ goalToRemove: Goal) {
+    func removeGoalFromArray(_ goalToRemove: Goal) {
         if goalToRemove.isComplete {
-            guard let completeGoalsIndex = completeGoals.firstIndex(of: goalToRemove),
-                  let goalsIndex = goals.firstIndex(of: goalToRemove) else {
+            guard let completeGoalsIndex = completeGoals.firstIndex(of: goalToRemove) else {
                 return
             }
             
             completeGoals.remove(at: completeGoalsIndex)
-            goals.remove(at: goalsIndex)
         } else {
-            guard let incompleteGoalsIndex = incompleteGoals.firstIndex(of: goalToRemove),
-                  let goalsIndex = goals.firstIndex(of: goalToRemove) else {
+            guard let incompleteGoalsIndex = incompleteGoals.firstIndex(of: goalToRemove) else {
                 return
             }
             
             incompleteGoals.remove(at: incompleteGoalsIndex)
-            goals.remove(at: goalsIndex)
         }
     }
     
@@ -187,7 +213,7 @@ final class GoalsViewModel: MainViewModel {
     /// what the view state should be. Called after any updates to any of these arrays occur. Call `setViewState()` after
     /// this method to update the UI accordingly.
     func setViewState() {
-        if goals.isEmpty {
+        if userHasNoGoals {
             viewState = .noGoalsFound
         } else if completeGoals.isEmpty {
             viewState = .noCompleteGoalsFound

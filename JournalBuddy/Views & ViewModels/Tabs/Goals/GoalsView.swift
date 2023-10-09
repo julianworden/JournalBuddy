@@ -15,6 +15,9 @@ class GoalsView: UIView, MainView {
     }
     
     private lazy var fetchingGoalsActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private lazy var fetchingNextGoalBatchActivityIndicator = UIActivityIndicatorView(
+        style: .medium
+    )
     private lazy var goalTypeSelectorStack = UIStackView(arrangedSubviews: [
         incompleteButton,
         completeButton
@@ -72,6 +75,9 @@ class GoalsView: UIView, MainView {
         completeButton.titleLabel?.numberOfLines = 1
         completeButton.backgroundColor = .disabled
         completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
+        
+        fetchingNextGoalBatchActivityIndicator.color = .primaryElement
+        fetchingNextGoalBatchActivityIndicator.hidesWhenStopped = true
         
         completeGoalsTableView.register(GoalsTableViewCell.self, forCellReuseIdentifier: GoalsTableViewCell.reuseIdentifier)
         completeGoalsTableView.dataSource = completeGoalsTableViewDataSource
@@ -283,7 +289,7 @@ class GoalsView: UIView, MainView {
                 incompleteButton.backgroundColor = .primaryElement
                 
                 if !viewModel.goalsQueryWasPerformed {
-                    await viewModel.fetchGoals()
+                    await viewModel.fetchFirstGoalBatch()
                 } else if viewModel.viewState == .noIncompleteGoalsFound {
                     presentNoIncompleteGoalsFoundUI()
                 } else if viewModel.viewState == .noGoalsFound {
@@ -306,7 +312,7 @@ class GoalsView: UIView, MainView {
                 completeButton.backgroundColor = .primaryElement
                 
                 if !viewModel.goalsQueryWasPerformed {
-                    await viewModel.fetchGoals()
+                    await viewModel.fetchFirstGoalBatch()
                 } else if viewModel.viewState == .noCompleteGoalsFound {
                     presentNoCompleteGoalsFoundUI()
                 } else if viewModel.viewState == .noGoalsFound {
@@ -347,6 +353,80 @@ extension GoalsView: UITableViewDelegate {
         action.image = UIImage(systemName: "trash", withConfiguration: .backgroundColor)
         let swipeActionsConfiguration = UISwipeActionsConfiguration(actions: [action])
         return swipeActionsConfiguration
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        switch tableView.tag {
+        case TableViewType.complete.rawValue:
+            if indexPath.row == viewModel.completeGoals.count - 1 &&
+                viewModel.completeGoals.count % FBConstants.goalBatchSize == 0 {
+                Task {
+                    let completeGoalsCountBeforeUpdate = viewModel.completeGoals.count
+                    
+                    presentLoadingNextGoalBatchUI(for: tableView)
+                    await viewModel.fetchNextCompleteGoalBatch()
+                    
+                    let completeGoalsCountAfterUpdate = viewModel.completeGoals.count
+                    // Get the index to which the table view should scroll after fetching new goals
+                    let amountOfNewCompleteGoals = completeGoalsCountAfterUpdate - completeGoalsCountBeforeUpdate
+                    
+                    presentLoadedNextGoalBatchUI(for: tableView, amountOfNewGoals: amountOfNewCompleteGoals)
+                }
+            }
+        case TableViewType.incomplete.rawValue:
+            if indexPath.row == viewModel.incompleteGoals.count - 1 &&
+                viewModel.incompleteGoals.count % FBConstants.goalBatchSize == 0 {
+                Task {
+                    let incompleteGoalsCountBeforeUpdate = viewModel.incompleteGoals.count
+                    
+                    presentLoadingNextGoalBatchUI(for: tableView)
+                    await viewModel.fetchNextIncompleteGoalBatch()
+                    
+                    let incompleteGoalsCountAfterUpdate = viewModel.incompleteGoals.count
+                    // Get the index to which the table view should scroll after fetching new goals
+                    let amountOfNewIncompleteGoals = incompleteGoalsCountAfterUpdate - incompleteGoalsCountBeforeUpdate
+                    
+                    presentLoadedNextGoalBatchUI(for: tableView, amountOfNewGoals: amountOfNewIncompleteGoals)
+                }
+            }
+        default:
+            break
+        }
+    }
+    
+    func presentLoadingNextGoalBatchUI(for tableView: UITableView) {
+        fetchingNextGoalBatchActivityIndicator.frame = CGRect(x: 0, y: 0, width: 0, height: 44)
+        fetchingNextGoalBatchActivityIndicator.startAnimating()
+        tableView.tableFooterView = fetchingNextGoalBatchActivityIndicator
+        tableView.tableFooterView?.isHidden = false
+    }
+    
+    /// Presents the user with a given table view after its been updated with new goals by scrolling to the
+    /// most recent of the newly fetched data.
+    /// - Parameters:
+    ///   - tableView: The table view receiving the update.
+    ///   - amountOfNewGoals: The amount of new goals that are being added to the table view's data source.
+    ///   This property is used to determine where the scroll view should scroll.
+    func presentLoadedNextGoalBatchUI(for tableView: UITableView, amountOfNewGoals: Int) {
+        fetchingNextGoalBatchActivityIndicator.stopAnimating()
+        tableView.tableFooterView = nil
+        
+        switch tableView.tag {
+        case TableViewType.complete.rawValue:
+            tableView.scrollToRow(
+                at: IndexPath(row: viewModel.completeGoals.count - amountOfNewGoals, section: 0),
+                at: .bottom,
+                animated: true
+            )
+        case TableViewType.incomplete.rawValue:
+            tableView.scrollToRow(
+                at: IndexPath(row: viewModel.incompleteGoals.count - amountOfNewGoals, section: 0),
+                at: .bottom,
+                animated: true
+            )
+        default:
+            print("❌ Unknown table view tag sent to delegate method.")
+        }
     }
     
     func getSelectedGoal(in tableView: UITableView, at indexPath: IndexPath) -> Goal? {

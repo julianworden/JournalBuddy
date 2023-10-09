@@ -426,11 +426,14 @@ final class DatabaseService: DatabaseServiceProtocol {
     
     // MARK: - Goal
     
-    func fetchGoals() async throws -> [Goal] {
+    func fetchFirstIncompleteGoalBatch() async throws -> [Goal] {
         do {
             let snapshot = try await usersCollection
                 .document(authService.currentUserUID)
                 .collection(FBConstants.goals)
+                .whereField(FBConstants.isComplete, isEqualTo: false)
+                .order(by: FBConstants.unixDateCreated, descending: true)
+                .limit(to: FBConstants.goalBatchSize)
                 .getDocuments()
             
             return try snapshot
@@ -440,6 +443,60 @@ final class DatabaseService: DatabaseServiceProtocol {
             print(error.emojiMessage)
             throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
         }
+    }
+    
+    func fetchFirstCompleteGoalBatch() async throws -> [Goal] {
+        do {
+            let snapshot = try await usersCollection
+                .document(authService.currentUserUID)
+                .collection(FBConstants.goals)
+                .whereField(FBConstants.isComplete, isEqualTo: true)
+                .order(by: FBConstants.unixDateCompleted, descending: true)
+                .limit(to: FBConstants.goalBatchSize)
+                .getDocuments()
+            
+            return try snapshot
+                .documents
+                .map { try $0.data(as: Goal.self) }
+        } catch {
+            print(error.emojiMessage)
+            throw FBFirestoreError.fetchDataFailed(systemError: error.localizedDescription)
+        }
+    }
+    
+    func fetchNextIncompleteGoalBatch(before oldestFetchedGoal: Goal) async throws -> [Goal] {
+        let snapshot = try await usersCollection
+            .document(authService.currentUserUID)
+            .collection(FBConstants.goals)
+            .whereField(FBConstants.isComplete, isEqualTo: false)
+            .whereField(FBConstants.unixDateCreated, isLessThan: oldestFetchedGoal.unixDateCreated)
+            .order(by: FBConstants.unixDateCreated, descending: true)
+            .limit(to: FBConstants.goalBatchSize)
+            .getDocuments()
+        
+        return try snapshot
+            .documents
+            .map { try $0.data(as: Goal.self) }
+    }
+    
+    func fetchNextCompleteGoalBatch(before leastRecentlyCompletedFetchedGoal: Goal) async throws -> [Goal] {
+        guard let unixDateCompleted = leastRecentlyCompletedFetchedGoal.unixDateCompleted else {
+            print("❌ Incomplete goal passed to fetchNextCompleteGoalBatch(before:) method.")
+            return []
+        }
+        
+        let snapshot = try await usersCollection
+            .document(authService.currentUserUID)
+            .collection(FBConstants.goals)
+            .whereField(FBConstants.isComplete, isEqualTo: true)
+            .whereField(FBConstants.unixDateCompleted, isLessThan: unixDateCompleted)
+            .order(by: FBConstants.unixDateCompleted, descending: true)
+            .limit(to: FBConstants.goalBatchSize)
+            .getDocuments()
+        
+        return try snapshot
+            .documents
+            .map { try $0.data(as: Goal.self) }
     }
     
     func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal] {

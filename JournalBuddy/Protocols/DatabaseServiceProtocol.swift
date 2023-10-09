@@ -17,7 +17,12 @@ protocol DatabaseServiceProtocol {
     func updateEntry<T: Entry>(_ entry: T) async throws
     func deleteEntry<T: Entry>(_ entry: T) async throws
     
-    func fetchGoals() async throws -> [Goal]
+    func fetchFirstIncompleteGoalBatch() async throws -> [Goal]
+    func fetchFirstCompleteGoalBatch() async throws -> [Goal]
+    func fetchNextIncompleteGoalBatch(before oldestFetchedGoal: Goal) async throws -> [Goal]
+    func fetchNextCompleteGoalBatch(
+        before leastRecentlyCompletedFetchedGoal: Goal
+    ) async throws -> [Goal]
     func fetchThreeMostRecentlyCompletedGoals() async throws -> [Goal]
     func saveNewGoal(_ newGoal: Goal) async throws -> Goal
     /// Updates a given goal in Firestore.

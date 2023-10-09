@@ -35,7 +35,6 @@ class EntriesView: UIView, MainView {
     private lazy var fetchingNextTextEntryBatchActivityIndicator = UIActivityIndicatorView(
         style: .medium
     )
-    private lazy var fetchingNextVoiceEntryBatchActivityIndicator = UIActivityIndicatorView(style: .medium)
     private lazy var videoEntryCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -90,10 +89,6 @@ class EntriesView: UIView, MainView {
         fetchingEntriesActivityIndicator.color = .primaryElement
         fetchingEntriesActivityIndicator.hidesWhenStopped = true
         fetchingEntriesActivityIndicator.startAnimating()
-        
-        fetchingNextVoiceEntryBatchActivityIndicator.color = .primaryElement
-        fetchingNextVoiceEntryBatchActivityIndicator.hidesWhenStopped = true
-        fetchingNextVoiceEntryBatchActivityIndicator.isHidden = true
                 
         textEntryButton.titleLabel?.numberOfLines = 1
         textEntryButton.addTarget(self, action: #selector(textEntryButtonTapped), for: .touchUpInside)
@@ -174,7 +169,6 @@ class EntriesView: UIView, MainView {
     func constrain() {
         addConstrainedSubviews(
             fetchingEntriesActivityIndicator,
-            fetchingNextVoiceEntryBatchActivityIndicator,
             entryTypeStack,
             noEntriesFoundView,
             textEntryTableView,
@@ -192,9 +186,6 @@ class EntriesView: UIView, MainView {
             
             fetchingEntriesActivityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
             fetchingEntriesActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
-            fetchingNextVoiceEntryBatchActivityIndicator.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            fetchingNextVoiceEntryBatchActivityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
                 
             noEntriesFoundView.topAnchor.constraint(greaterThanOrEqualTo: entryTypeStack.bottomAnchor, constant: 12),
             noEntriesFoundView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),

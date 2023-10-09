@@ -32,4 +32,5 @@ enum FBConstants {
     static let textEntryBatchSize = 12
     static let videoEntryBatchSize = 10
     static let voiceEntryBatchSize = 16
+    static let goalBatchSize = 15
 }

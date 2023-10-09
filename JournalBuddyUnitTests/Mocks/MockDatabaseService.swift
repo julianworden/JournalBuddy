@@ -92,11 +92,46 @@ final class MockDatabaseService: DatabaseServiceProtocol {
     
     // MARK: - Goal
     
-    func fetchGoals() async throws -> [Goal] {
+    func fetchFirstIncompleteGoalBatch() async throws -> [Goal] {
         if let errorToThrow {
             throw errorToThrow
         } else {
-            return TestData.goalsArray
+            return TestData.goalsArray.filter(where: { !$0.isComplete }, limit: FBConstants.goalBatchSize).sorted(by: { $0.unixDateCreated > $1.unixDateCreated })
+        }
+    }
+    
+    func fetchFirstCompleteGoalBatch() async throws -> [Goal] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return TestData.goalsArray.filter(where: { $0.isComplete }, limit: FBConstants.goalBatchSize).sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
+        }
+    }
+    
+    func fetchNextIncompleteGoalBatch(before oldestFetchedGoal: Goal) async throws -> [Goal] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return TestData.goalsArray.filter(
+                where: {
+                    !$0.isComplete && $0.unixDateCreated < oldestFetchedGoal.unixDateCreated
+                },
+                limit: FBConstants.goalBatchSize
+            )
+        }
+    }
+    
+    func fetchNextCompleteGoalBatch(before leastRecentlyCompletedFetchedGoal: Goal) async throws -> [Goal] {
+        if let errorToThrow {
+            throw errorToThrow
+        } else {
+            return TestData.goalsArray.filter(
+                where: {
+                    $0.isComplete && $0.unixDateCompleted! < leastRecentlyCompletedFetchedGoal.unixDateCompleted!
+                },
+                limit: FBConstants.goalBatchSize
+            )
+            .sorted(by: { $0.unixDateCompleted! > $1.unixDateCompleted! })
         }
     }
     
